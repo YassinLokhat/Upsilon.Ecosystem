@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tables key="2122914021714301784233128915223624866126">
+	<table name="STUDENT">
+		<fields>
+			<field name="STUDENT_ID" type="Integer" default="0" autoincrement = "True"/>
+			<field name="Name" type="String" default="" autoincrement = ""/>
+			<field name="BirthDate" type="DateTime" default="637500001711851137" autoincrement = ""/>
+			<field name="Photo" type="Raw" default="" autoincrement = ""/>
+		</fields>
+		<records>
+			<record field_0="1" field_1="S1" field_2="637500041711851137" field_3="Photo1"/>
+			<record field_0="2" field_1="S2" field_2="637500031711851137"/>
+			<record field_0="3" field_1="S3" field_3="Photo3"/>
+		</records>
+	</table>
+	<table name="COURSE">
+		<fields>
+			<field name="COURSE_ID" type="Integer" default="0" autoincrement = "True"/>
+			<field name="STUDENT_ID" type="Integer" default="0"/>
+			<field name="Name" type="String" default="" autoincrement = ""/>
+			<field name="MARK" type="Decimal" default="0" autoincrement = ""/>
+		</fields>
+		<records>
+			<record field_0="1" field_1="1" field_2="Math" field_3="19.5"/>
+			<record field_0="2" field_1="1" field_2="English" field_3="12.5"/>
+			<record field_0="3" field_1="2" field_2="Math" field_3="9.5"/>
+			<record field_0="4" field_1="2" field_2="English" field_3="15.5"/>
+			<record field_0="5" field_1="2" field_2="Physics" field_3="10.5"/>
+			<record field_0="6" field_1="3" field_2="English" field_3="13.5"/>
+		</records>
+	</table>
+</tables>
