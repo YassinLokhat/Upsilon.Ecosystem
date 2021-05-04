@@ -25,11 +25,11 @@ namespace Common.Library.UnitTests
 
                 // Then
                 argParser.HasArgument("present").Should().BeTrue();
-                argParser.IsArgumentSet("present").Should().BeTrue();
+                argParser.ArgumentIsSet("present").Should().BeTrue();
                 argParser.HasArgument("n").Should().BeTrue();
-                argParser.IsArgumentSet("n").Should().BeFalse();
+                argParser.ArgumentIsSet("n").Should().BeFalse();
                 argParser.HasArgument("test").Should().BeFalse();
-                argParser.IsArgumentSet("test").Should().BeFalse();
+                argParser.ArgumentIsSet("test").Should().BeFalse();
 
                 variable.Name.Should().Be("n");
                 variable.Values.Should().BeEquivalentTo(new string[] { "Variable" });

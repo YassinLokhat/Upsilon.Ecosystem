@@ -62,7 +62,7 @@ namespace Common.Library
             return GetArgument(argName) != null;
         }
 
-        public bool IsArgumentSet(string argName)
+        public bool ArgumentIsSet(string argName)
         {
             Argument arg = GetArgument(argName);
             return arg != null && arg.IsBoolean;
