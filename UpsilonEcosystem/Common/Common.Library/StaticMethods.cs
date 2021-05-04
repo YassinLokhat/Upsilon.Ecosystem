@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Common.Library
+namespace Upsilon.Common.Library
 {
     public static class StaticMethods
     {

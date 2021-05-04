@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.UnitTestsHelper\Common.UnitTestsHelper.csproj" />
-    <ProjectReference Include="..\..\Database\UDatabase.Library\UDatabase.Library.csproj" />
+    <ProjectReference Include="..\..\Database\Database.Library\Database.Library.csproj" />
   </ItemGroup>
 
 </Project>

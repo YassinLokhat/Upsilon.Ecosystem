@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using UDatabase.Library;
+using Upsilon.Database.Library;
 
-namespace Common.UnitTestsHelper
+namespace Upsilon.Common.UnitTestsHelper
 {
     public static class Helper
     {
@@ -34,35 +34,35 @@ namespace Common.UnitTestsHelper
             return filePath;
         }
 
-        public static UDatabaseImage OpenDatabaseImage(string reference, string key)
+        public static DatabaseImage OpenDatabaseImage(string reference, string key)
         {
-            string sourceFilePath = Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
 
-            return Common.UnitTestsHelper.Helper._OpenDatabaseImage(sourceFilePath, key);
+            return Upsilon.Common.UnitTestsHelper.Helper._OpenDatabaseImage(sourceFilePath, key);
         }
 
-        public static UDatabaseImage OpenTempDatabaseImage(string reference, string key, bool reset = true)
+        public static DatabaseImage OpenTempDatabaseImage(string reference, string key, bool reset = true)
         {
-            string sourceFilePath = Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
-            string databaseFilePath = Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference, false);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
+            string databaseFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference, false);
             if (reset)
             {
                 File.Copy(sourceFilePath, databaseFilePath, true);
             }
 
-            return Common.UnitTestsHelper.Helper._OpenDatabaseImage(databaseFilePath, key);
+            return Upsilon.Common.UnitTestsHelper.Helper._OpenDatabaseImage(databaseFilePath, key);
         }
 
-        private static UDatabaseImage _OpenDatabaseImage(string sourceFilePath, string key)
+        private static DatabaseImage _OpenDatabaseImage(string sourceFilePath, string key)
         {
-            UDatabaseImage database = new UDatabaseImage(sourceFilePath, key);
+            DatabaseImage database = new DatabaseImage(sourceFilePath, key);
 
             return database;
         }
 
         public static void ClearDatabaseImage(string reference)
         {
-            string sourceFilePath = Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference);
 
             File.Delete(sourceFilePath);
         }

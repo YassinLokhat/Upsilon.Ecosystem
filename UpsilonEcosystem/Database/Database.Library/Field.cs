@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Xml;
-using Common.Library;
+using Upsilon.Common.Library;
 
-namespace UDatabase.Library
+namespace Upsilon.Database.Library
 {
     public enum FieldType
     {

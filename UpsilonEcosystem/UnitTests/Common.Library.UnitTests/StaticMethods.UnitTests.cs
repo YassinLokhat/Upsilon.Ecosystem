@@ -3,7 +3,7 @@ using System;
 using System.Text;
 using FluentAssertions;
 
-namespace Common.Library.UnitTests
+namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
     public class StaticMethods_UnitTests

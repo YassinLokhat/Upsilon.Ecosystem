@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Common.Library;
+using Upsilon.Common.Library;
 
-namespace UDatabase.Library
+namespace Upsilon.Database.Library
 {
     public class Record : Dictionary<Field, object>
     {

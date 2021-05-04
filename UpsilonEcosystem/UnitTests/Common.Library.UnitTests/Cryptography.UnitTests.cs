@@ -2,7 +2,7 @@
 using System;
 using FluentAssertions;
 
-namespace Common.Library.UnitTests
+namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
     public class Cryptography_UnitTests
@@ -11,8 +11,8 @@ namespace Common.Library.UnitTests
         public void Test_01_Cryptography_Encrypt_Decrypt_0_OK()
         {
             // Given
-            string plainText = Common.UnitTestsHelper.Helper.GetRandomString();
-            string key = Common.UnitTestsHelper.Helper.GetRandomString();
+            string plainText = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
+            string key = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
 
             // When
             string cipherText = Cryptography.Encrypt_Aes(plainText, key);
@@ -26,12 +26,12 @@ namespace Common.Library.UnitTests
         public void Test_02_Cryptography_Encrypt_Decrypt_1_CipherTextCorrupted()
         {
             // Given
-            string plainText = Common.UnitTestsHelper.Helper.GetRandomString();
-            string key = Common.UnitTestsHelper.Helper.GetRandomString();
+            string plainText = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
+            string key = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
 
             // When
             string cipherText = Cryptography.Encrypt_Aes(plainText, key);
-            Common.UnitTestsHelper.Helper.CorruptString(ref cipherText);
+            Upsilon.Common.UnitTestsHelper.Helper.CorruptString(ref cipherText);
             string result = Cryptography.Decrypt_Aes(cipherText, key);
 
             // Then
@@ -44,12 +44,12 @@ namespace Common.Library.UnitTests
             for (int i = 0; i < 1000; i++)
             {
                 // Given
-                string plainText = Common.UnitTestsHelper.Helper.GetRandomString();
-                string key = Common.UnitTestsHelper.Helper.GetRandomString();
+                string plainText = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
+                string key = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
                 string corruptedKey;
                 do
                 {
-                    corruptedKey = Common.UnitTestsHelper.Helper.GetRandomString();
+                    corruptedKey = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
                 }
                 while (key == corruptedKey);
 

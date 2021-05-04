@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Common.Library;
+using Upsilon.Common.Library;
 
-namespace UDatabase.Library
+namespace Upsilon.Database.Library
 {
     public class Table
     {
@@ -16,10 +16,10 @@ namespace UDatabase.Library
         #endregion
 
         #region Private Properties
-        private readonly UDatabaseImage _Database = null;
+        private readonly DatabaseImage _Database = null;
         #endregion
 
-        public Table(UDatabaseImage database, XmlNode xmlNode)
+        public Table(DatabaseImage database, XmlNode xmlNode)
         {
             this._Database = database;
             if (this._Database == null)
@@ -53,7 +53,7 @@ namespace UDatabase.Library
             }
         }
 
-        public Table(UDatabaseImage database, string name, List<Field> fields, List<Record> records = null)
+        public Table(DatabaseImage database, string name, List<Field> fields, List<Record> records = null)
         {
             this._Database = database;
             if (this._Database == null)

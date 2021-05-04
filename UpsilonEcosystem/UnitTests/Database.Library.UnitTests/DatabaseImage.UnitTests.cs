@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using FluentAssertions;
-using UDatabase.Library;
 using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace UDatabase.Library.UnitTests
+namespace Upsilon.Database.Library.UnitTests
 {
     [TestClass]
     public class UDatabaseImage_UnitTests
@@ -16,15 +15,15 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202102270623";
-            string sourceFilePath = Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
             string databaseFilePath = sourceFilePath.Replace(reference, reference + "_tmp");
             string beforeLoad = File.ReadAllText(sourceFilePath);
 
             // When
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, string.Empty);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, string.Empty);
             database.Sync();
             string afterSync = File.ReadAllText(databaseFilePath);
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
 
             // Then
             afterSync.Should().Be(beforeLoad);
@@ -35,18 +34,18 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202102270623";
-            string sourceFilePath = Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
             string withAllOptionalAttribute = File.ReadAllText(sourceFilePath);
 
             reference = "202102270624";
-            sourceFilePath = Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
+            sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
             string databaseFilePath = sourceFilePath.Replace(reference, reference + "_tmp");
 
             // When
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, string.Empty);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, string.Empty);
             database.Sync();
             string afterSync = File.ReadAllText(databaseFilePath);
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
 
             // Then
             afterSync.Should().Be(withAllOptionalAttribute);
@@ -59,7 +58,7 @@ namespace UDatabase.Library.UnitTests
             string reference = "202103010924";
 
             // When
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // Then
             database.Tables.Count.Should().Be(2);
@@ -76,7 +75,7 @@ namespace UDatabase.Library.UnitTests
             database.Tables["STUDENT"].Records[0][database.Tables["STUDENT"].Fields[2]].Should().Be(new DateTime(637500041711851137));
             ((short[])database.Tables["STUDENT"].Records[0][database.Tables["STUDENT"].Fields[3]]).Should().BeEquivalentTo("Photo1".Select(x => (short)x).ToArray());
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -84,18 +83,18 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            string key = Common.UnitTestsHelper.Helper.GetRandomString();
+            string key = Upsilon.Common.UnitTestsHelper.Helper.GetRandomString();
 
             // When
             Action act = () =>
             {
-                UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, key);
+                DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, key);
             };
 
             // Then
             act.Should().Throw<Exception>().WithMessage("Database Xml error : Wrong key");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -108,13 +107,13 @@ namespace UDatabase.Library.UnitTests
             // When
             Action act = () =>
             {
-                UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, key);
+                DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, key);
             };
 
             // Then
             act.Should().Throw<Exception>();
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -124,7 +123,7 @@ namespace UDatabase.Library.UnitTests
             string reference = "202103010924";
 
             // When
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
             database.Pull();
 
             Table professor = database.AddTable("PROFESSOR");
@@ -142,7 +141,7 @@ namespace UDatabase.Library.UnitTests
 
             database.Push();
 
-            database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
+            database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
             professor = database.Tables["PROFESSOR"];
 
             // Then
@@ -155,7 +154,7 @@ namespace UDatabase.Library.UnitTests
             professor.Records[1][professor.Fields[0]].Should().BeOfType(typeof(Int64)).And.Be(2);
             professor.Records[1][professor.Fields[1]].Should().BeOfType(typeof(string)).And.Be("P");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -163,7 +162,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -178,7 +177,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Table definition not valid.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -186,7 +185,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -200,7 +199,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Table 'STUDENT' already exists.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -208,7 +207,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -224,7 +223,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Table definition not valid.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -232,7 +231,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -248,7 +247,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Field definition not valid.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -256,7 +255,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -271,7 +270,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Field 'COURSE_ID' already exists.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -279,7 +278,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -294,7 +293,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Wrong record field count. 4 fields expected.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -302,7 +301,7 @@ namespace UDatabase.Library.UnitTests
         {
             // Given
             string reference = "202103010924";
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
 
             // When
             database.Pull();
@@ -317,7 +316,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("Wrong record field type. STUDENT_ID expect Integer type.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -327,7 +326,7 @@ namespace UDatabase.Library.UnitTests
             string reference = "202103010924";
 
             // When
-            UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
             database.Pull();
 
             Table student = database.Tables["STUDENT"];
@@ -337,7 +336,7 @@ namespace UDatabase.Library.UnitTests
 
             database.Push();
 
-            database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
+            database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
             student = database.Tables["STUDENT"];
             Record s4 = student.Records.Last();
 
@@ -348,7 +347,7 @@ namespace UDatabase.Library.UnitTests
             s4[student.Fields[2]].Should().BeOfType(typeof(DateTime)).And.Be(dateTime);
             ((short[])s4[student.Fields[3]]).Should().BeEquivalentTo(photo);
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -360,7 +359,7 @@ namespace UDatabase.Library.UnitTests
             // When
             Action act = () =>
             {
-                UDatabaseImage database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, string.Empty);
+                DatabaseImage database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, string.Empty);
                 database.Pull();
 
                 Table student = database.Tables["STUDENT"];
@@ -368,7 +367,7 @@ namespace UDatabase.Library.UnitTests
 
                 database.Push();
 
-                database = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
+                database = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
                 student = database.Tables["STUDENT"];
                 Record s4 = student.Records.Last();
             };
@@ -376,7 +375,7 @@ namespace UDatabase.Library.UnitTests
             // Then
             act.Should().Throw<Exception>().WithMessage("String type cannot be AutoIncrement.");
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
 
         [TestMethod]
@@ -389,7 +388,7 @@ namespace UDatabase.Library.UnitTests
             int waitTime = new Random((int)DateTime.Now.Ticks).Next(100, 3000);
 
             // When
-            UDatabaseImage database1 = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
+            DatabaseImage database1 = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference);
             database1.Pull();
             Table student = database1.Tables["STUDENT"];
             Record s4 = student.AddRecord(null, "S4", DateTime.Now, "Photo4".Select(x => (short)x).ToArray());
@@ -398,7 +397,7 @@ namespace UDatabase.Library.UnitTests
             {
                 Thread.CurrentThread.IsBackground = true;
                 
-                UDatabaseImage database2 = Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
+                DatabaseImage database2 = Upsilon.Common.UnitTestsHelper.Helper.OpenTempDatabaseImage(reference, reference, false);
                 db2Access = DateTime.Now;
 
                 student = database2.Tables["STUDENT"];
@@ -419,7 +418,7 @@ namespace UDatabase.Library.UnitTests
             student.Should().NotBeNull();
             ((short[])s4[student.Fields[3]]).Should().BeEquivalentTo("4ème Photo".Select(x => (short)x).ToArray());
 
-            Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
+            Upsilon.Common.UnitTestsHelper.Helper.ClearDatabaseImage(reference);
         }
     }
 }

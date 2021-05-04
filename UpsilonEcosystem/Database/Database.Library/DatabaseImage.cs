@@ -4,11 +4,11 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Xml;
-using Common.Library;
+using Upsilon.Common.Library;
 
-namespace UDatabase.Library
+namespace Upsilon.Database.Library
 {
-    public class UDatabaseImage
+    public class DatabaseImage
     {
         #region Public Properties
         public string Key { get; set; }
@@ -20,7 +20,7 @@ namespace UDatabase.Library
         private FileStream _File = null;
         #endregion
 
-        public UDatabaseImage(string filePath, string key)
+        public DatabaseImage(string filePath, string key)
         {
             this._FilePath = filePath;
             this.Key = key;
@@ -32,12 +32,12 @@ namespace UDatabase.Library
         }
 
         #region Public Static Methods
-        public static UDatabaseImage CreateEmptUDatabaseFile(string filePath, string key)
+        public static DatabaseImage CreateEmptUDatabaseFile(string filePath, string key)
         {
             string xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"" + key.GetMD5HashCode() + "\">\r\n</tables>";
             File.WriteAllText(filePath, xml);
 
-            return new UDatabaseImage(filePath, key);
+            return new DatabaseImage(filePath, key);
         }
         #endregion
 
