@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Database\Database.Library\Database.Library.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Library\Upsilon.Common.Library.csproj" />
   </ItemGroup>
 
 </Project>
