@@ -8,9 +8,9 @@ namespace Upsilon.Common.UnitTestsHelper
 {
     public static class Helper
     {
-        public static string GetDatabaseFilePath(string reference)
+        public static string GetDatabaseFilePath(string reference, string databaseDirectory)
         {
-            string filePath = _TryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + @"\UpsilonEcosystem\UnitTests\Tests\Database\" + reference + ".ydb";
+            string filePath = _TryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + databaseDirectory + reference + ".ydb";
 
             if (!File.Exists(filePath))
             {
@@ -20,9 +20,9 @@ namespace Upsilon.Common.UnitTestsHelper
             return filePath;
         }
 
-        public static string GetTempDatabaseFilePath(string reference, bool checkFile = true)
+        public static string GetTempDatabaseFilePath(string reference, string databaseDirectory, bool checkFile = true)
         {
-            string filePath = GetDatabaseFilePath(reference);
+            string filePath = GetDatabaseFilePath(reference, databaseDirectory);
             filePath = filePath.Replace(reference, reference + "_tmp");
 
             if (checkFile
@@ -34,17 +34,17 @@ namespace Upsilon.Common.UnitTestsHelper
             return filePath;
         }
 
-        public static DatabaseImage OpenDatabaseImage(string reference, string key)
+        public static DatabaseImage OpenDatabaseImage(string reference, string databaseDirectory, string key)
         {
-            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference, databaseDirectory);
 
             return Upsilon.Common.UnitTestsHelper.Helper._OpenDatabaseImage(sourceFilePath, key);
         }
 
-        public static DatabaseImage OpenTempDatabaseImage(string reference, string key, bool reset = true)
+        public static DatabaseImage OpenTempDatabaseImage(string reference, string databaseDirectory, string key, bool reset = true)
         {
-            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference);
-            string databaseFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference, false);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetDatabaseFilePath(reference, databaseDirectory);
+            string databaseFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference, databaseDirectory, false);
             if (reset)
             {
                 File.Copy(sourceFilePath, databaseFilePath, true);
@@ -60,9 +60,9 @@ namespace Upsilon.Common.UnitTestsHelper
             return database;
         }
 
-        public static void ClearDatabaseImage(string reference)
+        public static void ClearDatabaseImage(string reference, string databaseDirectory)
         {
-            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference);
+            string sourceFilePath = Upsilon.Common.UnitTestsHelper.Helper.GetTempDatabaseFilePath(reference, databaseDirectory);
 
             File.Delete(sourceFilePath);
         }
