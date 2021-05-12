@@ -32,12 +32,10 @@ namespace Upsilon.Database.Library
         }
 
         #region Public Static Methods
-        public static DatabaseImage CreateEmptUDatabaseFile(string filePath, string key)
+        public static void CreateEmptUDatabaseFile(string filePath, string key)
         {
             string xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"" + key.GetMD5HashCode() + "\">\r\n</tables>";
             File.WriteAllText(filePath, xml);
-
-            return new DatabaseImage(filePath, key);
         }
         #endregion
 
@@ -45,6 +43,12 @@ namespace Upsilon.Database.Library
         public void Pull()
         {
             string content = "";
+
+            if (!File.Exists(this._FilePath))
+            {
+                _ThrowException(new FileNotFoundException());
+            }
+
             while (this._File == null)
             {
                 try
@@ -298,10 +302,16 @@ namespace Upsilon.Database.Library
 
         private void _ThrowException(string message)
         {
+            _ThrowException(new Exception(message));
+        }
+
+        private void _ThrowException(Exception exception)
+        {
             this.Close();
 
-            throw new Exception(message);
+            throw exception;
         }
+
         #endregion
     }
 }
