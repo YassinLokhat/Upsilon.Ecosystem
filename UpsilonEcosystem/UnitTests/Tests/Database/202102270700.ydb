@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tables key="6011011138156213474130401851691401618329">
+  <table name="2)&#x14;W&#xE;RìqsÖi¸ÊwÃ">
+    <fields>
+      <field name="×Qòà&#x19;K¼qÊ·çPt¤" type="F«à´fMÌ&#xA;p&#x15;&#xE;&gt;Îf" default="" autoincrement="§L&#x5;pT¨é=qqø&#xF;Å­ã" />
+      <field name="ñ&#x1D;:&#x10;þ'Ùìî.j" type="F«à´fMÌ&#xA;p&#x15;&#xE;&gt;Îf" default="" autoincrement="§L&#x5;pT¨é=qqø&#xF;Å­ã" />
+    </fields>
+    <records>
+      <record field_0="9©]x&#x7;&#x7;7¿üLZå&#x18;¦" field_1="&#x8;YêL(Ü&gt;¼FÂT,&#x18;))u`¥&#x1E;@uÐ#uýNÎ" />
+    </records>
+  </table>
+  <table name="#dÂø$^]ý&#xE;TS^">
+    <fields>
+      <field name="×Qòà&#x19;K¼qÊ·çPt¤" type="F«à´fMÌ&#xA;p&#x15;&#xE;&gt;Îf" default="" autoincrement="§L&#x5;pT¨é=qqø&#xF;Å­ã" />
+      <field name="pÚãÎø$Vá½ÎÈ" type="F«à´fMÌ&#xA;p&#x15;&#xE;&gt;Îf" default="" autoincrement="§L&#x5;pT¨é=qqø&#xF;Å­ã" />
+      <field name="áÖ&amp;&#xF;Ð¢¹}$}&#x6;,s&#xA;" type="F«à´fMÌ&#xA;p&#x15;&#xE;&gt;Îf" default="" autoincrement="§L&#x5;pT¨é=qqø&#xF;Å­ã" />
+      <field name="eñ/¦ÌÙæºÓ&#x0;büÁ" type="F«à´fMÌ&#xA;p&#x15;&#xE;&gt;Îf" default="" autoincrement="§L&#x5;pT¨é=qqø&#xF;Å­ã" />
+    </fields>
+    <records>
+      <record field_0="OÜ´æ¦G¹ð&#x2;&#x5;]/¼ÉÌ" field_1=",î&gt;°ÚH:b&#xA;_&#x16;%ñ&#x6;" field_2=".&#x12;$®e#`&#x1C;?R¸" field_3="9©]x&#x7;&#x7;7¿üLZå&#x18;¦" />
+      <record field_0="dÔæ&#x1D;/õsÍ'ô=_6çN" field_1="x¤U÷;É&#x17;Ë&#x19;ÑmÂïÙ" field_2="À§Ðµl&#x7;ÿés5V4LÍ" field_3="9©]x&#x7;&#x7;7¿üLZå&#x18;¦" />
+    </records>
+  </table>
+</tables>

@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
-    public class ArgumentParser
+    public class YArgumentParser
     {
         public List<Argument> Arguments { get; private set; }
         public string[] Args { get; private set; }
 
         private static readonly char[] ArgModifiers = new[] { '-', '/' };
 
-        public ArgumentParser(string[] args)
+        public YArgumentParser(string[] args)
         {
             this.Args = args;
             this.Arguments = new List<Argument>();
 
             for (int i = 0; i < this.Args.Length; i++)
             {
-                Argument argument = new Argument
+                Argument argument = new()
                 {
                     Name = string.Empty,
                 };

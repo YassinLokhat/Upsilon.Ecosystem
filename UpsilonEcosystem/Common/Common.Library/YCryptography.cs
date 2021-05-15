@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Upsilon.Common.Library
 {
-    public static class Cryptography
+    public static class YCryptography
     {
         public static string Encrypt_Aes(string plainText, string password)
         {
@@ -23,7 +23,7 @@ namespace Upsilon.Common.Library
             byte[] key = Encoding.ASCII.GetBytes(password.Substring(0, 32));
             byte[] IV = Encoding.ASCII.GetBytes(password.Substring(32, 16));
 
-            byte[] bytes = Cryptography.Encrypt_Aes(plainText, key, IV);
+            byte[] bytes = YCryptography.Encrypt_Aes(plainText, key, IV);
 
             return new string(bytes.Select(x => (char)x).ToArray());
         }
@@ -32,18 +32,18 @@ namespace Upsilon.Common.Library
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException("plainText");
+                throw new ArgumentNullException(nameof(plainText));
             if (key == null || key.Length <= 0)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+                throw new ArgumentNullException(nameof(IV));
             byte[] encrypted = null;
 
             try
             {
                 // Create an AesManaged object
                 // with the specified key and IV.
-                using AesManaged aesAlg = new AesManaged();
+                using AesManaged aesAlg = new();
                 aesAlg.Key = key;
                 aesAlg.IV = IV;
 
@@ -51,9 +51,9 @@ namespace Upsilon.Common.Library
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
                 // Create the streams used for encryption.
-                using MemoryStream msEncrypt = new MemoryStream();
-                using CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
-                using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                using MemoryStream msEncrypt = new();
+                using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
+                using (StreamWriter swEncrypt = new(csEncrypt))
                 {
                     //Write all data to the stream.
                     swEncrypt.Write(plainText);
@@ -87,18 +87,18 @@ namespace Upsilon.Common.Library
 
             byte[] bytes = cipherText.Select(x => (byte)x).ToArray();
 
-            return Cryptography.Decrypt_Aes(bytes, key, IV);
+            return YCryptography.Decrypt_Aes(bytes, key, IV);
         }
 
         public static string Decrypt_Aes(byte[] cipherText, byte[] key, byte[] IV)
         {
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
+                throw new ArgumentNullException(nameof(cipherText));
             if (key == null || key.Length <= 0)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
+                throw new ArgumentNullException(nameof(IV));
 
             // Declare the string used to hold
             // the decrypted text.
@@ -108,7 +108,7 @@ namespace Upsilon.Common.Library
             {
                 // Create an AesManaged object
                 // with the specified key and IV.
-                using AesManaged aesAlg = new AesManaged();
+                using AesManaged aesAlg = new();
                 aesAlg.Key = key;
                 aesAlg.IV = IV;
 
@@ -116,9 +116,9 @@ namespace Upsilon.Common.Library
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
                 // Create the streams used for decryption.
-                using MemoryStream msDecrypt = new MemoryStream(cipherText);
-                using CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
-                using StreamReader srDecrypt = new StreamReader(csDecrypt);
+                using MemoryStream msDecrypt = new(cipherText);
+                using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
+                using StreamReader srDecrypt = new(csDecrypt);
 
                 // Read the decrypted bytes from the decrypting stream
                 // and place them in a string.

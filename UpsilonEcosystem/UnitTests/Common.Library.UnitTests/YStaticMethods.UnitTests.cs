@@ -6,7 +6,7 @@ using FluentAssertions;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class StaticMethods_UnitTests
+    public class YStaticMethods_UnitTests
     {
         [TestMethod]
         public void Test_01_StaticMethods_IsIdentifiant_0_OK()

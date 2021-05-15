@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace Upsilon.Common.Library
 {
-    public static class StaticMethods
+    public static class YStaticMethods
     {
         #region XmlAttributeCollection Extention Methods
         public static bool Contains(this XmlAttributeCollection Attributes, string attribute)
@@ -28,8 +28,8 @@ namespace Upsilon.Common.Library
         #region String Extention Methods
         public static bool IsIdentifiant(this string identifiant)
         {
-            string specialChars = new string(identifiant.Where(x => !char.IsLetterOrDigit(x)).ToArray());
-            specialChars = new string(specialChars.Where(x => x != '_').ToArray());
+            string specialChars = new(identifiant.Where(x => !char.IsLetterOrDigit(x)).ToArray());
+            specialChars = new(specialChars.Where(x => x != '_').ToArray());
 
             if (String.IsNullOrWhiteSpace(identifiant)
                 || specialChars.Length != 0
