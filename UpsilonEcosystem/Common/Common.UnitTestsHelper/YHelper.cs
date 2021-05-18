@@ -20,7 +20,7 @@ namespace Upsilon.Common.UnitTestsHelper
             return filePath;
         }
 
-        public static T OpenDatabaseImage<T>(YHelperDatabaseConfiguration configuration) where T : YDatabaseImage, new ()
+        public static T OpenDatabaseImage<T>(YHelperDatabaseConfiguration configuration) where T : YDatabaseImage
         {
             string databaseFilename = Upsilon.Common.UnitTestsHelper.YHelper.GetDatabaseFilePath(configuration);
 
@@ -39,8 +39,7 @@ namespace Upsilon.Common.UnitTestsHelper
                 throw new FileNotFoundException("Database file not found", databaseFilename);
             }
 
-            T database = new();
-            database.Open(databaseFilename, configuration.Key);
+            T database = (T)Activator.CreateInstance(typeof(T), new object[] { databaseFilename, configuration.Key });
 
             return database;
         }

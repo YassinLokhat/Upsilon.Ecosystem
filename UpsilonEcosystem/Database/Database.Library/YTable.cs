@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -10,81 +11,51 @@ namespace Upsilon.Database.Library
 {
     public abstract class YTable
     {
-        protected readonly List<YField> _Fields = new ();
-        protected YDatabaseImage _Database = null;
-
-        public YTable() { }
-
-        public YTable(YDatabaseImage database)
+        public XmlNode GetRecord(YField[] yFields)
         {
-            this.SetDatabase(database);
-        }
-
-        public XmlNode XmlFields
-        {
-            get
-            {
-                XmlDocument document = new ();
-                XmlNode fields = document.CreateNode(XmlNodeType.Element, "fields", "");
-
-                foreach (YField field in this._Fields)
-                {
-                    fields.AppendChild(document.ImportNode(field.GetXmlNode(), true));
-                }
-
-                return fields;
-            }
-        }
-
-        protected XmlNode _ComputeRecord(params object[] fields)
-        {
-            if (fields.Length != this._Fields.Count)
-            {
-                throw new YWrongRecordFieldCountException(this._Fields.Count);
-            }
+            PropertyInfo[] properties = this.GetType().GetProperties();
 
             XmlDocument document = new ();
 
             XmlNode node = document.CreateNode(XmlNodeType.Element, "record", string.Empty);
 
-            for (int i = 0; i < this._Fields.Count; i++)
+            for (int i = 0; i < yFields.Length; i++)
             {
-                if (fields[i].GetType() != this._Fields[i].Type.GetRealType())
-                {
-                    throw new YInconsistentRecordFieldTypeException(fields[i].GetType(), this._Fields[i].Type.GetRealType());
-                }
-                XmlAttribute attribute = document.CreateAttribute($"field_{i}");
-                attribute.Value = YField.GetStringFromObject(this._Fields[i].Type, fields[i]);
-                
-                node.Attributes.Append(attribute);
+                YField yField = yFields[i];
+
+                PropertyInfo fieldPropertyInfo = this.GetType().GetProperties()
+                    .Where(x => x.CustomAttributes
+                        .Where(y => y.AttributeType == typeof(YFieldAttribute)
+                            && y.ConstructorArguments[0].Value.ToString() == yField.Name).Any())
+                    .FirstOrDefault();
+
+                XmlAttribute xmlField = document.CreateAttribute($"field_{i}");
+                xmlField.Value = YField.GetStringFromObject(fieldPropertyInfo.GetValue(this));
+                node.Attributes.Append(xmlField);
             }
 
             return node;
         }
         
-        protected object[] _FillFields(XmlNode node)
+        public void SetRecord(YField[] yFields, XmlNode node)
         {
-            List<object> fields = new ();
-
-            for (int i = 0; i < this._Fields.Count; i++)
+            for (int i = 0; i < yFields.Length; i++)
             {
-                fields.Add(node.Attributes.IsNullOrWhiteSpace($"field_{i}") ? 
-                    this._Fields[i].Default : 
-                    YField.GetObjectFromString(this._Fields[i].Type, node.Attributes[$"field_{i}"].Value));
+                YField yField = yFields[i];
+
+                PropertyInfo fieldPropertyInfo = this.GetType().GetProperties()
+                    .Where(x => x.CustomAttributes
+                        .Where(y => y.AttributeType == typeof(YFieldAttribute)
+                            && y.ConstructorArguments[0].Value.ToString() == yField.Name).Any())
+                    .FirstOrDefault();
+                object value = yField.Default;
+                if (node.Attributes.Contains($"field_{i}"))
+                {
+                    value = YField.GetObjectFromString(yField.Type, node.Attributes[$"field_{i}"].Value);
+                }
+
+                fieldPropertyInfo.SetValue(this, value);
             }
-
-            return fields.ToArray();
         }
-       
-        public void SetDatabase(YDatabaseImage database)
-        {
-            this._Database = database;
-        }
-
-        public abstract void InitializeToDefaultValues();
-
-        public abstract XmlNode GetRecord();
-       
-        public abstract void SetRecord(XmlNode node);
     }
 }

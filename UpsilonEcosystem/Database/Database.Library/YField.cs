@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -21,7 +22,13 @@ namespace Upsilon.Database.Library
         public string Name { get; set; }
         public YFieldType Type { get; set; }
         public object Default { get; set; }
-        public bool AutoIncrement { get; set; }
+
+        public YField(XmlNode node)
+        {
+            this.Name = node.Attributes["name"].Value;
+            this.Type = (YFieldType)Enum.Parse(typeof(YFieldType), node.Attributes["type"].Value);
+            this.Default = YField.GetObjectFromString(this.Type, node.Attributes["default"].Value);
+        }
 
         public XmlNode GetXmlNode()
         {
@@ -38,61 +45,100 @@ namespace Upsilon.Database.Library
             node.Attributes.Append(attribute);
 
             attribute = document.CreateAttribute("default");
-            attribute.Value = GetStringFromObject(this.Type, this.Default);
-            node.Attributes.Append(attribute);
-
-            attribute = document.CreateAttribute("autoincrement");
-            attribute.Value = this.AutoIncrement.ToString();
+            attribute.Value = YField.GetStringFromObject(this.Default);
             node.Attributes.Append(attribute);
 
             return node;
         }
 
-        public static object GetObjectFromString(YFieldType type, string str)
+        public static Type GetRealType(YFieldType type)
         {
-            switch (type)
+            return type switch
             {
-                case YFieldType.Raw:
-                    return str.ToCharArray().Select(x => (short)x).ToArray();
-                case YFieldType.String:
-                    return str;
-                case YFieldType.Integer:
-                    if (long.TryParse(str, out long longVal))
-                    {
-                        return longVal;
-                    }
-                    break;
-                case YFieldType.Decimal:
-                    if (decimal.TryParse(str, out decimal decimalVal))
-                    {
-                        return decimalVal;
-                    }
-                    break;
-                case YFieldType.DateTime:
-                    if (long.TryParse(str, out long datetimeVal))
-                    {
-                        return new DateTime(datetimeVal);
-                    }
-                    break;
+                YFieldType.Raw => typeof(short[]),
+                YFieldType.Integer => typeof(long),
+                YFieldType.Decimal => typeof(decimal),
+                YFieldType.String => typeof(string),
+                YFieldType.DateTime => typeof(DateTime),
+                _ => null,
+            };
+        }
+
+        public static YFieldType GetYFieldType(Type type)
+        {
+            if (type == typeof(long))
+            {
+                return YFieldType.Integer;
+            }
+            else if (type == typeof(decimal))
+            {
+                return YFieldType.Decimal;
+            }
+            else if (type == typeof(string))
+            {
+                return YFieldType.String;
+            }
+            else if (type == typeof(DateTime))
+            {
+                return YFieldType.DateTime;
+            }
+            else
+            {
+                return YFieldType.Raw;
+            }
+        }
+
+        public static object GetObjectFromString(Type type, string str)
+        {
+            if (type == typeof(long))
+            {
+                return long.Parse(str);
+            }
+            else if (type == typeof(decimal))
+            {
+                return decimal.Parse(str);
+            }
+            else if (type == typeof(string))
+            {
+                return str;
+            }
+            else if (type == typeof(DateTime))
+            {
+                _ = long.TryParse(str, out long datetimeVal);
+                return new DateTime(datetimeVal);
+            }
+            else if (type == typeof(short[]))
+            {
+                return str.ToCharArray().Select(x => (short)x).ToArray();
             }
 
             return null;
         }
 
-        public static string GetStringFromObject(YFieldType type, object obj)
+        public static object GetObjectFromString(YFieldType type, string str)
         {
-            if (obj.GetType() != type.GetRealType())
-            {
-                throw new YInconsistentRecordFieldTypeException(obj.GetType(), type.GetRealType());
-            }
+            Type realType = YField.GetRealType(type);
+            return YField.GetObjectFromString(realType, str);
+        }
 
-            return type switch
+        public static string GetStringFromObject(object obj)
+        {
+            Type type = obj.GetType();
+
+            if (type == typeof(long)
+                || type == typeof(decimal)
+                || type == typeof(string))
             {
-                YFieldType.Raw => new string(((short[])obj).Select(x => (char)x).ToArray()),
-                YFieldType.Integer or YFieldType.Decimal or YFieldType.String => obj.ToString(),
-                YFieldType.DateTime => ((DateTime)obj).Ticks.ToString(),
-                _ => null,
-            };
+                return obj.ToString();
+            }
+            else if (type == typeof(DateTime))
+            {
+                return ((DateTime)obj).Ticks.ToString();
+            }
+            else
+            {
+                return new string(((short[])obj).Select(x => (char)x).ToArray());
+            }
         }
     }
 }
