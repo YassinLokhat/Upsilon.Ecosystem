@@ -15,8 +15,8 @@ namespace Upsilon.Common.Library.UnitTests
             string key = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
 
             // When
-            string cipherText = YCryptography.Encrypt_Aes(plainText, key);
-            string result = YCryptography.Decrypt_Aes(cipherText, key);
+            string cipherText = YCryptography.Cither_Aes(plainText, key);
+            string result = YCryptography.Uncipher_Aes(cipherText, key);
 
             // Then
             result.Should().Be(plainText);
@@ -30,9 +30,9 @@ namespace Upsilon.Common.Library.UnitTests
             string key = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
 
             // When
-            string cipherText = YCryptography.Encrypt_Aes(plainText, key);
+            string cipherText = YCryptography.Cither_Aes(plainText, key);
             Upsilon.Common.UnitTestsHelper.YHelper.CorruptString(ref cipherText);
-            string result = YCryptography.Decrypt_Aes(cipherText, key);
+            string result = YCryptography.Uncipher_Aes(cipherText, key);
 
             // Then
             result.Should().NotBe(plainText);
@@ -54,8 +54,8 @@ namespace Upsilon.Common.Library.UnitTests
                 while (key == corruptedKey);
 
                 // When
-                string cipherText = YCryptography.Encrypt_Aes(plainText, key);
-                string result = YCryptography.Decrypt_Aes(cipherText, corruptedKey);
+                string cipherText = YCryptography.Cither_Aes(plainText, key);
+                string result = YCryptography.Uncipher_Aes(cipherText, corruptedKey);
 
                 // Then
                 result.Should().NotBe(plainText);
@@ -71,7 +71,7 @@ namespace Upsilon.Common.Library.UnitTests
             string key = string.Empty;
 
             // When
-            string result = YCryptography.Encrypt_Aes(plainText, key);
+            string result = YCryptography.Cither_Aes(plainText, key);
 
             // Then
             result.Should().Be(cipherText);
@@ -86,7 +86,7 @@ namespace Upsilon.Common.Library.UnitTests
             string key = string.Empty;
 
             // When
-            string result = YCryptography.Decrypt_Aes(cipherText, key);
+            string result = YCryptography.Uncipher_Aes(cipherText, key);
 
             // Then
             result.Should().Be(plainText);

@@ -8,7 +8,7 @@ namespace Upsilon.Common.Library
 {
     public static class YCryptography
     {
-        public static string Encrypt_Aes(string plainText, string password)
+        public static string Cither_Aes(string plainText, string password)
         {
             if (String.IsNullOrWhiteSpace(password) || String.IsNullOrWhiteSpace(plainText))
             {
@@ -23,12 +23,12 @@ namespace Upsilon.Common.Library
             byte[] key = Encoding.ASCII.GetBytes(password.Substring(0, 32));
             byte[] IV = Encoding.ASCII.GetBytes(password.Substring(32, 16));
 
-            byte[] bytes = YCryptography.Encrypt_Aes(plainText, key, IV);
+            byte[] bytes = YCryptography.Cither_Aes(plainText, key, IV);
 
             return new string(bytes.Select(x => (char)x).ToArray());
         }
 
-        public static byte[] Encrypt_Aes(string plainText, byte[] key, byte[] IV)
+        public static byte[] Cither_Aes(string plainText, byte[] key, byte[] IV)
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -70,7 +70,7 @@ namespace Upsilon.Common.Library
 
         }
 
-        public static string Decrypt_Aes(string cipherText, string password)
+        public static string Uncipher_Aes(string cipherText, string password)
         {
             if (String.IsNullOrWhiteSpace(password) || cipherText.Length == 0)
             {
@@ -87,10 +87,10 @@ namespace Upsilon.Common.Library
 
             byte[] bytes = cipherText.Select(x => (byte)x).ToArray();
 
-            return YCryptography.Decrypt_Aes(bytes, key, IV);
+            return YCryptography.Uncither_Aes(bytes, key, IV);
         }
 
-        public static string Decrypt_Aes(byte[] cipherText, byte[] key, byte[] IV)
+        public static string Uncither_Aes(byte[] cipherText, byte[] key, byte[] IV)
         {
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)

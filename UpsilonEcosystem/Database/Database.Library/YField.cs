@@ -5,16 +5,18 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
     public enum YFieldType
     {
         Raw = 0,
-        Integer = 1,
-        Decimal = 2,
-        String = 3,
-        DateTime = 4,
+        Boolean = 1,
+        Integer = 2,
+        Decimal = 3,
+        String = 4,
+        DateTime = 5,
     }
 
     public class YField
@@ -23,45 +25,93 @@ namespace Upsilon.Database.Library
         public YFieldType Type { get; set; }
         public object Default { get; set; }
 
-        public YField(XmlNode node)
+        public YField(string filename, string tablename, XmlNode node, string key)
         {
-            this.Name = node.Attributes["name"].Value;
-            this.Type = (YFieldType)Enum.Parse(typeof(YFieldType), node.Attributes["type"].Value);
-            this.Default = YField.GetObjectFromString(this.Type, node.Attributes["default"].Value);
+            try
+            {
+                this.Name = YCryptography.Uncipher_Aes(node.Attributes["name"].Value, key);
+                this.Type = (YFieldType)Enum.Parse(typeof(YFieldType), YCryptography.Uncipher_Aes(node.Attributes["type"].Value, key));
+                this.Default = YField.GetObjectFromString(this.Type, YCryptography.Uncipher_Aes(node.Attributes["default"].Value, key));
+                this.Default.ToString();
+
+                if (!this.Name.IsIdentifiant())
+                {
+                    throw new();
+                }
+            }
+            catch
+            {
+                throw new YDatabaseXmlCorruptionException(filename, $"A field definition is not valid in '{tablename}' table node.");
+            }
         }
 
-        public XmlNode GetXmlNode()
+        public static XmlNode GetXmlNode(PropertyInfo field, string key)
         {
             XmlDocument document = new ();
+            string fieldName = (string)field.CustomAttributes.First().ConstructorArguments[0].Value;
+            string fieldDefault = (string)field.CustomAttributes.First().ConstructorArguments[1].Value;
 
             XmlNode node = document.CreateNode(XmlNodeType.Element, "field", "");
 
             XmlAttribute attribute = document.CreateAttribute("name");
-            attribute.Value = this.Name;
+            attribute.Value = YCryptography.Cither_Aes(fieldName, key);
             node.Attributes.Append(attribute);
 
             attribute = document.CreateAttribute("type");
-            attribute.Value = this.Type.ToString();
+            attribute.Value = YCryptography.Cither_Aes(YField.GetYFieldType(field.PropertyType).ToString(), key);
             node.Attributes.Append(attribute);
 
             attribute = document.CreateAttribute("default");
-            attribute.Value = YField.GetStringFromObject(this.Default);
+            attribute.Value = YCryptography.Cither_Aes(YField.GetStringFromObject(fieldDefault), key);
             node.Attributes.Append(attribute);
 
             return node;
         }
 
-        public static Type GetRealType(YFieldType type)
+        public static object GetObjectFromString(YFieldType type, string str)
         {
-            return type switch
+            switch (type)
             {
-                YFieldType.Raw => typeof(short[]),
-                YFieldType.Integer => typeof(long),
-                YFieldType.Decimal => typeof(decimal),
-                YFieldType.String => typeof(string),
-                YFieldType.DateTime => typeof(DateTime),
-                _ => null,
-            };
+                case YFieldType.Raw:
+                    return str.ToCharArray().Select(x => (short)x).ToArray();
+                case YFieldType.Boolean:
+                    return !string.IsNullOrEmpty(str);
+                case YFieldType.Integer:
+                    return long.Parse(str);
+                case YFieldType.Decimal:
+                    return decimal.Parse(str);
+                case YFieldType.String:
+                    return str;
+                case YFieldType.DateTime:
+                    _ = long.TryParse(str, out long datetimeVal);
+                    return new DateTime(datetimeVal);
+                default:
+                    return null;
+            }
+        }
+
+        public static string GetStringFromObject(object obj)
+        {
+            Type type = obj.GetType();
+
+            if (type == typeof(long)
+                || type == typeof(decimal)
+                || type == typeof(string))
+            {
+                return obj.ToString();
+            }
+            else if (type == typeof(bool))
+            {
+                return ((bool)obj) ? "true" : string.Empty;
+            }
+            else if (type == typeof(DateTime))
+            {
+                return ((DateTime)obj).Ticks.ToString();
+            }
+            else
+            {
+                return new string(((short[])obj).Select(x => (char)x).ToArray());
+            }
         }
 
         public static YFieldType GetYFieldType(Type type)
@@ -82,62 +132,13 @@ namespace Upsilon.Database.Library
             {
                 return YFieldType.DateTime;
             }
+            else if (type == typeof(bool))
+            {
+                return YFieldType.Boolean;
+            }
             else
             {
                 return YFieldType.Raw;
-            }
-        }
-
-        public static object GetObjectFromString(Type type, string str)
-        {
-            if (type == typeof(long))
-            {
-                return long.Parse(str);
-            }
-            else if (type == typeof(decimal))
-            {
-                return decimal.Parse(str);
-            }
-            else if (type == typeof(string))
-            {
-                return str;
-            }
-            else if (type == typeof(DateTime))
-            {
-                _ = long.TryParse(str, out long datetimeVal);
-                return new DateTime(datetimeVal);
-            }
-            else if (type == typeof(short[]))
-            {
-                return str.ToCharArray().Select(x => (short)x).ToArray();
-            }
-
-            return null;
-        }
-
-        public static object GetObjectFromString(YFieldType type, string str)
-        {
-            Type realType = YField.GetRealType(type);
-            return YField.GetObjectFromString(realType, str);
-        }
-
-        public static string GetStringFromObject(object obj)
-        {
-            Type type = obj.GetType();
-
-            if (type == typeof(long)
-                || type == typeof(decimal)
-                || type == typeof(string))
-            {
-                return obj.ToString();
-            }
-            else if (type == typeof(DateTime))
-            {
-                return ((DateTime)obj).Ticks.ToString();
-            }
-            else
-            {
-                return new string(((short[])obj).Select(x => (char)x).ToArray());
             }
         }
     }

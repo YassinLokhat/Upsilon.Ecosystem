@@ -2,11 +2,12 @@
 <tables key="2122914021714301784233128915223624866126">
   <table name="PLATFORM">
     <fields>
-      <field name="Label" type="String" default="Default" />
+      <field name="Label" type="String" default="" />
       <field name="Url" type="String" default="" />
+      <field name="BirthDay" type="DateTime" default="0" />
     </fields>
     <records>
-      <record field_0="MyWebsite" field_1="www.mywebsite.com" />
+      <record field_0="MyWebsite" field_1="www.mywebsite.com" field_2="0" />
     </records>
   </table>
   <table name="LOGIN">
@@ -14,7 +15,7 @@
       <field name="Label" type="String" default="" />
       <field name="UserName" type="String" default="" />
       <field name="Password" type="String" default="" />
-      <field name="PLATFORM_Label" type="String" default="Default" />
+      <field name="PLATFORM_Label" type="String" default="" />
     </fields>
     <records>
       <record field_0="user 1" field_1="user1" field_2="password1" field_3="MyWebsite" />

@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 namespace Upsilon.Database.Library
 {
     [AttributeUsage(AttributeTargets.Property)]
+    public class YDatasetAttribute : Attribute
+    {
+        public string DatasetType { get; set; }
+
+        public YDatasetAttribute(string datasetType) : base()
+        {
+            this.DatasetType = datasetType;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
     public class YTableAttribute : Attribute
     {
         public string TableName { get; set; }
@@ -21,10 +32,12 @@ namespace Upsilon.Database.Library
     public class YFieldAttribute : Attribute 
     {
         public string FieldName { get; set; }
+        public string DefaultValue { get; set; }
 
-        public YFieldAttribute(string fieldName) : base()
+        public YFieldAttribute(string fieldName, string defaulValue) : base()
         {
             this.FieldName = fieldName;
+            this.DefaultValue = defaulValue;
         }
     }
 }
