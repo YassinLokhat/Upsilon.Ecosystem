@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace Upsilon.Common.Library
 {
@@ -101,6 +105,18 @@ namespace Upsilon.Common.Library
             }
 
             return byte.MaxValue;
+        }
+        #endregion
+
+        #region Serialization/Deserialization Extention Methods
+        public static string SerializeObject(this object toSerialize)
+        {
+            return JsonSerializer.Serialize(toSerialize, toSerialize.GetType());
+        }
+
+        public static object DeserializeObject(this string toDeserialize, Type type)
+        {
+            return JsonSerializer.Deserialize(toDeserialize, type);
         }
         #endregion
     }

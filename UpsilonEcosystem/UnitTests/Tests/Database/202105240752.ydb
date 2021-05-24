@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tables key="2122914021714301784233128915223624866126">
+  <table name="AUTHOR">
+    <fields>
+      <field name="Name" type="System.String" />
+      <field name="BirthDay" type="System.DateTime" />
+    </fields>
+    <records />
+  </table>
+  <table name="BOOK">
+    <fields>
+      <field name="Title" type="System.String" />
+      <field name="Author" type="System.String" />
+      <field name="Synopsis" type="System.String" />
+    </fields>
+    <records />
+  </table>
+</tables>

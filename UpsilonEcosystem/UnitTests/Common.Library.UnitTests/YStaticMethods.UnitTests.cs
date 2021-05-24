@@ -39,5 +39,95 @@ namespace Upsilon.Common.Library.UnitTests
                 isId.Should().BeFalse("'" + identifiant + "' is not an identifiant");
             }
         }
+
+        [TestMethod]
+        public void Test_03_StaticMethods_SerializeObject_Boolean()
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            bool toSerialize = random.Next() % 2 == 0;
+
+            // When
+            string serialized = toSerialize.SerializeObject();
+            bool deserialized = (bool)serialized.DeserializeObject(typeof(bool));
+
+            // Then
+            deserialized.Should().Be(toSerialize);
+        }
+
+        [TestMethod]
+        public void Test_04_StaticMethods_SerializeObject_Integer()
+        {
+            // Given
+            Random random = new Random((int)DateTime.Now.Ticks);
+            long toSerialize = random.Next();
+
+            // When
+            string serialized = toSerialize.SerializeObject();
+            long deserialized = (long)serialized.DeserializeObject(typeof(long));
+
+            // Then
+            deserialized.Should().Be(toSerialize);
+        }
+
+        [TestMethod]
+        public void Test_05_StaticMethods_SerializeObject_Decimal()
+        {
+            // Given
+            Random random = new Random((int)DateTime.Now.Ticks);
+            decimal toSerialize = (decimal)random.NextDouble();
+
+            // When
+            string serialized = toSerialize.SerializeObject();
+            decimal deserialized = (decimal)serialized.DeserializeObject(typeof(decimal));
+
+            // Then
+            deserialized.Should().Be(toSerialize);
+        }
+
+        [TestMethod]
+        public void Test_06_StaticMethods_SerializeObject_String()
+        {
+            // Given
+            Random random = new Random((int)DateTime.Now.Ticks);
+            string toSerialize = UnitTestsHelper.YHelper.GetRandomString();
+
+            // When
+            string serialized = toSerialize.SerializeObject();
+            string deserialized = (string)serialized.DeserializeObject(typeof(string));
+
+            // Then
+            deserialized.Should().Be(toSerialize);
+        }
+
+        [TestMethod]
+        public void Test_07_StaticMethods_SerializeObject_DateTime()
+        {
+            // Given
+            Random random = new Random((int)DateTime.Now.Ticks);
+            DateTime toSerialize = new DateTime(random.Next());
+
+            // When
+            string serialized = toSerialize.SerializeObject();
+            DateTime deserialized = (DateTime)serialized.DeserializeObject(typeof(DateTime));
+
+            // Then
+            deserialized.Should().Be(toSerialize);
+        }
+
+        [TestMethod]
+        public void Test_08_StaticMethods_SerializeObject_Raw()
+        {
+            // Given
+            Random random = new Random((int)DateTime.Now.Ticks);
+            byte[] toSerialize = new byte[random.Next(0xFFFF)];
+            random.NextBytes(toSerialize);
+
+            // When
+            string serialized = toSerialize.SerializeObject();
+            byte[] deserialized = (byte[])serialized.DeserializeObject(typeof(byte[]));
+
+            // Then
+            deserialized.Should().BeEquivalentTo(toSerialize);
+        }
     }
 }

@@ -9,31 +9,36 @@ namespace Database.Library.UnitTests.DatabaseClasses
 {
     public class SigmaDB : YDatabaseImage
     {
-        [YDataset("CONFIG")]
-        public YDataSet<CONFIG> CONFIGs { get; private set; } = new YDataSet<CONFIG>();
+        [YDataset]
+        public YDataSet<CONFIG> CONFIGs { get; private set; } = null;
 
-        [YDataset("COMMAND")]
-        public YDataSet<COMMAND> COMMANDs { get; private set; } = new YDataSet<COMMAND>();
+        [YDataset]
+        public YDataSet<COMMAND> COMMANDs { get; private set; } = null;
 
-        [YDataset("MODULE")]
-        public YDataSet<MODULE> MODULEs { get; private set; } = new YDataSet<MODULE>();
+        [YDataset]
+        public YDataSet<MODULE> MODULEs { get; private set; } = null;
 
-        [YDataset("ALIAS")]
-        public YDataSet<ALIAS> ALIASs { get; private set; } = new YDataSet<ALIAS>();
+        [YDataset]
+        public YDataSet<ALIAS> ALIASs { get; private set; } = null;
 
-        public SigmaDB(string filename, string key) : base(filename, key) { }
+        public SigmaDB(string filename, string key) : base(filename, key)
+        {
+            this.CONFIGs = new(this);
+            this.COMMANDs = new(this);
+            this.MODULEs = new(this);
+            this.ALIASs = new(this);
+        }
     }
 
-    [YTable("CONFIG")]
     public class CONFIG : YTable
     {
-        [YField(fieldName: "CONFIG_ID", defaulValue: "1")]
+        [YField]
         public long CONFIG_ID { get; private set; }
 
-        [YField(fieldName: "ConfigName", defaulValue: "")]
+        [YField]
         public string ConfigName { get; set; }
 
-        [YField(fieldName: "ConfigValue", defaulValue: "")]
+        [YField]
         public string ConfigValue { get; set; }
 
         public CONFIG(SigmaDB database) : base(database)
@@ -45,25 +50,24 @@ namespace Database.Library.UnitTests.DatabaseClasses
         }
     }
 
-    [YTable("COMMAND")]
     public class COMMAND : YTable
     {
-        [YField(fieldName: "COMMAND_ID", defaulValue: "1")]
+        [YField]
         public long COMMAND_ID { get; private set; }
        
-        [YField(fieldName: "Name", defaulValue: "")]
+        [YField]
         public string Name { get; set; }
 
-        [YField(fieldName: "Program", defaulValue: "")]
+        [YField]
         public string Program { get; set; }
 
-        [YField(fieldName: "Arguments", defaulValue: "")]
+        [YField]
         public string Arguments { get; set; }
 
-        [YField(fieldName: "IsBySSI", defaulValue: "")]
+        [YField]
         public bool IsBySSI { get; set; }
 
-        [YField(fieldName: "IsStartup", defaulValue: "")]
+        [YField]
         public bool IsStartup { get; set; }
 
         public COMMAND(SigmaDB database) : base(database)
@@ -75,28 +79,27 @@ namespace Database.Library.UnitTests.DatabaseClasses
         }
     }
 
-    [YTable("MODULE")]
     public class MODULE : YTable
     {
-        [YField(fieldName: "MODULE_ID", defaulValue: "1")]
+        [YField]
         public long MODULE_ID { get; private set; }
 
-        [YField(fieldName: "Reference", defaulValue: "")]
+        [YField]
         public string Reference { get; set; }
 
-        [YField(fieldName: "Key", defaulValue: "")]
+        [YField]
         public string Key { get; set; }
 
-        [YField(fieldName: "Version", defaulValue: "")]
+        [YField]
         public string Version { get; set; }
 
-        [YField(fieldName: "Name", defaulValue: "")]
+        [YField]
         public string Name { get; set; }
 
-        [YField(fieldName: "IsFree", defaulValue: "")]
+        [YField]
         public bool IsFree { get; set; }
 
-        [YField(fieldName: "About", defaulValue: "")]
+        [YField]
         public string About { get; set; }
 
         public List<ALIAS> ALIASs { get { return ((SigmaDB)this._DatabaseImage).ALIASs.Where(x => x.MODULE_ID == this.MODULE_ID).ToList(); } }
@@ -110,34 +113,33 @@ namespace Database.Library.UnitTests.DatabaseClasses
         }
     }
 
-    [YTable("ALIAS")]
     public class ALIAS : YTable
     {
-        [YField(fieldName: "ALIAS_ID", defaulValue: "1")]
+        [YField]
         public long ALIAS_ID { get; private set; }
        
-        [YField(fieldName: "MODULE_ID", defaulValue: "1")]
+        [YField]
         public long MODULE_ID { get; set; }
 
-        [YField(fieldName: "Command", defaulValue: "")]
+        [YField]
         public string Command { get; set; }
 
-        [YField(fieldName: "Alias", defaulValue: "")]
+        [YField]
         public string Alias { get; set; }
 
-        [YField(fieldName: "Program", defaulValue: "")]
+        [YField]
         public string Program { get; set; }
 
-        [YField(fieldName: "Arguments", defaulValue: "")]
+        [YField]
         public string Arguments { get; set; }
 
-        [YField(fieldName: "Description", defaulValue: "")]
+        [YField]
         public string Description { get; set; }
 
-        [YField(fieldName: "IsStartup", defaulValue: "")]
+        [YField]
         public bool IsStartup { get; set; }
 
-        [YField(fieldName: "IsEnabled", defaulValue: "")]
+        [YField]
         public bool IsEnabled { get; set; }
 
         public MODULE MODULE { get { return ((SigmaDB)this._DatabaseImage).MODULEs.Find(x => x.MODULE_ID == this.MODULE_ID); } }

@@ -13,66 +13,93 @@ namespace Upsilon.Database.Library
     {
         protected YDatabaseImage _DatabaseImage = null;
 
-        public XmlNode GetRecord(string key)
+        public long InternalIndex { get; set; } = 0;
+
+        public XmlNode GetXmlRecord(string key)
         {
-            PropertyInfo[] properties = this.GetType().GetProperties()
+            XmlDocument document = new();
+
+            XmlNode record = document.CreateNode(XmlNodeType.Element, "record", string.Empty);
+
+            Dictionary<string, string> fieldsDico = this.GetFieldsDico(key);
+
+            foreach (var field in fieldsDico)
+            {
+                XmlAttribute xmlField = document.CreateAttribute(field.Key);
+                xmlField.Value = field.Value;
+                record.Attributes.Append(xmlField);
+            }
+
+            return record;
+        }
+
+        public Dictionary<string, string> GetFieldsDico(string key)
+        {
+            Dictionary<string, string> fieldsDico = new();
+
+            fieldsDico[$"field_0"] = this.InternalIndex.ToString().Cipher_Aes(key);
+
+            PropertyInfo[] fieldsInfo = this.GetType().GetProperties()
+               .Where(x => x.CustomAttributes
+                   .Where(y => y.AttributeType == typeof(YFieldAttribute)).Any())
+               .ToArray();
+
+            foreach (PropertyInfo fieldInfo in fieldsInfo)
+            {
+                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Where(x => x.Name == fieldInfo.Name).FirstOrDefault();
+                int i = this._DatabaseImage.TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
+
+                fieldsDico[$"field_{i}"] = fieldInfo.GetValue(this).SerializeObject().Cipher_Aes(key);
+            }
+
+            return null;
+        }
+        
+        public void SetRecord(XmlNode node, string key)
+        {
+            PropertyInfo[] fieldsInfo = this.GetType().GetProperties()
                 .Where(x => x.CustomAttributes
                     .Where(y => y.AttributeType == typeof(YFieldAttribute)).Any())
                 .ToArray();
 
-            XmlDocument document = new ();
+            this.InternalIndex = (long)node.Attributes[$"field_0"].Value.Uncipher_Aes(key).DeserializeObject(typeof(long));
 
-            XmlNode node = document.CreateNode(XmlNodeType.Element, "record", string.Empty);
-
-            for (int i = 0; i < properties.Length; i++)
+            foreach (PropertyInfo fieldInfo in fieldsInfo)
             {
-                PropertyInfo fieldPropertyInfo = properties[i];
+                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Where(x => x.Name == fieldInfo.Name).FirstOrDefault();
+                int i = this._DatabaseImage.TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
 
-                XmlAttribute xmlField = document.CreateAttribute($"field_{i}");
-                xmlField.Value = YCryptography.Cither_Aes(YField.GetStringFromObject(fieldPropertyInfo.GetValue(this)), key);
-                node.Attributes.Append(xmlField);
-            }
-
-            return node;
-        }
-        
-        public void SetRecord(YField[] yFields, XmlNode node)
-        {
-            for (int i = 0; i < yFields.Length; i++)
-            {
-                YField yField = yFields[i];
-
-                PropertyInfo fieldPropertyInfo = this.GetType().GetProperties()
-                    .Where(x => x.CustomAttributes
-                        .Where(y => y.AttributeType == typeof(YFieldAttribute)
-                            && y.ConstructorArguments[0].Value.ToString() == yField.Name).Any())
-                    .FirstOrDefault();
-                object value = yField.Default;
+                object value = null;
                 if (node.Attributes.Contains($"field_{i}"))
                 {
-                    value = YField.GetObjectFromString(yField.Type, node.Attributes[$"field_{i}"].Value);
+                    value = node.Attributes[$"field_{i}"].Value.Uncipher_Aes(key).DeserializeObject(yField.Type);
                 }
 
-                fieldPropertyInfo.SetValue(this, value);
+                fieldInfo.SetValue(this, value);
             }
         }
 
         public YTable(YDatabaseImage databaseImage)
         {
             this._DatabaseImage = databaseImage;
+        }
 
-            string tablename = this.GetType().CustomAttributes.First().ConstructorArguments.First().Value.ToString();
-            
-            PropertyInfo[] fieldProperties = this.GetType().GetProperties()
-                    .Where(x => x.CustomAttributes
-                        .Where(y => y.AttributeType == typeof(YFieldAttribute)).Any())
-                    .ToArray();
-            foreach (PropertyInfo fieldPropertyInfo in fieldProperties)
-            {
-                YFieldType type = YField.GetYFieldType(fieldPropertyInfo.PropertyType);
+        public static XmlNode GetEmptyTableNode(string tableName, string key)
+        {
+            XmlDocument document = new();
 
-                fieldPropertyInfo.SetValue(this, YField.GetObjectFromString(type, fieldPropertyInfo.CustomAttributes.First().ConstructorArguments[1].Value.ToString()));
-            }
+            XmlNode table = document.CreateNode(XmlNodeType.Element, "table", string.Empty);
+
+            XmlAttribute xmlField = document.CreateAttribute($"name");
+            xmlField.Value = tableName.Cipher_Aes(key);
+            table.Attributes.Append(xmlField);
+
+            XmlNode node = document.CreateNode(XmlNodeType.Element, "fields", string.Empty);
+            table.AppendChild(node);
+            node = document.CreateNode(XmlNodeType.Element, "records", string.Empty);
+            table.AppendChild(node);
+
+            return table;
         }
     }
 }

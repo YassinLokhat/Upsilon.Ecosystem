@@ -7,45 +7,41 @@ namespace Upsilon.Database.Library.UnitTests
 {
     public class Database : YDatabaseImage
     {
-        [YDataset(datasetType: "PLATFORM")]
-        public YDataSet<PLATFORM> PLATFORMs { get; private set; } = new YDataSet<PLATFORM>();
+        [YDataset]
+        public YDataSet<AUTHOR> AUTHORs { get; private set; } = null;
 
-        [YDataset(datasetType: "LOGIN")]
-        public YDataSet<LOGIN> LOGINs { get; private set; } = new YDataSet<LOGIN>();
+        [YDataset]
+        public YDataSet<BOOK> BOOKs { get; private set; } = null;
 
         public Database(string filename, string key) : base(filename, key) { }
     }
 
-    [YTable(tableName: "PLATFORM")]
-    public class PLATFORM : YTable
+    public class AUTHOR : YTable
     {
-        [YField(fieldName: "Label", defaulValue: "")]
-        public string Label0 { get; set; }
+        [YField]
+        public string Name { get; set; }
 
-        [YField(fieldName: "Url", defaulValue: "")]
-        public string Url0 { get; set; }
+        [YField]
+        public DateTime BirthDay { get; set; }
 
-        [YField(fieldName: "BirthDay", defaulValue: "0")]
-        public DateTime BirthDay0 { get; set; }
+        public List<BOOK> Books { get { return ((Database)this._DatabaseImage).BOOKs.Where(x => x.Author == this.Name).ToList(); } }
 
-        public PLATFORM(Database database) : base(database) { }
+        public AUTHOR(Database database) : base(database) { }
     }
 
-    [YTable(tableName: "LOGIN")]
-    public class LOGIN : YTable
+    public class BOOK : YTable
     {
-        [YField(fieldName: "Label", defaulValue: "")]
-        public string Label0 { get; set; }
+        [YField]
+        public string Title { get; set; }
 
-        [YField(fieldName: "UserName", defaulValue: "")]
-        public string UserName0 { get; set; }
+        [YField]
+        public string Author { get; set; }
 
-        [YField(fieldName: "Password", defaulValue: "")]
-        public string Password0 { get; set; }
+        [YField]
+        public string Synopsis { get; set; }
 
-        [YField(fieldName: "PLATFORM_Label", defaulValue: "")]
-        public string PLATFORM_Label0 { get; set; }
+        public AUTHOR BookAuthor { get { return ((Database)this._DatabaseImage).AUTHORs.Find(x => x.Name == this.Author); } }
 
-        public LOGIN(Database database) : base(database) { }
+        public BOOK(Database database) : base(database) { }
     }
 }

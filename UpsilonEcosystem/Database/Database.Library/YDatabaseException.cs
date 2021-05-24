@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Database.Library
 {
-    public class YDatabaseFileException : Exception
+    public class YDatabaseException : Exception 
+    { 
+        public YDatabaseException() : base() { }
+        public YDatabaseException(string message) : base(message) { }
+    }
+    
+    public class YDatabaseFileException : YDatabaseException
     {
         public string Filename { get; private set; }
 
@@ -32,7 +38,7 @@ namespace Upsilon.Database.Library
             base(filename, $"Database Xml is corrupted.\nFilename : {filename}\n{message}") { }
     }
 
-    public class YDatabaseClassesDefinitionException : Exception
+    public class YDatabaseClassesDefinitionException : YDatabaseException
     {
         public string TableName { get; set; }
 

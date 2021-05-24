@@ -19,17 +19,16 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270620",
+                Reference = "empty",
                 DatabaseDirectory = _databaseDirectory,
                 Key = string.Empty,
-                CheckExistingFile = true,
+                CheckExistingFile = false,
             };
             YHelper.ClearDatabaseImage(configuration);
             string filepath = YHelper.GetDatabaseFilePath(configuration);
 
             // When
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Pull();
             database.Push();
             database.Close();
 

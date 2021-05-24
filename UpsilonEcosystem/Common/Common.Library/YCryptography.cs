@@ -8,7 +8,7 @@ namespace Upsilon.Common.Library
 {
     public static class YCryptography
     {
-        public static string Cither_Aes(string plainText, string password)
+        public static string Cipher_Aes(this string plainText, string password)
         {
             if (String.IsNullOrWhiteSpace(password) || String.IsNullOrWhiteSpace(plainText))
             {
@@ -23,12 +23,12 @@ namespace Upsilon.Common.Library
             byte[] key = Encoding.ASCII.GetBytes(password.Substring(0, 32));
             byte[] IV = Encoding.ASCII.GetBytes(password.Substring(32, 16));
 
-            byte[] bytes = YCryptography.Cither_Aes(plainText, key, IV);
+            byte[] bytes = YCryptography.Cipher_Aes(plainText, key, IV);
 
             return new string(bytes.Select(x => (char)x).ToArray());
         }
 
-        public static byte[] Cither_Aes(string plainText, byte[] key, byte[] IV)
+        public static byte[] Cipher_Aes(string plainText, byte[] key, byte[] IV)
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -67,10 +67,9 @@ namespace Upsilon.Common.Library
 
             // Return the encrypted bytes from the memory stream.
             return encrypted;
-
         }
 
-        public static string Uncipher_Aes(string cipherText, string password)
+        public static string Uncipher_Aes(this string cipherText, string password)
         {
             if (String.IsNullOrWhiteSpace(password) || cipherText.Length == 0)
             {
@@ -130,7 +129,6 @@ namespace Upsilon.Common.Library
             }
 
             return plaintext;
-
         }
     }
 }
