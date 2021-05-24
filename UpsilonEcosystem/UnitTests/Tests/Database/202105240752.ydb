@@ -5,7 +5,9 @@
       <field name="Name" type="System.String" />
       <field name="BirthDay" type="System.DateTime" />
     </fields>
-    <records />
+    <records>
+      <record field_0="1" field_1="&quot;William Shakespeare&quot;" field_2="&quot;1564-04-01T00:00:00&quot;" />
+    </records>
   </table>
   <table name="BOOK">
     <fields>
@@ -13,6 +15,9 @@
       <field name="Author" type="System.String" />
       <field name="Synopsis" type="System.String" />
     </fields>
-    <records />
+    <records>
+      <record field_0="1" field_1="&quot;Hamlet&quot;" field_2="&quot;William Shakespeare&quot;" field_3="&quot;Hamlet\u0027s Synopsis&quot;" />
+      <record field_0="2" field_1="&quot;Macbeth&quot;" field_2="&quot;William Shakespeare&quot;" field_3="&quot;Macbeth\u0027s Synopsis&quot;" />
+    </records>
   </table>
 </tables>

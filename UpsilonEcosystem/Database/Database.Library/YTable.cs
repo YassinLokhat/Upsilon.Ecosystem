@@ -52,7 +52,7 @@ namespace Upsilon.Database.Library
                 fieldsDico[$"field_{i}"] = fieldInfo.GetValue(this).SerializeObject().Cipher_Aes(key);
             }
 
-            return null;
+            return fieldsDico;
         }
         
         public void SetRecord(XmlNode node, string key)
@@ -100,6 +100,16 @@ namespace Upsilon.Database.Library
             table.AppendChild(node);
 
             return table;
+        }
+
+        public new bool Equals(object item)
+        {
+            if (item is not YTable yTable)
+            {
+                return base.Equals(item);
+            }
+
+            return yTable.InternalIndex == this.InternalIndex;
         }
     }
 }

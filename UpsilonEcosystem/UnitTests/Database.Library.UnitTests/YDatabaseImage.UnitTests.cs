@@ -40,7 +40,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelper.ClearDatabaseImage(configuration);
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void Test_01_DatabaseCreation_AddRecord()
         {
             // Given
@@ -57,58 +57,53 @@ namespace Upsilon.Database.Library.UnitTests
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
             database.Pull();
 
-            database.PLATFORMs.Add(new(database)
+            database.AUTHORs.Add(new(database)
             {
-                Label = "MyWebsite",
-                Url = "www.mywebsite.com",
+                Name = "William Shakespeare",
+                BirthDay = new DateTime(1564, 04, 01),
             });
 
-            database.LOGINs.Add(new(database)
+            database.BOOKs.Add(new(database)
             {
-                Label = "user 1",
-                UserName = "user1",
-                Password = "password1",
-                PLATFORM_Label = "MyWebsite",
+                Title = "Hamlet",
+                Author = "William Shakespeare",
+                Synopsis = "Hamlet's Synopsis",
             });
 
-            database.LOGINs.Add(new(database)
+            database.BOOKs.Add(new(database)
             {
-                Label = "user 2",
-                UserName = "user2",
-                Password = "password2",
-                PLATFORM_Label = "MyWebsite",
+                Title = "Macbeth",
+                Author = "William Shakespeare",
+                Synopsis = "Macbeth's Synopsis",
             });
 
             database.Push();
-            database.Close();
 
             configuration.CheckExistingFile = true;
-            database = Upsilon.Common.UnitTestsHelper.YHelper.OpenDatabaseImage<Database>(configuration);
+            database = YHelper.OpenDatabaseImage<Database>(configuration);
 
             // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(2);
 
             // When
-            PLATFORM platform = database.PLATFORMs[0];
-            LOGIN login1 = database.LOGINs[0];
-            LOGIN login2 = database.LOGINs[1];
+            AUTHOR author = database.AUTHORs[0];
+            BOOK book1 = database.BOOKs[0];
+            BOOK book2 = database.BOOKs[1];
 
             // Then
-            platform.Label.Should().Be("MyWebsite");
-            platform.Url.Should().Be("www.mywebsite.com");
-            platform.LOGINs.Should().Equal(new LOGIN[] { login1, login2 });
-            login1.Label.Should().Be("user 1");
-            login1.UserName.Should().Be("user1");
-            login1.Password.Should().Be("password1");
-            login1.PLATFORM_Label.Should().Be("MyWebsite");
-            login2.Label.Should().Be("user 2");
-            login2.UserName.Should().Be("user2");
-            login2.Password.Should().Be("password2");
-            login2.PLATFORM_Label.Should().Be("MyWebsite");
+            author.Name.Should().Be("William Shakespeare");
+            author.BirthDay.ToString("yyyy-MM-dd").Should().Be("1564-04-01");
+            author.Books.Should().Equal(new BOOK[] { book1, book2 });
+            book1.Title.Should().Be("Hamlet");
+            book1.Author.Should().Be("William Shakespeare");
+            book1.Synopsis.Should().Be("Hamlet's Synopsis");
+            book2.Title.Should().Be("Macbeth");
+            book2.Author.Should().Be("William Shakespeare");
+            book2.Synopsis.Should().Be("Macbeth's Synopsis");
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
         [TestMethod]
@@ -117,7 +112,7 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270622",
+                Reference = "202105240752",
                 DatabaseDirectory = _databaseDirectory,
                 Key = string.Empty,
             };
@@ -127,25 +122,28 @@ namespace Upsilon.Database.Library.UnitTests
             database.Pull();
 
             // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(2);
 
             // When
-            PLATFORM platform = database.PLATFORMs[0];
-            LOGIN login1 = database.LOGINs[0];
-            LOGIN login2 = database.LOGINs[1];
-            database.LOGINs.Remove(login2);
+            AUTHOR author = database.AUTHORs[0];
+            BOOK book1 = database.BOOKs[0];
+            BOOK book2 = database.BOOKs[1];
+            database.BOOKs.Remove(book2);
             database.Push();
 
+            configuration.ResetTempDatabase = false;
+            database = YHelper.OpenDatabaseImage<Database>(configuration);
+            database.Pull(false);
+
             // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(1);
-            database.PLATFORMs.Should().Equal(new PLATFORM[] { platform });
-            platform.LOGINs.Should().Equal(new LOGIN[] { login1 });
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(1);
+            database.AUTHORs[0].InternalIndex.Should().Be(author.InternalIndex);
+            author.Books[0].InternalIndex.Should().Be(book1.InternalIndex);
 
             // Finally
-            configuration.CheckExistingFile = true;
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
         [TestMethod]
@@ -154,46 +152,42 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270622",
+                Reference = "202105240752",
                 DatabaseDirectory = _databaseDirectory,
                 Key = string.Empty,
             };
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Sync();
 
             // When
             configuration.Key = "key";
             configuration.ResetTempDatabase = false;
-            database.SetKey(configuration.Key);
+            database.ChangeKey(configuration.Key);
             database.Close();
 
             database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Sync();
 
             // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(2);
 
             // When
-            PLATFORM platform = database.PLATFORMs[0];
-            LOGIN login1 = database.LOGINs[0];
-            LOGIN login2 = database.LOGINs[1];
+            AUTHOR author = database.AUTHORs[0];
+            BOOK book1 = database.BOOKs[0];
+            BOOK book2 = database.BOOKs[1];
 
             // Then
-            platform.Label.Should().Be("MyWebsite");
-            platform.Url.Should().Be("www.mywebsite.com");
-            platform.LOGINs.Should().Equal(new LOGIN[] { login1, login2 });
-            login1.Label.Should().Be("user 1");
-            login1.UserName.Should().Be("user1");
-            login1.Password.Should().Be("password1");
-            login1.PLATFORM_Label.Should().Be("MyWebsite");
-            login2.Label.Should().Be("user 2");
-            login2.UserName.Should().Be("user2");
-            login2.Password.Should().Be("password2");
-            login2.PLATFORM_Label.Should().Be("MyWebsite");
+            author.Name.Should().Be("William Shakespeare");
+            author.BirthDay.ToString("yyyy-MM-dd").Should().Be("1564-04-01");
+            author.Books.Should().Equal(new BOOK[] { book1, book2 });
+            book1.Title.Should().Be("Hamlet");
+            book1.Author.Should().Be("William Shakespeare");
+            book1.Synopsis.Should().Be("Hamlet's Synopsis");
+            book2.Title.Should().Be("Macbeth");
+            book2.Author.Should().Be("William Shakespeare");
+            book2.Synopsis.Should().Be("Macbeth's Synopsis");
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
         [TestMethod]
@@ -202,7 +196,7 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270622",
+                Reference = "202105240752",
                 DatabaseDirectory = _databaseDirectory,
                 Key = "key",
             };
@@ -217,7 +211,7 @@ namespace Upsilon.Database.Library.UnitTests
             act.Should().ThrowExactly<YWrongDatabaseKeyException>();
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
         [TestMethod]
@@ -226,85 +220,42 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270701",
+                Reference = "202105241501",
                 DatabaseDirectory = _databaseDirectory,
                 Key = string.Empty,
             };
 
             // When
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Sync();
 
             // Then
-            database.PLATFORMs.Count.Should().Be(0);
-            database.LOGINs.Count.Should().Be(0);
+            database.AUTHORs.Count.Should().Be(0);
+            database.BOOKs.Count.Should().Be(0);
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
         [TestMethod]
-        public void Test_06_MappingToEquivalentClasses()
+        public void Test_06_MappingToClassesWithLessData()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270700",
+                Reference = "202105241602",
                 DatabaseDirectory = _databaseDirectory,
                 Key = "key",
             };
 
             // When
-            Database1 database = YHelper.OpenDatabaseImage<Database1>(configuration);
-            database.Sync();
-
-            // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
-            database.Close();
-
-            // When
-            PLATFORM1 platform = database.PLATFORMs[0];
-            LOGIN1 login1 = database.LOGINs[0];
-            LOGIN1 login2 = database.LOGINs[1];
-
-            // Then
-            platform.Label.Should().Be("MyWebsite");
-            platform.Url.Should().Be("www.mywebsite.com");
-            platform.LOGINs.Should().Equal(new LOGIN1[] { login1, login2 });
-            login1.Label.Should().Be("user 1");
-            login1.UserName.Should().Be("user1");
-            login1.Password.Should().Be("password1");
-            login1.PLATFORM_Label.Should().Be("MyWebsite");
-            login2.Label.Should().Be("user 2");
-            login2.UserName.Should().Be("user2");
-            login2.Password.Should().Be("password2");
-            login2.PLATFORM_Label.Should().Be("MyWebsite");
-
-            // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
-        }
-
-        [TestMethod]
-        public void Test_07_MappingToClassesWithLessData()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202102270700",
-                DatabaseDirectory = _databaseDirectory,
-                Key = "key",
-            };
-
-            // When
+            string databaseBefore = File.ReadAllText(YHelper.GetDatabaseFilePath(configuration));
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Sync();
 
             // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
-            database.PLATFORMs.First().Url.Should().Be("www.mywebsite.com");
-            database.Close();
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(2);
+            database.BOOKs[0].Title.Should().Be("Hamlet");
+            database.BOOKs[1].Title.Should().Be("Macbeth");
 
             // When
             configuration.ResetTempDatabase = false;
@@ -341,14 +292,14 @@ namespace Upsilon.Database.Library.UnitTests
             database.PLATFORMs.Count.Should().Be(1);
             database.LOGINs.Count.Should().Be(2);
             database.PLATFORMs.First().Label.Should().Be("MyWebsite");
-            database.PLATFORMs.First().Url.Should().Be(string.Empty);   /* /!\ Data Loss /!\ * /
+            database.PLATFORMs.First().Url.Should().Be(string.Empty);   /* /!\ Data Loss /!\ */
             database.Close();
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);*/
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Test_08_MappingToClassesWithMoreData()
         {
             // Given
@@ -400,10 +351,10 @@ namespace Upsilon.Database.Library.UnitTests
             login2.PLATFORM_Label.Should().Be("MyWebsite");
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Test_09_BadConceptionClasses_WrongFieldNumber()
         {
             // Given
@@ -424,10 +375,10 @@ namespace Upsilon.Database.Library.UnitTests
             act.Should().ThrowExactly<YInconsistentRecordFieldCountException>();
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Test_10_BadConceptionClasses_InconsistenFieldType()
         {
             // Given
@@ -448,10 +399,10 @@ namespace Upsilon.Database.Library.UnitTests
             act.Should().ThrowExactly<YInconsistentRecordFieldTypeException>();
 
             // Finally
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Test_11_AutoIncrementAndDefaultValues()
         {
             // Given
@@ -502,10 +453,10 @@ namespace Upsilon.Database.Library.UnitTests
 
             // Finally
             configuration.CheckExistingFile = true;
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Test_12_CompetitiveAccess()
         {
             // Given
@@ -557,9 +508,10 @@ namespace Upsilon.Database.Library.UnitTests
 
             // Finally
             configuration.CheckExistingFile = true;
-            Upsilon.Common.UnitTestsHelper.YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration);
         }
     */
+
         /// TODO : Test 2 tests for SaveAs
         /// TODO : Add fields check mechanism (Tests 07 and 08 should failed)
     }

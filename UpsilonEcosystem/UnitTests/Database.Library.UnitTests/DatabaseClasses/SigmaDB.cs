@@ -21,13 +21,7 @@ namespace Database.Library.UnitTests.DatabaseClasses
         [YDataset]
         public YDataSet<ALIAS> ALIASs { get; private set; } = null;
 
-        public SigmaDB(string filename, string key) : base(filename, key)
-        {
-            this.CONFIGs = new(this);
-            this.COMMANDs = new(this);
-            this.MODULEs = new(this);
-            this.ALIASs = new(this);
-        }
+        public SigmaDB(string filename, string key) : base(filename, key) { }
     }
 
     public class CONFIG : YTable

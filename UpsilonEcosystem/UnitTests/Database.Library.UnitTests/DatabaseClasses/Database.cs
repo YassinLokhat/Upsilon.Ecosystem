@@ -34,6 +34,9 @@ namespace Upsilon.Database.Library.UnitTests
         [YField]
         public string Title { get; set; }
 
+        //[YField]
+        public string Editor { get; set; }
+
         [YField]
         public string Author { get; set; }
 

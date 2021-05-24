@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Upsilon.Database.Library;
 
@@ -39,7 +40,16 @@ namespace Upsilon.Common.UnitTestsHelper
                 throw new FileNotFoundException("Database file not found", databaseFilename);
             }
 
-            T database = (T)Activator.CreateInstance(typeof(T), new object[] { databaseFilename, configuration.Key });
+            T database = null;
+
+            try
+            {
+                database = (T)Activator.CreateInstance(typeof(T), new object[] { databaseFilename, configuration.Key });
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
 
             return database;
         }
