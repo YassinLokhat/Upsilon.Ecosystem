@@ -61,6 +61,184 @@ namespace Upsilon.Database.Library
             }
         }
 
+        public void Push()
+        {
+            List<string> indexToRebuild = new();
+
+            PropertyInfo[] datasetsInfo = this.GetType().GetProperties()
+                .Where(x => x.CustomAttributes
+                    .Where(y => y.AttributeType == typeof(YDatasetAttribute)).Any()
+                    && x.PropertyType.Name == typeof(YDataSet<YTable>).Name).ToArray();
+
+            foreach (PropertyInfo datasetInfo in datasetsInfo)
+            {
+                Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
+
+                object dataset = datasetInfo.GetValue(this);
+                YTable[] yTables = (YTable[])datasetInfo.PropertyType.GetMethod("GetYTables").Invoke(dataset, Array.Empty<object>());
+
+                if (yTables.Any()
+                    && (yTables.Length / yTables.Select(x => x.InternalIndex).Max() < YDatabaseImage._REBUILD_INDEX_RATE
+                        || yTables.Select(x => x.InternalIndex).Max() > YDatabaseImage._REBUILD_INDEX_RATE * long.MaxValue))
+                {
+                    indexToRebuild.Add(dataType.Name);
+                }
+
+                XmlNode xmlRecords = this._document.SelectNodes("/tables/table")
+                    .Cast<XmlNode>()
+                    .Where(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == dataType.Name)
+                    .FirstOrDefault()
+                    .SelectSingleNode("./records");
+
+                foreach (YTable yTable in yTables)
+                {
+                    XmlNode xmlRecord = xmlRecords.ChildNodes
+                        .Cast<XmlNode>()
+                        .Where(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == yTable.InternalIndex.ToString())
+                        .FirstOrDefault();
+
+                    if (xmlRecord == null)
+                    {
+                        xmlRecord = this._document.ImportNode(yTable.GetXmlRecord(this._key), true);
+                        xmlRecords.AppendChild(xmlRecord);
+                    }
+                    else
+                    {
+                        Dictionary<string, string> fields = yTable.GetFieldsDico(this._key);
+
+                        foreach (var field in fields)
+                        {
+                            if (!xmlRecord.Attributes.Contains(field.Key))
+                            {
+                                XmlAttribute attribute = this._document.CreateAttribute(field.Key);
+                                xmlRecord.Attributes.Append(attribute);
+                            }
+                            xmlRecord.Attributes[field.Key].Value = field.Value;
+                        }
+                    }
+                }
+
+                long[] removedIndexes = (long[])datasetInfo.PropertyType.GetMethod("PopRemovedIndexes").Invoke(dataset, Array.Empty<object>());
+                foreach (long index in removedIndexes)
+                {
+                    XmlNode xmlRecord = xmlRecords.ChildNodes
+                        .Cast<XmlNode>()
+                        .Where(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == index.ToString())
+                        .FirstOrDefault();
+
+                    if (xmlRecord == null)
+                    {
+                        continue;
+                    }
+
+                    xmlRecords.RemoveChild(xmlRecord);
+                }
+            }
+
+            if (indexToRebuild.Any())
+            {
+                this.RebuildInternalIndex(indexToRebuild.ToArray());
+            }
+
+            if (this._file != null)
+            {
+                this._file.SetLength(0);
+                this._document.Save(this._file);
+            }
+            else
+            {
+                this._document.Save(this._filename);
+            }
+
+            this.Close();
+        }
+
+        public void RebuildInternalIndex(string[] tables)
+        {
+            if (this._document == null)
+            {
+                return;
+            }
+
+            foreach (string table in tables)
+            {
+                XmlNode xmlRecords = this._document.SelectNodes("/tables/table")
+                    .Cast<XmlNode>()
+                    .Where(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == table)
+                    .FirstOrDefault()
+                    .SelectSingleNode("./records");
+
+                long i = 0;
+                foreach (XmlNode record in xmlRecords.ChildNodes)
+                {
+                    record.Attributes["field_0"].Value = (++i).ToString().Cipher_Aes(this._key);
+                }
+            }
+        }
+
+        public void ChangeKey(string key)
+        {
+            this.Pull();
+
+            XmlNode tables = this._document.SelectSingleNode("/tables");
+            tables.Attributes["key"].Value = key.GetMD5HashCode();
+
+            foreach (XmlNode table in tables.SelectNodes("./table"))
+            {
+                foreach (XmlAttribute attribute in table.Attributes)
+                {
+                    attribute.Value = attribute.Value.Uncipher_Aes(this._key).Cipher_Aes(key);
+                }
+
+                foreach (XmlNode field in table.SelectNodes("./fields/field"))
+                {
+                    foreach (XmlAttribute attribute in field.Attributes)
+                    {
+                        attribute.Value = attribute.Value.Uncipher_Aes(this._key).Cipher_Aes(key);
+                    }
+                }
+
+                foreach (XmlNode record in table.SelectNodes("./records/record"))
+                {
+                    foreach (XmlAttribute attribute in record.Attributes)
+                    {
+                        attribute.Value = attribute.Value.Uncipher_Aes(this._key).Cipher_Aes(key);
+                    }
+                }
+            }
+
+            this._key = key;
+
+            this.Push();
+        }
+
+        public void SaveAs(string filename, string key)
+        {
+            this.Pull(false);
+            this._key = key;
+            this._filename = filename;
+            this.Push();
+        }
+
+        public void SaveAs(string filename)
+        {
+            this.SaveAs(filename, this._key);
+        }
+
+        public void Close()
+        {
+            if (this._file != null)
+            {
+                this._file.Close();
+                this._file = null;
+            }
+        }
+
+        public static string GetEmptyXmlDocument(string key)
+        {
+            return $"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetMD5HashCode()}\">\r\n</tables>";
+        }
+
         private void _pullXmlDocument(bool lockFile)
         {
             string content;
@@ -183,184 +361,6 @@ namespace Upsilon.Database.Library
                 var add = datasetInfo.PropertyType.GetMethod("Add");
                 add.Invoke(dataset, new object[] { recordClass });
             }
-        }
-
-        public void Push()
-        {
-            List<string> indexToRebuild = new();
-
-            PropertyInfo[] datasetsInfo = this.GetType().GetProperties()
-                .Where(x => x.CustomAttributes
-                    .Where(y => y.AttributeType == typeof(YDatasetAttribute)).Any()
-                    && x.PropertyType.Name == typeof(YDataSet<YTable>).Name).ToArray();
-
-            foreach (PropertyInfo datasetInfo in datasetsInfo)
-            {
-                Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
-
-                object dataset = datasetInfo.GetValue(this);
-                YTable[] yTables = (YTable[])datasetInfo.PropertyType.GetMethod("GetYTables").Invoke(dataset, Array.Empty<object>());
-
-                if (yTables.Any()
-                    && (yTables.Length / yTables.Select(x => x.InternalIndex).Max() < YDatabaseImage._REBUILD_INDEX_RATE
-                        || yTables.Select(x => x.InternalIndex).Max() > YDatabaseImage._REBUILD_INDEX_RATE * long.MaxValue))
-                {
-                    indexToRebuild.Add(dataType.Name);
-                }
-
-                XmlNode xmlRecords = this._document.SelectNodes("/tables/table")
-                    .Cast<XmlNode>()
-                    .Where(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == dataType.Name)
-                    .FirstOrDefault()
-                    .SelectSingleNode("./records");
-
-                foreach (YTable yTable in yTables)
-                {
-                    XmlNode xmlRecord = xmlRecords.ChildNodes
-                        .Cast<XmlNode>()
-                        .Where(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == yTable.InternalIndex.ToString())
-                        .FirstOrDefault();
-
-                    if (xmlRecord == null)
-                    {
-                        xmlRecord = this._document.ImportNode(yTable.GetXmlRecord(this._key), true);
-                        xmlRecords.AppendChild(xmlRecord);
-                    }
-                    else
-                    {
-                        Dictionary<string, string> fields = yTable.GetFieldsDico(this._key);
-
-                        foreach (var field in fields)
-                        {
-                            if (!xmlRecord.Attributes.Contains(field.Key))
-                            {
-                                XmlAttribute attribute = this._document.CreateAttribute(field.Key);
-                                xmlRecord.Attributes.Append(attribute);
-                            }
-                            xmlRecord.Attributes[field.Key].Value = field.Value;
-                        }
-                    }
-                }
-
-                long[] removedIndexes = (long[])datasetInfo.PropertyType.GetMethod("GetRemovedIndexes").Invoke(dataset, Array.Empty<object>());
-                foreach (long index in removedIndexes)
-                {
-                    XmlNode xmlRecord = xmlRecords.ChildNodes
-                        .Cast<XmlNode>()
-                        .Where(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == index.ToString())
-                        .FirstOrDefault();
-
-                    if (xmlRecord == null)
-                    {
-                        continue;
-                    }
-
-                    xmlRecords.RemoveChild(xmlRecord);
-                }
-            }
-
-            if (indexToRebuild.Any())
-            {
-                this.RebuildInternalIndex(indexToRebuild.ToArray());
-            }
-
-            if (this._file != null)
-            {
-                this._file.SetLength(0);
-                this._document.Save(this._file);
-            }
-            else
-            {
-                this._document.Save(this._filename);
-            }
-
-            this.Close();
-        }
-
-        public void RebuildInternalIndex(string[] tables)
-        {
-            if (this._document == null)
-            {
-                return;
-            }
-
-            foreach (string table in tables)
-            {
-                XmlNode xmlRecords = this._document.SelectNodes("/tables/table")
-                    .Cast<XmlNode>()
-                    .Where(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == table)
-                    .FirstOrDefault()
-                    .SelectSingleNode("./records");
-
-                long i = 0;
-                foreach (XmlNode record in xmlRecords.ChildNodes)
-                {
-                    record.Attributes["field_0"].Value = (++i).ToString().Cipher_Aes(this._key);
-                }
-            }
-        }
-
-        public void ChangeKey(string key)
-        {
-            this.Pull();
-
-            XmlNode tables = this._document.SelectSingleNode("/tables");
-            tables.Attributes["key"].Value = key.GetMD5HashCode();
-
-            foreach (XmlNode table in tables.SelectNodes("./table"))
-            {
-                foreach (XmlAttribute attribute in table.Attributes)
-                {
-                    attribute.Value = attribute.Value.Uncipher_Aes(this._key).Cipher_Aes(key);
-                }
-
-                foreach (XmlNode field in table.SelectNodes("./fields/field"))
-                {
-                    foreach (XmlAttribute attribute in field.Attributes)
-                    {
-                        attribute.Value = attribute.Value.Uncipher_Aes(this._key).Cipher_Aes(key);
-                    }
-                }
-
-                foreach (XmlNode record in table.SelectNodes("./records/record"))
-                {
-                    foreach (XmlAttribute attribute in record.Attributes)
-                    {
-                        attribute.Value = attribute.Value.Uncipher_Aes(this._key).Cipher_Aes(key);
-                    }
-                }
-            }
-
-            this._key = key;
-
-            this.Push();
-        }
-
-        public void SaveAs(string filename, string key)
-        {
-            this.Pull(false);
-            this._key = key;
-            this._filename = filename;
-            this.Push();
-        }
-
-        public void SaveAs(string filename)
-        {
-            this.SaveAs(filename, this._key);
-        }
-
-        public void Close()
-        {
-            if (this._file != null)
-            {
-                this._file.Close();
-                this._file = null;
-            }
-        }
-
-        public static string GetEmptyXmlDocument(string key)
-        {
-            return $"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetMD5HashCode()}\">\r\n</tables>";
         }
     }
 }

@@ -18,9 +18,12 @@ namespace Upsilon.Database.Library
             this._DatabaseImage = databaseImage;
         }
 
-        public long[] GetRemovedIndexes()
+        public long[] PopRemovedIndexes()
         {
-            return this._removedIndexes.ToArray();
+            long[] output = this._removedIndexes.ToArray();
+            this._removedIndexes.Clear();
+
+            return output;
         }
 
         public YTable[] GetYTables()

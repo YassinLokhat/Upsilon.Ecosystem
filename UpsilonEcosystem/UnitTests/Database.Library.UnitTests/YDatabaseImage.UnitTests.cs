@@ -208,7 +208,7 @@ namespace Upsilon.Database.Library.UnitTests
             };
 
             // Then
-            act.Should().ThrowExactly<YWrongDatabaseKeyException>();
+            act.Should().ThrowExactly<YWrongDatabaseKeyException>().And.Key.Should().Be("key");
 
             // Finally
             YHelper.ClearDatabaseImage(configuration);
@@ -246,9 +246,15 @@ namespace Upsilon.Database.Library.UnitTests
                 DatabaseDirectory = _databaseDirectory,
                 Key = "key",
             };
+            YHelperDatabaseConfiguration configurationReference = new()
+            {
+                Reference = "202105250546",
+                DatabaseDirectory = _databaseDirectory,
+                Key = "key",
+            };
 
             // When
-            string databaseBefore = File.ReadAllText(YHelper.GetDatabaseFilePath(configuration));
+            string databaseContentReference = File.ReadAllText(YHelper.GetDatabaseFilePath(configurationReference, false));
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
 
             // Then
@@ -258,211 +264,98 @@ namespace Upsilon.Database.Library.UnitTests
             database.BOOKs[1].Title.Should().Be("Macbeth");
 
             // When
-            configuration.ResetTempDatabase = false;
-            Database2 database2 = YHelper.OpenDatabaseImage<Database2>(configuration);
-            database2.Sync();
+            database.Pull();
+            database.BOOKs.Add(new(database)
+            {
+                Title = "Macbeth",
+                Author = "William Shakespeare",
+                Synopsis = "Macbeth's Synopsis",
+            });
+            database.Push();
+            string databaseContent = File.ReadAllText(YHelper.GetDatabaseFilePath(configuration));
 
             // Then
-            database2.PLATFORMs.Count.Should().Be(1);
-            database2.LOGINs.Count.Should().Be(2);
-            database2.Close();
-
-            // When
-            PLATFORM2 platform = database2.PLATFORMs[0];
-            LOGIN2 login1 = database2.LOGINs[0];
-            LOGIN2 login2 = database2.LOGINs[1];
-
-            // Then
-            platform.Label.Should().Be("MyWebsite");
-            platform.LOGINs.Should().Equal(new LOGIN2[] { login1, login2 });
-            login1.Label.Should().Be("user 1");
-            login1.UserName.Should().Be("user1");
-            login1.Password.Should().Be("password1");
-            login1.PLATFORM_Label.Should().Be("MyWebsite");
-            login2.Label.Should().Be("user 2");
-            login2.UserName.Should().Be("user2");
-            login2.Password.Should().Be("password2");
-            login2.PLATFORM_Label.Should().Be("MyWebsite");
-
-            // When
-            database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Sync();
-
-            // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
-            database.PLATFORMs.First().Label.Should().Be("MyWebsite");
-            database.PLATFORMs.First().Url.Should().Be(string.Empty);   /* /!\ Data Loss /!\ */
-            database.Close();
+            databaseContent.Should().Be(databaseContentReference);
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);*/
+            YHelper.ClearDatabaseImage(configuration);
         }
 
-        /*[TestMethod]
-        public void Test_08_MappingToClassesWithMoreData()
+        [TestMethod]
+        public void Test_07_MappingToClassesWithMoreData()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270700",
+                Reference = "202105250557",
+                DatabaseDirectory = _databaseDirectory,
+                Key = "key",
+            };
+            YHelperDatabaseConfiguration configurationReference = new()
+            {
+                Reference = "202105241500",
                 DatabaseDirectory = _databaseDirectory,
                 Key = "key",
             };
 
             // When
+            string databaseContentReference = File.ReadAllText(YHelper.GetDatabaseFilePath(configurationReference, false));
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
-            database.Sync();
 
             // Then
-            database.PLATFORMs.Count.Should().Be(1);
-            database.LOGINs.Count.Should().Be(2);
-            database.PLATFORMs.First().Url.Should().Be("www.mywebsite.com");
-            database.Close();
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(2);
+            database.BOOKs[0].Title.Should().Be("Hamlet");
+            database.BOOKs[0].Synopsis.Should().BeNull();
+            database.BOOKs[1].Title.Should().Be("Macbeth");
+            database.BOOKs[1].Synopsis.Should().BeNull();
 
             // When
-            configuration.ResetTempDatabase = false;
-            Database3 database3 = YHelper.OpenDatabaseImage<Database3>(configuration);
-            database3.Sync();
+            database.Pull();
+            database.BOOKs[0].Synopsis = "Hamlet's Synopsis";
+            database.BOOKs[1].Synopsis = "Macbeth's Synopsis";
+            database.Push();
+            string databaseContent = File.ReadAllText(YHelper.GetDatabaseFilePath(configuration));
 
             // Then
-            database3.PLATFORMs.Count.Should().Be(1);
-            database3.LOGINs.Count.Should().Be(2);
-            database3.Close();
-
-            // When
-            PLATFORM3 platform = database3.PLATFORMs[0];
-            LOGIN3 login1 = database3.LOGINs[0];
-            LOGIN3 login2 = database3.LOGINs[1];
-
-            // Then
-            platform.PLATFORM_ID.Should().Be(1);
-            platform.Label.Should().Be("MyWebsite");
-            platform.Url.Should().Be("www.mywebsite.com");
-            platform.Description.Should().Be("My default platform description");
-            platform.LOGINs.Should().Equal(new LOGIN3[] { login1, login2 });
-            login1.Label.Should().Be("user 1");
-            login1.UserName.Should().Be("user1");
-            login1.Password.Should().Be("password1");
-            login1.PLATFORM_Label.Should().Be("MyWebsite");
-            login2.Label.Should().Be("user 2");
-            login2.UserName.Should().Be("user2");
-            login2.Password.Should().Be("password2");
-            login2.PLATFORM_Label.Should().Be("MyWebsite");
+            databaseContent.Should().Be(databaseContentReference);
 
             // Finally
             YHelper.ClearDatabaseImage(configuration);
         }
 
-        /*[TestMethod]
-        public void Test_09_BadConceptionClasses_WrongFieldNumber()
+        [TestMethod]
+        public void Test_09_BadConceptionClasses_InconsistenFieldType()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270700",
+                Reference = "202105250606",
                 DatabaseDirectory = _databaseDirectory,
                 Key = "key",
             };
 
             // When
             Action act = () => {
-                Database4 database4 = YHelper.OpenDatabaseImage<Database4>(configuration);
-                database4.Sync();
+                Database database = YHelper.OpenDatabaseImage<Database>(configuration);
             };
 
             // Then
-            act.Should().ThrowExactly<YInconsistentRecordFieldCountException>();
+            act.Should().ThrowExactly<YDatabaseClassesDefinitionException>().WithMessage("Database Classes has bad definition.\n" +
+                                                                                         "Table name : 'AUTHOR'\n" +
+                                                                                         "Type 'System.DateTime' does not match with 'System.String' type for the 'BirthDay' field.");
 
             // Finally
             YHelper.ClearDatabaseImage(configuration);
         }
 
-        /*[TestMethod]
-        public void Test_10_BadConceptionClasses_InconsistenFieldType()
+        [TestMethod]
+        public void Test_10_CompetitiveAccess()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
             {
-                Reference = "202102270700",
-                DatabaseDirectory = _databaseDirectory,
-                Key = "key",
-            };
-
-            // When
-            Action act = () => {
-                Database5 database5 = YHelper.OpenDatabaseImage<Database5>(configuration);
-                database5.Sync();
-            };
-
-            // Then
-            act.Should().ThrowExactly<YInconsistentRecordFieldTypeException>();
-
-            // Finally
-            YHelper.ClearDatabaseImage(configuration);
-        }
-
-        /*[TestMethod]
-        public void Test_11_AutoIncrementAndDefaultValues()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "empty",
-                DatabaseDirectory = _databaseDirectory,
-                Key = "key",
-                CheckExistingFile = false
-            };
-            YHelper.ClearDatabaseImage(configuration);
-
-            // When
-            Database3 database3 = YHelper.OpenDatabaseImage<Database3>(configuration);
-            database3.Pull();
-            database3.PLATFORMs.Add(new PLATFORM3(database3)
-            {
-                Label = "My first website",
-                Url = "www.mywebsite.com",
-                Description = "My first website description",
-            });
-            database3.PLATFORMs.Add(new PLATFORM3(database3)
-            {
-                Label = "My second website",
-                Url = "www.mywebsite2.com",
-            });
-            database3.Push();
-
-            // Then
-            database3.PLATFORMs.Count.Should().Be(2);
-
-            // When
-            database3.Sync();
-            PLATFORM3 platform1 = database3.PLATFORMs[0];
-            PLATFORM3 platform2 = database3.PLATFORMs[1];
-
-            // Then
-            platform1.PLATFORM_ID.Should().Be(1);
-            platform1.Label.Should().Be("My first website");
-            platform1.Url.Should().Be("www.mywebsite.com");
-            platform1.Description.Should().Be("My first website description");
-            platform1.LOGINs.Count.Should().Be(0);
-            platform2.PLATFORM_ID.Should().Be(2);
-            platform2.Label.Should().Be("My second website");
-            platform2.Url.Should().Be("www.mywebsite2.com");
-            platform2.Description.Should().Be("My default platform description");
-            platform2.LOGINs.Count.Should().Be(0);
-
-            // Finally
-            configuration.CheckExistingFile = true;
-            YHelper.ClearDatabaseImage(configuration);
-        }
-
-        /*[TestMethod]
-        public void Test_12_CompetitiveAccess()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202102270700",
+                Reference = "202105241500",
                 DatabaseDirectory = _databaseDirectory,
                 Key = "key",
             };
@@ -478,8 +371,8 @@ namespace Upsilon.Database.Library.UnitTests
                 database1.Pull();
                 timeAfterSecondPull = DateTime.Now.Ticks;
 
-                database1.PLATFORMs.Count.Should().Be(2);
-                database1.LOGINs.Count.Should().Be(2);
+                database1.AUTHORs.Count.Should().Be(2);
+                database1.BOOKs.Count.Should().Be(2);
                 database1.Push();
                 database1.Close();
             });
@@ -489,14 +382,14 @@ namespace Upsilon.Database.Library.UnitTests
             database.Pull();
             thread.Start();
             Thread.Sleep(500);
-            database.PLATFORMs.Add(new(database)
+            database.AUTHORs.Add(new(database)
             {
-                Label = "Label",
-                Url = "www.label.lab",
+                Name = "Molière",
+                BirthDay = new DateTime(1622,01,15),
             });
 
-            database.PLATFORMs.Count.Should().Be(2);
-            database.LOGINs.Count.Should().Be(2);
+            database.AUTHORs.Count.Should().Be(2);
+            database.BOOKs.Count.Should().Be(2);
             database.Push();
             timeAfterFirstPush = DateTime.Now.Ticks;
             database.Close();
@@ -510,9 +403,7 @@ namespace Upsilon.Database.Library.UnitTests
             configuration.CheckExistingFile = true;
             YHelper.ClearDatabaseImage(configuration);
         }
-    */
 
-        /// TODO : Test 2 tests for SaveAs
-        /// TODO : Add fields check mechanism (Tests 07 and 08 should failed)
+        /// TODO : Test 2 tests for SaveAs and RebuildInternalIndex
     }
 }
