@@ -72,6 +72,14 @@ namespace Upsilon.Database.Library
         }
 #pragma warning restore CA1829 // Use Length/Count property instead of Count() when available
 
+        public new void AddRange(IEnumerable<T> items)
+        {
+            foreach (T item in items)
+            {
+                this.Add(item);
+            }
+        }
+
         public new void Add(T item)
         {
             this.Insert(this.Count, item);

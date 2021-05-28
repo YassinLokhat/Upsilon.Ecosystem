@@ -161,7 +161,7 @@ namespace Upsilon.Database.Library.UnitTests
             // When
             configuration.Key = "key";
             configuration.ResetTempDatabase = false;
-            database.ChangeKey(configuration.Key);
+            database.SaveAs(string.Empty, configuration.Key);
             database.Close();
 
             database = YHelper.OpenDatabaseImage<Database>(configuration);
@@ -404,6 +404,104 @@ namespace Upsilon.Database.Library.UnitTests
             YHelper.ClearDatabaseImage(configuration);
         }
 
-        /// TODO : Test 2 tests for SaveAs and RebuildInternalIndex
+        [TestMethod]
+        public void Test_11_SaveAs()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202105241500",
+                DatabaseDirectory = _databaseDirectory,
+                Key = "key",
+            };
+            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+
+            YHelperDatabaseConfiguration configuration2 = new()
+            {
+                Reference = "copy",
+                DatabaseDirectory = _databaseDirectory,
+                Key = "key",
+                CheckExistingFile = false,
+            };
+
+            // When
+            database.SaveAs(YHelper.GetDatabaseFilePath(configuration2), configuration2.Key);
+            database = YHelper.OpenDatabaseImage<Database>(configuration2); 
+
+            // Then
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(2);
+
+            // When
+            AUTHOR author = database.AUTHORs[0];
+            BOOK book1 = database.BOOKs[0];
+            BOOK book2 = database.BOOKs[1];
+
+            // Then
+            author.Name.Should().Be("William Shakespeare");
+            author.BirthDay.ToString("yyyy-MM-dd").Should().Be("1564-04-01");
+            author.Books.Should().Equal(new BOOK[] { book1, book2 });
+            book1.Title.Should().Be("Hamlet");
+            book1.Author.Should().Be("William Shakespeare");
+            book1.Synopsis.Should().Be("Hamlet's Synopsis");
+            book2.Title.Should().Be("Macbeth");
+            book2.Author.Should().Be("William Shakespeare");
+            book2.Synopsis.Should().Be("Macbeth's Synopsis");
+
+            // Finally
+            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearDatabaseImage(configuration2);
+        }
+
+        [TestMethod]
+        public void Test_12_RebuildInternalIndex()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202105281926",
+                DatabaseDirectory = _databaseDirectory,
+                Key = "key",
+            };
+
+            // When
+            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+
+            // Then
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(3);
+
+            // When
+            BOOK book1 = database.BOOKs[0];
+            BOOK book2 = database.BOOKs[1];
+            BOOK book3 = database.BOOKs[2];
+
+            // Then
+            book1.InternalIndex.Should().Be(4);
+            book2.InternalIndex.Should().Be(5);
+            book3.InternalIndex.Should().Be(6);
+
+            // When
+            database.RebuildInternalIndex(new[] { "BOOK" });
+            configuration.ResetTempDatabase = false;
+            database = YHelper.OpenDatabaseImage<Database>(configuration);
+
+            // Then
+            database.AUTHORs.Count.Should().Be(1);
+            database.BOOKs.Count.Should().Be(3);
+
+            // When
+            book1 = database.BOOKs[0];
+            book2 = database.BOOKs[1];
+            book3 = database.BOOKs[2];
+
+            // Then
+            book1.InternalIndex.Should().Be(1);
+            book2.InternalIndex.Should().Be(2);
+            book3.InternalIndex.Should().Be(3);
+
+            // Finally
+            YHelper.ClearDatabaseImage(configuration);
+        }
     }
 }

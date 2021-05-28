@@ -174,11 +174,28 @@ namespace Upsilon.Database.Library
                     record.Attributes["field_0"].Value = (++i).ToString().Cipher_Aes(this._key);
                 }
             }
+
+            if (this._file != null)
+            {
+                this._file.SetLength(0);
+                this._document.Save(this._file);
+            }
+            else
+            {
+                this._document.Save(this._filename);
+            }
+
+            this.Close();
         }
 
-        public void ChangeKey(string key)
+        public void SaveAs(string filename, string key)
         {
-            this.Pull();
+            this.Pull(false);
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                filename = this._filename;
+            }
 
             XmlNode tables = this._document.SelectSingleNode("/tables");
             tables.Attributes["key"].Value = key.GetMD5HashCode();
@@ -208,21 +225,9 @@ namespace Upsilon.Database.Library
             }
 
             this._key = key;
-
-            this.Push();
-        }
-
-        public void SaveAs(string filename, string key)
-        {
-            this.Pull(false);
-            this._key = key;
             this._filename = filename;
-            this.Push();
-        }
 
-        public void SaveAs(string filename)
-        {
-            this.SaveAs(filename, this._key);
+            this.Push();
         }
 
         public void Close()
