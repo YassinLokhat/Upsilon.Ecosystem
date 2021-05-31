@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Draft", "UpsilonEcosystem\Draft\Draft.csproj", "{D4B180FB-AC86-4817-8A8B-1DF40D95D3DB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{739B6960-E79D-4422-BD3D-EB0E6D566CCB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{6CF6070D-7C78-40F0-9AC7-2555BA025946}"
@@ -31,16 +29,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Upsilon.Tools.YDBDesigner.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Core", "UpsilonEcosystem\Tools\YDBDesigner\Upsilon.Tools.YDBDesigner.Core\Upsilon.Tools.YDBDesigner.Core.csproj", "{801F9DE8-551E-48C9-BDA0-3C561B3F239C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Draft", "Draft\Draft.csproj", "{70957FE6-675E-46A7-82DF-F64A1ECE9304}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D4B180FB-AC86-4817-8A8B-1DF40D95D3DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4B180FB-AC86-4817-8A8B-1DF40D95D3DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4B180FB-AC86-4817-8A8B-1DF40D95D3DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4B180FB-AC86-4817-8A8B-1DF40D95D3DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96C28D11-80D4-4F16-BC61-7141234DEFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96C28D11-80D4-4F16-BC61-7141234DEFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96C28D11-80D4-4F16-BC61-7141234DEFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
