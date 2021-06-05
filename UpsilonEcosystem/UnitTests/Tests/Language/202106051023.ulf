@@ -1,0 +1,29 @@
+﻿{
+	"language_code": "en-EN",
+	"language_name": "English",
+	"dictionary": [
+		{
+			"key": "database_key",
+			"value": "Database key"
+		},
+		{
+			"key": "ask_database_key",
+			"value": "Please enter the database key :"
+		},
+		{
+			"key": "open_database_file",
+			"value": "Open an Upsilon Database file"
+		},
+		{
+			"key": "save_database_file",
+			"value": "Save the Upsilon Database file"
+		},
+		{
+			"key": "upsilon_database_file",
+			"value": "Upsilon Database file"
+		},
+		{
+			"key": "",
+			"value": ""
+		}
+	]
