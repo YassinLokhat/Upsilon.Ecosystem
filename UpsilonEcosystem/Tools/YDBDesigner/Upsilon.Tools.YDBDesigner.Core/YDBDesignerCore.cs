@@ -12,7 +12,7 @@ namespace Upsilon.Tools.YDBDesigner.Core
 
         public YDBDesignerCore()
         {
-            this.Translator = new("./lang/english.json", string.Empty);
+            this.Translator = new("./lang/english.ulf", string.Empty);
         }
 
         public string[] Open(string filename, string key)
