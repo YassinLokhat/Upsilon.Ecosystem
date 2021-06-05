@@ -1,0 +1,16 @@
+Upsilon.Common.Library
+	CSVManagement
+
+Upsilon.Common.Forms
+	YInputBox
+	YForm
+
+Upsilon.Tools.YDBDesigner
+	YDBDesigner
+
+Upsilon.Tools.CipherEditor
+	CipherEditor
+
+Upsilon.Tools.TranslatorHelper
+	TranslatorHelper
+

@@ -29,9 +29,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Core", "UpsilonEcosystem\Tools\YDBDesigner\Upsilon.Tools.YDBDesigner.Core\Upsilon.Tools.YDBDesigner.Core.csproj", "{801F9DE8-551E-48C9-BDA0-3C561B3F239C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Upsilon.Common.Forms", "UpsilonEcosystem\Common\Upsilon.Common.Forms\Upsilon.Common.Forms.csproj", "{99BB3325-703B-4102-9081-C5C04B71E710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Forms", "UpsilonEcosystem\Common\Upsilon.Common.Forms\Upsilon.Common.Forms.csproj", "{99BB3325-703B-4102-9081-C5C04B71E710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Draft", "Draft\Draft.csproj", "{70957FE6-675E-46A7-82DF-F64A1ECE9304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Draft", "Draft\Draft.csproj", "{70957FE6-675E-46A7-82DF-F64A1ECE9304}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED7631B0-E7A5-4B6A-9D2A-589B68CEEA21}"
+	ProjectSection(SolutionItems) = preProject
+		ToDoList.txt = ToDoList.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
