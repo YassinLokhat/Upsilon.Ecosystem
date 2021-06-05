@@ -43,7 +43,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 }
                 else
                 {
-                    if (YInputBox.ShowDialog("", "", out key, YInputBox.YInputType.Password) != DialogResult.OK)
+                    if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], out key, YInputBox.YInputType.Password) != DialogResult.OK)
                     {
                         Environment.Exit(0);
                     }
@@ -60,8 +60,8 @@ namespace Upsilon.Tools.YDBDesigner.Forms
         {
             OpenFileDialog openFileDialog = new()
             {
-                Title = "Open an Upsilon Database file",
-                Filter = "Upsilon Database file|*.ydb",
+                Title = MainForm.Core.Translator["open_database_file"],
+                Filter = $"{MainForm.Core.Translator["upsilon_database_file"]}|*.ydb",
             };
 
             if (openFileDialog.ShowDialog() != DialogResult.OK)
@@ -69,7 +69,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 return;
             }
 
-            if (YInputBox.ShowDialog("", "", out string key, YInputBox.YInputType.Password) != DialogResult.OK)
+            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], out string key, YInputBox.YInputType.Password) != DialogResult.OK)
             {
                 return;
             }
@@ -87,8 +87,8 @@ namespace Upsilon.Tools.YDBDesigner.Forms
         {
             SaveFileDialog saveFileDialog = new()
             {
-                Title = "Save the Upsilon Database file",
-                Filter = "Upsilon Database file|*.ydb",
+                Title = MainForm.Core.Translator["save_database_file"],
+                Filter = $"{MainForm.Core.Translator["upsilon_database_file"]}|*.ydb",
             };
 
             if (saveFileDialog.ShowDialog() != DialogResult.OK)
@@ -96,7 +96,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 return;
             }
 
-            if (YInputBox.ShowDialog("", "", out string key, YInputBox.YInputType.Password) != DialogResult.OK)
+            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], out string key, YInputBox.YInputType.Password) != DialogResult.OK)
             {
                 return;
             }
@@ -116,7 +116,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (YInputBox.ShowDialog("", "", out string tablename, YInputBox.YInputType.TextBox) != DialogResult.OK)
+            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], out string tablename, YInputBox.YInputType.TextBox) != DialogResult.OK)
             {
                 return;
             }
@@ -126,7 +126,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (YInputBox.ShowDialog("", "", out string tablename, YInputBox.YInputType.TextBox) != DialogResult.OK)
+            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], out string tablename, YInputBox.YInputType.TextBox) != DialogResult.OK)
             {
                 return;
             }

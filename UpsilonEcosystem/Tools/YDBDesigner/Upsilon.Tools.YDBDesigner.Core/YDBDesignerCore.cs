@@ -1,4 +1,5 @@
 ﻿using System;
+using Upsilon.Common.Library;
 
 namespace Upsilon.Tools.YDBDesigner.Core
 {
@@ -6,6 +7,13 @@ namespace Upsilon.Tools.YDBDesigner.Core
     {
         private string _filename = string.Empty;
         private string _key = string.Empty;
+
+        public YTranslator Translator = null;
+
+        public YDBDesignerCore()
+        {
+            this.Translator = new("./lang/english.json", string.Empty);
+        }
 
         public string[] Open(string filename, string key)
         {
