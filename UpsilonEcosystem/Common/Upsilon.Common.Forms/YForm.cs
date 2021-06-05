@@ -52,25 +52,111 @@ namespace Upsilon.Common.Forms
             }
         }
 
+        public new Icon Icon
+        {
+            get { return base.Icon; }
+            set
+            {
+                base.Icon = value;
+                pbIcon.Image = base.Icon.ToBitmap();
+            }
+        }
+
         public YForm()
         {
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.InitializeComponent();
 
             this.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, 30, 30));
 
             this.Refresh();
+
+            this.TextChanged += YForm_TextChanged;
+            this.SizeChanged += YForm_SizeChanged;
+
+            pBar.MouseUp += Form1_MouseUp;
+            pBar.MouseDown += Form1_MouseDown;
+            pBar.MouseMove += Form1_MouseMove;
+            pBar.DoubleClick += BMaximize_Click;
+            lTitle.DoubleClick += BMaximize_Click;
+
+            bMaximize.Click += BMaximize_Click;
+            bMinimize.Click += BMinimize_Click;
+            bClose.Click += BClose_Click;
         }
 
-        public new void Refresh()
+        private void YForm_SizeChanged(object sender, EventArgs e)
         {
-            this.ForeColor = this.ForegroundColor;
-            this.BackColor = this.BackgroundColor;
+            this.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, 30, 30));
+        }
 
-            foreach (Control control in this.Controls)
+        private void BMaximize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = this.WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
+        }
+
+        private void BMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void BClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void YForm_TextChanged(object sender, EventArgs e)
+        {
+            this.lTitle.Text = this.Text;
+        }
+
+        public void Refresh(Control control = null)
+        {
+            if (control == null)
             {
-                control.ForeColor = this.ForegroundColor;
-                control.BackColor = this.BackgroundColor;
+                pBar.ForeColor = lTitle.ForeColor = this.ForegroundColor;
+                pBar.BackColor = lTitle.BackColor = this.BackgroundColor;
+                bClose.ForeColor = bMinimize.ForeColor = bMaximize.ForeColor = SystemColors.ControlText;
+                bClose.BackColor = bMinimize.BackColor = bMaximize.BackColor = SystemColors.Control;
+
+                control = this.pContainer;
             }
+
+            control.ForeColor = this.ForegroundColor;
+            control.BackColor = this.BackgroundColor;
+
+            control.Controls.Cast<Control>().ToList().ForEach(x => { this.Refresh(x); });
+        }
+
+        private bool inMove = false;
+        private Point mouse = new Point();
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (inMove)
+            {
+                this.WindowState = FormWindowState.Normal;
+                Point temp = new Point
+                {
+                    X = this.Location.X - (mouse.X - e.X),
+                    Y = this.Location.Y - (mouse.Y - e.Y)
+                };
+                this.Location = temp;
+            }
+        }
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (inMove)
+            {
+                mouse.X = this.Location.X + e.X - mouse.X;
+                mouse.Y = this.Location.Y + e.Y - mouse.Y;
+
+                this.Location = mouse;
+            }
+            inMove = false;
+        }
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            inMove = true;
+            mouse = e.Location;
         }
     }
 }
