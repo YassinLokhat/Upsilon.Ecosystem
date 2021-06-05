@@ -9,16 +9,27 @@ namespace Upsilon.Common.UnitTestsHelper
 {
     public static class YHelper
     {
-        public static string GetDatabaseFilePath(YHelperDatabaseConfiguration configuration, bool UseTempDatabase = true)
+        public static string GetTestFilePath(YHelperDatabaseConfiguration configuration, string extension, bool useTemp = true, bool checkFile = false)
         {
-            string filePath = _tryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + configuration.DatabaseDirectory + configuration.Reference + ".ydb";
+            string filePath = _tryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + configuration.DatabaseDirectory + configuration.Reference + "." + extension;
 
-            if (UseTempDatabase)
+            if (checkFile
+                && !File.Exists(filePath))
             {
-                filePath = filePath.Replace(configuration.Reference + ".ydb", configuration.Reference + "_tmp.ydb");
+                throw new FileNotFoundException($"File '{filePath}' does not exist.", filePath);
+            }
+
+            if (useTemp)
+            {
+                filePath = filePath.Replace(configuration.Reference + "." + extension, configuration.Reference + "_tmp." + extension);
             }
 
             return filePath;
+        }
+
+        public static string GetDatabaseFilePath(YHelperDatabaseConfiguration configuration, bool UseTempDatabase = true)
+        {
+            return GetTestFilePath(configuration, "ydb", UseTempDatabase);
         }
 
         public static T OpenDatabaseImage<T>(YHelperDatabaseConfiguration configuration) where T : YDatabaseImage
