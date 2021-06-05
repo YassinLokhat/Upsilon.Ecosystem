@@ -20,7 +20,7 @@ namespace Upsilon.Tools.YDBDesigner.Core
             this._filename = filename;
             this._key = key;
 
-            return null;
+            return new[] { "Table1", "Table2" };
         }
 
         public void Save()
@@ -56,6 +56,25 @@ namespace Upsilon.Tools.YDBDesigner.Core
         public void RebuildInternalIndex(string tableName)
         {
 
+        }
+
+        public string[][] GetTableDefinition(string tableName)
+        {
+            return new[]
+            {
+                new[] {$"{tableName}.Field1", "Type1"},
+                new[] {$"{tableName}.Field2", "Type2"},
+                new[] {$"{tableName}.Field3", "Type3"},
+            };
+        }
+
+        public string[][] GetTableData(string tableName)
+        {
+            return new[]
+            {
+                new[] {"1", "Field1_data1", "Field2_data1", "Field3_data1", },
+                new[] {"2", "Field1_data2", "Field2_data2", "Field3_data2", },
+            };
         }
     }
 }

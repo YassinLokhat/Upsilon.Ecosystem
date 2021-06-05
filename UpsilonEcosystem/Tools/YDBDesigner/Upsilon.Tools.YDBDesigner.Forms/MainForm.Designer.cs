@@ -68,7 +68,8 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem,
-            this.tablesToolStripMenuItem});
+            this.tablesToolStripMenuItem,
+            this.tscbTables});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
@@ -131,7 +132,6 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             // tablesToolStripMenuItem
             // 
             this.tablesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tscbTables,
             this.addToolStripMenuItem,
             this.renameToolStripMenuItem,
             this.deleteToolStripMenuItem,

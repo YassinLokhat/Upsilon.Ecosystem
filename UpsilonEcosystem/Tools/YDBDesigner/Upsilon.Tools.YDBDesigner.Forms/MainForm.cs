@@ -33,6 +33,8 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             InitializeComponent();
             this.Translate();
 
+            tscbTables.SelectedIndexChanged += TscbTables_SelectedIndexChanged;
+
             if (args.Length > 0)
             {
                 string filename = args[0];
@@ -52,9 +54,35 @@ namespace Upsilon.Tools.YDBDesigner.Forms
 
                 tscbTables.Items.Clear();
                 tscbTables.Items.AddRange(MainForm.Core.Open(filename, key));
+                tscbTables.SelectedIndex = 0;
             }
 
             this.FormClosing += MainForm_FormClosing;
+        }
+
+        private void TscbTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dgvFields.Rows.Clear();
+            dgvRecords.Rows.Clear();
+            for (int i = 1; dgvRecords.Columns.Count != 1;)
+            {
+                dgvRecords.Columns.RemoveAt(i);
+            }
+
+            string[][] tableDefinition = MainForm.Core.GetTableDefinition(tscbTables.SelectedItem.ToString());
+            foreach (string[] row in tableDefinition)
+            {
+                dgvFields.Rows.Add(row);
+
+                dgvRecords.Columns.Add(row[0], row[0]);
+                dgvRecords.Columns[row[0]].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            string[][] tableData = MainForm.Core.GetTableData(tscbTables.SelectedItem.ToString());
+            foreach (string[] row in tableData)
+            {
+                dgvRecords.Rows.Add(row);
+            }
         }
 
         private void Translate()
