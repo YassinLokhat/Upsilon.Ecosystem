@@ -31,6 +31,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
         public MainForm(string[] args)
         {
             InitializeComponent();
+            this.Translate();
 
             if (args.Length > 0)
             {
@@ -54,6 +55,27 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             }
 
             this.FormClosing += MainForm_FormClosing;
+        }
+
+        private void Translate()
+        {
+            this.Text = MainForm.Core.Translator["application_title"];
+            this.fileToolStripMenuItem.Text = MainForm.Core.Translator["menu_file"];
+            this.openToolStripMenuItem.Text = MainForm.Core.Translator["menu_file_open"];
+            this.saveToolStripMenuItem.Text = MainForm.Core.Translator["menu_file_save"];
+            this.saveAsToolStripMenuItem.Text = MainForm.Core.Translator["menu_file_save_as"];
+            this.quitToolStripMenuItem.Text = MainForm.Core.Translator["menu_file_quit"];
+            this.helpToolStripMenuItem.Text = MainForm.Core.Translator["menu_help"];
+            this.tablesToolStripMenuItem.Text = MainForm.Core.Translator["menu_tables"];
+            this.addToolStripMenuItem.Text = MainForm.Core.Translator["menu_tables_add"];
+            this.renameToolStripMenuItem.Text = MainForm.Core.Translator["menu_tables_rename"];
+            this.deleteToolStripMenuItem.Text = MainForm.Core.Translator["menu_tables_delete"];
+            this.rebuildInternalIndexToolStripMenuItem.Text = MainForm.Core.Translator["menu_tables_rebuild"];
+            this.gbTableDefinition.Text = MainForm.Core.Translator["group_table_definition"];
+            this.ColumnName.HeaderText = MainForm.Core.Translator["column_field_name"];
+            this.ColumnType.HeaderText = MainForm.Core.Translator["column_field_type"];
+            this.gbTableData.Text = MainForm.Core.Translator["group_table_data"];
+            this.ColumnInternalIndex.HeaderText = MainForm.Core.Translator["column_internal_index"];
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)

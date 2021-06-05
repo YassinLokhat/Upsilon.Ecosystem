@@ -85,14 +85,14 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
-            this.fileToolStripMenuItem.Text = "&File";
+            this.fileToolStripMenuItem.Text = "menu_file";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
-            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Text = "menu_file_open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
@@ -100,7 +100,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
-            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Text = "menu_file_save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
@@ -109,7 +109,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
-            this.saveAsToolStripMenuItem.Text = "Save &as";
+            this.saveAsToolStripMenuItem.Text = "menu_file_save_as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
@@ -117,7 +117,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
-            this.quitToolStripMenuItem.Text = "&Quit";
+            this.quitToolStripMenuItem.Text = "menu_file_quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -126,7 +126,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(30, 24);
-            this.helpToolStripMenuItem.Text = "&?";
+            this.helpToolStripMenuItem.Text = "menu_help";
             // 
             // tablesToolStripMenuItem
             // 
@@ -138,7 +138,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.rebuildInternalIndexToolStripMenuItem});
             this.tablesToolStripMenuItem.Name = "tablesToolStripMenuItem";
             this.tablesToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
-            this.tablesToolStripMenuItem.Text = "&Tables";
+            this.tablesToolStripMenuItem.Text = "menu_tables";
             // 
             // tscbTables
             // 
@@ -150,28 +150,28 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             this.addToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.Text = "menu_tables_add";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // renameToolStripMenuItem
             // 
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
             this.renameToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.renameToolStripMenuItem.Text = "Rename";
+            this.renameToolStripMenuItem.Text = "menu_tables_rename";
             this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Text = "menu_tables_delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // rebuildInternalIndexToolStripMenuItem
             // 
             this.rebuildInternalIndexToolStripMenuItem.Name = "rebuildInternalIndexToolStripMenuItem";
             this.rebuildInternalIndexToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
-            this.rebuildInternalIndexToolStripMenuItem.Text = "Rebuild internal index";
+            this.rebuildInternalIndexToolStripMenuItem.Text = "menu_tables_rebuild";
             this.rebuildInternalIndexToolStripMenuItem.Click += new System.EventHandler(this.rebuildInternalIndexToolStripMenuItem_Click);
             // 
             // gbTableDefinition
@@ -183,7 +183,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.gbTableDefinition.Size = new System.Drawing.Size(1375, 189);
             this.gbTableDefinition.TabIndex = 1;
             this.gbTableDefinition.TabStop = false;
-            this.gbTableDefinition.Text = "Table definition";
+            this.gbTableDefinition.Text = "group_table_definition";
             // 
             // dgvFields
             // 
@@ -202,7 +202,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             // ColumnName
             // 
             this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ColumnName.HeaderText = "Field Name";
+            this.ColumnName.HeaderText = "column_field_name";
             this.ColumnName.MinimumWidth = 6;
             this.ColumnName.Name = "ColumnName";
             this.ColumnName.Width = 114;
@@ -210,7 +210,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             // ColumnType
             // 
             this.ColumnType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnType.HeaderText = "Field Type";
+            this.ColumnType.HeaderText = "column_field_type";
             this.ColumnType.MinimumWidth = 6;
             this.ColumnType.Name = "ColumnType";
             // 
@@ -223,7 +223,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.gbTableData.Size = new System.Drawing.Size(1375, 426);
             this.gbTableData.TabIndex = 2;
             this.gbTableData.TabStop = false;
-            this.gbTableData.Text = "Table data";
+            this.gbTableData.Text = "group_table_data";
             // 
             // dgvRecords
             // 
@@ -242,7 +242,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             // 
             this.ColumnInternalIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ColumnInternalIndex.Frozen = true;
-            this.ColumnInternalIndex.HeaderText = "Internal index";
+            this.ColumnInternalIndex.HeaderText = "column_internal_index";
             this.ColumnInternalIndex.MinimumWidth = 6;
             this.ColumnInternalIndex.Name = "ColumnInternalIndex";
             this.ColumnInternalIndex.ReadOnly = true;
@@ -279,7 +279,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Upsilon Database Designer";
+            this.Text = "application_title";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.gbTableDefinition.ResumeLayout(false);

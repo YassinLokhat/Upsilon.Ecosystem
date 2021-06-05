@@ -23,6 +23,74 @@
 			"value": "Upsilon Database file"
 		},
 		{
+			"key": "application_title",
+			"value": "Upsilon Database Designer"
+		},
+		{
+			"key": "menu_file",
+			"value": "&File"
+		},
+		{
+			"key": "menu_file_open",
+			"value": "&Open"
+		},
+		{
+			"key": "menu_file_save",
+			"value": "&Save"
+		},
+		{
+			"key": "menu_file_save_as",
+			"value": "Save &as"
+		},
+		{
+			"key": "menu_file_quit",
+			"value": "&Quit"
+		},
+		{
+			"key": "menu_help",
+			"value": "&?"
+		},
+		{
+			"key": "menu_tables",
+			"value": "&Tables"
+		},
+		{
+			"key": "menu_tables_add",
+			"value": "&Add"
+		},
+		{
+			"key": "menu_tables_rename",
+			"value": "&Rename"
+		},
+		{
+			"key": "menu_tables_delete",
+			"value": "&Delete"
+		},
+		{
+			"key": "menu_tables_rebuild",
+			"value": "Rebuild &internal index"
+		},
+		{
+			"key": "group_table_definition",
+			"value": "Table definition"
+		},
+		{
+			"key": "column_field_name",
+			"value": "Field Name"
+		},
+		{
+			"key": "column_field_type",
+			"value": "Field Type"
+		},
+		{
+			"key": "group_table_data",
+			"value": "Table data"
+		},
+		{
+			"key": "column_internal_index",
+			"value": "Internal index"
+		},
+		{
 			"key": "",
 			"value": ""
 		}
