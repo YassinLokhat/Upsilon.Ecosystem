@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Upsilon.Tools.YDBDesigner.Forms": {
-      "commandName": "Project",
-      "commandLineArgs": "empty key"
+      "commandName": "Project"
     }
   }
 }

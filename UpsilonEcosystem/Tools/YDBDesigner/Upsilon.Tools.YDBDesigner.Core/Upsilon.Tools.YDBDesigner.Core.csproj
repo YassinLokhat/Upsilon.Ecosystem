@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.Library\Upsilon.Common.Library.csproj" />
+    <ProjectReference Include="..\..\..\Database\Database.Library\Upsilon.Database.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

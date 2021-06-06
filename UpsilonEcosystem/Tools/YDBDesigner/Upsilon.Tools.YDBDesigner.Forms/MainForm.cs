@@ -31,7 +31,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
         public MainForm(string[] args)
         {
             InitializeComponent();
-            this.Translate();
+            this._translate();
 
             tscbTables.SelectedIndexChanged += TscbTables_SelectedIndexChanged;
 
@@ -52,9 +52,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                     }
                 }
 
-                tscbTables.Items.Clear();
-                tscbTables.Items.AddRange(MainForm.Core.Open(filename, key));
-                tscbTables.SelectedIndex = 0;
+                this._openDatabase(filename, key);
             }
 
             this.FormClosing += MainForm_FormClosing;
@@ -69,7 +67,9 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 dgvRecords.Columns.RemoveAt(i);
             }
 
-            string[][] tableDefinition = MainForm.Core.GetTableDefinition(tscbTables.SelectedItem.ToString());
+            YTableImage tableImage = MainForm.Core.Tables.Find(x => x.Name == tscbTables.SelectedItem.ToString());
+
+            string[][] tableDefinition = tableImage.GetFieldList();
             foreach (string[] row in tableDefinition)
             {
                 dgvFields.Rows.Add(row);
@@ -78,14 +78,14 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 dgvRecords.Columns[row[0]].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
 
-            string[][] tableData = MainForm.Core.GetTableData(tscbTables.SelectedItem.ToString());
+            string[][] tableData = tableImage.GetRecordList();
             foreach (string[] row in tableData)
             {
                 dgvRecords.Rows.Add(row);
             }
         }
 
-        private void Translate()
+        private void _translate()
         {
             this.Text = MainForm.Core.Translator["application_title"];
             this.fileToolStripMenuItem.Text = MainForm.Core.Translator["menu_file"];
@@ -106,6 +106,14 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             this.ColumnInternalIndex.HeaderText = MainForm.Core.Translator["column_internal_index"];
         }
 
+        private void _openDatabase(string filename, string key)
+        {
+            MainForm.Core.Open(filename, key);
+            tscbTables.Items.Clear();
+            tscbTables.Items.AddRange(MainForm.Core.Tables.Select(x => x.Name).ToArray());
+            tscbTables.SelectedIndex = 0;
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new()
@@ -124,8 +132,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 return;
             }
 
-            tscbTables.Items.Clear();
-            tscbTables.Items.AddRange(MainForm.Core.Open(openFileDialog.FileName, key));
+            this._openDatabase(openFileDialog.FileName, key);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -191,7 +198,8 @@ namespace Upsilon.Tools.YDBDesigner.Forms
 
         private void rebuildInternalIndexToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainForm.Core.RebuildInternalIndex(tscbTables.SelectedItem.ToString());
+            YTableImage tableImage = MainForm.Core.Tables.Find(x => x.Name == tscbTables.SelectedItem.ToString());
+            tableImage.RebuildInternalIndex();
         }
     }
 }
