@@ -2,6 +2,8 @@ Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
 Upsilon.Common.Library
+	StringManagement
+		FindClosureOf
 	CSVManagement
 
 Upsilon.Common.Forms
