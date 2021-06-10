@@ -9,41 +9,9 @@ namespace Upsilon.Common.Library.UnitTests
     public class YStaticMethods_UnitTests
     {
         [TestMethod]
-        public void Test_01_StaticMethods_IsIdentifiant_0_OK()
+        public void Test_01_StaticMethods_SerializeObject_Boolean()
         {
-            // Given
-            string[] identifiants = { "test", "Test", "test_", "_test", "test0" };
-
-            foreach (string identifiant in identifiants)
-            {
-                // When
-                bool isId = identifiant.IsIdentifiant();
-
-                // Then
-                isId.Should().BeTrue("'" + identifiant + "' is an identifiant");
-            }
-        }
-
-        [TestMethod]
-        public void Test_02_StaticMethods_IsIdentifiant_1_KO()
-        {
-            // Given
-            string[] identifiants = { "", "T?est", "0test_", "_te st", "test0\n" };
-
-            foreach (string identifiant in identifiants)
-            {
-                // When
-                bool isId = identifiant.IsIdentifiant();
-
-                // Then
-                isId.Should().BeFalse("'" + identifiant + "' is not an identifiant");
-            }
-        }
-
-        [TestMethod]
-        public void Test_03_StaticMethods_SerializeObject_Boolean()
-        {
-            Random random = new Random((int)DateTime.Now.Ticks);
+            Random random = new((int)DateTime.Now.Ticks);
             bool toSerialize = random.Next() % 2 == 0;
 
             // When
@@ -55,10 +23,10 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_04_StaticMethods_SerializeObject_Integer()
+        public void Test_02_StaticMethods_SerializeObject_Integer()
         {
             // Given
-            Random random = new Random((int)DateTime.Now.Ticks);
+            Random random = new((int)DateTime.Now.Ticks);
             long toSerialize = random.Next();
 
             // When
@@ -70,10 +38,10 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_05_StaticMethods_SerializeObject_Decimal()
+        public void Test_03_StaticMethods_SerializeObject_Decimal()
         {
             // Given
-            Random random = new Random((int)DateTime.Now.Ticks);
+            Random random = new((int)DateTime.Now.Ticks);
             decimal toSerialize = (decimal)random.NextDouble();
 
             // When
@@ -85,10 +53,9 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_06_StaticMethods_SerializeObject_String()
+        public void Test_04_StaticMethods_SerializeObject_String()
         {
             // Given
-            Random random = new Random((int)DateTime.Now.Ticks);
             string toSerialize = UnitTestsHelper.YHelper.GetRandomString();
 
             // When
@@ -100,11 +67,11 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_07_StaticMethods_SerializeObject_DateTime()
+        public void Test_05_StaticMethods_SerializeObject_DateTime()
         {
             // Given
-            Random random = new Random((int)DateTime.Now.Ticks);
-            DateTime toSerialize = new DateTime(random.Next());
+            Random random = new((int)DateTime.Now.Ticks);
+            DateTime toSerialize = new(random.Next());
 
             // When
             string serialized = toSerialize.SerializeObject();
@@ -115,10 +82,10 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_08_StaticMethods_SerializeObject_Raw()
+        public void Test_06_StaticMethods_SerializeObject_Raw()
         {
             // Given
-            Random random = new Random((int)DateTime.Now.Ticks);
+            Random random = new((int)DateTime.Now.Ticks);
             byte[] toSerialize = new byte[random.Next(0xFFFF)];
             random.NextBytes(toSerialize);
 

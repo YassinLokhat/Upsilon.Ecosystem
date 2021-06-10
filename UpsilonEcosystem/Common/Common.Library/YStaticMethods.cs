@@ -29,25 +29,11 @@ namespace Upsilon.Common.Library
         }
         #endregion
 
-        #region String Extention Methods
-        public static bool IsIdentifiant(this string identifiant)
+        #region Object Extention Methods
+        public static string GetMD5HashCode(this object obj)
         {
-            string specialChars = new(identifiant.Where(x => !char.IsLetterOrDigit(x)).ToArray());
-            specialChars = new(specialChars.Where(x => x != '_').ToArray());
+            string str = obj.ToString();
 
-            if (String.IsNullOrWhiteSpace(identifiant)
-                || specialChars.Length != 0
-                || char.IsDigit(identifiant[0]))
-
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static string GetMD5HashCode(this string str)
-        {
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
             string[] hash = mD5.ComputeHash(Encoding.ASCII.GetBytes(str)).Select(x => x.ToString()).ToArray();
 
@@ -67,44 +53,6 @@ namespace Upsilon.Common.Library
             int intValue = (int)(object)value;
             int intLookingForFlag = (int)(object)lookingForFlag;
             return ((intValue & intLookingForFlag) == intLookingForFlag);
-        }
-        #endregion
-
-        #region Type Extention Methods
-        public static byte GetFieldType(this Type type)
-        {
-            if (type.Equals(typeof(short[])))
-            {
-                return 0;
-            }
-            else if (type.Equals(typeof(sbyte))
-                || type.Equals(typeof(short))
-                || type.Equals(typeof(int))
-                || type.Equals(typeof(long))
-                || type.Equals(typeof(byte))
-                || type.Equals(typeof(ushort))
-                || type.Equals(typeof(uint))
-                || type.Equals(typeof(ulong)))
-            {
-                return 1;
-            }
-            else if (type.Equals(typeof(float))
-                || type.Equals(typeof(double))
-                || type.Equals(typeof(decimal)))
-            {
-                return 2;
-            }
-            else if (type.Equals(typeof(string))
-                || type.Equals(typeof(char)))
-            {
-                return 3;
-            }
-            else if (type.Equals(typeof(DateTime)))
-            {
-                return 4;
-            }
-
-            return byte.MaxValue;
         }
         #endregion
 
