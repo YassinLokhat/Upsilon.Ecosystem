@@ -9,9 +9,9 @@ namespace Upsilon.Common.UnitTestsHelper
 {
     public static class YHelper
     {
-        public static string GetTestFilePath(YHelperDatabaseConfiguration configuration, string extension, bool useTemp = true, bool checkFile = false)
+        public static string GetTestFilePath(YHelperConfiguration configuration, string extension, bool useTemp = true, bool checkFile = false)
         {
-            string filePath = _tryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + configuration.DatabaseDirectory + configuration.Reference + "." + extension;
+            string filePath = _tryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + configuration.FullPathDirectory + configuration.Reference + "." + extension;
 
             if (checkFile
                 && !File.Exists(filePath))
@@ -40,7 +40,7 @@ namespace Upsilon.Common.UnitTestsHelper
             string sourceFilename = Upsilon.Common.UnitTestsHelper.YHelper.GetDatabaseFilePath(config, false);
             if (File.Exists(sourceFilename)
                 && (!File.Exists(databaseFilename)
-                    || configuration.ResetTempDatabase))
+                    || configuration.ResetTempFile))
             {
                 File.Copy(sourceFilename, databaseFilename, true);
             }
@@ -51,18 +51,16 @@ namespace Upsilon.Common.UnitTestsHelper
                 throw new FileNotFoundException("Database file not found", databaseFilename);
             }
 
-            T database = null;
-
             try
             {
-                database = (T)Activator.CreateInstance(typeof(T), new object[] { databaseFilename, configuration.Key });
+                T database = (T)Activator.CreateInstance(typeof(T), new object[] { databaseFilename, configuration.Key });
+                
+                return database;
             }
             catch (TargetInvocationException ex)
             {
                 throw ex.InnerException;
             }
-
-            return database;
         }
 
         public static void ClearDatabaseImage(YHelperDatabaseConfiguration configuration)

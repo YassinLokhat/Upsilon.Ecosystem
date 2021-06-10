@@ -9,7 +9,7 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YTranslator_UnitTests
     {
-        private readonly string _languageDirectory = @"\UpsilonEcosystem\UnitTests\Tests\Language\";
+        private readonly string _directory = "Language";
 
         [TestMethod]
         public void Test_01_YTranslator_OK()
@@ -18,14 +18,14 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106051015",
-                DatabaseDirectory = _languageDirectory,
+                Directory = _directory,
                 Key = string.Empty,
             };
 
             string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
 
             // When
-            YTranslator translator = new YTranslator(filePath, configuration.Key);
+            YTranslator translator = new(filePath, configuration.Key);
 
             // Then
             translator.Count.Should().Be(6);
@@ -43,7 +43,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106051015",
-                DatabaseDirectory = _languageDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
@@ -52,7 +52,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = () =>
             {
-                YTranslator translator = new YTranslator(filePath, configuration.Key);
+                YTranslator translator = new(filePath, configuration.Key);
             };
 
             // Then
@@ -66,7 +66,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106051023",
-                DatabaseDirectory = _languageDirectory,
+                Directory = _directory,
                 Key = string.Empty,
             };
 
@@ -75,7 +75,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = () =>
             {
-                YTranslator translator = new YTranslator(filePath, configuration.Key);
+                YTranslator translator = new(filePath, configuration.Key);
             };
 
             // Then

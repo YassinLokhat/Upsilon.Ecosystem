@@ -11,7 +11,7 @@ namespace Upsilon.Database.Library.UnitTests
     [TestClass]
     public class YDatabaseImage_UnitTests
     {
-        private readonly string _databaseDirectory = @"\UpsilonEcosystem\UnitTests\Tests\Database\";
+        private readonly string _directory = "Database";
 
         [TestMethod]
         public void Test_00_DatabaseCreation()
@@ -20,7 +20,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "empty",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = string.Empty,
                 CheckExistingFile = false,
             };
@@ -47,7 +47,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "empty",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = string.Empty,
                 CheckExistingFile = false,
             };
@@ -113,7 +113,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105240752",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = string.Empty,
             };
 
@@ -132,7 +132,7 @@ namespace Upsilon.Database.Library.UnitTests
             database.BOOKs.Remove(book2);
             database.Push();
 
-            configuration.ResetTempDatabase = false;
+            configuration.ResetTempFile = false;
             database = YHelper.OpenDatabaseImage<Database>(configuration);
             database.Pull(false);
 
@@ -153,14 +153,14 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105240752",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = string.Empty,
             };
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
 
             // When
             configuration.Key = "key";
-            configuration.ResetTempDatabase = false;
+            configuration.ResetTempFile = false;
             database.SaveAs(string.Empty, configuration.Key);
             database.Close();
 
@@ -197,7 +197,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105240752",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
@@ -221,7 +221,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241501",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = string.Empty,
             };
 
@@ -243,13 +243,13 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241602",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
             YHelperDatabaseConfiguration configurationReference = new()
             {
                 Reference = "202105250546",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
@@ -288,13 +288,13 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105250557",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
             YHelperDatabaseConfiguration configurationReference = new()
             {
                 Reference = "202105241500",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
@@ -331,7 +331,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105250606",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
@@ -356,17 +356,17 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241500",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
             long timeAfterFirstPush = long.MaxValue;
             long timeAfterSecondPull = long.MaxValue - 1;
-            Thread thread = new Thread(() =>
+            Thread thread = new(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                configuration.ResetTempDatabase = false;
+                configuration.ResetTempFile = false;
                 Database database1 = YHelper.OpenDatabaseImage<Database>(configuration);
                 database1.Pull();
                 timeAfterSecondPull = DateTime.Now.Ticks;
@@ -411,7 +411,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241500",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
             Database database = YHelper.OpenDatabaseImage<Database>(configuration);
@@ -419,7 +419,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration2 = new()
             {
                 Reference = "copy",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
                 CheckExistingFile = false,
             };
@@ -460,7 +460,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105281926",
-                DatabaseDirectory = _databaseDirectory,
+                Directory = _directory,
                 Key = "key",
             };
 
@@ -483,7 +483,7 @@ namespace Upsilon.Database.Library.UnitTests
 
             // When
             database.RebuildInternalIndex(new[] { "BOOK" });
-            configuration.ResetTempDatabase = false;
+            configuration.ResetTempFile = false;
             database = YHelper.OpenDatabaseImage<Database>(configuration);
 
             // Then
