@@ -5,6 +5,8 @@
     <Authors>Yassin Hassan Shamir Lokhat</Authors>
     <Company>UpsilonEcosystem</Company>
     <Description>Common features library</Description>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
 </Project>

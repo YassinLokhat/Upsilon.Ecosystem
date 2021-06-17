@@ -11,6 +11,8 @@
     <Description>Draft solution</Description>
     <Product>Upsilon.Draft</Product>
     <PackageId>Upsilon.Draft</PackageId>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
