@@ -6,6 +6,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon />
     <StartupObject />
+    <Authors>Yassin Hassan Shamir Lokhat</Authors>
+    <Company>UpsilonEcosystem</Company>
+    <Description>Draft solution</Description>
+    <Product>Upsilon.Draft</Product>
+    <PackageId>Upsilon.Draft</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

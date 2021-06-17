@@ -4,6 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Authors>Yassin Hassan Shamir Lokhat</Authors>
+    <Company>UpsilonEcosystem</Company>
+    <Description>UI of the Upsilon Database Designer tool</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Yassin Hassan Shamir Lokhat</Authors>
+    <Company>UpsilonEcosystem</Company>
+    <Description>Common features library</Description>
   </PropertyGroup>
 
 </Project>

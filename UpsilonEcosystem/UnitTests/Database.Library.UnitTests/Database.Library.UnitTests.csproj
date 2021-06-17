@@ -4,6 +4,16 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <Authors>Yassin Hassan Shamir Lokhat</Authors>
+
+    <Company>UpsilonEcosystem</Company>
+
+    <PackageId>Upsilon.Database.Library.UnitTests</PackageId>
+
+    <Product>Upsilon.Database.Library.UnitTests</Product>
+
+    <Description>Unit Tests for Upsilon.Database.Library</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
