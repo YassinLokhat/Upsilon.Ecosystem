@@ -8,7 +8,7 @@ namespace Upsilon.Common.Library
 {
     public class YArgumentParser
     {
-        public List<Argument> Arguments { get; private set; }
+        public List<YArgument> Arguments { get; private set; }
         public string[] Args { get; private set; }
 
         private static readonly char[] ArgModifiers = new[] { '-', '/' };
@@ -16,11 +16,11 @@ namespace Upsilon.Common.Library
         public YArgumentParser(string[] args)
         {
             this.Args = args;
-            this.Arguments = new List<Argument>();
+            this.Arguments = new List<YArgument>();
 
             for (int i = 0; i < this.Args.Length; i++)
             {
-                Argument argument = new()
+                YArgument argument = new()
                 {
                     Name = string.Empty,
                 };
@@ -52,7 +52,7 @@ namespace Upsilon.Common.Library
             }
         }
 
-        public Argument GetArgument(string argName)
+        public YArgument GetArgument(string argName)
         {
             return this.Arguments.Find(x => x.Name == argName);
         }
@@ -64,11 +64,11 @@ namespace Upsilon.Common.Library
 
         public bool ArgumentIsSet(string argName)
         {
-            Argument arg = GetArgument(argName);
+            YArgument arg = GetArgument(argName);
             return arg != null && arg.IsBoolean;
         }
 
-        public Argument GetMainArgument()
+        public YArgument GetMainArgument()
         {
             return GetArgument(string.Empty);
         }
@@ -79,7 +79,7 @@ namespace Upsilon.Common.Library
         }
     }
 
-    public class Argument
+    public class YArgument
     {
         public string Name { get; set; }
         public List<string> Values { get; set; } = null;

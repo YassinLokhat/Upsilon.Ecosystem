@@ -16,9 +16,9 @@ namespace Upsilon.Common.Library.UnitTests
 
             // When
             YArgumentParser argParser = new(args);
-            Argument variable = argParser.GetArgument("n");
-            Argument values = argParser.GetArgument("values");
-            Argument present = argParser.GetArgument("present");
+            YArgument variable = argParser.GetArgument("n");
+            YArgument values = argParser.GetArgument("values");
+            YArgument present = argParser.GetArgument("present");
 
             // Then
             argParser.HasArgument("present").Should().BeTrue();
@@ -47,10 +47,10 @@ namespace Upsilon.Common.Library.UnitTests
 
             // When
             YArgumentParser argParser = new(args);
-            Argument main = argParser.GetMainArgument();
-            Argument variable = argParser.GetArgument("n");
-            Argument values = argParser.GetArgument("values");
-            Argument present = argParser.GetArgument("p");
+            YArgument main = argParser.GetMainArgument();
+            YArgument variable = argParser.GetArgument("n");
+            YArgument values = argParser.GetArgument("values");
+            YArgument present = argParser.GetArgument("p");
 
             // Then
             main.Name.Should().Be(string.Empty);
@@ -75,10 +75,10 @@ namespace Upsilon.Common.Library.UnitTests
 
             // When
             YArgumentParser argParser = new(args);
-            Argument main = argParser.GetMainArgument();
-            Argument variable = argParser.GetArgument("n");
-            Argument values = argParser.GetArgument("values");
-            Argument present = argParser.GetArgument("p");
+            YArgument main = argParser.GetMainArgument();
+            YArgument variable = argParser.GetArgument("n");
+            YArgument values = argParser.GetArgument("values");
+            YArgument present = argParser.GetArgument("p");
 
             // Then
             main.Name.Should().Be(string.Empty);
