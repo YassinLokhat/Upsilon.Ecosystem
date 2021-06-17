@@ -1,0 +1,8 @@
+Upsilon.Common.UnitTestsHelper
+Upsilon.Common.Library
+Upsilon.Common.Library.UnitTests
+Upsilon.Common.Forms
+Upsilon.Database.Library
+Upsilon.Database.Library.UnitTests
+Upsilon.Tools.YDBDesigner.Core
+Upsilon.Tools.YDBDesigner.Forms

@@ -1,3 +1,7 @@
+Release
+	Dofuscate all assemblies
+	Create a release management tool
+
 Upsilon.Tools.YDBDesigner
 	YDBDesigner
 

@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library", "U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.UnitTestsHelper", "UpsilonEcosystem\Common\Common.UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj", "{76DE852F-4573-4EA3-9FF9-0A0A629F1593}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Library.UnitTests", "UpsilonEcosystem\UnitTests\Common.Library.UnitTests\Common.Library.UnitTests.csproj", "{0EBEC57A-A82D-4388-A167-166B0C4648AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library.UnitTests", "UpsilonEcosystem\UnitTests\Common.Library.UnitTests\Upsilon.Common.Library.UnitTests.csproj", "{0EBEC57A-A82D-4388-A167-166B0C4648AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library", "UpsilonEcosystem\Database\Database.Library\Upsilon.Database.Library.csproj", "{978C5F59-53BA-4414-9F33-046C1E29BE29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Library.UnitTests", "UpsilonEcosystem\UnitTests\Database.Library.UnitTests\Database.Library.UnitTests.csproj", "{1A82E814-4C33-401D-8569-6C842280905C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library.UnitTests", "UpsilonEcosystem\UnitTests\Database.Library.UnitTests\Upsilon.Database.Library.UnitTests.csproj", "{1A82E814-4C33-401D-8569-6C842280905C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{93203DB7-FEDF-4205-8A67-2EB4F28F2125}"
 EndProject
@@ -35,6 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Draft", "Draft\Draft.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED7631B0-E7A5-4B6A-9D2A-589B68CEEA21}"
 	ProjectSection(SolutionItems) = preProject
+		AssemblyList.txt = AssemblyList.txt
 		ToDoList.txt = ToDoList.txt
 	EndProjectSection
 EndProject
