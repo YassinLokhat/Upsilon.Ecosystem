@@ -7,6 +7,9 @@
     <Company>UpsilonEcosystem</Company>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
+    <PackageIcon>UpsilonLogo.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +20,10 @@
   <ItemGroup>
     <None Update="lang\english.ulf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\..\..\Media\UpsilonLogo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
