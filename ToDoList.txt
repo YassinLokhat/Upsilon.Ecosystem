@@ -1,22 +1,22 @@
 Release
-	Dofuscate all assemblies
 	Create a release management tool
 
 Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
 Upsilon.Common.Library
-	StringManagement
+	YVersion
+	YStringManagement
 		FindClosureOf
-	CSVManagement
+	YCSVManagement
 
 Upsilon.Common.Forms
 	YInputBox
 	YForm
 
 Upsilon.Tools.CipherEditor
-	CipherEditor
+	YCipherEditor
 
 Upsilon.Tools.TranslatorHelper
-	TranslatorHelper
+	YTranslatorHelper
 
