@@ -37,15 +37,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.Library\Upsilon.Common.Library.csproj" />
-    <ProjectReference Include="..\..\Common\Common.UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\..\..\Media\UpsilonLogo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.csproj" />
+    <ProjectReference Include="..\..\Upsilon.Common\Upsilon.Common.UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj" />
   </ItemGroup>
 
 </Project>

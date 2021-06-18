@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Upsilon.Database.Library;
 
-namespace Database.Library.UnitTests.DatabaseClasses
+namespace Upsilon.Database.Library.UnitTests.DatabaseClasses
 {
     public class SigmaDB : YDatabaseImage
     {

@@ -1,12 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>net5.0</TargetFramework>
     <Authors>Yassin Hassan Shamir Lokhat</Authors>
+    <Description>Core of the Upsilon Database Designer tool</Description>
     <Company>UpsilonEcosystem</Company>
-    <Description>UI of the Upsilon Database Designer tool</Description>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
     <PackageIcon>UpsilonLogo.png</PackageIcon>
@@ -15,15 +13,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Upsilon.Common.Forms\Upsilon.Common.Forms.csproj" />
-    <ProjectReference Include="..\Upsilon.Tools.YDBDesigner.Core\Upsilon.Tools.YDBDesigner.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="lang\english.ulf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\..\..\Media\UpsilonLogo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.csproj" />
+    <ProjectReference Include="..\..\..\Upsilon.Database\Upsilon.Database.Library\Upsilon.Database.Library.csproj" />
   </ItemGroup>
 
 </Project>

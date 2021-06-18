@@ -11,7 +11,7 @@ namespace Upsilon.Database.Library.UnitTests
     [TestClass]
     public class YDatabaseImage_UnitTests
     {
-        private readonly string _directory = "Database";
+        private readonly string _directory = "DatabaseClasses.Database";
 
         [TestMethod]
         public void Test_00_DatabaseCreation()
@@ -28,7 +28,7 @@ namespace Upsilon.Database.Library.UnitTests
             string filepath = YHelper.GetDatabaseFilePath(configuration);
 
             // When
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             database.Push();
             database.Close();
 
@@ -54,7 +54,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelper.ClearDatabaseImage(configuration);
 
             // When
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             database.Pull();
 
             database.AUTHORs.Add(new(database)
@@ -80,21 +80,21 @@ namespace Upsilon.Database.Library.UnitTests
             database.Push();
 
             configuration.CheckExistingFile = true;
-            database = YHelper.OpenDatabaseImage<Database>(configuration);
+            database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(1);
             database.BOOKs.Count.Should().Be(2);
 
             // When
-            AUTHOR author = database.AUTHORs[0];
-            BOOK book1 = database.BOOKs[0];
-            BOOK book2 = database.BOOKs[1];
+            DatabaseClasses.AUTHOR author = database.AUTHORs[0];
+            DatabaseClasses.BOOK book1 = database.BOOKs[0];
+            DatabaseClasses.BOOK book2 = database.BOOKs[1];
 
             // Then
             author.Name.Should().Be("William Shakespeare");
             author.BirthDay.ToString("yyyy-MM-dd").Should().Be("1564-04-01");
-            author.Books.Should().Equal(new BOOK[] { book1, book2 });
+            author.Books.Should().Equal(new DatabaseClasses.BOOK[] { book1, book2 });
             book1.Title.Should().Be("Hamlet");
             book1.Author.Should().Be("William Shakespeare");
             book1.Synopsis.Should().Be("Hamlet's Synopsis");
@@ -118,7 +118,7 @@ namespace Upsilon.Database.Library.UnitTests
             };
 
             // When
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             database.Pull();
 
             // Then
@@ -126,14 +126,14 @@ namespace Upsilon.Database.Library.UnitTests
             database.BOOKs.Count.Should().Be(2);
 
             // When
-            AUTHOR author = database.AUTHORs[0];
-            BOOK book1 = database.BOOKs[0];
-            BOOK book2 = database.BOOKs[1];
+            DatabaseClasses.AUTHOR author = database.AUTHORs[0];
+            DatabaseClasses.BOOK book1 = database.BOOKs[0];
+            DatabaseClasses.BOOK book2 = database.BOOKs[1];
             database.BOOKs.Remove(book2);
             database.Push();
 
             configuration.ResetTempFile = false;
-            database = YHelper.OpenDatabaseImage<Database>(configuration);
+            database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             database.Pull(false);
 
             // Then
@@ -156,7 +156,7 @@ namespace Upsilon.Database.Library.UnitTests
                 Directory = _directory,
                 Key = string.Empty,
             };
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // When
             configuration.Key = "key";
@@ -164,21 +164,21 @@ namespace Upsilon.Database.Library.UnitTests
             database.SaveAs(string.Empty, configuration.Key);
             database.Close();
 
-            database = YHelper.OpenDatabaseImage<Database>(configuration);
+            database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(1);
             database.BOOKs.Count.Should().Be(2);
 
             // When
-            AUTHOR author = database.AUTHORs[0];
-            BOOK book1 = database.BOOKs[0];
-            BOOK book2 = database.BOOKs[1];
+            DatabaseClasses.AUTHOR author = database.AUTHORs[0];
+            DatabaseClasses.BOOK book1 = database.BOOKs[0];
+            DatabaseClasses.BOOK book2 = database.BOOKs[1];
 
             // Then
             author.Name.Should().Be("William Shakespeare");
             author.BirthDay.ToString("yyyy-MM-dd").Should().Be("1564-04-01");
-            author.Books.Should().Equal(new BOOK[] { book1, book2 });
+            author.Books.Should().Equal(new DatabaseClasses.BOOK[] { book1, book2 });
             book1.Title.Should().Be("Hamlet");
             book1.Author.Should().Be("William Shakespeare");
             book1.Synopsis.Should().Be("Hamlet's Synopsis");
@@ -204,7 +204,7 @@ namespace Upsilon.Database.Library.UnitTests
             // When
             Action act = () =>
             {
-                Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+                DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             };
 
             // Then
@@ -226,7 +226,7 @@ namespace Upsilon.Database.Library.UnitTests
             };
 
             // When
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(0);
@@ -255,7 +255,7 @@ namespace Upsilon.Database.Library.UnitTests
 
             // When
             string databaseContentReference = File.ReadAllText(YHelper.GetDatabaseFilePath(configurationReference, false));
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(1);
@@ -300,7 +300,7 @@ namespace Upsilon.Database.Library.UnitTests
 
             // When
             string databaseContentReference = File.ReadAllText(YHelper.GetDatabaseFilePath(configurationReference, false));
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(1);
@@ -337,11 +337,11 @@ namespace Upsilon.Database.Library.UnitTests
 
             // When
             Action act = () => {
-                Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+                DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             };
 
             // Then
-            act.Should().ThrowExactly<YDatabaseClassesDefinitionException>().WithMessage("Database Classes has bad definition.\n" +
+            act.Should().ThrowExactly<YDatabaseClassesDefinitionException>().WithMessage("DatabaseClasses.Database Classes has bad definition.\n" +
                                                                                          "Table name : 'AUTHOR'\n" +
                                                                                          "Type 'System.DateTime' does not match with 'System.String' type for the 'BirthDay' field.");
 
@@ -367,7 +367,7 @@ namespace Upsilon.Database.Library.UnitTests
                 Thread.CurrentThread.IsBackground = true;
 
                 configuration.ResetTempFile = false;
-                Database database1 = YHelper.OpenDatabaseImage<Database>(configuration);
+                DatabaseClasses.Database database1 = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
                 database1.Pull();
                 timeAfterSecondPull = DateTime.Now.Ticks;
 
@@ -378,7 +378,7 @@ namespace Upsilon.Database.Library.UnitTests
             });
 
             // When
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
             database.Pull();
             thread.Start();
             Thread.Sleep(500);
@@ -414,7 +414,7 @@ namespace Upsilon.Database.Library.UnitTests
                 Directory = _directory,
                 Key = "key",
             };
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             YHelperDatabaseConfiguration configuration2 = new()
             {
@@ -426,21 +426,21 @@ namespace Upsilon.Database.Library.UnitTests
 
             // When
             database.SaveAs(YHelper.GetDatabaseFilePath(configuration2), configuration2.Key);
-            database = YHelper.OpenDatabaseImage<Database>(configuration2); 
+            database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration2); 
 
             // Then
             database.AUTHORs.Count.Should().Be(1);
             database.BOOKs.Count.Should().Be(2);
 
             // When
-            AUTHOR author = database.AUTHORs[0];
-            BOOK book1 = database.BOOKs[0];
-            BOOK book2 = database.BOOKs[1];
+            DatabaseClasses.AUTHOR author = database.AUTHORs[0];
+            DatabaseClasses.BOOK book1 = database.BOOKs[0];
+            DatabaseClasses.BOOK book2 = database.BOOKs[1];
 
             // Then
             author.Name.Should().Be("William Shakespeare");
             author.BirthDay.ToString("yyyy-MM-dd").Should().Be("1564-04-01");
-            author.Books.Should().Equal(new BOOK[] { book1, book2 });
+            author.Books.Should().Equal(new DatabaseClasses.BOOK[] { book1, book2 });
             book1.Title.Should().Be("Hamlet");
             book1.Author.Should().Be("William Shakespeare");
             book1.Synopsis.Should().Be("Hamlet's Synopsis");
@@ -465,16 +465,16 @@ namespace Upsilon.Database.Library.UnitTests
             };
 
             // When
-            Database database = YHelper.OpenDatabaseImage<Database>(configuration);
+            DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(1);
             database.BOOKs.Count.Should().Be(3);
 
             // When
-            BOOK book1 = database.BOOKs[0];
-            BOOK book2 = database.BOOKs[1];
-            BOOK book3 = database.BOOKs[2];
+            DatabaseClasses.BOOK book1 = database.BOOKs[0];
+            DatabaseClasses.BOOK book2 = database.BOOKs[1];
+            DatabaseClasses.BOOK book3 = database.BOOKs[2];
 
             // Then
             book1.InternalIndex.Should().Be(4);
@@ -484,7 +484,7 @@ namespace Upsilon.Database.Library.UnitTests
             // When
             database.RebuildInternalIndex(new[] { "BOOK" });
             configuration.ResetTempFile = false;
-            database = YHelper.OpenDatabaseImage<Database>(configuration);
+            database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
             // Then
             database.AUTHORs.Count.Should().Be(1);

@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
     <Authors>Yassin Hassan Shamir Lokhat</Authors>
     <Company>UpsilonEcosystem</Company>
-    <Description>Unit tests helper features library</Description>
+    <Description>UI of the Upsilon Database Designer tool</Description>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
     <PackageIcon>UpsilonLogo.png</PackageIcon>
@@ -13,7 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Database\Database.Library\Upsilon.Database.Library.csproj" />
+    <ProjectReference Include="..\..\..\Upsilon.Common\Upsilon.Common.Forms\Upsilon.Common.Forms.csproj" />
+    <ProjectReference Include="..\..\..\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.csproj" />
+    <ProjectReference Include="..\Upsilon.Tools.YDBDesigner.Core\Upsilon.Tools.YDBDesigner.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

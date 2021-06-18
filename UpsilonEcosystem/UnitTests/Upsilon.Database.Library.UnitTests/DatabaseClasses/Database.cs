@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
-namespace Upsilon.Database.Library.UnitTests
+namespace Upsilon.Database.Library.UnitTests.DatabaseClasses
 {
     public class Database : YDatabaseImage
     {
