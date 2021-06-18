@@ -11,7 +11,7 @@ namespace Upsilon.Database.Library.UnitTests
     [TestClass]
     public class YDatabaseImage_UnitTests
     {
-        private readonly string _directory = "DatabaseClasses.Database";
+        private readonly string _directory = "Database";
 
         [TestMethod]
         public void Test_00_DatabaseCreation()
@@ -341,7 +341,7 @@ namespace Upsilon.Database.Library.UnitTests
             };
 
             // Then
-            act.Should().ThrowExactly<YDatabaseClassesDefinitionException>().WithMessage("DatabaseClasses.Database Classes has bad definition.\n" +
+            act.Should().ThrowExactly<YDatabaseClassesDefinitionException>().WithMessage("Database Classes has bad definition.\n" +
                                                                                          "Table name : 'AUTHOR'\n" +
                                                                                          "Type 'System.DateTime' does not match with 'System.String' type for the 'BirthDay' field.");
 

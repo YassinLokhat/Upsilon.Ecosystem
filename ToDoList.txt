@@ -5,6 +5,7 @@ Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
 Upsilon.Common.Library
+	YUpdateCenter
 	YVersion
 	YStringManagement
 		FindClosureOf

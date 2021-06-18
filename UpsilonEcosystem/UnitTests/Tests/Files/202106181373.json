@@ -1,0 +1,32 @@
+[
+	{
+		"Name": "Upsilon.Common.Library",
+		"Version": "1.0.0.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "Upsilon.Common.Library",
+		"Version": "1.1.0.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "Upsilon.Common.UnitTestsHelper",
+		"Version": "1.0.0.1",
+		"IsPublic": false
+	},
+	{
+		"Name": "Upsilon.Common.UnitTestsHelper",
+		"Version": "1.0.0.0",
+		"IsPublic": false
+	},
+	{
+		"Name": "SigmaShell",
+		"Version": "3.2.4.1",
+		"IsPublic": false
+	},
+	{
+		"Name": "SigmaShell",
+		"Version": "3.2.4.0",
+		"IsPublic": true
+	}
+]
