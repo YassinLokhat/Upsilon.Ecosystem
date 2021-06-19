@@ -14,5 +14,5 @@ Thumbs.db
 /**/obj
 /**/bin
 
-# Obfuscated binaries
-/**/obfuscated
+# Dotfuscator binaries
+/**/Dotfuscated
