@@ -15,10 +15,6 @@
 
     <PackageId>Upsilon.Common.Library.UnitTests</PackageId>
 
-    <SignAssembly>true</SignAssembly>
-
-    <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
-
     <PackageIcon>UpsilonLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>

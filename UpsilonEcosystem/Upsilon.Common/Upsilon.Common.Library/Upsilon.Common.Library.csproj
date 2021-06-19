@@ -5,8 +5,6 @@
     <Authors>Yassin Hassan Shamir Lokhat</Authors>
     <Company>UpsilonEcosystem</Company>
     <Description>Common features library</Description>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
     <PackageIcon>UpsilonLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>

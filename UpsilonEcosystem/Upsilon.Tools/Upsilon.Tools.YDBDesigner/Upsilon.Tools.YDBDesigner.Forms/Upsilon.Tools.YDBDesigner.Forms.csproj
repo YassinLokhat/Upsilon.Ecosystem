@@ -7,8 +7,6 @@
     <Authors>Yassin Hassan Shamir Lokhat</Authors>
     <Company>UpsilonEcosystem</Company>
     <Description>UI of the Upsilon Database Designer tool</Description>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>UpsilonEcosystem.pfx</AssemblyOriginatorKeyFile>
     <PackageIcon>UpsilonLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
