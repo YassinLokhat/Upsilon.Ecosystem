@@ -1,10 +1,8 @@
-https://drive.google.com/drive/folders/1DarVtGQTrm8fSdt5TGnoRwqa6E81-JWN?usp=sharing
-
-Upsilon.Common.UnitTestsHelper
-Upsilon.Common.Library
-Upsilon.Common.Library.UnitTests
-Upsilon.Common.Forms
-Upsilon.Database.Library
-Upsilon.Database.Library.UnitTests
-Upsilon.Tools.YDBDesigner.Core
-Upsilon.Tools.YDBDesigner.Forms
+Upsilon.Common.UnitTestsHelper	1.0.0
+Upsilon.Common.Library	1.0.0
+Upsilon.Common.Library.UnitTests	1.0.0
+Upsilon.Common.Forms	1.0.0
+Upsilon.Database.Library	1.0.0
+Upsilon.Database.Library.UnitTests	1.0.0
+Upsilon.Tools.YDBDesigner.Core	1.0.0
+Upsilon.Tools.YDBDesigner.Forms	1.0.0
