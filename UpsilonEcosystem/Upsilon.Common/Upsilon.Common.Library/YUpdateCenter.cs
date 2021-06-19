@@ -48,7 +48,6 @@ namespace Upsilon.Common.Library
             catch (Exception ex)
             {
                 ex.ToString();
-                return new YVersion(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
             }
 
             if (assembly != null

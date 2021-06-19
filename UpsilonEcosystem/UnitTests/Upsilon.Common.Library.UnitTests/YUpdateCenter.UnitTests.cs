@@ -47,7 +47,7 @@ namespace Upsilon.Common.Library.UnitTests
             YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, false), "Upsilon.Common.Library");
 
             // Then
-            version.ToString().Should().Be(assemblyVersion.ToString());
+            version.Should().BeNull();
         }
 
         [TestMethod]
