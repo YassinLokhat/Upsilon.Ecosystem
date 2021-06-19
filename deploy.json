@@ -1,0 +1,47 @@
+[
+	{
+		"Name": "Upsilon.Common.UnitTestsHelper",
+		"Version": "1.0.0.0",
+		"IsPublic": false
+	},
+	{
+		"Name": "Upsilon.Common.Library",
+		"Version": "1.0.1.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "Upsilon.Common.Library.UnitTests",
+		"Version": "1.0.1.0",
+		"IsPublic": false
+	},
+	{
+		"Name": "Upsilon.Common.Forms",
+		"Version": "1.0.0.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "Upsilon.Database.Library",
+		"Version": "1.0.0.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "Upsilon.Database.Library.UnitTests",
+		"Version": "1.0.0.0",
+		"IsPublic": false
+	},
+	{
+		"Name": "Upsilon.Tools.YDBDesigner.Core",
+		"Version": "1.0.0.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "Upsilon.Tools.YDBDesigner.Forms",
+		"Version": "1.0.0.0",
+		"IsPublic": true
+	},
+	{
+		"Name": "",
+		"Version": "0.0.0.0",
+		"IsPublic": false
+	}
+]
