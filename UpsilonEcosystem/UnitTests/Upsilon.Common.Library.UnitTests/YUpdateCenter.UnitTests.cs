@@ -26,7 +26,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YVersion version = YUpdateManager.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.Library");
+            YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.Library");
 
             // Then
             version.ToString().Should().Be("1.1.0.0");
@@ -41,10 +41,10 @@ namespace Upsilon.Common.Library.UnitTests
                 Reference = "202106181375",
                 Directory = _directory,
             };
-            YVersion assemblyVersion = new(System.Reflection.Assembly.GetAssembly(typeof(YUpdateManager)).GetName().Version);
+            YVersion assemblyVersion = new(System.Reflection.Assembly.GetAssembly(typeof(YUpdateCentre)).GetName().Version);
 
             // When
-            YVersion version = YUpdateManager.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, false), "Upsilon.Common.Library");
+            YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, false), "Upsilon.Common.Library");
 
             // Then
             version.ToString().Should().Be(assemblyVersion.ToString());
@@ -63,7 +63,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() => 
             {
-                YVersion version = YUpdateManager.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.UnitTestsHelper");
+                YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.UnitTestsHelper");
             });
 
             // Then
@@ -83,7 +83,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() =>
             {
-                YVersion version = YUpdateManager.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "SigmaShell");
+                YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "SigmaShell");
             });
 
             // Then
@@ -101,7 +101,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YVersion version = YUpdateManager.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Database.Library");
+            YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Database.Library");
 
             // Then
             version.Should().BeNull();

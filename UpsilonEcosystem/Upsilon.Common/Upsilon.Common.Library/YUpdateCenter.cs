@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
-    public static class YUpdateManager
+    public static class YUpdateCentre
     {
         private class YAssembly
         {
