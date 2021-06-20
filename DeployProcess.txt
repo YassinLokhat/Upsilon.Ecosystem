@@ -6,3 +6,5 @@ Dotfuscate binary with Dotfuscator
 Sign binary with followint command :
 	signtool.exe sign /f UpsilonEcosystem.pfx /p YL-upsilonecosystem-passw0rd {AssemblyBinary}
 Upload Release binary to the Google Drive repository : https://drive.google.com/drive/folders/1DarVtGQTrm8fSdt5TGnoRwqa6E81-JWN?usp=sharing
+Update {AssemblyName}/packet.dependencies file
+Compute deploy.json file

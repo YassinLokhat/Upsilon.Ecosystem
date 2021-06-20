@@ -1,0 +1,14 @@
+[
+	{
+		"Name": "Upsilon.Database.Library",
+		"Version": "1.0.0.0",
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
+	}
+]

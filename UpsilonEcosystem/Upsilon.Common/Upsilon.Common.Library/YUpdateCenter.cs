@@ -10,16 +10,26 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
+    public class YAssembly
+    {
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public bool Depreciated { get; set; }
+        public YDependency[] Dependencies { get; set; }
+        public YVersion YVersion { get { return new(this.Version); } }
+    }
+
+    public class YDependency
+    {
+        public string Name { get; set; }
+        public string MinimalVersion { get; set; }
+        public string MaximalVersion { get; set; }
+        public YVersion YMinimalVersion { get { return new(this.MinimalVersion); } }
+        public YVersion YMaximalVersion { get { return new(this.MaximalVersion); } }
+    }
+
     public static class YUpdateCentre
     {
-        private class YAssembly
-        {
-            public string Name { get; set; }
-            public string Version { get; set; }
-            public bool IsPublic { get; set; }
-            public YVersion YVersion { get { return new(this.Version); } }
-        }
-
         public static YVersion CheckForUpdate(string configUrl, string assemblyName)
         {
             YVersion version = null;
@@ -51,7 +61,7 @@ namespace Upsilon.Common.Library
             }
 
             if (assembly != null
-                && !assembly.IsPublic)
+                && assembly.Depreciated)
             {
                 throw new Exception();
             }

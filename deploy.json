@@ -1,47 +1,75 @@
 [
 	{
-		"Name": "Upsilon.Common.UnitTestsHelper",
-		"Version": "1.0.0.0",
-		"IsPublic": false
-	},
-	{
 		"Name": "Upsilon.Common.Library",
-		"Version": "1.0.1.0",
-		"IsPublic": true
-	},
-	{
-		"Name": "Upsilon.Common.Library.UnitTests",
-		"Version": "1.0.1.0",
-		"IsPublic": false
+		"Version": "1.0.0.0",
+		"Depreciated": false
 	},
 	{
 		"Name": "Upsilon.Common.Forms",
 		"Version": "1.0.0.0",
-		"IsPublic": true
+		"Depreciated": false
+	},
+	{
+		"Name": "Upsilon.Common.UnitTestsHelper",
+		"Version": "1.0.0.0",
+		"Depreciated": true,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			},
+			{
+				"Name": "Upsilon.Database.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
 	},
 	{
 		"Name": "Upsilon.Database.Library",
 		"Version": "1.0.0.0",
-		"IsPublic": true
-	},
-	{
-		"Name": "Upsilon.Database.Library.UnitTests",
-		"Version": "1.0.0.0",
-		"IsPublic": false
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
 	},
 	{
 		"Name": "Upsilon.Tools.YDBDesigner.Core",
 		"Version": "1.0.0.0",
-		"IsPublic": true
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			},
+			{
+				"Name": "Upsilon.Database.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
 	},
 	{
 		"Name": "Upsilon.Tools.YDBDesigner.Forms",
 		"Version": "1.0.0.0",
-		"IsPublic": true
-	},
-	{
-		"Name": "",
-		"Version": "0.0.0.0",
-		"IsPublic": false
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Forms",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			},
+			{
+				"Name": "Upsilon.Tools.YDBDesigner.Core",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
 	}
 ]
