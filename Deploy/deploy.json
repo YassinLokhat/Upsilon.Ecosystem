@@ -1,0 +1,75 @@
+[
+	{
+		"Name": "Upsilon.Common.Library",
+		"Version": "1.0.0.0",
+		"Depreciated": false
+	},
+	{
+		"Name": "Upsilon.Common.Forms",
+		"Version": "1.0.0.0",
+		"Depreciated": false
+	},
+	{
+		"Name": "Upsilon.Common.UnitTestsHelper",
+		"Version": "1.0.0.0",
+		"Depreciated": true,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			},
+			{
+				"Name": "Upsilon.Database.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
+	},
+	{
+		"Name": "Upsilon.Database.Library",
+		"Version": "1.0.0.0",
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
+	},
+	{
+		"Name": "Upsilon.Tools.YDBDesigner.Core",
+		"Version": "1.0.0.0",
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			},
+			{
+				"Name": "Upsilon.Database.Library",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
+	},
+	{
+		"Name": "Upsilon.Tools.YDBDesigner.Forms",
+		"Version": "1.0.0.0",
+		"Depreciated": false,
+		"Dependencies":[
+			{
+				"Name": "Upsilon.Common.Forms",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			},
+			{
+				"Name": "Upsilon.Tools.YDBDesigner.Core",
+				"MinimalVersion": "1.0.0.0",
+				"MaximalVersion": "1.0.0.0"
+			}
+		]
+	}
+]

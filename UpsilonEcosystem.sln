@@ -35,9 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Draft", "Draft\Draft.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED7631B0-E7A5-4B6A-9D2A-589B68CEEA21}"
 	ProjectSection(SolutionItems) = preProject
-		deploy.json = deploy.json
-		DeployProcess.txt = DeployProcess.txt
 		ToDoList.txt = ToDoList.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{D03BA6C2-07CF-453E-9760-ED52F40E82C1}"
+	ProjectSection(SolutionItems) = preProject
+		Deploy\deploy.json = Deploy\deploy.json
+		Deploy\DeployProcess.txt = Deploy\DeployProcess.txt
 	EndProjectSection
 EndProject
 Global
@@ -96,6 +100,7 @@ Global
 		{3E82BF19-97B3-4AAF-B133-24174D7E5E3B} = {7E23BBB6-EB3F-4E2B-BD2A-D638A291DD47}
 		{801F9DE8-551E-48C9-BDA0-3C561B3F239C} = {7E23BBB6-EB3F-4E2B-BD2A-D638A291DD47}
 		{99BB3325-703B-4102-9081-C5C04B71E710} = {739B6960-E79D-4422-BD3D-EB0E6D566CCB}
+		{D03BA6C2-07CF-453E-9760-ED52F40E82C1} = {ED7631B0-E7A5-4B6A-9D2A-589B68CEEA21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3BC83A0-7CE1-4C7A-9EAE-EFBB240E1DB5}

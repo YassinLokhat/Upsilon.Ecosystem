@@ -1,0 +1,22 @@
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION    ¤FILEVERSION¤
+    PRODUCTVERSION ¤PRODUCTVERSION¤
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904b0"
+        {
+            VALUE "CompanyName",        "UpsilonEcosystem\0"
+            VALUE "FileDescription",    "¤FileDescription¤\0"
+            VALUE "FileVersion",        "¤FileVersion¤\0"
+            VALUE "LegalCopyright",     "¤LegalCopyright¤\0"
+            VALUE "OriginalFilename",   "¤OriginalFilename¤\0"
+            VALUE "ProductName",        "¤ProductName¤\0"
+            VALUE "ProductVersion",     "¤ProductVersion¤\0"
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x409, 1200
+    }
+}
