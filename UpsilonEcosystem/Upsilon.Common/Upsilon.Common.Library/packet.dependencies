@@ -1,7 +1,12 @@
 [
 	{
 		"Name": "Upsilon.Common.Library",
-		"Version": "1.0.0.0",
+		"Version": "1.0.1.0",
 		"Depreciated": false
+	},
+	{
+		"Name": "Upsilon.Common.Library",
+		"Version": "1.0.0.0",
+		"Depreciated": true
 	}
 ]

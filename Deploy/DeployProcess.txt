@@ -1,14 +1,14 @@
 Align Project/{AssemblyName} branch to master branch
-Create Release/{AssemblyName}/{AssemblyVersion} branch from Project/{AssemblyName}
-Merge Project/{AssemblyName} branch to master branch
 Build {AssemblyName} as Release target
 Dotfuscate binary with Dotfuscator
-Generate ressources file for {AssemblyName}
-Complete assembly details with following command :
+Generate ressources file for {AssemblyName} with following command :
 	GoRC /fo Resources.res Resources.rc
+Complete assembly details with following command :
 	ResourceHacker -open {AssemblyBinary} -save {AssemblyBinary} -action addoverwrite -resource Resources.res
 Sign binary with following command :
 	signtool.exe sign /f UpsilonEcosystem.pfx /p YL-upsilonecosystem-passw0rd {AssemblyBinary}
 Upload Release binary to the Google Drive repository : https://drive.google.com/drive/folders/1DarVtGQTrm8fSdt5TGnoRwqa6E81-JWN?usp=sharing
 Update {AssemblyName}/packet.dependencies file
 Compute deploy.json file
+Create Release/{AssemblyName}/{AssemblyVersion} branch from Project/{AssemblyName}
+Merge Project/{AssemblyName} branch to master branch
