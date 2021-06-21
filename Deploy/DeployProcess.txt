@@ -12,3 +12,4 @@ Update {AssemblyName}/packet.dependencies file
 Compute deploy.json file
 Create Release/{AssemblyName}/{AssemblyVersion} branch from Project/{AssemblyName}
 Merge Project/{AssemblyName} branch to master branch
+Clean generated files
