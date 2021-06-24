@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Upsilon.Common.Library
+{
+    public class Base
+    {
+        public int BaseNumber { get; set; }
+        public string Alphabet { get; set; }
+        public string Prefix { get; set; }
+        public int DigitGroup { get; set; }
+
+        public static Base[] Bases { get; } = new Base[]
+        {
+            Base.Binary,
+            Base.Octal,
+            Base.Decimal,
+            Base.Hexadecimal,
+        };
+
+        public static Base Binary { get; } = new Base
+        {
+            BaseNumber = 2,
+            Alphabet = "01",
+            Prefix = "0b",
+            DigitGroup = 8,
+        };
+
+        public static Base Octal { get; } = new Base
+        {
+            BaseNumber = 8,
+            Alphabet = "01234567",
+            Prefix = "0o",
+            DigitGroup = 2,
+        };
+
+        public static Base Decimal { get; } = new Base
+        {
+            BaseNumber = 10,
+            Alphabet = "0123456789",
+            Prefix = "0d",
+            DigitGroup = 1,
+        };
+
+        public static Base Hexadecimal { get; } = new Base
+        {
+            BaseNumber = 16,
+            Alphabet = "0123456789ABCDEF",
+            Prefix = "0x",
+            DigitGroup = 2,
+        };
+    }
+
+    public sealed class YBigInteger
+    {
+        public string DecimalValue { get { return this.ToString(); } }
+
+        public byte[] ByteArray { get; private set; } = null;
+
+        public YBigInteger(byte[] byteArray)
+        {
+            this.ByteArray = byteArray;
+        }
+
+        public YBigInteger(string strValue)
+        {
+            Base @base = Base.Bases.Where(x => strValue.StartsWith(x.Prefix)).FirstOrDefault();
+            if (@base == null)
+            {
+                @base = Base.Decimal;
+                strValue = @base.Prefix + strValue;
+            }
+
+            if (!Regex.IsMatch(strValue, $@"{@base.Prefix}[{@base.Alphabet}\s]+$", RegexOptions.IgnoreCase))
+            {
+                throw new Exception($"'{strValue}' is not in a {@base.BaseNumber}-base number format.");
+            }
+
+            strValue = Regex.Replace(strValue.Substring(2), @"\s", "").ToUpper();
+
+            YBigInteger number = new YBigInteger(new byte[] { 0 });
+            foreach (char c in strValue)
+            {
+                number = (number * @base.BaseNumber) + @base.Alphabet.IndexOf(c);
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.ToString(Base.Decimal);
+        }
+
+        public string ToString(Base @base)
+        {
+            return string.Empty;
+        }
+
+        public static YBigInteger operator +(YBigInteger value1, YBigInteger value2)
+        {
+            byte[] result = new byte[Math.Max(value1.ByteArray.Length, value2.ByteArray.Length)];
+            short carry = 0;
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                carry = (short)((i < value1.ByteArray.Length ? value1.ByteArray[i] : 0)
+                    + (i < value2.ByteArray.Length ? value2.ByteArray[i] : 0) 
+                    + carry);
+                result[i] = (byte)carry;
+                carry = (short)(carry / 0x100);
+            }
+
+            return new YBigInteger(result);
+        }
+
+        public static YBigInteger operator +(YBigInteger value1, long value2)
+        {
+            return value1 + new YBigInteger(BitConverter.GetBytes(value2));
+        }
+
+        public static YBigInteger operator +(long value1, YBigInteger value2)
+        {
+            return value2 + new YBigInteger(BitConverter.GetBytes(value1));
+        }
+
+        public static YBigInteger operator -(YBigInteger value1, YBigInteger value2)
+        {
+            return null;
+        }
+
+        public static YBigInteger operator *(YBigInteger value1, YBigInteger value2)
+        {
+            return null;
+        }
+
+        public static YBigInteger operator *(YBigInteger value1, long value2)
+        {
+            return value1 * new YBigInteger(BitConverter.GetBytes(value2));
+        }
+
+        public static YBigInteger operator *(long value1, YBigInteger value2)
+        {
+            return value2 * new YBigInteger(BitConverter.GetBytes(value1));
+        }
+
+        public static YBigInteger operator /(YBigInteger value1, YBigInteger value2)
+        {
+            return null;
+        }
+
+        public static YBigInteger operator %(YBigInteger value1, YBigInteger value2)
+        {
+            return null;
+        }
+    }
+}
