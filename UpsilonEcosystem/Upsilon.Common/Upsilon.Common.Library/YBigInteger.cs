@@ -17,7 +17,7 @@ namespace Upsilon.Common.Library
 
     public class Base
     {
-        public BaseList BaseName { get; set; }
+        public BaseList BaseName { get { return (BaseList)this.Alphabet.Length; } }
         public string Alphabet { get; set; }
         public string Prefix { get; set; }
         public int DigitGroup { get; set; }
@@ -34,7 +34,6 @@ namespace Upsilon.Common.Library
         public static Base Binary { get {
                 return new Base
                 {
-                    BaseName = BaseList.Binary,
                     Alphabet = "01",
                     Prefix = "0b",
                     DigitGroup = 8,
@@ -43,7 +42,6 @@ namespace Upsilon.Common.Library
         public static Base Octal { get {
                 return new Base
                 {
-                    BaseName = BaseList.Octal,
                     Alphabet = "01234567",
                     Prefix = "0o",
                     DigitGroup = 2,
@@ -52,7 +50,6 @@ namespace Upsilon.Common.Library
         public static Base Decimal { get {
                 return new Base
                 {
-                    BaseName = BaseList.Decimal,
                     Alphabet = "0123456789",
                     Prefix = "0d",
                     DigitGroup = 1,
@@ -61,7 +58,6 @@ namespace Upsilon.Common.Library
         public static Base Hexadecimal { get {
                 return new Base
                 {
-                    BaseName = BaseList.Hexadecimal,
                     Alphabet = "0123456789ABCDEF",
                     Prefix = "0x",
                     DigitGroup = 2,
@@ -127,22 +123,133 @@ namespace Upsilon.Common.Library
                 case BaseList.Hexadecimal:
                     return _toBinaryOrHexadecimalString(@base);
                 case BaseList.Octal:
-                    return _toOctalString(@base);
                 case BaseList.Decimal:
-                    return _toDecimalString(@base);
+                    return _toOctalOrDecimalString(@base);
             }
 
             return string.Empty;
         }
 
-        private string _toOctalString(Base @base)
+        private string _toOctalOrDecimalString(Base @base)
         {
-            return @base.ToString();
+            string strValue = "0";
+
+            for (int i = this.ByteArray.Length - 1; i >= 0; i--)
+            {
+                strValue = MultiplyString(strValue, Convert.ToString(YBigInteger.InternalBase, (int)@base.BaseName).TrimStart('0').ToUpper(), @base);
+                strValue = AddStr(strValue, Convert.ToString(this.ByteArray[i], (int)@base.BaseName).TrimStart('0').ToUpper(), @base);
+            }
+
+            if (strValue.TrimStart('0') != string.Empty)
+            {
+                strValue = strValue.TrimStart('0');
+            }
+            return strValue;
         }
 
-        private string _toDecimalString(Base @base)
+        public static string AddStr(string s1 ,string s2, Base @base)
         {
-            return @base.ToString();
+            string sum = "";
+            s1 = new(s1.Reverse().ToArray());
+            s2 = new(s2.Reverse().ToArray());
+
+            byte carry = 0;
+
+            for (int i = 0; i < Math.Max(s1.Length, s2.Length); i++)
+            {
+                byte digit1 = 0;
+                if (i < s1.Length)
+                {
+                    if (!@base.Alphabet.Contains(s1[i]))
+                    {
+                        throw new Exception($"'{s1}' is not in a {@base.BaseName} number format.");
+                    }
+
+                    digit1 = (byte)@base.Alphabet.IndexOf(s1[i]);
+                }
+
+                byte digit2 = 0;
+                if (i < s2.Length)
+                {
+                    if (!@base.Alphabet.Contains(s2[i]))
+                    {
+                        throw new Exception($"'{s2}' is not in a {@base.BaseName} number format.");
+                    }
+
+                    digit2 = (byte)@base.Alphabet.IndexOf(s2[i]);
+                }
+
+                carry = (byte)(digit1 + digit2 + carry);
+                sum += @base.Alphabet[carry % (int)@base.BaseName];
+                carry = (byte)(carry / (int)@base.BaseName);
+            }
+
+            while (carry != 0)
+            {
+                sum += @base.Alphabet[carry % (int)@base.BaseName];
+                carry = (byte)(carry / (int)@base.BaseName);
+            }
+
+            if (@base.BaseName == BaseList.Octal)
+            {
+                return @base.Prefix + new string(sum.Reverse().ToArray());
+            }
+
+            return new(sum.Reverse().ToArray());
+        }
+
+        public static string MultiplyString(string s1, string s2, Base @base)
+        {
+            s1 = new(s1.Reverse().ToArray());
+            s2 = new(s2.Reverse().ToArray());
+            List<string> subResults = new();
+
+            for (int i = 0; i < s2.Length; i++)
+            {
+                if (!@base.Alphabet.Contains(s2[i]))
+                {
+                    throw new Exception($"'{s2}' is not in a {@base.BaseName} number format.");
+                }
+
+                byte digit2 = (byte)@base.Alphabet.IndexOf(s2[i]);
+
+                int carry = 0;
+                string subResult = "";
+                for (int j = 0; j < i; j++)
+                {
+                    subResult += "0";
+                }
+
+                for (int j = 0; j < s1.Length; j++)
+                {
+                    if (!@base.Alphabet.Contains(s1[j]))
+                    {
+                        throw new Exception($"'{s1}' is not in a {@base.BaseName} number format.");
+                    }
+
+                    byte digit1 = (byte)@base.Alphabet.IndexOf(s1[j]);
+
+                    carry = (int)((digit1 * digit2) + carry);
+                    subResult += @base.Alphabet[carry % (int)@base.BaseName];
+                    carry = (int)(carry / (int)@base.BaseName);
+                }
+
+                while (carry != 0)
+                {
+                    subResult += @base.Alphabet[carry % (int)@base.BaseName];
+                    carry = (byte)(carry / (int)@base.BaseName);
+                }
+
+                subResults.Add(new(subResult.Reverse().ToArray()));
+            }
+
+            string result = "";
+            foreach (string subResult in subResults)
+            {
+                result = YBigInteger.AddStr(result, subResult, @base);
+            }
+
+            return result;
         }
 
         private string _toBinaryOrHexadecimalString(Base @base)
