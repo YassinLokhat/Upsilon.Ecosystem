@@ -2,31 +2,31 @@
 	{
 		"Name": "Upsilon.Common.Library",
 		"Version": "1.0.0.0",
-		"IsPublic": true
+		"Depreciated": false
 	},
 	{
 		"Name": "Upsilon.Common.Library",
 		"Version": "1.1.0.0",
-		"IsPublic": true
+		"Depreciated": false
 	},
 	{
 		"Name": "Upsilon.Common.UnitTestsHelper",
 		"Version": "1.0.0.1",
-		"IsPublic": false
+		"Depreciated": true
 	},
 	{
 		"Name": "Upsilon.Common.UnitTestsHelper",
 		"Version": "1.0.0.0",
-		"IsPublic": false
+		"Depreciated": true
 	},
 	{
 		"Name": "SigmaShell",
 		"Version": "3.2.4.1",
-		"IsPublic": false
+		"Depreciated": true
 	},
 	{
 		"Name": "SigmaShell",
 		"Version": "3.2.4.0",
-		"IsPublic": true
+		"Depreciated": false
 	}
 ]
