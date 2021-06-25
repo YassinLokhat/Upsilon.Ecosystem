@@ -71,16 +71,6 @@ namespace Upsilon.Common.Library
         {
             return $"Base name : '{this.BaseName}' ({(int)this.BaseName})\nAlphabet : '{this.Alphabet}'\nPrefix : '{this.Prefix}'\nDigit group : '{this.DigitGroup}'";
         }
-
-        //public static bool operator ==(Base base1, Base base2)
-        //{
-        //    return base1.ToString() == base2.ToString();
-        //}
-        //
-        //public static bool operator !=(Base base1, Base base2)
-        //{
-        //    return base1.ToString() != base2.ToString();
-        //}
     }
 
     public sealed class YBigInteger
@@ -102,7 +92,7 @@ namespace Upsilon.Common.Library
         public YBigInteger(string strValue)
         {
             Base @base = Base.Bases.Where(x => strValue.StartsWith(x.Prefix)).FirstOrDefault();
-            if (@base.Equals(null))
+            if (@base == null)
             {
                 @base = Base.Decimal;
                 strValue = @base.Prefix + strValue;
@@ -131,11 +121,32 @@ namespace Upsilon.Common.Library
 
         public string ToString(Base @base)
         {
-            if (@base.BaseName == BaseList.Decimal)
+            switch (@base.BaseName)
             {
-                return @base.ToString();
+                case BaseList.Binary:
+                case BaseList.Hexadecimal:
+                    return _toBinaryOrHexadecimalString(@base);
+                case BaseList.Octal:
+                    return _toOctalString(@base);
+                case BaseList.Decimal:
+                    return _toDecimalString(@base);
             }
 
+            return string.Empty;
+        }
+
+        private string _toOctalString(Base @base)
+        {
+            return @base.ToString();
+        }
+
+        private string _toDecimalString(Base @base)
+        {
+            return @base.ToString();
+        }
+
+        private string _toBinaryOrHexadecimalString(Base @base)
+        {
             int digit = @base.DigitGroup;
 
             StringBuilder builder = new StringBuilder();
