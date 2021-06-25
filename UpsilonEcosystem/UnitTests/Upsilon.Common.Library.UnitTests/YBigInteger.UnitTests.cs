@@ -56,5 +56,97 @@ namespace Upsilon.Common.Library.UnitTests
                 sum.ByteArray.Should().BeEquivalentTo(number3.ByteArray);
             }
         }
+
+        [TestMethod]
+        public void Test_03_ToString_Binary()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            for (int i = 0; i < LoopCount; i++)
+            {
+                // Given
+                int count = random.Next(20) + 1;
+                byte[] bytes = new byte[count];
+                random.NextBytes(bytes);
+
+                // When
+                YBigInteger number1 = new(bytes);
+                string strNumber = number1.ToString(Base.Binary);
+                YBigInteger number2 = new(strNumber);
+
+
+                // Then
+                number1.ByteArray.Should().BeEquivalentTo(number2.ByteArray);
+            }
+        }
+
+        [TestMethod]
+        public void Test_04_ToString_Octal()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            for (int i = 0; i < LoopCount; i++)
+            {
+                // Given
+                int count = random.Next(20) + 1;
+                byte[] bytes = new byte[count];
+                random.NextBytes(bytes);
+
+                // When
+                YBigInteger number1 = new(bytes);
+                string strNumber = number1.ToString(Base.Octal);
+                YBigInteger number2 = new(strNumber);
+
+
+                // Then
+                number1.ByteArray.Should().BeEquivalentTo(number2.ByteArray);
+            }
+        }
+
+        [TestMethod]
+        public void Test_05_ToString_Decimal()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            for (int i = 0; i < LoopCount; i++)
+            {
+                // Given
+                int count = random.Next(20) + 1;
+                byte[] bytes = new byte[count];
+                random.NextBytes(bytes);
+
+                // When
+                YBigInteger number1 = new(bytes);
+                string strNumber = number1.ToString(Base.Decimal);
+                YBigInteger number2 = new(strNumber);
+
+
+                // Then
+                number1.ByteArray.Should().BeEquivalentTo(number2.ByteArray);
+            }
+        }
+
+        [TestMethod]
+        public void Test_06_ToString_Hexadecimal()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            for (int i = 0; i < LoopCount; i++)
+            {
+                // Given
+                int count = random.Next(20) + 1;
+                byte[] bytes = new byte[count];
+                random.NextBytes(bytes);
+
+                // When
+                YBigInteger number1 = new(bytes);
+                string strNumber = number1.ToString(Base.Hexadecimal);
+                YBigInteger number2 = new(strNumber);
+
+
+                // Then
+                number1.ByteArray.Should().BeEquivalentTo(number2.ByteArray);
+            }
+        }
     }
 }

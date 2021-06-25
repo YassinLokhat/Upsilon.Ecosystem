@@ -7,63 +7,84 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
+    public enum BaseList
+    {
+        Binary = 2,
+        Octal = 8,
+        Decimal = 10,
+        Hexadecimal = 16,
+    }
+
     public class Base
     {
-        public int BaseNumber { get; set; }
+        public BaseList BaseName { get; set; }
         public string Alphabet { get; set; }
         public string Prefix { get; set; }
         public int DigitGroup { get; set; }
 
         public static Base[] Bases { get {
-            return new Base[]
-            {
+                return new Base[]
+                {
                 Base.Binary,
                 Base.Octal,
                 Base.Decimal,
                 Base.Hexadecimal,
-            }; } }
+                }; } }
 
         public static Base Binary { get {
-            return new Base
-            {
-                BaseNumber = 2,
-                Alphabet = "01",
-                Prefix = "0b",
-                DigitGroup = 8,
-            }; } }
+                return new Base
+                {
+                    BaseName = BaseList.Binary,
+                    Alphabet = "01",
+                    Prefix = "0b",
+                    DigitGroup = 8,
+                }; } }
 
         public static Base Octal { get {
-            return new Base
-            {
-                BaseNumber = 8,
-                Alphabet = "01234567",
-                Prefix = "0o",
-                DigitGroup = 2,
-            }; } }
+                return new Base
+                {
+                    BaseName = BaseList.Octal,
+                    Alphabet = "01234567",
+                    Prefix = "0o",
+                    DigitGroup = 2,
+                }; } }
 
         public static Base Decimal { get {
-            return new Base
-            {
-                BaseNumber = 10,
-                Alphabet = "0123456789",
-                Prefix = "0d",
-                DigitGroup = 1,
-            }; } }
+                return new Base
+                {
+                    BaseName = BaseList.Decimal,
+                    Alphabet = "0123456789",
+                    Prefix = "0d",
+                    DigitGroup = 1,
+                }; } }
 
         public static Base Hexadecimal { get {
-            return new Base
-            {
-                BaseNumber = 16,
-                Alphabet = "0123456789ABCDEF",
-                Prefix = "0x",
-                DigitGroup = 2,
-            }; } }
+                return new Base
+                {
+                    BaseName = BaseList.Hexadecimal,
+                    Alphabet = "0123456789ABCDEF",
+                    Prefix = "0x",
+                    DigitGroup = 2,
+                }; } }
+
+        public override string ToString()
+        {
+            return $"Base name : '{this.BaseName}' ({(int)this.BaseName})\nAlphabet : '{this.Alphabet}'\nPrefix : '{this.Prefix}'\nDigit group : '{this.DigitGroup}'";
+        }
+
+        //public static bool operator ==(Base base1, Base base2)
+        //{
+        //    return base1.ToString() == base2.ToString();
+        //}
+        //
+        //public static bool operator !=(Base base1, Base base2)
+        //{
+        //    return base1.ToString() != base2.ToString();
+        //}
     }
 
     public sealed class YBigInteger
     {
-        public string DecimalValue { get { return this.ToString(); } }
-
         public byte[] ByteArray { get; private set; } = null;
 
         public YBigInteger(byte[] byteArray)
@@ -81,7 +102,7 @@ namespace Upsilon.Common.Library
         public YBigInteger(string strValue)
         {
             Base @base = Base.Bases.Where(x => strValue.StartsWith(x.Prefix)).FirstOrDefault();
-            if (@base == null)
+            if (@base.Equals(null))
             {
                 @base = Base.Decimal;
                 strValue = @base.Prefix + strValue;
@@ -89,7 +110,7 @@ namespace Upsilon.Common.Library
 
             if (!Regex.IsMatch(strValue, $@"{@base.Prefix}[{@base.Alphabet}\s]+$", RegexOptions.IgnoreCase))
             {
-                throw new Exception($"'{strValue}' is not in a {@base.BaseNumber}-base number format.");
+                throw new Exception($"'{strValue}' is not in a {@base.BaseName}-base number format.");
             }
 
             strValue = Regex.Replace(strValue.Substring(2), @"\s", "").ToUpper();
@@ -97,8 +118,10 @@ namespace Upsilon.Common.Library
             YBigInteger number = new YBigInteger(new byte[] { 0 });
             foreach (char c in strValue)
             {
-                number = (number * @base.BaseNumber) + @base.Alphabet.IndexOf(c);
+                number = (number * (int)@base.BaseName) + @base.Alphabet.IndexOf(c);
             }
+
+            this.ByteArray = number.ByteArray;
         }
 
         public override string ToString()
@@ -108,7 +131,44 @@ namespace Upsilon.Common.Library
 
         public string ToString(Base @base)
         {
-            return string.Empty;
+            if (@base.BaseName == BaseList.Decimal)
+            {
+                return @base.ToString();
+            }
+
+            int digit = @base.DigitGroup;
+
+            StringBuilder builder = new StringBuilder();
+
+            string strNumber = string.Empty;
+
+            for (int i = this.ByteArray.Length - 1; i >= 0; i--)
+            {
+                strNumber = Convert.ToString(this.ByteArray[i], (int)@base.BaseName).ToUpper();
+                if (strNumber.TrimStart('0') != string.Empty)
+                {
+                    strNumber = strNumber.TrimStart('0');
+                }
+
+                int missingDigit = (((digit - strNumber.Length) % digit) + digit) % digit;
+
+                for (int j = 0; j < missingDigit; j++)
+                {
+                    strNumber = "0" + strNumber;
+                }
+
+                builder.Append(strNumber);
+            }
+
+            strNumber = builder.ToString();
+
+            for (int i = digit; @base != Base.Decimal && i < strNumber.Length; i += digit)
+            {
+                strNumber = strNumber.Insert(i, " ");
+                i++;
+            }
+
+            return @base.Prefix + strNumber;
         }
 
         public static YBigInteger operator +(YBigInteger value1, YBigInteger value2)
