@@ -5,7 +5,6 @@ Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
 Upsilon.Common.Library
-	YBigInteger
 	YStringManagement
 		FindClosureOf
 	YCSVManagement

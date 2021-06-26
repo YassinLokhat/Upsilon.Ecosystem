@@ -245,41 +245,49 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_11_DecimalBase()
+        public void Test_11_MultiplyString_KO_AddingDifferentBases()
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            // Given
+            Base base1 = Base.Octal;
+            Base base2 = Base.Decimal;
+            long value1 = random.Next();
+            long value2 = random.Next();
+            string strValue1 = base1.Prefix + Convert.ToString(value1, (int)base1.BaseName).ToUpper();
+            string strValue2 = base2.Prefix + Convert.ToString(value2, (int)base2.BaseName).ToUpper();
+
+            // When
+            Action act = new(() =>
             {
-                // Given
-                long value = random.Next();
-                YBigInteger bigInteger = new(value.ToString());
+                string strResult = YBigInteger.MultiplyString(strValue1, strValue2);
+            });
 
-                // When
-                string strValue = bigInteger.ToString(Base.Decimal);
-
-                // Then
-                strValue.Should().Be(Base.Decimal.Prefix + value.ToString());
-            }
+            // Then
+            act.Should().Throw<Exception>().WithMessage($"'{strValue1[2..]}({base1.BaseName})' and '{strValue2[2..]}({base2.BaseName})' should be in the same base.");
         }
 
         [TestMethod]
-        public void Test_12_OctalBase()
+        public void Test_12_MultiplyString__KO_ErrorInStringValue()
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            // Given
+            Base base1 = Base.Octal;
+            Base base2 = Base.Decimal;
+            long value1 = random.Next();
+            long value2 = random.Next();
+            string strValue1 = base1.Prefix + Convert.ToString(value1, (int)base1.BaseName).ToUpper() + "9";
+            string strValue2 = base1.Prefix + Convert.ToString(value2, (int)base2.BaseName).ToUpper();
+
+            // When
+            Action act = new(() =>
             {
-                // Given
-                long value = random.Next();
-                YBigInteger bigInteger = new(value.ToString());
+                string strResult = YBigInteger.MultiplyString(strValue1, strValue2);
+            });
 
-                // When
-                string strValue = bigInteger.ToString(Base.Octal);
-
-                // Then
-                strValue.Should().Be(Base.Octal.Prefix + Convert.ToString(value, (int)Base.Octal.BaseName).TrimStart('0').ToUpper());
-            }
+            // Then
+            act.Should().Throw<Exception>().WithMessage($"'{strValue1}' is not in a {base1.BaseName}-base number format.");
         }
     }
 }
