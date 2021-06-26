@@ -146,32 +146,79 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_07_AddString()
+        public void Test_07_AddString_OK()
         {
             Random random = new((int)DateTime.Now.Ticks);
-            Base[] bases = new[] { Base.Octal, Base.Decimal };
 
-            foreach (Base @base in bases)
+            foreach (Base @base in Base.Bases)
             {
                 for (int i = 0; i < LoopCount; i++)
                 {
                     // Given
-                    long val1 = random.Next();
-                    long val2 = random.Next();
-                    long sum = val1 + val2;
+                    long value1 = random.Next();
+                    long value2 = random.Next();
+                    long result = value1 + value2;
+                    string strValue1 = @base.Prefix + Convert.ToString(value1, (int)@base.BaseName).ToUpper();
+                    string strValue2 = @base.Prefix + Convert.ToString(value2, (int)@base.BaseName).ToUpper();
+                    string strResult1 = @base.Prefix + Convert.ToString(result, (int)@base.BaseName).ToUpper();
 
                     // When
-                    string strSum = YBigInteger.AddStr(Convert.ToString(val1, (int)@base.BaseName).TrimStart('0').ToUpper(),
-                        Convert.ToString(val2, (int)@base.BaseName).TrimStart('0').ToUpper(), @base);
+                    string strResult2 = YBigInteger.AddString(strValue1, strValue2);
 
                     // Then
-                    strSum.Should().Be(Convert.ToString(sum, (int)@base.BaseName).TrimStart('0').ToUpper());
+                    strResult2.Should().Be(strResult1);
                 }
             }
         }
      
         [TestMethod]
-        public void Test_08_MultiplyString()
+        public void Test_08_AddString_KO_AddingDifferentBases()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            // Given
+            Base base1 = Base.Octal;
+            Base base2 = Base.Decimal;
+            long value1 = random.Next();
+            long value2 = random.Next();
+            string strValue1 = base1.Prefix + Convert.ToString(value1, (int)base1.BaseName).ToUpper();
+            string strValue2 = base2.Prefix + Convert.ToString(value2, (int)base2.BaseName).ToUpper();
+
+            // When
+            Action act = new(() => 
+            {
+                string strResult = YBigInteger.AddString(strValue1, strValue2);
+            });
+
+            // Then
+            act.Should().Throw<Exception>().WithMessage($"'{strValue1[2..]}({base1.BaseName})' and '{strValue2[2..]}({base2.BaseName})' should be in the same base.");
+        }
+     
+        [TestMethod]
+        public void Test_09_AddString_KO_ErrorInStringValue()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            // Given
+            Base base1 = Base.Octal;
+            Base base2 = Base.Decimal;
+            long value1 = random.Next();
+            long value2 = random.Next();
+            string strValue1 = base1.Prefix + Convert.ToString(value1, (int)base1.BaseName).ToUpper() + "9";
+            string strValue2 = base1.Prefix + Convert.ToString(value2, (int)base2.BaseName).ToUpper();
+
+            // When
+            Action act = new(() => 
+            {
+                string strResult = YBigInteger.AddString(strValue1, strValue2);
+            });
+
+            // Then
+            act.Should().Throw<Exception>().WithMessage($"'{strValue1}' is not in a {base1.BaseName}-base number format.");
+        }
+     
+        [TestMethod]
+        public void Test_10_MultiplyString()
         {
             Random random = new((int)DateTime.Now.Ticks);
             Base[] bases = new[] { Base.Octal, Base.Decimal };
@@ -181,22 +228,24 @@ namespace Upsilon.Common.Library.UnitTests
                 for (int i = 0; i < LoopCount; i++)
                 {
                     // Given
-                    long val1 = random.Next();
-                    long val2 = random.Next();
-                    long result = val1 * val2;
+                    long value1 = random.Next();
+                    long value2 = random.Next();
+                    long result = value1 * value2;
+                    string strVal1 = @base.Prefix + Convert.ToString(value1, (int)@base.BaseName).ToUpper();
+                    string strVal2 = @base.Prefix + Convert.ToString(value2, (int)@base.BaseName).ToUpper();
+                    string strResult1 = @base.Prefix + Convert.ToString(result, (int)@base.BaseName).ToUpper();
 
                     // When
-                    string strResult = YBigInteger.MultiplyString(Convert.ToString(val1, (int)@base.BaseName).TrimStart('0').ToUpper(),
-                        Convert.ToString(val2, (int)@base.BaseName).TrimStart('0').ToUpper(), @base);
+                    string strResult2 = YBigInteger.MultiplyString(strVal1, strVal2);
 
                     // Then
-                    strResult.Should().Be(Convert.ToString((long)result, (int)@base.BaseName).TrimStart('0').ToUpper());
+                    strResult2.Should().Be(strResult1);
                 }
             }
         }
 
         [TestMethod]
-        public void Test_09_DecimalBase()
+        public void Test_11_DecimalBase()
         {
             Random random = new((int)DateTime.Now.Ticks);
 
@@ -210,12 +259,12 @@ namespace Upsilon.Common.Library.UnitTests
                 string strValue = bigInteger.ToString(Base.Decimal);
 
                 // Then
-                strValue.Should().Be(value.ToString());
+                strValue.Should().Be(Base.Decimal.Prefix + value.ToString());
             }
         }
 
         [TestMethod]
-        public void Test_10_OctalBase()
+        public void Test_12_OctalBase()
         {
             Random random = new((int)DateTime.Now.Ticks);
 
