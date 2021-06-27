@@ -41,7 +41,6 @@ namespace Upsilon.Common.Library.UnitTests
                 Reference = "202106181375",
                 Directory = _directory,
             };
-            YVersion assemblyVersion = new(System.Reflection.Assembly.GetAssembly(typeof(YUpdateCentre)).GetName().Version);
 
             // When
             YVersion version = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, false), "Upsilon.Common.Library");

@@ -7,65 +7,60 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
-    public enum BaseList
+    public enum YBase
     {
+        None = 0,
         Binary = 2,
         Octal = 8,
         Decimal = 10,
         Hexadecimal = 16,
     }
 
-    public class Base
+    public static class YBaseExtensions
     {
-        public BaseList BaseName { get { return (BaseList)this.Alphabet.Length; } }
-        public string Alphabet { get; set; }
-        public string Prefix { get; set; }
-        public int DigitGroup { get; set; }
-
-        public static Base[] Bases { get {
-                return new Base[]
-                {
-                Base.Binary,
-                Base.Octal,
-                Base.Decimal,
-                Base.Hexadecimal,
-                }; } }
-
-        public static Base Binary { get {
-                return new Base
-                {
-                    Alphabet = "01",
-                    Prefix = "0b",
-                    DigitGroup = 8,
-                }; } }
-
-        public static Base Octal { get {
-                return new Base
-                {
-                    Alphabet = "01234567",
-                    Prefix = "0o",
-                    DigitGroup = 2,
-                }; } }
-
-        public static Base Decimal { get {
-                return new Base
-                {
-                    Alphabet = "0123456789",
-                    Prefix = "0d",
-                    DigitGroup = 1,
-                }; } }
-
-        public static Base Hexadecimal { get {
-                return new Base
-                {
-                    Alphabet = "0123456789ABCDEF",
-                    Prefix = "0x",
-                    DigitGroup = 2,
-                }; } }
-
-        public override string ToString()
+        public static short GetBaseNumber(this YBase @base)
         {
-            return $"Base name : '{this.BaseName}' ({(int)this.BaseName})\nAlphabet : '{this.Alphabet}'\nPrefix : '{this.Prefix}'\nDigit group : '{this.DigitGroup}'";
+            return (short)@base;
+        }
+
+        public static string GetAlphabet(this YBase @base)
+        {
+            return @base switch
+            {
+                YBase.Binary => "01",
+                YBase.Octal => "01234567",
+                YBase.Decimal => "0123456789",
+                YBase.Hexadecimal => "0123456789ABCDEF",
+                _ => string.Empty,
+            };
+        }
+
+        public static string GetPrefix(this YBase @base)
+        {
+            return @base switch
+            {
+                YBase.Binary => "0b",
+                YBase.Octal => "0o",
+                YBase.Decimal => "0d",
+                YBase.Hexadecimal => "0x",
+                _ => string.Empty,
+            };
+        }
+
+        public static byte GetDigitGroup(this YBase @base)
+        {
+            return @base switch
+            {
+                YBase.Binary => 8,
+                YBase.Octal or YBase.Hexadecimal => 2,
+                YBase.Decimal => 1,
+                _ => 0,
+            };
+        }
+
+        public static YBase[] GetBases()
+        {
+            return YStaticMethods.GetEnumValues<YBase>().Except(new[] { YBase.None }).ToArray();
         }
     }
 
@@ -87,12 +82,12 @@ namespace Upsilon.Common.Library
 
         public YBigInteger(string strValue)
         {
-            Base @base = _getBase(ref strValue);
+            YBase @base = _getBase(ref strValue);
 
-            YBigInteger number = new YBigInteger(new byte[] { 0 });
+            YBigInteger number = new(new byte[] { 0 });
             foreach (char c in strValue)
             {
-                number = (number * (int)@base.BaseName) + @base.Alphabet.IndexOf(c);
+                number = (number * @base.GetBaseNumber()) + @base.GetAlphabet().IndexOf(c);
             }
 
             this.ByteArray = number.ByteArray;
@@ -100,33 +95,28 @@ namespace Upsilon.Common.Library
 
         public override string ToString()
         {
-            return this.ToString(Base.Decimal);
+            return this.ToString(YBase.Decimal);
         }
 
-        public string ToString(Base @base)
+        public string ToString(YBase @base)
         {
-            switch (@base.BaseName)
+            return @base switch
             {
-                case BaseList.Binary:
-                case BaseList.Hexadecimal:
-                    return _toBinaryOrHexadecimalString(@base);
-                case BaseList.Octal:
-                case BaseList.Decimal:
-                    return _toOctalOrDecimalString(@base);
-            }
-
-            return string.Empty;
+                YBase.Binary or YBase.Hexadecimal => _toBinaryOrHexadecimalString(@base),
+                YBase.Octal or YBase.Decimal => _toOctalOrDecimalString(@base),
+                _ => string.Empty,
+            };
         }
 
-        private string _toOctalOrDecimalString(Base @base)
+        private string _toOctalOrDecimalString(YBase @base)
         {
-            string strValue = @base.Prefix + "0";
+            string strValue = @base.GetPrefix() + "0";
 
             for (int i = this.ByteArray.Length - 1; i >= 0; i--)
             {
-                string tmp = @base.Prefix + Convert.ToString(YBigInteger.InternalBase, (int)@base.BaseName).ToUpper();
+                string tmp = @base.GetPrefix() + Convert.ToString(YBigInteger.InternalBase, @base.GetBaseNumber()).ToUpper();
                 strValue = MultiplyString(strValue, tmp);
-                tmp = @base.Prefix + Convert.ToString(this.ByteArray[i], (int)@base.BaseName).ToUpper();
+                tmp = @base.GetPrefix() + Convert.ToString(this.ByteArray[i], @base.GetBaseNumber()).ToUpper();
                 strValue = AddString(strValue, tmp);
             }
 
@@ -137,20 +127,20 @@ namespace Upsilon.Common.Library
                 strValue = strValue.TrimStart('0');
             }
 
-            return @base.Prefix + strValue;
+            return @base.GetPrefix() + strValue;
         }
 
-        private string _toBinaryOrHexadecimalString(Base @base)
+        private string _toBinaryOrHexadecimalString(YBase @base)
         {
-            int digit = @base.DigitGroup;
+            int digit = @base.GetDigitGroup();
 
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
 
-            string strNumber = string.Empty;
+            string strNumber;
 
             for (int i = this.ByteArray.Length - 1; i >= 0; i--)
             {
-                strNumber = Convert.ToString(this.ByteArray[i], (int)@base.BaseName).ToUpper();
+                strNumber = Convert.ToString(this.ByteArray[i], @base.GetBaseNumber()).ToUpper();
                 if (strNumber.TrimStart('0') != string.Empty)
                 {
                     strNumber = strNumber.TrimStart('0');
@@ -168,72 +158,71 @@ namespace Upsilon.Common.Library
 
             strNumber = builder.ToString();
 
-            for (int i = digit; @base != Base.Decimal && i < strNumber.Length; i += digit)
+            for (int i = digit; @base != YBase.Decimal && i < strNumber.Length; i += digit)
             {
                 strNumber = strNumber.Insert(i, " ");
                 i++;
             }
 
-            return @base.Prefix + strNumber;
+            return @base.GetPrefix() + strNumber;
         }
 
         public static string AddString(string strValue1, string strValue2)
         {
-            Base base1 = _getBase(ref strValue1);
-            Base base2 = _getBase(ref strValue2);
+            YBase base1 = _getBase(ref strValue1);
+            YBase base2 = _getBase(ref strValue2);
 
-            if (base1.BaseName != base2.BaseName)
+            if (base1 != base2)
             {
-                throw new Exception($"'{strValue1}({base1.BaseName})' and '{strValue2}({base2.BaseName})' should be in the same base.");
+                throw new Exception($"'{base1.GetPrefix()}{strValue1}' and '{base2.GetPrefix()}{strValue2}' should be in the same base.");
             }
 
             strValue1 = new(strValue1.Reverse().ToArray());
             strValue2 = new(strValue2.Reverse().ToArray());
 
-            byte[] result = YBigInteger.AddBytes(strValue1.Select(x => (byte)base1.Alphabet.IndexOf(x)).ToArray(),
-                strValue2.Select(x => (byte)base1.Alphabet.IndexOf(x)).ToArray(),
-                (byte)base1.BaseName);
+            byte[] result = YBigInteger.AddBytes(strValue1.Select(x => (byte)base1.GetAlphabet().IndexOf(x)).ToArray(),
+                strValue2.Select(x => (byte)base1.GetAlphabet().IndexOf(x)).ToArray(),
+                base1.GetBaseNumber());
 
-            return base1.Prefix + new string(result.Select(x => base1.Alphabet[x]).Reverse().ToArray());
+            return base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray());
         }
 
         public static string MultiplyString(string strValue1, string strValue2)
         {
-            Base base1 = _getBase(ref strValue1);
-            Base base2 = _getBase(ref strValue2);
+            YBase base1 = _getBase(ref strValue1);
+            YBase base2 = _getBase(ref strValue2);
 
-            if (base1.BaseName != base2.BaseName)
+            if (base1 != base2)
             {
-                throw new Exception($"'{strValue1}({base1.BaseName})' and '{strValue2}({base2.BaseName})' should be in the same base.");
+                throw new Exception($"'{base1.GetPrefix()}{strValue1}' and '{base2.GetPrefix()}{strValue2}' should be in the same base.");
             }
 
             strValue1 = new(strValue1.Reverse().ToArray());
             strValue2 = new(strValue2.Reverse().ToArray());
 
-            byte[] result = YBigInteger.MultiplyBytes(strValue1.Select(x => (byte)base1.Alphabet.IndexOf(x)).ToArray(),
-                strValue2.Select(x => (byte)base1.Alphabet.IndexOf(x)).ToArray(),
-                (byte)base1.BaseName);
+            byte[] result = YBigInteger.MultiplyBytes(strValue1.Select(x => (byte)base1.GetAlphabet().IndexOf(x)).ToArray(),
+                strValue2.Select(x => (byte)base1.GetAlphabet().IndexOf(x)).ToArray(),
+                base1.GetBaseNumber());
 
-            return base1.Prefix + new string(result.Select(x => base1.Alphabet[x]).Reverse().ToArray());
+            return base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray());
         }
 
-        private static Base _getBase(ref string strValue)
+        private static YBase _getBase(ref string strValue)
         {
             string value = strValue;
-
-            Base @base = Base.Bases.Where(x => value.StartsWith(x.Prefix)).FirstOrDefault();
-            if (@base == null)
+            YBase @base = YBaseExtensions.GetBases().Where(x => value.StartsWith(x.GetPrefix())).FirstOrDefault();
+            if (@base == YBase.None)
             {
-                @base = Base.Decimal;
-                value = @base.Prefix + value;
+                @base = YBase.Decimal;
+                value = @base.GetPrefix() + value;
             }
 
-            if (!Regex.IsMatch(value, $@"{@base.Prefix}[{@base.Alphabet}\s]+$", RegexOptions.IgnoreCase))
+            if (!Regex.IsMatch(value, $@"{@base.GetPrefix()}[{@base.GetAlphabet()}\s]+$", RegexOptions.IgnoreCase))
             {
-                throw new Exception($"'{value}' is not in a {@base.BaseName}-base number format.");
+                throw new Exception($"'{value}' is not a {@base} number format.");
             }
 
-            strValue = Regex.Replace(value.Substring(2), @"\s", "").ToUpper();
+            strValue = Regex.Replace(value[2..], @"\s", "").ToUpper();
 
             return @base;
         }
@@ -330,7 +319,7 @@ namespace Upsilon.Common.Library
 
         public static YBigInteger operator +(long value1, YBigInteger value2)
         {
-            return value2 + new YBigInteger(BitConverter.GetBytes(value1));
+            return value2 + value1;
         }
 
         public static YBigInteger operator *(YBigInteger value1, YBigInteger value2)
@@ -345,7 +334,7 @@ namespace Upsilon.Common.Library
 
         public static YBigInteger operator *(long value1, YBigInteger value2)
         {
-            return value2 * new YBigInteger(BitConverter.GetBytes(value1));
+            return value2 * value1;
         }
     }
 }
