@@ -56,6 +56,12 @@ namespace Upsilon.Common.Library
             int intLookingForFlag = (int)(object)lookingForFlag;
             return ((intValue & intLookingForFlag) == intLookingForFlag);
         }
+
+        public static T[] GetEnumValues<T>()
+            where T : struct
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>().ToArray();
+        }
         #endregion
 
         #region Serialization/Deserialization Extention Methods
