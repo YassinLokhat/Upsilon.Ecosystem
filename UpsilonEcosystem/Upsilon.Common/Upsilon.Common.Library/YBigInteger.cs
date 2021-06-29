@@ -100,12 +100,27 @@ namespace Upsilon.Common.Library
 
         public string ToString(YBase @base)
         {
-            return @base switch
+            string result = string.Empty;
+
+            switch (@base)
             {
-                YBase.Binary or YBase.Hexadecimal => _toBinaryOrHexadecimalString(@base),
-                YBase.Octal or YBase.Decimal => _toOctalOrDecimalString(@base),
-                _ => string.Empty,
-            };
+                case YBase.Binary:
+                case YBase.Hexadecimal:
+                    result = _toBinaryOrHexadecimalString(@base);
+                    break;
+                case YBase.Octal:
+                case YBase.Decimal:
+                    result = _toOctalOrDecimalString(@base);
+                    break;
+            }
+
+            for (int i = @base.GetDigitGroup(); @base != YBase.Decimal && i < result.Length; i += @base.GetDigitGroup())
+            {
+                result = result.Insert(i, " ");
+                i++;
+            }
+
+            return @base.GetPrefix() + result;
         }
 
         private string _toOctalOrDecimalString(YBase @base)
@@ -127,7 +142,7 @@ namespace Upsilon.Common.Library
                 strValue = strValue.TrimStart('0');
             }
 
-            return @base.GetPrefix() + strValue;
+            return strValue;
         }
 
         private string _toBinaryOrHexadecimalString(YBase @base)
@@ -156,15 +171,7 @@ namespace Upsilon.Common.Library
                 builder.Append(strNumber);
             }
 
-            strNumber = builder.ToString();
-
-            for (int i = digit; @base != YBase.Decimal && i < strNumber.Length; i += digit)
-            {
-                strNumber = strNumber.Insert(i, " ");
-                i++;
-            }
-
-            return @base.GetPrefix() + strNumber;
+            return builder.ToString();
         }
 
         public static string AddString(string strValue1, string strValue2)
