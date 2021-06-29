@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Upsilon.Common.Library</name>
+    </assembly>
+    <members>
+        <member name="T:Upsilon.Common.Library.YBase">
+            <summary>
+            Enumeration for numeric bases
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBase.None">
+            <summary>
+            Unknown base
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBase.Binary">
+            <summary>
+            Binary base (2)
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBase.Octal">
+            <summary>
+            Octal base (8)
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBase.Decimal">
+            <summary>
+            Decimal base (10)
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBase.Hexadecimal">
+            <summary>
+            Hexadecimal base (16)
+            </summary>
+        </member>
+    </members>
+</doc>

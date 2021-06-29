@@ -11,6 +11,10 @@
     <Version>1.0.1</Version>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Documents\Visual Studio 2019\Projects\UpsilonEcosystem\UpsilonEcosystem\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="..\..\..\..\Media\UpsilonLogo.png">
       <Pack>True</Pack>

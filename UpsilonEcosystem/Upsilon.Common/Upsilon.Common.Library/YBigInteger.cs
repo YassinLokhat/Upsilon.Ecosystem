@@ -7,12 +7,30 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
+    /// <summary>
+    /// Enumerate numeric bases
+    /// </summary>
     public enum YBase
     {
+        /// <summary>
+        /// Unknown base
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// Binary base (2)
+        /// </summary>
         Binary = 2,
+        /// <summary>
+        /// Octal base (8)
+        /// </summary>
         Octal = 8,
+        /// <summary>
+        /// Decimal base (10)
+        /// </summary>
         Decimal = 10,
+        /// <summary>
+        /// Hexadecimal base (16)
+        /// </summary>
         Hexadecimal = 16,
     }
 
