@@ -4,9 +4,83 @@
         <name>Upsilon.Common.Library</name>
     </assembly>
     <members>
+        <member name="T:Upsilon.Common.Library.YArgumentParser">
+            <summary>
+            The Upsilon Ecosystem argument parsing engine
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YArgumentParser.Arguments">
+            <summary>
+            Get the list of <c>YArguments</c> parsed by the engine
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YArgumentParser.Args">
+            <summary>
+            Get the raw arguments given to the engine
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YArgumentParser.ArgModifiers">
+            <summary>
+            Get the list of argument modifiers
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YArgumentParser.#ctor(System.String[])">
+            <summary>
+            Create a new argument parser engine from an arguments list
+            </summary>
+            <param name="args">The arguments list</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YArgumentParser.GetArgument(System.String)">
+            <summary>
+            Get a <c>YArguments</c> from the <paramref name="argName"/> or <c>null</c> if the given param is not found.
+            </summary>
+            <remarks>Giving string.Empty to the <paramref name="argName"/> param will return the main <c>YArguments</c></remarks>
+            <param name="argName"></param>
+            <returns>Returns the <c>YArguments</c> or <c>null</c></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YArgumentParser.HasArgument(System.String)">
+            <summary>
+            Check if the <paramref name="argName"/> is set.
+            </summary>
+            <param name="argName"></param>
+            <returns>Returns <c>true</c> or <c>false</c></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YArgumentParser.ArgumentIsSet(System.String)">
+            <summary>
+            Check if the <paramref name="argName"/> is set as a boolean.
+            </summary>
+            <param name="argName"></param>
+            <returns>Returns <c>true</c> or <c>false</c></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YArgumentParser.GetMainArgument">
+            <summary>
+            Get the main <c>YArguments</c> or <c>null</c> if not found.
+            </summary>
+            <returns>Returns the <c>YArguments</c> or <c>null</c></returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YArgument">
+            <summary>
+            This class represent an argument
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YArgument.Name">
+            <summary>
+            The name of the argument without his modifier
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YArgument.Values">
+            <summary>
+            The values of that argument
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YArgument.IsBoolean">
+            <summary>
+            Check if that argument is set as a boolean
+            </summary>
+        </member>
         <member name="T:Upsilon.Common.Library.YBase">
             <summary>
-            Enumeration for numeric bases
+            Enumerate numeric bases
             </summary>
         </member>
         <member name="F:Upsilon.Common.Library.YBase.None">
