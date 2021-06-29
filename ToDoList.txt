@@ -1,4 +1,5 @@
 Release
+	Documentation
 	Create a release management tool
 
 Upsilon.Tools.YDBDesigner

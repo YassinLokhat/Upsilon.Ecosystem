@@ -16,3 +16,6 @@ Thumbs.db
 
 # Dotfuscator binaries
 /**/Dotfuscated
+
+# Documentation
+/Docs/Help/
