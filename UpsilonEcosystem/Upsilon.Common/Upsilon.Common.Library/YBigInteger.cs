@@ -34,13 +34,44 @@ namespace Upsilon.Common.Library
         Hexadecimal = 16,
     }
 
+    /// <summary>
+    /// Extension method class for <c><see cref="YBase"/></c>.
+    /// </summary>
     public static class YBaseExtensions
     {
+        /// <summary>
+        /// Returns the base number of the given <c><see cref="YBase"/></c>.
+        /// </summary>
+        /// <param name="base">The <c><see cref="YBase"/></c> to return the number.</param>
+        /// <returns>
+        /// The base number : 
+        /// <list type="bullet">
+        /// <item><description>For <c><see cref="YBase"/>.None</c> : 0</description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Binary</c> : 2</description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Octal</c> : 8</description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Decimal</c> : 10</description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Hexadecimal</c> : 16</description></item>
+        /// </list>
+        /// </returns>
         public static short GetBaseNumber(this YBase @base)
         {
             return (short)@base;
         }
 
+        /// <summary>
+        /// Returns the alphabet of the given <c><see cref="YBase"/></c>.
+        /// </summary>
+        /// <param name="base">The <c><see cref="YBase"/></c> to return the alphabet.</param>
+        /// <returns>
+        /// The alphabet : 
+        /// <list type="bullet">
+        /// <item><description>For <c><see cref="YBase"/>.None</c> : <c>string.Empty</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Binary</c> : <c>"01"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Octal</c> : <c>"01234567"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Decimal</c> : <c>"0123456789"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Hexadecimal</c> : <c>"0123456789ABCDEF"</c></description></item>
+        /// </list>
+        /// </returns>
         public static string GetAlphabet(this YBase @base)
         {
             return @base switch
@@ -53,6 +84,20 @@ namespace Upsilon.Common.Library
             };
         }
 
+        /// <summary>
+        /// Returns the prefix of the given <c><see cref="YBase"/></c>.
+        /// </summary>
+        /// <param name="base">The <c><see cref="YBase"/></c> to return the prefix.</param>
+        /// <returns>
+        /// The prefix : 
+        /// <list type="bullet">
+        /// <item><description>For <c><see cref="YBase"/>.None</c> : <c>string.Empty</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Binary</c> : <c>"0b"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Octal</c> : <c>"0o"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Decimal</c> : <c>"0d"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Hexadecimal</c> : <c>"0x"</c></description></item>
+        /// </list>
+        /// </returns>
         public static string GetPrefix(this YBase @base)
         {
             return @base switch
@@ -65,6 +110,20 @@ namespace Upsilon.Common.Library
             };
         }
 
+        /// <summary>
+        /// Returns the digit group of the given <c><see cref="YBase"/></c>.
+        /// </summary>
+        /// <param name="base">The <c><see cref="YBase"/></c> to return the digit group.</param>
+        /// <returns>
+        /// The digit group : 
+        /// <list type="bullet">
+        /// <item><description>For <c><see cref="YBase"/>.None</c> : <c>0</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Binary</c> : <c>"8"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Octal</c> : <c>"2"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Decimal</c> : <c>"1"</c></description></item>
+        /// <item><description>For <c><see cref="YBase"/>.Hexadecimal</c> : <c>"2"</c></description></item>
+        /// </list>
+        /// </returns>
         public static byte GetDigitGroup(this YBase @base)
         {
             return @base switch
@@ -76,6 +135,10 @@ namespace Upsilon.Common.Library
             };
         }
 
+        /// <summary>
+        /// Returns all values of the <c><see cref="YBase"/></c> enum.
+        /// </summary>
+        /// <returns>All values of the <c><see cref="YBase"/></c> enum</returns>
         public static YBase[] GetBases()
         {
             return YStaticMethods.GetEnumValues<YBase>().Except(new[] { YBase.None }).ToArray();
