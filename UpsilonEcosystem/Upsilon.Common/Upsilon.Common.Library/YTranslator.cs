@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
-    public class YTranslator : Dictionary<string, string>
+    public sealed class YTranslator : Dictionary<string, string>
     {
         public string LanguageCode { get; private set; }
         public string LanguageName { get; private set; }

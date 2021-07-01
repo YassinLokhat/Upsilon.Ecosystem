@@ -9,7 +9,7 @@ using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
-    public sealed class YField
+    internal sealed class YField
     {
         public string Name { get; set; }
         public Type Type { get; set; }

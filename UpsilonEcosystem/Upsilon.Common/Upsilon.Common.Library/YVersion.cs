@@ -14,7 +14,7 @@ namespace Upsilon.Common.Library
         Full,
     }
 
-    public class YVersion : IComparable
+    public sealed class YVersion : IComparable
     {
         public int Major { get; private set; } = 0;
         public int Minor { get; private set; } = 0;

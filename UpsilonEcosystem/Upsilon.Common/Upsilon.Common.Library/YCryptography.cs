@@ -23,12 +23,12 @@ namespace Upsilon.Common.Library
             byte[] key = Encoding.ASCII.GetBytes(password.Substring(0, 32));
             byte[] IV = Encoding.ASCII.GetBytes(password.Substring(32, 16));
 
-            byte[] bytes = YCryptography.Cipher_Aes(plainText, key, IV);
+            byte[] bytes = YCryptography._cipher_Aes(plainText, key, IV);
 
             return new string(bytes.Select(x => (char)x).ToArray());
         }
 
-        public static byte[] Cipher_Aes(string plainText, byte[] key, byte[] IV)
+        private static byte[] _cipher_Aes(string plainText, byte[] key, byte[] IV)
         {
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -86,10 +86,10 @@ namespace Upsilon.Common.Library
 
             byte[] bytes = cipherText.Select(x => (byte)x).ToArray();
 
-            return YCryptography.Uncither_Aes(bytes, key, IV);
+            return YCryptography._uncither_Aes(bytes, key, IV);
         }
 
-        public static string Uncither_Aes(byte[] cipherText, byte[] key, byte[] IV)
+        private static string _uncither_Aes(byte[] cipherText, byte[] key, byte[] IV)
         {
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)

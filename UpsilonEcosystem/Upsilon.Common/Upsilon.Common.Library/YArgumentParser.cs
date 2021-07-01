@@ -10,7 +10,7 @@ namespace Upsilon.Common.Library
     /// The Upsilon Ecosystem argument parsing engine.
     /// <seealso cref="YArgument"/>
     /// </summary>
-    public class YArgumentParser
+    public sealed class YArgumentParser
     {
         /// <summary>
         /// Get the list of <c><see cref="YArgument"/></c> parsed by the engine.
@@ -211,7 +211,7 @@ namespace Upsilon.Common.Library
     /// This class represent an argument parsed by a <c><see cref="YArgumentParser"/></c>.
     /// <seealso cref="YArgumentParser"/>
     /// </summary>
-    public class YArgument
+    public sealed class YArgument
     {
         /// <summary>
         /// The name of the argument without its modifier.

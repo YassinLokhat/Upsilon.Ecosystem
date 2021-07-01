@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
-    public class YAssembly
+    public sealed class YAssembly
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -19,7 +19,7 @@ namespace Upsilon.Common.Library
         public YVersion YVersion { get { return new(this.Version); } }
     }
 
-    public class YDependency
+    public sealed class YDependency
     {
         public string Name { get; set; }
         public string MinimalVersion { get; set; }

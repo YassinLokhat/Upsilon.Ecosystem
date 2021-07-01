@@ -7,7 +7,7 @@ using Upsilon.Database.Library;
 
 namespace Upsilon.Tools.YDBDesigner.Core
 {
-    public class YDBDesignerCore
+    public sealed class YDBDesignerCore
     {
         private string _filename = string.Empty;
         private string _key = string.Empty;

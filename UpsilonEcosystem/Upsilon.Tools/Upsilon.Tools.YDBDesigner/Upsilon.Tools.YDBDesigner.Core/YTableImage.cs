@@ -9,7 +9,7 @@ using Upsilon.Database.Library;
 
 namespace Upsilon.Tools.YDBDesigner.Core
 {
-    public class YTableImage
+    public sealed class YTableImage
     {
         public string Name { get; set; }
         public List<YFieldImage> Fields { get; private set; }

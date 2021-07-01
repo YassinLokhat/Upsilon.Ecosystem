@@ -16,7 +16,7 @@ namespace Upsilon.Database.Library
         private string _filename = string.Empty;
         private string _key = string.Empty;
         
-        public readonly Dictionary<string, List<YField>> TablesDefinition = new();
+        internal readonly Dictionary<string, List<YField>> TablesDefinition = new();
 
         private XmlDocument _document = null;
         private FileStream _file = null;
