@@ -7,6 +7,7 @@
         <member name="T:Upsilon.Common.Library.YArgumentParser">
             <summary>
             The Upsilon Ecosystem argument parsing engine.
+            <seealso cref="T:Upsilon.Common.Library.YArgument"/>
             </summary>
         </member>
         <member name="P:Upsilon.Common.Library.YArgumentParser.Arguments">
@@ -198,6 +199,207 @@
             <summary>
             Hexadecimal base (16)
             </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YBaseExtensions">
+            <summary>
+            Extension method class for <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBaseExtensions.GetBaseNumber(Upsilon.Common.Library.YBase)">
+            <summary>
+            Returns the base number of the given <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> to return the number.</param>
+            <returns>
+            The base number : 
+            <list type="bullet">
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.None</c> : 0</description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Binary</c> : 2</description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Octal</c> : 8</description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Decimal</c> : 10</description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Hexadecimal</c> : 16</description></item>
+            </list>
+            </returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBaseExtensions.GetAlphabet(Upsilon.Common.Library.YBase)">
+            <summary>
+            Returns the alphabet of the given <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> to return the alphabet.</param>
+            <returns>
+            The alphabet : 
+            <list type="bullet">
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.None</c> : <c>string.Empty</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Binary</c> : <c>"01"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Octal</c> : <c>"01234567"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Decimal</c> : <c>"0123456789"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Hexadecimal</c> : <c>"0123456789ABCDEF"</c></description></item>
+            </list>
+            </returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBaseExtensions.GetPrefix(Upsilon.Common.Library.YBase)">
+            <summary>
+            Returns the prefix of the given <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> to return the prefix.</param>
+            <returns>
+            The prefix : 
+            <list type="bullet">
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.None</c> : <c>string.Empty</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Binary</c> : <c>"0b"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Octal</c> : <c>"0o"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Decimal</c> : <c>"0d"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Hexadecimal</c> : <c>"0x"</c></description></item>
+            </list>
+            </returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBaseExtensions.GetDigitGroup(Upsilon.Common.Library.YBase)">
+            <summary>
+            Returns the digit group of the given <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> to return the digit group.</param>
+            <returns>
+            The digit group : 
+            <list type="bullet">
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.None</c> : <c>0</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Binary</c> : <c>"8"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Octal</c> : <c>"2"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Decimal</c> : <c>"1"</c></description></item>
+            <item><description>For <c><see cref="T:Upsilon.Common.Library.YBase"/>.Hexadecimal</c> : <c>"2"</c></description></item>
+            </list>
+            </returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBaseExtensions.GetBases">
+            <summary>
+            Returns all values of the <c><see cref="T:Upsilon.Common.Library.YBase"/></c> enum.
+            </summary>
+            <returns>All values of the <c><see cref="T:Upsilon.Common.Library.YBase"/></c> enum</returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YBigInteger">
+            <summary>
+            This class represent a big integer.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YBigInteger.ByteArray">
+            <summary>
+            The byte array which represent the <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.#ctor(System.Byte[])">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> from the byte array <c><paramref name="byteArray"/></c>.
+            </summary>
+            <param name="byteArray">The byte array.</param>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBigInteger.InternalBase">
+            <summary>
+            The internal base which is 0x100 or 256.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.#ctor(System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> from the <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string number <c><paramref name="strValue"/></c>.
+            </summary>
+            <param name="strValue">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string number</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.ToString">
+            <summary>
+            Returns the <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> in <c><see cref="F:Upsilon.Common.Library.YBase.Decimal"/></c> string format.
+            </summary>
+            <returns>The <c><see cref="F:Upsilon.Common.Library.YBase.Decimal"/></c> string format.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.ToString(Upsilon.Common.Library.YBase)">
+            <summary>
+            Returns the <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> in the <c><paramref name="base"/></c> prefixed string format.
+            </summary>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.</param>
+            <returns>The <c><paramref name="base"/></c> prefixed string format.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.AddString(System.String,System.String)">
+            <summary>
+            Add two <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string.
+            </summary>
+            <remarks>The two <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string should be in the same base.</remarks>
+            <exception cref="T:System.Exception">Occurs when one of the string are not valide or if the two strings are not in the same base.</exception>
+            <param name="strValue1">The first <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string.</param>
+            <param name="strValue2">The second <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string which is the sum of the two strings</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.MultiplyString(System.String,System.String)">
+            <summary>
+            Multiply two <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string.
+            </summary>
+            <remarks>The two <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string should be in the same base.</remarks>
+            <exception cref="T:System.Exception">Occurs when one of the string are not valide or if the two strings are not in the same base.</exception>
+            <param name="strValue1">The first <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string.</param>
+            <param name="strValue2">The second <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBase"/></c> prefixed string which is the product of the two strings.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.AddBytes(System.Byte[],System.Byte[],System.Int16)">
+            <summary>
+            Add two byte arrays in the given <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+            <param name="value1">The first byte array.</param>
+            <param name="value2">The second byte array.</param>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.</param>
+            <returns>The sum of the two byte arrays.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.MultiplyBytes(System.Byte[],System.Byte[],System.Int16)">
+            <summary>
+            Multiply two byte arrays in the given <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            </summary>
+            <param name="value1">The first byte array.</param>
+            <param name="value2">The second byte array.</param>
+            <param name="base">The <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.</param>
+            <returns>The product of the two byte arrays.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.op_Addition(Upsilon.Common.Library.YBigInteger,Upsilon.Common.Library.YBigInteger)">
+            <summary>
+            Add two <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.
+            </summary>
+            <param name="value1">The first <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.</param>
+            <param name="value2">The second <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the sum of the two params</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.op_Addition(Upsilon.Common.Library.YBigInteger,System.Int64)">
+            <summary>
+            Add a <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> to a <c>long</c> number.
+            </summary>
+            <param name="value1">The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> number.</param>
+            <param name="value2">The <c>long</c> number.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the sum of the two params</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.op_Addition(System.Int64,Upsilon.Common.Library.YBigInteger)">
+            <summary>
+            Add a <c>long</c> number to a <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.
+            </summary>
+            <param name="value1">The <c>long</c> number.</param>
+            <param name="value2">The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> number.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the sum of the two params</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.op_Multiply(Upsilon.Common.Library.YBigInteger,Upsilon.Common.Library.YBigInteger)">
+            <summary>
+            Multiply two <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.
+            </summary>
+            <param name="value1">The first <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.</param>
+            <param name="value2">The second <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the product of the two params</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.op_Multiply(Upsilon.Common.Library.YBigInteger,System.Int64)">
+            <summary>
+            Multiply a <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> to a <c>long</c> number.
+            </summary>
+            <param name="value1">The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> number.</param>
+            <param name="value2">The <c>long</c> number.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the product of the two params</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YBigInteger.op_Multiply(System.Int64,Upsilon.Common.Library.YBigInteger)">
+            <summary>
+            Multiply a <c>long</c> number to a <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c>.
+            </summary>
+            <param name="value1">The <c>long</c> number.</param>
+            <param name="value2">The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> number.</param>
+            <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the product of the two params</returns>
         </member>
     </members>
 </doc>

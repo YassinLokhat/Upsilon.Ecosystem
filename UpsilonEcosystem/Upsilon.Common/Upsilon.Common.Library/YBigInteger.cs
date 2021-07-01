@@ -145,10 +145,20 @@ namespace Upsilon.Common.Library
         }
     }
 
+    /// <summary>
+    /// This class represent a big integer.
+    /// </summary>
     public sealed class YBigInteger
     {
+        /// <summary>
+        /// The byte array which represent the <c><see cref="YBigInteger"/></c>.
+        /// </summary>
         public byte[] ByteArray { get; private set; } = null;
 
+        /// <summary>
+        /// Create a new <c><see cref="YBigInteger"/></c> from the byte array <c><paramref name="byteArray"/></c>.
+        /// </summary>
+        /// <param name="byteArray">The byte array.</param>
         public YBigInteger(byte[] byteArray)
         {
             while (byteArray.Last() == 0 && byteArray.Length > 1)
@@ -159,8 +169,15 @@ namespace Upsilon.Common.Library
             this.ByteArray = byteArray;
         }
 
+        /// <summary>
+        /// The internal base which is 0x100 or 256.
+        /// </summary>
         public static readonly short InternalBase = 0x100;
 
+        /// <summary>
+        /// Create a new <c><see cref="YBigInteger"/></c> from the <c><see cref="YBase"/></c> prefixed string number <c><paramref name="strValue"/></c>.
+        /// </summary>
+        /// <param name="strValue">The <c><see cref="YBase"/></c> prefixed string number</param>
         public YBigInteger(string strValue)
         {
             YBase @base = _getBase(ref strValue);
@@ -174,11 +191,20 @@ namespace Upsilon.Common.Library
             this.ByteArray = number.ByteArray;
         }
 
+        /// <summary>
+        /// Returns the <c><see cref="YBigInteger"/></c> in <c><see cref="YBase.Decimal"/></c> string format.
+        /// </summary>
+        /// <returns>The <c><see cref="YBase.Decimal"/></c> string format.</returns>
         public override string ToString()
         {
             return this.ToString(YBase.Decimal);
         }
 
+        /// <summary>
+        /// Returns the <c><see cref="YBigInteger"/></c> in the <c><paramref name="base"/></c> prefixed string format.
+        /// </summary>
+        /// <param name="base">The <c><see cref="YBase"/></c>.</param>
+        /// <returns>The <c><paramref name="base"/></c> prefixed string format.</returns>
         public string ToString(YBase @base)
         {
             string result = string.Empty;
@@ -255,6 +281,14 @@ namespace Upsilon.Common.Library
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Add two <c><see cref="YBase"/></c> prefixed string.
+        /// </summary>
+        /// <remarks>The two <c><see cref="YBase"/></c> prefixed string should be in the same base.</remarks>
+        /// <exception cref="Exception">Occurs when one of the string are not valide or if the two strings are not in the same base.</exception>
+        /// <param name="strValue1">The first <c><see cref="YBase"/></c> prefixed string.</param>
+        /// <param name="strValue2">The second <c><see cref="YBase"/></c> prefixed string.</param>
+        /// <returns>The <c><see cref="YBase"/></c> prefixed string which is the sum of the two strings</returns>
         public static string AddString(string strValue1, string strValue2)
         {
             YBase base1 = _getBase(ref strValue1);
@@ -275,6 +309,14 @@ namespace Upsilon.Common.Library
             return base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray());
         }
 
+        /// <summary>
+        /// Multiply two <c><see cref="YBase"/></c> prefixed string.
+        /// </summary>
+        /// <remarks>The two <c><see cref="YBase"/></c> prefixed string should be in the same base.</remarks>
+        /// <exception cref="Exception">Occurs when one of the string are not valide or if the two strings are not in the same base.</exception>
+        /// <param name="strValue1">The first <c><see cref="YBase"/></c> prefixed string.</param>
+        /// <param name="strValue2">The second <c><see cref="YBase"/></c> prefixed string.</param>
+        /// <returns>The <c><see cref="YBase"/></c> prefixed string which is the product of the two strings.</returns>
         public static string MultiplyString(string strValue1, string strValue2)
         {
             YBase base1 = _getBase(ref strValue1);
@@ -315,6 +357,13 @@ namespace Upsilon.Common.Library
             return @base;
         }
 
+        /// <summary>
+        /// Add two byte arrays in the given <c><see cref="YBase"/></c>.
+        /// </summary>
+        /// <param name="value1">The first byte array.</param>
+        /// <param name="value2">The second byte array.</param>
+        /// <param name="base">The <c><see cref="YBase"/></c>.</param>
+        /// <returns>The sum of the two byte arrays.</returns>
         public static byte[] AddBytes(byte[] value1, byte[] value2, short @base)
         {
             List<byte> result = new();
@@ -353,6 +402,13 @@ namespace Upsilon.Common.Library
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Multiply two byte arrays in the given <c><see cref="YBase"/></c>.
+        /// </summary>
+        /// <param name="value1">The first byte array.</param>
+        /// <param name="value2">The second byte array.</param>
+        /// <param name="base">The <c><see cref="YBase"/></c>.</param>
+        /// <returns>The product of the two byte arrays.</returns>
         public static byte[] MultiplyBytes(byte[] value1, byte[] value2, short @base)
         {
             List<byte[]> subResults = new();
@@ -395,31 +451,67 @@ namespace Upsilon.Common.Library
             return result;
         }
 
+        /// <summary>
+        /// Add two <c><see cref="YBigInteger"/></c>.
+        /// </summary>
+        /// <param name="value1">The first <c><see cref="YBigInteger"/></c>.</param>
+        /// <param name="value2">The second <c><see cref="YBigInteger"/></c>.</param>
+        /// <returns>The <c><see cref="YBigInteger"/></c> which is the sum of the two params</returns>
         public static YBigInteger operator +(YBigInteger value1, YBigInteger value2)
         {
             return new YBigInteger(YBigInteger.AddBytes(value1.ByteArray, value2.ByteArray, 0x100));
         }
 
+        /// <summary>
+        /// Add a <c><see cref="YBigInteger"/></c> to a <c>long</c> number.
+        /// </summary>
+        /// <param name="value1">The <c><see cref="YBigInteger"/></c> number.</param>
+        /// <param name="value2">The <c>long</c> number.</param>
+        /// <returns>The <c><see cref="YBigInteger"/></c> which is the sum of the two params</returns>
         public static YBigInteger operator +(YBigInteger value1, long value2)
         {
             return value1 + new YBigInteger(BitConverter.GetBytes(value2));
         }
 
+        /// <summary>
+        /// Add a <c>long</c> number to a <c><see cref="YBigInteger"/></c>.
+        /// </summary>
+        /// <param name="value1">The <c>long</c> number.</param>
+        /// <param name="value2">The <c><see cref="YBigInteger"/></c> number.</param>
+        /// <returns>The <c><see cref="YBigInteger"/></c> which is the sum of the two params</returns>
         public static YBigInteger operator +(long value1, YBigInteger value2)
         {
             return value2 + value1;
         }
 
+        /// <summary>
+        /// Multiply two <c><see cref="YBigInteger"/></c>.
+        /// </summary>
+        /// <param name="value1">The first <c><see cref="YBigInteger"/></c>.</param>
+        /// <param name="value2">The second <c><see cref="YBigInteger"/></c>.</param>
+        /// <returns>The <c><see cref="YBigInteger"/></c> which is the product of the two params</returns>
         public static YBigInteger operator *(YBigInteger value1, YBigInteger value2)
         {
             return new YBigInteger(YBigInteger.MultiplyBytes(value1.ByteArray, value2.ByteArray, 0x100));
         }
 
+        /// <summary>
+        /// Multiply a <c><see cref="YBigInteger"/></c> to a <c>long</c> number.
+        /// </summary>
+        /// <param name="value1">The <c><see cref="YBigInteger"/></c> number.</param>
+        /// <param name="value2">The <c>long</c> number.</param>
+        /// <returns>The <c><see cref="YBigInteger"/></c> which is the product of the two params</returns>
         public static YBigInteger operator *(YBigInteger value1, long value2)
         {
             return value1 * new YBigInteger(BitConverter.GetBytes(value2));
         }
 
+        /// <summary>
+        /// Multiply a <c>long</c> number to a <c><see cref="YBigInteger"/></c>.
+        /// </summary>
+        /// <param name="value1">The <c>long</c> number.</param>
+        /// <param name="value2">The <c><see cref="YBigInteger"/></c> number.</param>
+        /// <returns>The <c><see cref="YBigInteger"/></c> which is the product of the two params</returns>
         public static YBigInteger operator *(long value1, YBigInteger value2)
         {
             return value2 * value1;
