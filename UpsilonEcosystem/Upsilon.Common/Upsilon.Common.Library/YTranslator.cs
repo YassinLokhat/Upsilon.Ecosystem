@@ -8,11 +8,27 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
+    /// <summary>
+    /// <para>A string translation engine.</para>
+    /// <para>Inherits from <c>Dictionary&lt;string, string></c>.</para>
+    /// </summary>
     public sealed class YTranslator : Dictionary<string, string>
     {
+        /// <summary>
+        /// The language code
+        /// </summary>
         public string LanguageCode { get; private set; }
+
+        /// <summary>
+        /// The language name
+        /// </summary>
         public string LanguageName { get; private set; }
 
+        /// <summary>
+        /// Create a <c><see cref="YTranslator"/></c> from a <c><paramref name="file"/></c> file.
+        /// </summary>
+        /// <param name="file">The path of the file containing translations.</param>
+        /// <param name="key">The key to uncipher the given file.</param>
         public YTranslator(string file, string key) : base()
         {
             JsonDocument document = JsonDocument.Parse(File.ReadAllText(file).Uncipher_Aes(key));

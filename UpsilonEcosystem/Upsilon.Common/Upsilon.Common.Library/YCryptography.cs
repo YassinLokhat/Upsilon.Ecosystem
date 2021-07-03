@@ -6,8 +6,17 @@ using System.Text;
 
 namespace Upsilon.Common.Library
 {
+    /// <summary>
+    /// This static class contains the Cryptographic functions.
+    /// </summary>
     public static class YCryptography
     {
+        /// <summary>
+        /// Cipher the <c><paramref name="plainText"/></c> string using the <c><paramref name="password"/></c> key.
+        /// </summary>
+        /// <param name="plainText">The plain text to cipher.</param>
+        /// <param name="password">The key.</param>
+        /// <returns></returns>
         public static string Cipher_Aes(this string plainText, string password)
         {
             if (String.IsNullOrWhiteSpace(password) || String.IsNullOrWhiteSpace(plainText))
@@ -69,6 +78,12 @@ namespace Upsilon.Common.Library
             return encrypted;
         }
 
+        /// <summary>
+        /// Uncipher the <c><paramref name="cipherText"/></c> string using the <c><paramref name="password"/></c> key.
+        /// </summary>
+        /// <param name="cipherText">The cither text to uncipher.</param>
+        /// <param name="password">The key.</param>
+        /// <returns></returns>
         public static string Uncipher_Aes(this string cipherText, string password)
         {
             if (String.IsNullOrWhiteSpace(password) || cipherText.Length == 0)

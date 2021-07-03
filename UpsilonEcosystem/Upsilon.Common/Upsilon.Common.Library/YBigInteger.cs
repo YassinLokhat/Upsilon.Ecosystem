@@ -35,7 +35,7 @@ namespace Upsilon.Common.Library
     }
 
     /// <summary>
-    /// Extension method class for <c><see cref="YBase"/></c>.
+    /// Extension methods class for <c><see cref="YBase"/></c>.
     /// </summary>
     public static class YBaseExtensions
     {

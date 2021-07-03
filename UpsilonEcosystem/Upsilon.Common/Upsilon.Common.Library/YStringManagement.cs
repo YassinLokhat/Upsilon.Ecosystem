@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
 {
+    /// <summary>
+    /// This static class contains the string management functions.
+    /// </summary>
     public static class YStringManagement
     {
+        /// <summary>
+        /// Check if the <c><paramref name="identifiant"/></c> is valid as an identifiant according to the following criterias :
+        /// <list type="bullet">
+        /// <item><description>It cannot be null or empty.</description></item>
+        /// <item><description>It contains only alphanumeric characters and/or underscore character.</description></item>
+        /// <item><description>It does not start with a digit number.</description></item>
+        /// </list>
+        /// </summary>
+        /// <param name="identifiant"></param>
+        /// <returns>Return <c>true</c> or <c>false</c>.</returns>
         public static bool IsIdentifiant(this string identifiant)
         {
             string specialChars = new(identifiant.Where(x => !char.IsLetterOrDigit(x)).ToArray());

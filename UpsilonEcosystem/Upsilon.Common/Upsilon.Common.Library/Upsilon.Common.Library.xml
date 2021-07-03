@@ -202,7 +202,7 @@
         </member>
         <member name="T:Upsilon.Common.Library.YBaseExtensions">
             <summary>
-            Extension method class for <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
+            Extension methods class for <c><see cref="T:Upsilon.Common.Library.YBase"/></c>.
             </summary>
         </member>
         <member name="M:Upsilon.Common.Library.YBaseExtensions.GetBaseNumber(Upsilon.Common.Library.YBase)">
@@ -400,6 +400,372 @@
             <param name="value1">The <c>long</c> number.</param>
             <param name="value2">The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> number.</param>
             <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the product of the two params</returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YCryptography">
+            <summary>
+            This static class contains the Cryptographic functions.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YCryptography.Cipher_Aes(System.String,System.String)">
+            <summary>
+            Cipher the <c><paramref name="plainText"/></c> string using the <c><paramref name="password"/></c> key.
+            </summary>
+            <param name="plainText">The plain text to cipher.</param>
+            <param name="password">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YCryptography.Uncipher_Aes(System.String,System.String)">
+            <summary>
+            Uncipher the <c><paramref name="cipherText"/></c> string using the <c><paramref name="password"/></c> key.
+            </summary>
+            <param name="cipherText">The cither text to uncipher.</param>
+            <param name="password">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YStaticMethods">
+            <summary>
+            This static class contains some static methods and extention methods.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.Contains(System.Xml.XmlAttributeCollection,System.String)">
+            <summary>
+            Check if a <c><see cref="T:System.Xml.XmlAttributeCollection"/> <paramref name="Attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c>.
+            </summary>
+            <param name="Attributes">The <see cref="T:System.Xml.XmlAttributeCollection"/>.</param>
+            <param name="attribute">The name of the attribute to check.</param>
+            <returns>Return <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.IsNullOrWhiteSpace(System.Xml.XmlAttributeCollection,System.String)">
+            <summary>
+            Check if a <c><see cref="T:System.Xml.XmlAttributeCollection"/> <paramref name="Attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c> and its value is not null or empty.
+            </summary>
+            <param name="Attributes">The <see cref="T:System.Xml.XmlAttributeCollection"/>.</param>
+            <param name="attribute">The name of the attribute to check.</param>
+            <returns>Return <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.GetMD5HashCode(System.Object)">
+            <summary>
+            Get the the MD5 Hash code of an <c><see cref="T:System.Object"/> <paramref name="obj"/></c> as a string.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/>.</param>
+            <returns>Return the MD5 Hash code.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.IsEnumFlagPresent``1(``0,``0)">
+            <summary>
+            Check if the <c><typeparamref name="T"/>.<paramref name="lookingForFlag"/></c> is set in the <c><typeparamref name="T"/>.<paramref name="value"/></c> enumeration flag.
+            </summary>
+            <typeparam name="T">An enum type.</typeparam>
+            <param name="value">The enum value.</param>
+            <param name="lookingForFlag">The flag value to look at.</param>
+            <returns>Return <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.GetEnumValues``1">
+            <summary>
+            Get all values of the <c><typeparamref name="T"/></c> enum type.
+            </summary>
+            <typeparam name="T">An enum type.</typeparam>
+            <returns>Returns all values of the givent enum.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.SerializeObject(System.Object)">
+            <summary>
+            Serialize an <c><see cref="T:System.Object"/> <paramref name="toSerialize"/></c>.
+            </summary>
+            <param name="toSerialize">The object to serialize.</param>
+            <returns>The serialized string.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.DeserializeObject(System.String,System.Type)">
+            <summary>
+            Deserialize an <c><paramref name="toDeserialize"/></c> string to a <c><paramref name="type"/></c> type.
+            </summary>
+            <param name="toDeserialize">The string to deserialize.</param>
+            <param name="type">The type of the object.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.ProcessStartUrl(System.String)">
+            <summary>
+            Replacing the method <c><see cref="T:System.Diagnostics.Process"/>.<see cref="M:System.Diagnostics.Process.Start"/></c> since it will not run for urls on .Net 5.0 framework.
+            </summary>
+            <param name="url">The Url to open.</param>
+        </member>
+        <member name="T:Upsilon.Common.Library.YStringManagement">
+            <summary>
+            This static class contains the string management functions.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStringManagement.IsIdentifiant(System.String)">
+            <summary>
+            Check if the <c><paramref name="identifiant"/></c> is valid as an identifiant according to the following criterias :
+            <list type="bullet">
+            <item><description>It cannot be null or empty.</description></item>
+            <item><description>It contains only alphanumeric characters and/or underscore character.</description></item>
+            <item><description>It does not start with a digit number.</description></item>
+            </list>
+            </summary>
+            <param name="identifiant"></param>
+            <returns>Return <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YTranslator">
+            <summary>
+            <para>A string translation engine.</para>
+            <para>Inherits from <c>Dictionary&lt;string, string></c>.</para>
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTranslator.LanguageCode">
+            <summary>
+            The language code
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTranslator.LanguageName">
+            <summary>
+            The language name
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YTranslator.#ctor(System.String,System.String)">
+            <summary>
+            Create a <c><see cref="T:Upsilon.Common.Library.YTranslator"/></c> from a <c><paramref name="file"/></c> file.
+            </summary>
+            <param name="file">The path of the file containing translations.</param>
+            <param name="key">The key to uncipher the given file.</param>
+        </member>
+        <member name="T:Upsilon.Common.Library.YAssembly">
+            <summary>
+            This class represent an assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Name">
+            <summary>
+            The name of the assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Version">
+            <summary>
+            The version of the assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Depreciated">
+            <summary>
+            Get or Set if the assembly is depreciated.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Dependencies">
+            <summary>
+            The assembly's dependencies.
+            <seealso cref="T:Upsilon.Common.Library.YDependency"/>
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.YVersion">
+            <summary>
+            Get the assembly's version as a <c><see cref="P:Upsilon.Common.Library.YAssembly.YVersion"/></c>.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YDependency">
+            <summary>
+            This class represents an assembly used by another assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDependency.Name">
+            <summary>
+            The name of the assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDependency.MinimalVersion">
+            <summary>
+            The minimal version needed by the using assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDependency.MaximalVersion">
+            <summary>
+            The maximal version needed by the using assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDependency.YMinimalVersion">
+            <summary>
+            Get the minimal version needed by the using assembly as a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDependency.YMaximalVersion">
+            <summary>
+            Get the maximal version needed by the using assembly as a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YUpdateCentre">
+            <summary>
+            This static class contains update functions.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YUpdateCentre.CheckForUpdate(System.String,System.String)">
+            <summary>
+            <para>Check if an update is available for the given <c><paramref name="assemblyName"/></c> assembly from the <c><paramref name="configUrl"/></c> source.</para>
+            <para>In that case, returns that new version as a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>.</para>
+            </summary>
+            <remarks>
+            <para>The <c><paramref name="configUrl"/></c> source should be deserializable into a <c>List&lt;<see cref="T:Upsilon.Common.Library.YAssembly"/>></c> by using the <c><see cref="T:Upsilon.Common.Library.YStaticMethods"/>.<see cref="M:Upsilon.Common.Library.YStaticMethods.DeserializeObject(System.String,System.Type)"/></c> method.</para>
+            <para>Only the following fields are mandataory : <c>Name</c>, <c>Version</c> and <c>Depreciated</c>.</para>
+            </remarks>
+            <param name="configUrl">The url of the source.</param>
+            <param name="assemblyName">The name of the assembly.</param>
+            <returns>Returns the last <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> of that assembly or <c>null</c> if that assembly is missing in the source.</returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YVersionFormat">
+            <summary>
+            Enumerate <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> to string format.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YVersionFormat.Simple">
+            <summary>
+            <c>X.Yz</c> format where <c>X</c> is the Major, <c>Y</c> is the Minor and <c>z</c> is the Build as a letter.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YVersionFormat.Extended">
+            <summary>
+            <c>X.Y.Z</c> format where <c>X</c> is the Major, <c>Y</c> is the Minor and <c>Z</c> is the Build.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YVersionFormat.Full">
+            <summary>
+            <c>X.Y.Z.W</c> format where <c>X</c> is the Major, <c>Y</c> is the Minor, <c>Z</c> is the Build and <c>W</c> is the Revision.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YVersion">
+            <summary>
+            This class represent a version.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YVersion.Major">
+            <summary>
+            The Major version number.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YVersion.Minor">
+            <summary>
+            The Minor version number.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YVersion.Build">
+            <summary>
+            The Build version number.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YVersion.Revision">
+            <summary>
+            The Revision version number.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YVersion.Alphabet">
+            <summary>
+            The alphabet used for the <c><see cref="F:Upsilon.Common.Library.YVersionFormat.Simple"/></c> string formating.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.#ctor(System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> from the string <c><paramref name="version"/></c>.
+            </summary>
+            <param name="version">The string formated version.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.#ctor(System.Version)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> from the <c><see cref="T:System.Version"/> <paramref name="version"/></c>.
+            </summary>
+            <param name="version">The version.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.ToString(Upsilon.Common.Library.YVersionFormat)">
+            <summary>
+            Get the string format of the <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> according to the given <c><paramref name="format"/></c>.
+            </summary>
+            <param name="format">The format display.</param>
+            <returns>Returns the <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> formated string.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.ToString">
+            <summary>
+            Get the string format of the <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> according to the <c><see cref="F:Upsilon.Common.Library.YVersionFormat.Full"/></c> format.
+            </summary>
+            <returns>Returns the <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> string in the <c><see cref="F:Upsilon.Common.Library.YVersionFormat.Full"/></c> format.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.GetHashCode">
+            <summary>
+            Serves as the default hash function.
+            </summary>
+            <returns>A hash code for the current object.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.op_LessThan(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Check if <c><paramref name="version1"/></c> is lower than <c><paramref name="version2"/></c>.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.op_GreaterThan(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Check if <c><paramref name="version1"/></c> is greater than <c><paramref name="version2"/></c>.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.op_Equality(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Check if <c><paramref name="version1"/></c> is equal to <c><paramref name="version2"/></c>.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.op_Inequality(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Check if <c><paramref name="version1"/></c> is not equal to than <c><paramref name="version2"/></c>.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.op_LessThanOrEqual(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Check if <c><paramref name="version1"/></c> is lower or equal than <c><paramref name="version2"/></c>.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.op_GreaterThanOrEqual(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Check if <c><paramref name="version1"/></c> is greater or equal than <c><paramref name="version2"/></c>.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.Equals(System.Object)">
+            <summary>
+            Check if the current <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> equals to <c><paramref name="obj"/></c>.
+            </summary>
+            <remarks>If <c><paramref name="obj"/></c> is not a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>, this will return <c>false</c>.</remarks>
+            <param name="obj">The version to compare with.</param>
+            <returns>Returns <c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.Comparison(Upsilon.Common.Library.YVersion,Upsilon.Common.Library.YVersion)">
+            <summary>
+            Compare two <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> and returns the diference between them.
+            </summary>
+            <param name="version1">The first version to compare.</param>
+            <param name="version2">The second version to compare.</param>
+            <returns>
+            <para>Returns <c>1</c> if <c><paramref name="version1"/></c> is greater than <c><paramref name="version2"/></c>,</para>
+            <para><c>-1</c> if <c><paramref name="version1"/></c> is lower than <c><paramref name="version2"/></c>,</para>
+            <para><c>0</c> if <c><paramref name="version1"/></c> is equal to <c><paramref name="version2"/></c>.</para>
+            </returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YVersion.CompareTo(System.Object)">
+            <summary>
+            Compare the current <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> to <c><paramref name="obj"/></c> and returns the diference between them.
+            </summary>
+            <exception cref="T:System.Exception">If <c><paramref name="obj"/></c> is not a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>, an exception will be thrown.</exception>
+            <param name="obj">The first version to compare.</param>
+            <returns>
+            <para>Returns <c>1</c> if the current <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> is greater than <c><paramref name="obj"/></c>,</para>
+            <para><c>-1</c> if the current <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> is lower than <c><paramref name="obj"/></c>,</para>
+            <para><c>0</c> if the current <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> is equal to <c><paramref name="obj"/></c>.</para>
+            </returns>
         </member>
     </members>
 </doc>
