@@ -6,13 +6,6 @@ Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
 Upsilon.Common.Library
-	YStaticMethods.GetMD5HashCode => Use object.GetHashCode()
-	YTranslator constructor => Rename 'file' to 'filePath'
-	YAssembly and YDependecy => move to an other file
-	YStaticMethods.DeserializeObject => use genereic type
-	YUpdateCenter => use YStaticMethods.DeserializeObject
-	YCryptoGraphy => Rename 'password' to 'key'
-
 	YStringManagement
 		FindClosureOf
 	YCSVManagement

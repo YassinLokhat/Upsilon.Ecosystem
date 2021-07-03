@@ -12,27 +12,27 @@ namespace Upsilon.Common.Library
     public static class YCryptography
     {
         /// <summary>
-        /// Cipher the <c><paramref name="plainText"/></c> string using the <c><paramref name="password"/></c> key.
+        /// Cipher the <c><paramref name="plainText"/></c> string using the <c><paramref name="key"/></c>.
         /// </summary>
         /// <param name="plainText">The plain text to cipher.</param>
-        /// <param name="password">The key.</param>
+        /// <param name="key">The password key.</param>
         /// <returns></returns>
-        public static string Cipher_Aes(this string plainText, string password)
+        public static string Cipher_Aes(this string plainText, string key)
         {
-            if (String.IsNullOrWhiteSpace(password) || String.IsNullOrWhiteSpace(plainText))
+            if (String.IsNullOrWhiteSpace(key) || String.IsNullOrWhiteSpace(plainText))
             {
                 return plainText;
             }
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
-            password = Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(password)));
-            password += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(password)));
-            password += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(password)));
+            key = Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(key)));
+            key += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(key)));
+            key += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(key)));
 
-            byte[] key = Encoding.ASCII.GetBytes(password.Substring(0, 32));
-            byte[] IV = Encoding.ASCII.GetBytes(password.Substring(32, 16));
+            byte[] _key = Encoding.ASCII.GetBytes(key.Substring(0, 32));
+            byte[] IV = Encoding.ASCII.GetBytes(key.Substring(32, 16));
 
-            byte[] bytes = YCryptography._cipher_Aes(plainText, key, IV);
+            byte[] bytes = YCryptography._cipher_Aes(plainText, _key, IV);
 
             return new string(bytes.Select(x => (char)x).ToArray());
         }
@@ -79,29 +79,29 @@ namespace Upsilon.Common.Library
         }
 
         /// <summary>
-        /// Uncipher the <c><paramref name="cipherText"/></c> string using the <c><paramref name="password"/></c> key.
+        /// Uncipher the <c><paramref name="cipherText"/></c> string using the <c><paramref name="key"/></c>.
         /// </summary>
         /// <param name="cipherText">The cither text to uncipher.</param>
-        /// <param name="password">The key.</param>
+        /// <param name="key">The password key.</param>
         /// <returns></returns>
-        public static string Uncipher_Aes(this string cipherText, string password)
+        public static string Uncipher_Aes(this string cipherText, string key)
         {
-            if (String.IsNullOrWhiteSpace(password) || cipherText.Length == 0)
+            if (String.IsNullOrWhiteSpace(key) || cipherText.Length == 0)
             {
                 return cipherText;
             }
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
-            password = Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(password)));
-            password += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(password)));
-            password += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(password)));
+            key = Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(key)));
+            key += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(key)));
+            key += Encoding.ASCII.GetString(mD5.ComputeHash(Encoding.ASCII.GetBytes(key)));
 
-            byte[] key = Encoding.ASCII.GetBytes(password.Substring(0, 32));
-            byte[] IV = Encoding.ASCII.GetBytes(password.Substring(32, 16));
+            byte[] _key = Encoding.ASCII.GetBytes(key.Substring(0, 32));
+            byte[] IV = Encoding.ASCII.GetBytes(key.Substring(32, 16));
 
             byte[] bytes = cipherText.Select(x => (byte)x).ToArray();
 
-            return YCryptography._uncither_Aes(bytes, key, IV);
+            return YCryptography._uncither_Aes(bytes, _key, IV);
         }
 
         private static string _uncither_Aes(byte[] cipherText, byte[] key, byte[] IV)

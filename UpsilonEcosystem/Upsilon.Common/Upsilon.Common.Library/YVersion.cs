@@ -100,17 +100,13 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YVersion"/></c> formated string.</returns>
         public string ToString(YVersionFormat format)
         {
-            switch (format)
+            return format switch
             {
-                case YVersionFormat.Simple:
-                    return String.Format("{0}.{1}{2}", this.Major, this.Minor, this.Build != 0 ? "" + YVersion.Alphabet[(this.Build - 1) % YVersion.Alphabet.Length] : "");
-                case YVersionFormat.Extended:
-                    return String.Format("{0}.{1}.{2}", this.Major, this.Minor, this.Build);
-                case YVersionFormat.Full:
-                    return String.Format("{0}.{1}.{2}.{3}", this.Major, this.Minor, this.Build, this.Revision);
-                default:
-                    return "";
-            }
+                YVersionFormat.Simple => String.Format("{0}.{1}{2}", this.Major, this.Minor, this.Build != 0 ? "" + YVersion.Alphabet[(this.Build - 1) % YVersion.Alphabet.Length] : ""),
+                YVersionFormat.Extended => String.Format("{0}.{1}.{2}", this.Major, this.Minor, this.Build),
+                YVersionFormat.Full => String.Format("{0}.{1}.{2}.{3}", this.Major, this.Minor, this.Build, this.Revision),
+                _ => "",
+            };
         }
 
         /// <summary>

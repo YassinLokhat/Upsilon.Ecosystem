@@ -25,13 +25,13 @@ namespace Upsilon.Common.Library
         public string LanguageName { get; private set; }
 
         /// <summary>
-        /// Create a <c><see cref="YTranslator"/></c> from a <c><paramref name="file"/></c> file.
+        /// Create a <c><see cref="YTranslator"/></c> from a <c><paramref name="filePath"/></c> file.
         /// </summary>
-        /// <param name="file">The path of the file containing translations.</param>
+        /// <param name="filePath">The path of the file containing translations.</param>
         /// <param name="key">The key to uncipher the given file.</param>
-        public YTranslator(string file, string key) : base()
+        public YTranslator(string filePath, string key) : base()
         {
-            JsonDocument document = JsonDocument.Parse(File.ReadAllText(file).Uncipher_Aes(key));
+            JsonDocument document = JsonDocument.Parse(File.ReadAllText(filePath).Uncipher_Aes(key));
             JsonElement root = document.RootElement;
             this.LanguageCode = root.GetProperty("language_code").GetString();
             this.LanguageName = root.GetProperty("language_name").GetString();
