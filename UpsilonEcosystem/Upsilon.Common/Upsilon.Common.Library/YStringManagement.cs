@@ -65,5 +65,39 @@ namespace Upsilon.Common.Library
 
             return startIdex;
         }
+
+        /// <summary>
+        /// Get the previous index of the given <c><paramref name="value"/></c> string in the <c><paramref name="str"/></c> string from the <c><paramref name="startIndex"/></c> index.
+        /// </summary>
+        /// <param name="str">The string to search in.</param>
+        /// <param name="value">The value to search.</param>
+        /// <param name="startIndex">The start index. Default value is <c>-1</c> and then the search will start at from the end of the <c><paramref name="str"/></c>.</param>
+        /// <returns>Returns the index of the previous occurence of the <c><paramref name="value"/></c> string or <c>-1</c> if not found.</returns>
+        public static int IndexOfPrevious(this string str, string value, int startIndex = -1)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return -1;
+            }
+
+            if (startIndex < 0
+                || startIndex >= str.Length)
+            {
+                startIndex = str.Length - 1;
+            }
+
+            do
+            {
+                if (str[startIndex..].StartsWith(value))
+                {
+                    return startIndex;
+                }
+
+                startIndex--;
+            }
+            while (startIndex >= 0);
+
+            return -1;
+        }
     }
 }
