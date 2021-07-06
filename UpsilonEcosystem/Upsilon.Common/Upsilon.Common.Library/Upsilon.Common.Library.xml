@@ -565,6 +565,15 @@
             <param name="identifiant"></param>
             <returns>Return <c>true</c> or <c>false</c>.</returns>
         </member>
+        <member name="M:Upsilon.Common.Library.YStringManagement.IndexOfPrevious(System.String,System.String,System.Int32)">
+            <summary>
+            Get the previous index of the given <c><paramref name="value"/></c> string in the <c><paramref name="str"/></c> string from the <c><paramref name="startIndex"/></c> index.
+            </summary>
+            <param name="str">The string to search in.</param>
+            <param name="value">The value to search.</param>
+            <param name="startIndex">The start index. Default value is <c>-1</c> and then the search will start at from the end of the <c><paramref name="str"/></c>.</param>
+            <returns>Returns the index of the previous occurence of the <c><paramref name="value"/></c> string or <c>-1</c> if not found.</returns>
+        </member>
         <member name="T:Upsilon.Common.Library.YTranslator">
             <summary>
             <para>A string translation engine.</para>

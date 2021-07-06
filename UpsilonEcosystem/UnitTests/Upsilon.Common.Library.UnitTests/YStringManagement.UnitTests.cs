@@ -180,5 +180,30 @@ namespace Upsilon.Common.Library.UnitTests
             // Then
             index.Should().Be(-1);
         }
+
+        [TestMethod]
+        public void Test_10_StringManagement_IndexOfPrevious()
+        {
+            // Given
+            string str = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            // When
+            int index0 = string.Empty.IndexOfPrevious("ABC");
+            int index1 = str.IndexOfPrevious("ABC");
+            int index2 = str.IndexOfPrevious("ABC", 26);
+            int index3 = str.IndexOfPrevious("ABC", 25);
+            int index4 = str.IndexOfPrevious("ABC", 2);
+            int index5 = str.IndexOfPrevious("ABC", 0);
+            int index6 = str.IndexOfPrevious("AZ");
+
+            // Then
+            index0.Should().Be(-1);
+            index1.Should().Be(26);
+            index2.Should().Be(26);
+            index3.Should().Be(0);
+            index4.Should().Be(0);
+            index5.Should().Be(0);
+            index6.Should().Be(-1);
+        }
     }
 }
