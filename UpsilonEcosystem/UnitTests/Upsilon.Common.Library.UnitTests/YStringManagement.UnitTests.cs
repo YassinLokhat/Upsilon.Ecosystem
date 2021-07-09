@@ -205,5 +205,262 @@ namespace Upsilon.Common.Library.UnitTests
             index5.Should().Be(0);
             index6.Should().Be(-1);
         }
+
+        [TestMethod]
+        public void Test_11_StringManagement_GetNextTextBlock_NoIgnore()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202107091504",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "\"",
+                BlockEnd = "\"",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.StartIndex.Should().Be(13);
+            textBlock.EndIndex.Should().Be(18);
+            textBlock.InnerText.Should().Be("test");
+            textBlock.OuterText.Should().Be("\"test\"");
+        }
+
+        [TestMethod]
+        public void Test_12_StringManagement_GetNextTextBlock_InlineIgnore()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202107091504",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "\"",
+                BlockEnd = "\"",
+                InlineIgnore = "//",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.StartIndex.Should().Be(162);
+            textBlock.EndIndex.Should().Be(176);
+            textBlock.InnerText.Should().Be("comment block");
+            textBlock.OuterText.Should().Be("\"comment block\"");
+        }
+
+        [TestMethod]
+        public void Test_13_StringManagement_GetNextTextBlock_BlockIgnore()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202107091504",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "\"",
+                BlockEnd = "\"",
+                InlineIgnore = "//",
+                BlockIgnoreStart = "/*",
+                BlockIgnoreEnd = "*/",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.StartIndex.Should().Be(210);
+            textBlock.EndIndex.Should().Be(224);
+            textBlock.InnerText.Should().Be("Hello World !");
+            textBlock.OuterText.Should().Be("\"Hello World !\"");
+        }
+
+        [TestMethod]
+        public void Test_13_StringManagement_GetNextTextBlock_OK_1()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100700",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "{",
+                BlockEnd = "}",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(235);
+        }
+
+        [TestMethod]
+        public void Test_14_StringManagement_GetNextTextBlock_OK_2()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100700",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "{",
+                BlockEnd = "}",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            str = str[str.IndexOf('{')..];
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(170);
+        }
+
+        [TestMethod]
+        public void Test_15_StringManagement_GetNextTextBlock_OK_3()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100712",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "<node>",
+                BlockEnd = "</node>",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(60);
+        }
+
+        [TestMethod]
+        public void Test_16_StringManagement_GetNextTextBlock_OK_4()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100712",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "<node>",
+                BlockEnd = "</node>",
+                StartIndex = 70,
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(121);
+        }
+
+        [TestMethod]
+        public void Test_17_StringManagement_GetNextTextBlock_OK_5()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100712",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "<node>",
+                BlockEnd = "</node>",
+                StartIndex = 80,
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(90);
+        }
+
+        [TestMethod]
+        public void Test_18_StringManagement_GetNextTextBlock_KO_1()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100712",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "<node>",
+                BlockEnd = "</node>",
+                StartIndex = 111,
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(-1);
+        }
+
+        [TestMethod]
+        public void Test_19_StringManagement_GetNextTextBlock_KO_2()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202106100712",
+                Directory = _directory,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "<root>",
+                BlockEnd = "</root>",
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.EndIndex.Should().Be(-1);
+        }
     }
 }
