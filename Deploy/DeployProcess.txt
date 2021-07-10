@@ -1,4 +1,3 @@
-Align Project/{AssemblyName} branch to master branch
 Run all tests
 Build {AssemblyName} as Release target
 Dotfuscate binary with Dotfuscator

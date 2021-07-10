@@ -1,0 +1,12 @@
+// This is a "test" file
+#include <stdio.h>
+
+/*
+	// This should be ignored since it is in an "inline comment".
+	This should be also ignored since it is in a "comment block".
+*/
+
+void main()
+{
+	printf("Hello World !");
+}

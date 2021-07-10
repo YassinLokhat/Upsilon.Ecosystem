@@ -565,6 +565,14 @@
             <param name="identifiant"></param>
             <returns>Return <c>true</c> or <c>false</c>.</returns>
         </member>
+        <member name="M:Upsilon.Common.Library.YStringManagement.GetNextTextBlock(System.String,Upsilon.Common.Library.YTextBlockSearchConfiguration)">
+            <summary>
+            Get the next block of text which is bounded by the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockStart"/></c> and the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockEnd"/></c> strings.
+            </summary>
+            <param name="str">The input string.</param>
+            <param name="configuration">The <c><see cref="T:Upsilon.Common.Library.YTextBlockSearchConfiguration"/></c> for the search.</param>
+            <returns></returns>
+        </member>
         <member name="M:Upsilon.Common.Library.YStringManagement.IndexOfPrevious(System.String,System.String,System.Int32)">
             <summary>
             Get the previous index of the given <c><paramref name="value"/></c> string in the <c><paramref name="str"/></c> string from the <c><paramref name="startIndex"/></c> index.
@@ -573,6 +581,76 @@
             <param name="value">The value to search.</param>
             <param name="startIndex">The start index. Default value is <c>-1</c> and then the search will start at from the end of the <c><paramref name="str"/></c>.</param>
             <returns>Returns the index of the previous occurence of the <c><paramref name="value"/></c> string or <c>-1</c> if not found.</returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.YTextBlock">
+            <summary>
+            This class represent a text block.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlock.Configuration">
+            <summary>
+            The <c><see cref="T:Upsilon.Common.Library.YTextBlockSearchConfiguration"/></c> used for the search.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlock.StartIndex">
+            <summary>
+            The index of the begining of the block, including the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockStart"/></c> string.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlock.EndIndex">
+            <summary>
+            The index of the end of the block, including the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockEnd"/></c> string.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlock.Text">
+            <summary>
+            The full text given to the search.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlock.OuterText">
+            <summary>
+            Get the found text block including the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockStart"/></c> string and the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockEnd"/></c> string.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlock.InnerText">
+            <summary>
+            Get the found text block without the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockStart"/></c> string and the <c><see cref="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockEnd"/></c> string.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YTextBlockSearchConfiguration">
+            <summary>
+            Configure the search using <c><see cref="M:Upsilon.Common.Library.YStringManagement.GetNextTextBlock(System.String,Upsilon.Common.Library.YTextBlockSearchConfiguration)"/></c> method.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockStart">
+            <summary>
+            Indicate the string delimiting the begining of the block.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockEnd">
+            <summary>
+            Indicate the string delimiting the end of the block.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.InlineIgnore">
+            <summary>
+            The inline ignore string.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockIgnoreStart">
+            <summary>
+            The block ignore starting string.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.BlockIgnoreEnd">
+            <summary>
+            The block ignore ending string.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.StartIndex">
+            <summary>
+            The index where the search will start.
+            </summary>
         </member>
         <member name="T:Upsilon.Common.Library.YTranslator">
             <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
@@ -37,33 +38,69 @@ namespace Upsilon.Common.Library
             return true;
         }
 
-        public static int GetNextClosureOf(this string str, string open, string close, int startIdex = 0)
+        /// <summary>
+        /// Get the next block of text which is bounded by the <c><see cref="YTextBlockSearchConfiguration.BlockStart"/></c> and the <c><see cref="YTextBlockSearchConfiguration.BlockEnd"/></c> strings.
+        /// </summary>
+        /// <param name="str">The input string.</param>
+        /// <param name="configuration">The <c><see cref="YTextBlockSearchConfiguration"/></c> for the search.</param>
+        /// <returns></returns>
+        public static YTextBlock GetNextTextBlock(this string str, YTextBlockSearchConfiguration configuration)
         {
+            YTextBlock textBlock = new()
+            {
+                Text = str,
+                Configuration = configuration,
+            };
+
+            if (!string.IsNullOrWhiteSpace(configuration.InlineIgnore))
+            {
+                Match[] matches = Regex.Matches(str, Regex.Escape(configuration.InlineIgnore) + ".*$", RegexOptions.Multiline).Cast<Match>().ToArray();
+                for (int i = 0; i < matches.Length; i++)
+                {
+                    string key = string.Empty.PadRight(matches[i].Value.Length);
+                    str = str.Replace(matches[i].Value, key);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(configuration.BlockIgnoreStart)
+                && !string.IsNullOrWhiteSpace(configuration.BlockIgnoreEnd))
+            {
+                str = str.Replace(configuration.BlockIgnoreStart + configuration.BlockIgnoreEnd, "¤¤");
+
+                Match[] matches = Regex.Matches(str, Regex.Escape(configuration.BlockIgnoreStart) + "((?!" + Regex.Escape(configuration.BlockIgnoreEnd) + ").)*" + Regex.Escape(configuration.BlockIgnoreEnd), RegexOptions.Singleline).Cast<Match>().ToArray();
+                for (int i = 0; i < matches.Length; i++)
+                {
+                    string key = string.Empty.PadRight(matches[i].Value.Length);
+                    str = str.Replace(matches[i].Value, key);
+                }
+            }
+
             int depth = 1;
 
-            startIdex = str.IndexOf(open, startIdex);
+            textBlock.StartIndex = str.IndexOf(configuration.BlockStart, configuration.StartIndex);
+            textBlock.EndIndex = textBlock.StartIndex;
 
-            while (startIdex != -1 
+            while (textBlock.EndIndex != -1
                 && depth > 0)
             {
-                int nextOpen = str.IndexOf(open, startIdex + open.Length);
-                int nextClose = str.IndexOf(close, startIdex + open.Length);
+                int nextOpen = str.IndexOf(configuration.BlockStart, textBlock.EndIndex + configuration.BlockStart.Length);
+                int nextClose = str.IndexOf(configuration.BlockEnd, textBlock.EndIndex + configuration.BlockStart.Length);
 
                 if (nextClose == -1
                     || (nextOpen != -1
                         && nextOpen < nextClose))
                 {
                     depth++;
-                    startIdex = nextOpen;
+                    textBlock.EndIndex = nextOpen;
                 }
                 else
                 {
                     depth--;
-                    startIdex = nextClose;
+                    textBlock.EndIndex = nextClose;
                 }
             }
 
-            return startIdex;
+            return textBlock;
         }
 
         /// <summary>
