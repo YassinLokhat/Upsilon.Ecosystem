@@ -38,35 +38,6 @@ namespace Upsilon.Common.Library
             return true;
         }
 
-        public static int GetNextClosureOf(this string str, string open, string close, int startIdex = 0)
-        {
-            int depth = 1;
-
-            startIdex = str.IndexOf(open, startIdex);
-
-            while (startIdex != -1 
-                && depth > 0)
-            {
-                int nextOpen = str.IndexOf(open, startIdex + open.Length);
-                int nextClose = str.IndexOf(close, startIdex + open.Length);
-
-                if (nextClose == -1
-                    || (nextOpen != -1
-                        && nextOpen < nextClose))
-                {
-                    depth++;
-                    startIdex = nextOpen;
-                }
-                else
-                {
-                    depth--;
-                    startIdex = nextClose;
-                }
-            }
-
-            return startIdex;
-        }
-
         /// <summary>
         /// Get the next block of text which is bounded by the <c><see cref="YTextBlockSearchConfiguration.BlockStart"/></c> and the <c><see cref="YTextBlockSearchConfiguration.BlockEnd"/></c> strings.
         /// </summary>
@@ -83,7 +54,7 @@ namespace Upsilon.Common.Library
 
             if (!string.IsNullOrWhiteSpace(configuration.InlineIgnore))
             {
-                Match[] matches = Regex.Matches(str, configuration.InlineIgnore + ".*$", RegexOptions.Multiline).Cast<Match>().ToArray();
+                Match[] matches = Regex.Matches(str, Regex.Escape(configuration.InlineIgnore) + ".*$", RegexOptions.Multiline).Cast<Match>().ToArray();
                 for (int i = 0; i < matches.Length; i++)
                 {
                     string key = string.Empty.PadRight(matches[i].Value.Length);
@@ -96,7 +67,7 @@ namespace Upsilon.Common.Library
             {
                 str = str.Replace(configuration.BlockIgnoreStart + configuration.BlockIgnoreEnd, "¤¤");
 
-                Match[] matches = Regex.Matches(str, configuration.BlockIgnoreStart + "((?!" + configuration.BlockIgnoreEnd + ").)*" + configuration.BlockIgnoreEnd).Cast<Match>().ToArray();
+                Match[] matches = Regex.Matches(str, Regex.Escape(configuration.BlockIgnoreStart) + "((?!" + Regex.Escape(configuration.BlockIgnoreEnd) + ").)*" + Regex.Escape(configuration.BlockIgnoreEnd), RegexOptions.Singleline).Cast<Match>().ToArray();
                 for (int i = 0; i < matches.Length; i++)
                 {
                     string key = string.Empty.PadRight(matches[i].Value.Length);
