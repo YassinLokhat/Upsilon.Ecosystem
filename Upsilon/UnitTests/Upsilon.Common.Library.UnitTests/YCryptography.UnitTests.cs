@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using FluentAssertions;
+using Upsilon.Common.MetaHelper;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -11,8 +12,8 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_01_Cryptography_Encrypt_Decrypt_0_OK()
         {
             // Given
-            string plainText = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
-            string key = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
+            string plainText = YHelper.GetRandomString();
+            string key = YHelper.GetRandomString();
 
             // When
             string cipherText = plainText.Cipher_Aes(key);
@@ -26,12 +27,12 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_02_Cryptography_Encrypt_Decrypt_1_CipherTextCorrupted()
         {
             // Given
-            string plainText = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
-            string key = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
+            string plainText = YHelper.GetRandomString();
+            string key = YHelper.GetRandomString();
 
             // When
             string cipherText = plainText.Cipher_Aes(key);
-            Upsilon.Common.UnitTestsHelper.YHelper.CorruptString(ref cipherText);
+            YHelper.CorruptString(ref cipherText);
             string result = cipherText.Uncipher_Aes(key);
 
             // Then
@@ -44,12 +45,12 @@ namespace Upsilon.Common.Library.UnitTests
             for (int i = 0; i < 1000; i++)
             {
                 // Given
-                string plainText = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
-                string key = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
+                string plainText = YHelper.GetRandomString();
+                string key = YHelper.GetRandomString();
                 string corruptedKey;
                 do
                 {
-                    corruptedKey = Upsilon.Common.UnitTestsHelper.YHelper.GetRandomString();
+                    corruptedKey = YHelper.GetRandomString();
                 }
                 while (key == corruptedKey);
 

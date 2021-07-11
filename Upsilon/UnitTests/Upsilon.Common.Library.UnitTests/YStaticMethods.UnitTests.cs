@@ -2,6 +2,7 @@
 using System;
 using System.Text;
 using FluentAssertions;
+using Upsilon.Common.MetaHelper;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -56,7 +57,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_04_StaticMethods_SerializeObject_String()
         {
             // Given
-            string toSerialize = UnitTestsHelper.YHelper.GetRandomString();
+            string toSerialize = YHelper.GetRandomString();
 
             // When
             string serialized = toSerialize.SerializeObject();

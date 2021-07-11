@@ -4,7 +4,7 @@ using FluentAssertions;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Upsilon.Common.UnitTestsHelper;
+using Upsilon.Common.MetaHelper;
 
 namespace Upsilon.Database.Library.UnitTests
 {

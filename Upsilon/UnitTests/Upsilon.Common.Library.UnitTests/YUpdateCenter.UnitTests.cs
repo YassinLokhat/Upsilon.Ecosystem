@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Upsilon.Common.UnitTestsHelper;
+using Upsilon.Common.MetaHelper;
 
 namespace Upsilon.Common.Library.UnitTests
 {

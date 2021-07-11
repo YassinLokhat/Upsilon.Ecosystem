@@ -5,13 +5,13 @@ using System.Reflection;
 using System.Text;
 using Upsilon.Database.Library;
 
-namespace Upsilon.Common.UnitTestsHelper
+namespace Upsilon.Common.MetaHelper
 {
     public static class YHelper
     {
         public static string GetTestFilePath(YHelperConfiguration configuration, string extension, bool useTemp = true, bool checkFile = false)
         {
-            string filePath = _tryGetSolutionDirectoryInfo(Environment.CurrentDirectory) + configuration.FullPathDirectory + configuration.Reference + "." + extension;
+            string filePath = GetSolutionDirectory(Environment.CurrentDirectory) + configuration.FullPathDirectory + configuration.Reference + "." + extension;
 
             if (checkFile
                 && !File.Exists(filePath))
@@ -34,10 +34,10 @@ namespace Upsilon.Common.UnitTestsHelper
 
         public static T OpenDatabaseImage<T>(YHelperDatabaseConfiguration configuration) where T : YDatabaseImage
         {
-            string databaseFilename = Upsilon.Common.UnitTestsHelper.YHelper.GetDatabaseFilePath(configuration);
+            string databaseFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
 
             YHelperDatabaseConfiguration config = new(configuration);
-            string sourceFilename = Upsilon.Common.UnitTestsHelper.YHelper.GetDatabaseFilePath(config, false);
+            string sourceFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(config, false);
             if (File.Exists(sourceFilename)
                 && (!File.Exists(databaseFilename)
                     || configuration.ResetTempFile))
@@ -65,14 +65,14 @@ namespace Upsilon.Common.UnitTestsHelper
 
         public static void ClearDatabaseImage(YHelperDatabaseConfiguration configuration)
         {
-            string sourceFilePath = Upsilon.Common.UnitTestsHelper.YHelper.GetDatabaseFilePath(configuration);
+            string sourceFilePath = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
             if (File.Exists(sourceFilePath))
             {
                 File.Delete(sourceFilePath);
             }
         }
 
-        private static string _tryGetSolutionDirectoryInfo(string currentPath = null)
+        public static string GetSolutionDirectory(string currentPath = null)
         {
             var directory = new DirectoryInfo(
                 currentPath ?? Directory.GetCurrentDirectory());
