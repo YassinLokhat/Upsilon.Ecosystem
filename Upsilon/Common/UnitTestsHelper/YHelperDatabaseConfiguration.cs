@@ -8,7 +8,7 @@ namespace Upsilon.Common.UnitTestsHelper
 {
     public class YHelperConfiguration
     {
-        public static readonly string TestFilesDirectory = @"\UpsilonEcosystem\UnitTests\Tests\";
+        public static readonly string TestFilesDirectory = @"\Upsilon\UnitTests\TestsFiles\";
 
         public string FullPathDirectory { get { return YHelperConfiguration.TestFilesDirectory + Directory + @"\"; } }
         public string Directory { get; set; }
