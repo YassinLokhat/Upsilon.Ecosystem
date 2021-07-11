@@ -1,14 +1,19 @@
 [
 	{
 		"Name": "Upsilon.Common.Library",
-		"Version": "1.0.1.0",
+		"Version": "1.0.2.0",
 		"Depreciated": false
+	},
+	{
+		"Name": "Upsilon.Common.Library",
+		"Version": "1.0.1.0",
+		"Depreciated": true
 	},
 	{
 		"Name": "Upsilon.Common.Library",
 		"Version": "1.0.0.0",
 		"Depreciated": true
-	}
+	},
 	{
 		"Name": "Upsilon.Common.Forms",
 		"Version": "1.0.0.0",
@@ -22,7 +27,7 @@
 			{
 				"Name": "Upsilon.Common.Library",
 				"MinimalVersion": "1.0.0.0",
-				"MaximalVersion": "1.0.0.0"
+				"MaximalVersion": "1.0.2.0"
 			},
 			{
 				"Name": "Upsilon.Database.Library",
@@ -39,7 +44,7 @@
 			{
 				"Name": "Upsilon.Common.Library",
 				"MinimalVersion": "1.0.0.0",
-				"MaximalVersion": "1.0.0.0"
+				"MaximalVersion": "1.0.2.0"
 			}
 		]
 	},
@@ -50,7 +55,7 @@
 		"Dependencies":[
 			{
 				"Name": "Upsilon.Common.Library",
-				"MinimalVersion": "1.0.0.0",
+				"MinimalVersion": "1.0.2.0",
 				"MaximalVersion": "1.0.0.0"
 			},
 			{

@@ -10,7 +10,7 @@
         <option>stripoa</option>
         <option>library</option>
         <option>transformxaml</option>
-        <file dir="D:\Documents\Visual Studio 2019\Projects\UpsilonEcosystem\UpsilonEcosystem\Upsilon.Common\Upsilon.Common.Library\bin\Release\net5.0" name="Upsilon.Common.Library.dll" />
+        <file dir="${configdir}\bin\Release\net5.0" name="Upsilon.Common.Library.dll" />
       </inputassembly>
     </asmlist>
   </input>

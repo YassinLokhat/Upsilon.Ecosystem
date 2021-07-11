@@ -1,6 +1,7 @@
 Run all tests
 Build {AssemblyName} as Release target
 Dotfuscate binary with Dotfuscator
+Compute deploy.json file
 Generate ressources file for {AssemblyName} with following command :
 	GoRC /fo Resources.res Resources.rc
 Complete assembly details with following command :
@@ -9,7 +10,5 @@ Sign binary with following command :
 	signtool.exe sign /f UpsilonEcosystem.pfx /p YL-upsilonecosystem-passw0rd {AssemblyBinary}
 Upload Release binary to the Google Drive repository : https://drive.google.com/drive/folders/1DarVtGQTrm8fSdt5TGnoRwqa6E81-JWN?usp=sharing
 Update {AssemblyName}/packet.dependencies file
-Compute deploy.json file
-Create Release/{AssemblyName}/{AssemblyVersion} branch from Project/{AssemblyName}
-Merge Project/{AssemblyName} branch to master branch
+Create Release/{AssemblyName}/{AssemblyVersion} branch from master branch
 Clean generated files
