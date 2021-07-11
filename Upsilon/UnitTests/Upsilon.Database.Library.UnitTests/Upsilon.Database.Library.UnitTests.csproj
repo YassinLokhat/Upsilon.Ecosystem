@@ -41,7 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Library\Upsilon.Common.Library.csproj" />
-    <ProjectReference Include="..\..\Common\UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj" />
+    <ProjectReference Include="..\..\Common\UnitTestsHelper\Upsilon.Common.MetaHelper.csproj" />
     <ProjectReference Include="..\..\Database\Library\Upsilon.Database.Library.csproj" />
   </ItemGroup>
 
