@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -9,15 +9,16 @@
 
     <Company>UpsilonEcosystem</Company>
 
-    <PackageId>Upsilon.Database.Library.UnitTests</PackageId>
+    <Description>Unit Tests for Upsilon.Common.Library</Description>
 
-    <Product>Upsilon.Database.Library.UnitTests</Product>
+    <Product>Upsilon.Common.Library.UnitTests</Product>
 
-    <Description>Unit Tests for Upsilon.Database.Library</Description>
+    <PackageId>Upsilon.Common.Library.UnitTests</PackageId>
 
     <PackageIcon>UpsilonLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -40,9 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.csproj" />
-    <ProjectReference Include="..\..\Upsilon.Common\Upsilon.Common.UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj" />
-    <ProjectReference Include="..\..\Upsilon.Database\Upsilon.Database.Library\Upsilon.Database.Library.csproj" />
+    <ProjectReference Include="..\..\Common\Library\Upsilon.Common.Library.csproj" />
+    <ProjectReference Include="..\..\Common\UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj" />
   </ItemGroup>
 
 </Project>

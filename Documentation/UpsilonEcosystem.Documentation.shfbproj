@@ -21,8 +21,8 @@
     <HtmlHelpName>UpsilonEcosystemDocumentation</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\UpsilonEcosystem\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.xml" />
-<DocumentationSource sourceFile="..\UpsilonEcosystem\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.csproj" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\Upsilon\Common\Library\Upsilon.Common.Library.xml" />
+<DocumentationSource sourceFile="..\Upsilon\Common\Library\Upsilon.Common.Library.csproj" /></DocumentationSources>
     <HelpTitle>Upsilon Ecosystem Documentation</HelpTitle>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
@@ -32,7 +32,7 @@
     <MaximumGroupParts>2</MaximumGroupParts>
     <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
-    <ProjectSummary>Upsilon Ecosystem is a set of library of common and specific feature for .Net 5.0 development.</ProjectSummary>
+    <ProjectSummary>Upsilon Ecosystem is a development toolbox which contains a set of library of common and specific feature in .Net 5.0.</ProjectSummary>
     <MissingTags>None</MissingTags>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <SyntaxFilters>C#</SyntaxFilters>

@@ -9,15 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Upsilon.Database", "Upsilon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{BADC3138-1E70-4CF1-94B9-BAE812071DA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library", "UpsilonEcosystem\Upsilon.Common\Upsilon.Common.Library\Upsilon.Common.Library.csproj", "{96C28D11-80D4-4F16-BC61-7141234DEFDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library", "Upsilon\Common\Library\Upsilon.Common.Library.csproj", "{96C28D11-80D4-4F16-BC61-7141234DEFDA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.UnitTestsHelper", "UpsilonEcosystem\Upsilon.Common\Upsilon.Common.UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj", "{76DE852F-4573-4EA3-9FF9-0A0A629F1593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.UnitTestsHelper", "Upsilon\Common\UnitTestsHelper\Upsilon.Common.UnitTestsHelper.csproj", "{76DE852F-4573-4EA3-9FF9-0A0A629F1593}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library.UnitTests", "UpsilonEcosystem\UnitTests\Upsilon.Common.Library.UnitTests\Upsilon.Common.Library.UnitTests.csproj", "{0EBEC57A-A82D-4388-A167-166B0C4648AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library.UnitTests", "Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\Upsilon.Common.Library.UnitTests.csproj", "{0EBEC57A-A82D-4388-A167-166B0C4648AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library", "UpsilonEcosystem\Upsilon.Database\Upsilon.Database.Library\Upsilon.Database.Library.csproj", "{978C5F59-53BA-4414-9F33-046C1E29BE29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library", "Upsilon\Database\Library\Upsilon.Database.Library.csproj", "{978C5F59-53BA-4414-9F33-046C1E29BE29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library.UnitTests", "UpsilonEcosystem\UnitTests\Upsilon.Database.Library.UnitTests\Upsilon.Database.Library.UnitTests.csproj", "{1A82E814-4C33-401D-8569-6C842280905C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library.UnitTests", "Upsilon\UnitTests\Upsilon.Database.Library.UnitTests\Upsilon.Database.Library.UnitTests.csproj", "{1A82E814-4C33-401D-8569-6C842280905C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Upsilon.Tools", "Upsilon.Tools", "{93203DB7-FEDF-4205-8A67-2EB4F28F2125}"
 EndProject
@@ -25,11 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Upsilon.Applications", "Ups
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YDBDesigner", "YDBDesigner", "{7E23BBB6-EB3F-4E2B-BD2A-D638A291DD47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Forms", "UpsilonEcosystem\Upsilon.Tools\Upsilon.Tools.YDBDesigner\Upsilon.Tools.YDBDesigner.Forms\Upsilon.Tools.YDBDesigner.Forms.csproj", "{3E82BF19-97B3-4AAF-B133-24174D7E5E3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Forms", "Upsilon\Tools\YDBDesigner\Forms\Upsilon.Tools.YDBDesigner.Forms.csproj", "{3E82BF19-97B3-4AAF-B133-24174D7E5E3B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Core", "UpsilonEcosystem\Upsilon.Tools\Upsilon.Tools.YDBDesigner\Upsilon.Tools.YDBDesigner.Core\Upsilon.Tools.YDBDesigner.Core.csproj", "{801F9DE8-551E-48C9-BDA0-3C561B3F239C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Core", "Upsilon\Tools\YDBDesigner\Core\Upsilon.Tools.YDBDesigner.Core.csproj", "{801F9DE8-551E-48C9-BDA0-3C561B3F239C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Forms", "UpsilonEcosystem\Upsilon.Common\Upsilon.Common.Forms\Upsilon.Common.Forms.csproj", "{99BB3325-703B-4102-9081-C5C04B71E710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Forms", "Upsilon\Common\Forms\Upsilon.Common.Forms.csproj", "{99BB3325-703B-4102-9081-C5C04B71E710}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Draft", "Draft\Draft.csproj", "{70957FE6-675E-46A7-82DF-F64A1ECE9304}"
 EndProject
@@ -44,9 +44,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{D03BA6
 		Deploy\DeployProcess.txt = Deploy\DeployProcess.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{F8AB5EFF-1649-420B-98B9-C8D020246565}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{F8AB5EFF-1649-420B-98B9-C8D020246565}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "UpsilonEcosystemDoc", "Docs\UpsilonEcosystemDoc.shfbproj", "{C5956C50-95B5-415A-ABB7-7B21F2A29E29}"
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "UpsilonEcosystem.Documentation", "Documentation\UpsilonEcosystem.Documentation.shfbproj", "{C5956C50-95B5-415A-ABB7-7B21F2A29E29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
