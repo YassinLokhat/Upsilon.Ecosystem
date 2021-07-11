@@ -48,141 +48,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_03_StringManagement_GetNextClosureOf_OK_1()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100700",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-
-            // When
-            int index = str.GetNextClosureOf("{", "}");
-
-            // Then
-            index.Should().Be(235);
-        }
-
-        [TestMethod]
-        public void Test_04_StringManagement_GetNextClosureOf_OK_2()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100700",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-            str = str[str.IndexOf('{')..];
-
-            // When
-            int index = str.GetNextClosureOf("{", "}");
-
-            // Then
-            index.Should().Be(170);
-        }
-
-        [TestMethod]
-        public void Test_05_StringManagement_GetNextClosureOf_OK_3()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100712",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-
-            // When
-            int index = str.GetNextClosureOf("<node>", "</node>");
-
-            // Then
-            index.Should().Be(60);
-        }
-
-        [TestMethod]
-        public void Test_06_StringManagement_GetNextClosureOf_OK_4()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100712",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-
-            // When
-            int index = str.GetNextClosureOf("<node>", "</node>", 70);
-
-            // Then
-            index.Should().Be(121);
-        }
-
-        [TestMethod]
-        public void Test_07_StringManagement_GetNextClosureOf_OK_5()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100712",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-
-            // When
-            int index = str.GetNextClosureOf("<node>", "</node>", 80);
-
-            // Then
-            index.Should().Be(90);
-        }
-
-        [TestMethod]
-        public void Test_08_StringManagement_GetNextClosureOf_KO_1()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100712",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-
-            // When
-            int index = str.GetNextClosureOf("<node>", "</node>", 111);
-
-            // Then
-            index.Should().Be(-1);
-        }
-
-        [TestMethod]
-        public void Test_09_StringManagement_GetNextClosureOf_KO_2()
-        {
-            // Given
-            YHelperDatabaseConfiguration configuration = new()
-            {
-                Reference = "202106100712",
-                Directory = _directory,
-            };
-
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
-
-            // When
-            int index = str.GetNextClosureOf("<root>", "</root>");
-
-            // Then
-            index.Should().Be(-1);
-        }
-
-        [TestMethod]
-        public void Test_10_StringManagement_IndexOfPrevious()
+        public void Test_03_StringManagement_IndexOfPrevious()
         {
             // Given
             string str = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -207,7 +73,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_11_StringManagement_GetNextTextBlock_NoIgnore()
+        public void Test_04_StringManagement_GetNextTextBlock_NoIgnore()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -234,7 +100,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_12_StringManagement_GetNextTextBlock_InlineIgnore()
+        public void Test_05_StringManagement_GetNextTextBlock_InlineIgnore()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -262,7 +128,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_13_StringManagement_GetNextTextBlock_BlockIgnore()
+        public void Test_06_StringManagement_GetNextTextBlock_BlockIgnore()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -292,7 +158,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_13_StringManagement_GetNextTextBlock_OK_1()
+        public void Test_07_StringManagement_GetNextTextBlock_OK_1()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -316,7 +182,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_14_StringManagement_GetNextTextBlock_OK_2()
+        public void Test_08_StringManagement_GetNextTextBlock_OK_2()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -341,7 +207,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_15_StringManagement_GetNextTextBlock_OK_3()
+        public void Test_09_StringManagement_GetNextTextBlock_OK_3()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -365,7 +231,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_16_StringManagement_GetNextTextBlock_OK_4()
+        public void Test_10_StringManagement_GetNextTextBlock_OK_4()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -390,7 +256,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_17_StringManagement_GetNextTextBlock_OK_5()
+        public void Test_11_StringManagement_GetNextTextBlock_OK_5()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -415,7 +281,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_18_StringManagement_GetNextTextBlock_KO_1()
+        public void Test_12_StringManagement_GetNextTextBlock_KO_1()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -440,7 +306,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_19_StringManagement_GetNextTextBlock_KO_2()
+        public void Test_13_StringManagement_GetNextTextBlock_KO_2()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
