@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Upsilon.Common.UnitTestsHelper
+namespace Upsilon.Common.MetaHelper
 {
     public class YHelperConfiguration
     {

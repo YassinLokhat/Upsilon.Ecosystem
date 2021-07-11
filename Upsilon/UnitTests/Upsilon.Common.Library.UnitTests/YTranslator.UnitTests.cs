@@ -2,7 +2,7 @@
 using System;
 using System.Text;
 using FluentAssertions;
-using Upsilon.Common.UnitTestsHelper;
+using Upsilon.Common.MetaHelper;
 
 namespace Upsilon.Common.Library.UnitTests
 {
