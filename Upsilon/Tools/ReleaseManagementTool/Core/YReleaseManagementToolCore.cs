@@ -30,7 +30,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                     Version = this._getVersionFromCsproj(document),
                     Dependencies = this._getDependenciesFromCsproj(document),
                     Depreciated = false,
-            };
+                };
 
                 assemblies.Add(assembly);
             }
@@ -64,6 +64,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 YDependency dependency = new()
                 {
                     Name = Path.GetFileNameWithoutExtension(projectReference.Attributes["Include"].Value),
+                    MinimalVersion = "",
+                    MaximalVersion = "",
                 };
 
                 dependencies.Add(dependency);

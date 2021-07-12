@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library", "Upsilon\Common\Library\Upsilon.Common.Library.csproj", "{96C28D11-80D4-4F16-BC61-7141234DEFDA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.MetaHelper", "Upsilon\Common\UnitTestsHelper\Upsilon.Common.MetaHelper.csproj", "{76DE852F-4573-4EA3-9FF9-0A0A629F1593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.MetaHelper", "Upsilon\Common\MetaHelper\Upsilon.Common.MetaHelper.csproj", "{76DE852F-4573-4EA3-9FF9-0A0A629F1593}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Common.Library.UnitTests", "Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\Upsilon.Common.Library.UnitTests.csproj", "{0EBEC57A-A82D-4388-A167-166B0C4648AB}"
 EndProject

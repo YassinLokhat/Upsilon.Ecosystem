@@ -1,10 +1,10 @@
 {
-	"Name": "Upsilon.Database.Library",
+	"Name": "Upsilon.Tools.ReleaseManagementTool.Forms",
 	"Version": "1.0.0",
 	"Depreciated": false,
 	"Dependencies": [
 		{
-			"Name": "Upsilon.Common.Library",
+			"Name": "Upsilon.Tools.ReleaseManagementTool.Core",
 			"MinimalVersion": "",
 			"MaximalVersion": ""
 		}

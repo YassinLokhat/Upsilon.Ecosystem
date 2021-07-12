@@ -1,15 +1,15 @@
 {
-	"Name": "Upsilon.Tools.YDBDesigner.Forms",
+	"Name": "Upsilon.Tools.ReleaseManagementTool.Core",
 	"Version": "1.0.0",
 	"Depreciated": false,
 	"Dependencies": [
 		{
-			"Name": "Upsilon.Common.Forms",
+			"Name": "Upsilon.Common.Library",
 			"MinimalVersion": "",
 			"MaximalVersion": ""
 		},
 		{
-			"Name": "Upsilon.Tools.YDBDesigner.Core",
+			"Name": "Upsilon.Common.MetaHelper",
 			"MinimalVersion": "",
 			"MaximalVersion": ""
 		}

@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Library\Upsilon.Common.Library.csproj" />
-    <ProjectReference Include="..\..\..\Common\UnitTestsHelper\Upsilon.Common.MetaHelper.csproj" />
+    <ProjectReference Include="..\..\..\Common\MetaHelper\Upsilon.Common.MetaHelper.csproj" />
   </ItemGroup>
 
 </Project>
