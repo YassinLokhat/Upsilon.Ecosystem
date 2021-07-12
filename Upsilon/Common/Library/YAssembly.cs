@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library
 {
     /// <summary>
-    /// This class represent an assembly.
+    /// This class represents an assembly.
     /// </summary>
     public sealed class YAssembly
     {

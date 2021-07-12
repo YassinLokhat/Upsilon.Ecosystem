@@ -32,7 +32,7 @@
     <MaximumGroupParts>2</MaximumGroupParts>
     <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
-    <ProjectSummary>Upsilon Ecosystem is a development toolbox which contains a set of library of common and specific feature in .Net 5.0.</ProjectSummary>
+    <ProjectSummary>Upsilon Ecosystem is a development toolbox which contains a set of libraries of common and specific features in .Net 5.0.</ProjectSummary>
     <MissingTags>None</MissingTags>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <SyntaxFilters>C#</SyntaxFilters>

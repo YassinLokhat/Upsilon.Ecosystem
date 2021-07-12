@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library
 {
     /// <summary>
-    /// This class represent a text block.
+    /// This class represents a text block.
     /// </summary>
     public class YTextBlock
     {

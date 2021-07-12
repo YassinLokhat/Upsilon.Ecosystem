@@ -146,7 +146,7 @@ namespace Upsilon.Common.Library
     }
 
     /// <summary>
-    /// This class represent a big integer.
+    /// This class represents a big integer.
     /// </summary>
     public sealed class YBigInteger
     {
