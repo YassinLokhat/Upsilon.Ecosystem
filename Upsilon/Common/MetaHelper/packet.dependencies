@@ -5,13 +5,13 @@
 	"Dependencies": [
 		{
 			"Name": "Upsilon.Database.Library",
-			"MinimalVersion": "",
-			"MaximalVersion": ""
+			"MinimalVersion": "1.0.0",
+			"MaximalVersion": "1.0.0"
 		},
 		{
 			"Name": "Upsilon.Common.Library",
-			"MinimalVersion": "",
-			"MaximalVersion": ""
+			"MinimalVersion": "1.0.0",
+			"MaximalVersion": "1.0.1"
 		}
 	]
 }

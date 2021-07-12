@@ -32,7 +32,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             InitializeComponent();
 
             this.cbAssembly.Items.Add(string.Empty);
-            this.cbAssembly.Items.AddRange(MainForm.Core.Assemblies.Select(x => $"{x.Name} {x.Version}").ToArray());
+            this.cbAssembly.Items.AddRange(MainForm.Core.Assemblies.Select(x => x.Name).ToArray());
 
             this.cbAssembly.SelectedIndexChanged += CbAssembly_SelectedIndexChanged;
         }
@@ -41,12 +41,17 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
         {
             this.dgvDependecies.Rows.Clear();
 
-            if (string.IsNullOrWhiteSpace(this.cbAssembly.Text))
+            string[][] dependecies = MainForm.Core.SelectAssembly(this.cbAssembly.Text);
+
+            if (dependecies == null)
             {
                 return;
             }
 
-
+            foreach (string[] dep in dependecies)
+            {
+                this.dgvDependecies.Rows.Add(dep);
+            }
         }
     }
 }

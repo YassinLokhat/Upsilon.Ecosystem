@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using Upsilon.Common.Library;
 using Upsilon.Common.MetaHelper;
@@ -13,34 +14,57 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public YReleaseManagementToolCore()
         {
-            string solutionDir = YHelper.GetSolutionDirectory();
-
-            string[] projects = Directory.GetFiles(solutionDir, "*.csproj", SearchOption.AllDirectories);
+            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(), "packet.dependencies", SearchOption.AllDirectories);
 
             List<YAssembly> assemblies = new();
 
             foreach (string csproj in projects)
             {
-                XmlDocument document = new();
-                document.Load(csproj);
-
-                YAssembly assembly = new()
-                {
-                    Name = Path.GetFileNameWithoutExtension(csproj),
-                    Version = this._getVersionFromCsproj(document),
-                    Dependencies = this._getDependenciesFromCsproj(document),
-                    Depreciated = false,
-                };
+                YAssembly assembly = (YAssembly)File.ReadAllText(csproj).DeserializeObject(typeof(YAssembly));
 
                 assemblies.Add(assembly);
             }
 
             this.Assemblies = assemblies.ToArray();
+        }
 
-            for (int i = 0; i < this.Assemblies.Length; i++)
+        public string[][] SelectAssembly(string assemblyName)
+        {
+            YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+
+            if (assembly == null)
+                return null;
+
+            string csproj = Directory.GetFiles(YHelper.GetSolutionDirectory(), $"{assembly.Name}.csproj", SearchOption.AllDirectories).FirstOrDefault();
+            
+            XmlDocument document = new();
+            document.Load(csproj);
+
+            assembly.Version = this._getVersionFromCsproj(document);
+            this._fillDependenciesFromCsproj(document, assembly);
+
+            List<string[]> dependecies = new();
+            foreach (YDependency dep in assembly.Dependencies)
             {
-                this._fillDependencies(ref this.Assemblies[i]);
+                YAssembly dependency = this.Assemblies.Where(x => x.Name == dep.Name).FirstOrDefault();
+                dep.MaximalVersion = dependency.Version;
+                dependecies.Add(new[] { dep.Name, dep.MinimalVersion, dep.MaximalVersion });
             }
+
+            foreach (YAssembly asb in this.Assemblies)
+            {
+                YDependency dependency = asb.Dependencies.Where(x => x.Name == assembly.Name).FirstOrDefault();
+                if (dependency != null)
+                {
+                    dependency.MaximalVersion = assembly.Version;
+                    if (dependency.MinimalVersion == string.Empty)
+                    {
+                        dependency.MinimalVersion = dependency.MaximalVersion;
+                    }
+                }
+            }
+
+            return dependecies.ToArray();
         }
 
         private string _getVersionFromCsproj(XmlDocument document)
@@ -55,28 +79,28 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             return version.InnerText;
         }
 
-        private YDependency[] _getDependenciesFromCsproj(XmlDocument document)
+        private void _fillDependenciesFromCsproj(XmlDocument document, YAssembly assembly)
         {
             List<YDependency> dependencies = new();
 
             foreach (XmlNode projectReference in document.SelectNodes("/Project/ItemGroup/ProjectReference"))
             {
-                YDependency dependency = new()
+                YDependency dependency = assembly.Dependencies.Where(x => x.Name == projectReference.Attributes["Include"].Value).FirstOrDefault();
+
+                if (dependency == null)
                 {
-                    Name = Path.GetFileNameWithoutExtension(projectReference.Attributes["Include"].Value),
-                    MinimalVersion = "",
-                    MaximalVersion = "",
-                };
+                    dependency = new()
+                    {
+                        Name = Path.GetFileNameWithoutExtension(projectReference.Attributes["Include"].Value),
+                        MinimalVersion = string.Empty,
+                        MaximalVersion = string.Empty,
+                    };
+                }
 
                 dependencies.Add(dependency);
             }
 
-            return dependencies.ToArray();
-        }
-
-        private void _fillDependencies(ref YAssembly assembly)
-        {
-
+            assembly.Dependencies = dependencies.ToArray();
         }
     }
 }
