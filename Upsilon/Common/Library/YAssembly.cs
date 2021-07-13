@@ -22,6 +22,11 @@ namespace Upsilon.Common.Library
         public string Version { get; set; }
 
         /// <summary>
+        /// The description of the assembly.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
         /// The url to the assembly.
         /// </summary>
         public string Url { get; set; }
