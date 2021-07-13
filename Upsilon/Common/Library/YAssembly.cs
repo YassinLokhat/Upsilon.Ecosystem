@@ -22,6 +22,11 @@ namespace Upsilon.Common.Library
         public string Version { get; set; }
 
         /// <summary>
+        /// The url to the assembly.
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
         /// Get or Set if the assembly is depreciated.
         /// </summary>
         public bool Depreciated { get; set; }

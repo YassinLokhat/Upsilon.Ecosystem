@@ -26,9 +26,8 @@ namespace Upsilon.Common.Library
         /// <param name="configUrl">The url of the source.</param>
         /// <param name="assemblyName">The name of the assembly.</param>
         /// <returns>Returns the last <c><see cref="YVersion"/></c> of that assembly or <c>null</c> if that assembly is missing in the source.</returns>
-        public static YVersion CheckForUpdate(string configUrl, string assemblyName)
+        public static YAssembly CheckForUpdate(string configUrl, string assemblyName)
         {
-            YVersion version = null;
             YAssembly assembly = null;
             
             try
@@ -47,7 +46,7 @@ namespace Upsilon.Common.Library
 
                 if (assemblies.Count != 0)
                 {
-                    version = assemblies.Select(x => x.YVersion).Max();
+                    YVersion version = assemblies.Select(x => x.YVersion).Max();
                     assembly = assemblies.Find(x => x.YVersion == version);
                 }
             }
@@ -62,7 +61,7 @@ namespace Upsilon.Common.Library
                 throw new Exception();
             }
 
-            return version;
+            return assembly;
         }
     }
 }
