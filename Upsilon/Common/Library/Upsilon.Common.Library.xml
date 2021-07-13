@@ -185,6 +185,11 @@
             The version of the assembly.
             </summary>
         </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Url">
+            <summary>
+            The url to the assembly.
+            </summary>
+        </member>
         <member name="P:Upsilon.Common.Library.YAssembly.Depreciated">
             <summary>
             Get or Set if the assembly is depreciated.
