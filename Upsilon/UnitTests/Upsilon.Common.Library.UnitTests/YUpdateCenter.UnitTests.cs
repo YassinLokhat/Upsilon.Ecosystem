@@ -121,6 +121,7 @@ namespace Upsilon.Common.Library.UnitTests
 
             // Then
             assembly.Version.Should().Be("1.0.0.0");
+            assembly.Description.Should().Be("Common features library");
         }
     }
 }
