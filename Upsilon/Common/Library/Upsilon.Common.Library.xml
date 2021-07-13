@@ -151,7 +151,7 @@
         </member>
         <member name="T:Upsilon.Common.Library.YArgument">
             <summary>
-            This class represent an argument parsed by a <c><see cref="T:Upsilon.Common.Library.YArgumentParser"/></c>.
+            This class represents an argument parsed by a <c><see cref="T:Upsilon.Common.Library.YArgumentParser"/></c>.
             <seealso cref="T:Upsilon.Common.Library.YArgumentParser"/>
             </summary>
         </member>
@@ -172,7 +172,7 @@
         </member>
         <member name="T:Upsilon.Common.Library.YAssembly">
             <summary>
-            This class represent an assembly.
+            This class represents an assembly.
             </summary>
         </member>
         <member name="P:Upsilon.Common.Library.YAssembly.Name">
@@ -183,6 +183,11 @@
         <member name="P:Upsilon.Common.Library.YAssembly.Version">
             <summary>
             The version of the assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Url">
+            <summary>
+            The url to the assembly.
             </summary>
         </member>
         <member name="P:Upsilon.Common.Library.YAssembly.Depreciated">
@@ -338,7 +343,7 @@
         </member>
         <member name="T:Upsilon.Common.Library.YBigInteger">
             <summary>
-            This class represent a big integer.
+            This class represents a big integer.
             </summary>
         </member>
         <member name="P:Upsilon.Common.Library.YBigInteger.ByteArray">
@@ -584,7 +589,7 @@
         </member>
         <member name="T:Upsilon.Common.Library.YTextBlock">
             <summary>
-            This class represent a text block.
+            This class represents a text block.
             </summary>
         </member>
         <member name="P:Upsilon.Common.Library.YTextBlock.Configuration">
@@ -715,7 +720,7 @@
         </member>
         <member name="T:Upsilon.Common.Library.YVersion">
             <summary>
-            This class represent a version.
+            This class represents a version.
             </summary>
         </member>
         <member name="P:Upsilon.Common.Library.YVersion.Major">

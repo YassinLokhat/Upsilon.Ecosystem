@@ -27,7 +27,7 @@ namespace Upsilon.Common.Library
     }
 
     /// <summary>
-    /// This class represent a version.
+    /// This class represents a version.
     /// </summary>
     public sealed class YVersion : IComparable
     {

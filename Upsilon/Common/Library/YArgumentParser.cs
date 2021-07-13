@@ -208,7 +208,7 @@ namespace Upsilon.Common.Library
     }
 
     /// <summary>
-    /// This class represent an argument parsed by a <c><see cref="YArgumentParser"/></c>.
+    /// This class represents an argument parsed by a <c><see cref="YArgumentParser"/></c>.
     /// <seealso cref="YArgumentParser"/>
     /// </summary>
     public sealed class YArgument

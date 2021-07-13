@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library
 {
     /// <summary>
-    /// This class represent an assembly.
+    /// This class represents an assembly.
     /// </summary>
     public sealed class YAssembly
     {
@@ -20,6 +20,16 @@ namespace Upsilon.Common.Library
         /// The version of the assembly.
         /// </summary>
         public string Version { get; set; }
+
+        /// <summary>
+        /// The description of the assembly.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// The url to the assembly.
+        /// </summary>
+        public string Url { get; set; }
 
         /// <summary>
         /// Get or Set if the assembly is depreciated.
