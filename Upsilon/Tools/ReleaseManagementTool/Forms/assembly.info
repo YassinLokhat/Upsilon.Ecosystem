@@ -1,6 +1,8 @@
 {
 	"Name": "Upsilon.Tools.ReleaseManagementTool.Forms",
 	"Version": "1.0.0",
+	"Description": "UI for the Release Management Tool.",
+	"BinaryType": "exe",
 	"Depreciated": false,
 	"Dependencies": [
 		{

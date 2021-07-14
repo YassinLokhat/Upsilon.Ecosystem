@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Upsilon.Common.Library;
 using Upsilon.Tools.ReleaseManagementTool.Core;
 
 namespace Upsilon.Tools.ReleaseManagementTool.Forms
@@ -41,17 +42,17 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
         {
             this.dgvDependecies.Rows.Clear();
 
-            string[][] dependecies = MainForm.Core.SelectAssembly(this.cbAssembly.Text);
+            YAssembly assembly = MainForm.Core.SelectAssembly(this.cbAssembly.Text);
 
-            if (dependecies == null)
+            if (assembly == null)
             {
                 return;
             }
 
-            foreach (string[] dep in dependecies)
-            {
-                this.dgvDependecies.Rows.Add(dep);
-            }
+            //foreach (string[] dep in dependecies)
+            //{
+            //    this.dgvDependecies.Rows.Add(dep);
+            //}
         }
     }
 }

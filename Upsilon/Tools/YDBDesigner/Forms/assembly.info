@@ -1,6 +1,8 @@
 {
 	"Name": "Upsilon.Tools.YDBDesigner.Forms",
 	"Version": "1.0.0",
+	"Description": "UI for the YDBDesigner tool.",
+	"BinaryType": "ext",
 	"Depreciated": false,
 	"Dependencies": [
 		{

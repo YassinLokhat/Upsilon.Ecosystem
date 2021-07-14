@@ -28,7 +28,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             this.Assemblies = assemblies.ToArray();
         }
 
-        public string[][] SelectAssembly(string assemblyName)
+        public YAssembly SelectAssembly(string assemblyName)
         {
             YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
@@ -43,14 +43,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             assembly.Version = this._getVersionFromCsproj(document);
             this._fillDependenciesFromCsproj(document, assembly);
 
-            List<string[]> dependecies = new();
-            foreach (YDependency dep in assembly.Dependencies)
-            {
-                YAssembly dependency = this.Assemblies.Where(x => x.Name == dep.Name).FirstOrDefault();
-                dep.MaximalVersion = dependency.Version;
-                dependecies.Add(new[] { dep.Name, dep.MinimalVersion, dep.MaximalVersion });
-            }
-
             foreach (YAssembly asb in this.Assemblies)
             {
                 YDependency dependency = asb.Dependencies.Where(x => x.Name == assembly.Name).FirstOrDefault();
@@ -64,7 +56,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 }
             }
 
-            return dependecies.ToArray();
+            return assembly;
         }
 
         private string _getVersionFromCsproj(XmlDocument document)

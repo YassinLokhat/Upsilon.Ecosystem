@@ -185,6 +185,16 @@
             The version of the assembly.
             </summary>
         </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.Description">
+            <summary>
+            The description of the assembly.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.BinaryType">
+            <summary>
+            The type of binary of the assembly.
+            </summary>
+        </member>
         <member name="P:Upsilon.Common.Library.YAssembly.Url">
             <summary>
             The url to the assembly.

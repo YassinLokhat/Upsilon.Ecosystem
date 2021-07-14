@@ -1,6 +1,8 @@
 {
-	"Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+	"Name": "Upsilon.Tools.YDBDesigner.Core",
 	"Version": "1.0.0",
+	"Description": "",
+	"BinaryType": "dll",
 	"Depreciated": false,
 	"Dependencies": [
 		{
@@ -9,7 +11,7 @@
 			"MaximalVersion": "1.0.2"
 		},
 		{
-			"Name": "Upsilon.Common.MetaHelper",
+			"Name": "Upsilon.Database.Library",
 			"MinimalVersion": "1.0.0",
 			"MaximalVersion": "1.0.0"
 		}

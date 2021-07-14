@@ -27,6 +27,11 @@ namespace Upsilon.Common.Library
         public string Description { get; set; }
 
         /// <summary>
+        /// The type of binary of the assembly.
+        /// </summary>
+        public string BinaryType { get; set; }
+
+        /// <summary>
         /// The url to the assembly.
         /// </summary>
         public string Url { get; set; }
