@@ -49,10 +49,50 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
                 return;
             }
 
-            //foreach (string[] dep in dependecies)
-            //{
-            //    this.dgvDependecies.Rows.Add(dep);
-            //}
+            tbVersion.Text = assembly.Version;
+            tbDescription.Text = assembly.Description;
+            tbBinaryType.Text = assembly.BinaryType;
+            tbUrl.Text = assembly.Url;
+
+            foreach (YDependency dependency in assembly.Dependencies)
+            {
+                this.dgvDependecies.Rows.Add(dependency.Name, dependency.MinimalVersion, dependency.MaximalVersion);
+            }
+        }
+
+        private void deployToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cbAssembly.Text))
+            {
+                return;
+            }
+
+            try
+            {
+                MainForm.Core.Deploy(cbAssembly.Text, tbVersion.Text, tbDescription.Text, tbBinaryType.Text);
+                MessageBox.Show($"Assembly '{cbAssembly.Text}' deployed successfully.", "Deployment success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void assembliesjsonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void forTheCurrentAssemblyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainForm.Core.GenerateAssemblyInfo(this.cbAssembly.Text);
+            MessageBox.Show($"assembly.info for '{this.cbAssembly.Text}' generated successfully.", "Generation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void forAllAssembliesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainForm.Core.GenerateAssemblyInfo();
+            MessageBox.Show($"assembly.info for all assemblies generated successfully.", "Generation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -37,14 +37,21 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             this.MinimalVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MaximalVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tbVersion = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbDescription = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbUrl = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tbBinaryType = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbDescription = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbVersion = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deployToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.computeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assemblyinfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forTheCurrentAssemblyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forAllAssembliesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assembliesjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -77,10 +84,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             this.DependecyName,
             this.MinimalVersion,
             this.MaximalVersion});
-            this.dgvDependecies.Location = new System.Drawing.Point(12, 115);
+            this.dgvDependecies.Location = new System.Drawing.Point(12, 148);
             this.dgvDependecies.Name = "dgvDependecies";
             this.dgvDependecies.RowTemplate.Height = 25;
-            this.dgvDependecies.Size = new System.Drawing.Size(760, 434);
+            this.dgvDependecies.Size = new System.Drawing.Size(760, 401);
             this.dgvDependecies.TabIndex = 2;
             // 
             // DependecyName
@@ -88,6 +95,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             this.DependecyName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.DependecyName.HeaderText = "Dependency Name";
             this.DependecyName.Name = "DependecyName";
+            this.DependecyName.ReadOnly = true;
             // 
             // MinimalVersion
             // 
@@ -105,6 +113,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.tbUrl);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.tbBinaryType);
             this.groupBox1.Controls.Add(this.label3);
@@ -115,42 +125,27 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             this.groupBox1.Controls.Add(this.cbAssembly);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(760, 82);
+            this.groupBox1.Size = new System.Drawing.Size(760, 115);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Assembly info";
             // 
-            // tbVersion
+            // label5
             // 
-            this.tbVersion.Location = new System.Drawing.Point(450, 22);
-            this.tbVersion.Name = "tbVersion";
-            this.tbVersion.Size = new System.Drawing.Size(100, 23);
-            this.tbVersion.TabIndex = 2;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 83);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 15);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "csproj file :";
             // 
-            // label2
+            // tbUrl
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(393, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Version :";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 54);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Description :";
-            // 
-            // tbDescription
-            // 
-            this.tbDescription.Location = new System.Drawing.Point(85, 51);
-            this.tbDescription.Name = "tbDescription";
-            this.tbDescription.Size = new System.Drawing.Size(669, 23);
-            this.tbDescription.TabIndex = 4;
+            this.tbUrl.Location = new System.Drawing.Point(85, 80);
+            this.tbUrl.Name = "tbUrl";
+            this.tbUrl.ReadOnly = true;
+            this.tbUrl.Size = new System.Drawing.Size(669, 23);
+            this.tbUrl.TabIndex = 8;
             // 
             // label4
             // 
@@ -168,21 +163,94 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             this.tbBinaryType.Size = new System.Drawing.Size(100, 23);
             this.tbBinaryType.TabIndex = 6;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 54);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 15);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Description :";
+            // 
+            // tbDescription
+            // 
+            this.tbDescription.Location = new System.Drawing.Point(85, 51);
+            this.tbDescription.Name = "tbDescription";
+            this.tbDescription.Size = new System.Drawing.Size(669, 23);
+            this.tbDescription.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(393, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 15);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Version :";
+            // 
+            // tbVersion
+            // 
+            this.tbVersion.Location = new System.Drawing.Point(450, 22);
+            this.tbVersion.Name = "tbVersion";
+            this.tbVersion.Size = new System.Drawing.Size(100, 23);
+            this.tbVersion.TabIndex = 2;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateToolStripMenuItem});
+            this.deployToolStripMenuItem,
+            this.computeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // generateToolStripMenuItem
+            // deployToolStripMenuItem
             // 
-            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.generateToolStripMenuItem.Text = "Generate";
+            this.deployToolStripMenuItem.Name = "deployToolStripMenuItem";
+            this.deployToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.deployToolStripMenuItem.Text = "Deploy";
+            this.deployToolStripMenuItem.Click += new System.EventHandler(this.deployToolStripMenuItem_Click);
+            // 
+            // computeToolStripMenuItem
+            // 
+            this.computeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.assemblyinfoToolStripMenuItem,
+            this.assembliesjsonToolStripMenuItem});
+            this.computeToolStripMenuItem.Name = "computeToolStripMenuItem";
+            this.computeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.computeToolStripMenuItem.Text = "Generate";
+            // 
+            // assemblyinfoToolStripMenuItem
+            // 
+            this.assemblyinfoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.forTheCurrentAssemblyToolStripMenuItem,
+            this.forAllAssembliesToolStripMenuItem});
+            this.assemblyinfoToolStripMenuItem.Name = "assemblyinfoToolStripMenuItem";
+            this.assemblyinfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.assemblyinfoToolStripMenuItem.Text = "assembly.info";
+            // 
+            // forTheCurrentAssemblyToolStripMenuItem
+            // 
+            this.forTheCurrentAssemblyToolStripMenuItem.Name = "forTheCurrentAssemblyToolStripMenuItem";
+            this.forTheCurrentAssemblyToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.forTheCurrentAssemblyToolStripMenuItem.Text = "For the current assembly";
+            this.forTheCurrentAssemblyToolStripMenuItem.Click += new System.EventHandler(this.forTheCurrentAssemblyToolStripMenuItem_Click);
+            // 
+            // forAllAssembliesToolStripMenuItem
+            // 
+            this.forAllAssembliesToolStripMenuItem.Name = "forAllAssembliesToolStripMenuItem";
+            this.forAllAssembliesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.forAllAssembliesToolStripMenuItem.Text = "For all assemblies";
+            this.forAllAssembliesToolStripMenuItem.Click += new System.EventHandler(this.forAllAssembliesToolStripMenuItem_Click);
+            // 
+            // assembliesjsonToolStripMenuItem
+            // 
+            this.assembliesjsonToolStripMenuItem.Name = "assembliesjsonToolStripMenuItem";
+            this.assembliesjsonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.assembliesjsonToolStripMenuItem.Text = "assemblies.json";
+            this.assembliesjsonToolStripMenuItem.Click += new System.EventHandler(this.assembliesjsonToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -214,9 +282,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbAssembly;
         private System.Windows.Forms.DataGridView dgvDependecies;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DependecyName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MinimalVersion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaximalVersion;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbVersion;
@@ -225,7 +290,17 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbDescription;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deployToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tbUrl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DependecyName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MinimalVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaximalVersion;
+        private System.Windows.Forms.ToolStripMenuItem computeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem assemblyinfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forTheCurrentAssemblyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forAllAssembliesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem assembliesjsonToolStripMenuItem;
     }
 }
 

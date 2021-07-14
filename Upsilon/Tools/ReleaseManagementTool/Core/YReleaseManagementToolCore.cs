@@ -14,13 +14,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public YReleaseManagementToolCore()
         {
-            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(), "packet.dependencies", SearchOption.AllDirectories);
+            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(), "assembly.info", SearchOption.AllDirectories);
 
             List<YAssembly> assemblies = new();
 
             foreach (string csproj in projects)
             {
                 YAssembly assembly = (YAssembly)File.ReadAllText(csproj).DeserializeObject(typeof(YAssembly));
+                assembly.Url = Path.Combine(Path.GetDirectoryName(csproj), $"{assembly.Name}.csproj");
 
                 assemblies.Add(assembly);
             }
@@ -33,51 +34,35 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
             if (assembly == null)
-                return null;
-
-            string csproj = Directory.GetFiles(YHelper.GetSolutionDirectory(), $"{assembly.Name}.csproj", SearchOption.AllDirectories).FirstOrDefault();
+            {
+                return assembly;
+            }
             
             XmlDocument document = new();
-            document.Load(csproj);
+            document.Load(assembly.Url);
 
-            assembly.Version = this._getVersionFromCsproj(document);
-            this._fillDependenciesFromCsproj(document, assembly);
+            assembly.Version = "1.0.0";
 
-            foreach (YAssembly asb in this.Assemblies)
-            {
-                YDependency dependency = asb.Dependencies.Where(x => x.Name == assembly.Name).FirstOrDefault();
-                if (dependency != null)
-                {
-                    dependency.MaximalVersion = assembly.Version;
-                    if (dependency.MinimalVersion == string.Empty)
-                    {
-                        dependency.MinimalVersion = dependency.MaximalVersion;
-                    }
-                }
-            }
-
-            return assembly;
-        }
-
-        private string _getVersionFromCsproj(XmlDocument document)
-        {
             XmlNode version = document.SelectSingleNode("/Project/PropertyGroup/Version");
-
-            if (version == null)
+            if (version != null)
             {
-                return "1.0.0";
+                assembly.Version = version.InnerText;
             }
 
-            return version.InnerText;
-        }
+            assembly.BinaryType = "dll";
 
-        private void _fillDependenciesFromCsproj(XmlDocument document, YAssembly assembly)
-        {
+            XmlNode binaryType = document.SelectSingleNode("/Project/PropertyGroup/OutputType");
+            if (binaryType != null
+                && binaryType.InnerText.ToLower().Contains("exe"))
+            {
+                assembly.Version = "exe";
+            }
+
             List<YDependency> dependencies = new();
 
             foreach (XmlNode projectReference in document.SelectNodes("/Project/ItemGroup/ProjectReference"))
             {
-                YDependency dependency = assembly.Dependencies.Where(x => x.Name == projectReference.Attributes["Include"].Value).FirstOrDefault();
+                YDependency dependency = assembly.Dependencies.Where(x => x.Name == Path.GetFileNameWithoutExtension(projectReference.Attributes["Include"].Value)).FirstOrDefault();
 
                 if (dependency == null)
                 {
@@ -93,6 +78,86 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
 
             assembly.Dependencies = dependencies.ToArray();
+
+            return (YAssembly)assembly.Clone();
+        }
+
+        public void Deploy(string assemblyName, string version, string description, string binaryType)
+        {
+            YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+
+            if (assembly == null)
+            {
+                return;
+            }
+
+            assembly.Version = version;
+            assembly.Description = description;
+            assembly.BinaryType = binaryType;
+
+            XmlDocument document = new();
+            document.Load(assembly.Url);
+
+            XmlNode propertyGroup = document.SelectSingleNode("/Project/PropertyGroup");
+            if (propertyGroup == null)
+            {
+                throw new Exception($"'{assembly.Url}' does not contain '/Project/PropertyGroup' node.");
+            }
+
+            XmlNode v = propertyGroup.SelectSingleNode("./Version");
+            if (v == null)
+            {
+                v = document.CreateNode(XmlNodeType.Element, "Version", "");
+                propertyGroup.AppendChild(v);
+            }
+            v.InnerText = assembly.Version;
+
+            XmlNode bin = propertyGroup.SelectSingleNode("./Description");
+
+            if (bin == null)
+            {
+                bin = document.CreateNode(XmlNodeType.Element, "Description", "");
+                propertyGroup.AppendChild(bin);
+            }
+            bin.InnerText = assembly.Description;
+
+            foreach (YAssembly asm in this.Assemblies)
+            {
+                YDependency dependency = asm.Dependencies.Where(x => x.Name == assembly.Name).FirstOrDefault();
+                if (dependency != null)
+                {
+                    dependency.MaximalVersion = assembly.Version;
+                    if (dependency.MinimalVersion == string.Empty)
+                    {
+                        dependency.MinimalVersion = dependency.MaximalVersion;
+                    }
+                }
+            }
+
+            document.Save(assembly.Url);
+        }
+
+        public void GenerateAssemblyInfo(string assemblyName = null)
+        {
+            if (!string.IsNullOrWhiteSpace(assemblyName))
+            {
+                YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+                
+                if (assembly == null)
+                {
+                    return;
+                }
+
+                string assemblyInfoPath = Path.Combine( Path.GetDirectoryName(assembly.Url), "assembly.info");
+                File.WriteAllText(assemblyInfoPath, assembly.SerializeObject());
+            }
+            else
+            {
+                foreach (YAssembly assembly in this.Assemblies)
+                {
+                    GenerateAssemblyInfo(assembly.Name);
+                }
+            }
         }
     }
 }

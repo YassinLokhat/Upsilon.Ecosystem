@@ -61,6 +61,16 @@ namespace Upsilon.Common.Library
 
             return string.Join(string.Empty, hash);
         }
+
+        /// <summary>
+        /// Clone a object.
+        /// </summary>
+        /// <param name="obj">The object to clone.</param>
+        /// <returns>The cloned object.</returns>
+        public static object Clone(this object obj)
+        {
+            return obj.SerializeObject().DeserializeObject(obj.GetType());
+        }
         #endregion
 
         #region Enum Extention Methods
