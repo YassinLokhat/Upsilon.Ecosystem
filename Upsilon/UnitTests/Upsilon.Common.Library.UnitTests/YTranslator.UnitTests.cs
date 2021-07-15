@@ -9,8 +9,6 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YTranslator_UnitTests
     {
-        private readonly string _directory = "Language";
-
         [TestMethod]
         public void Test_01_YTranslator_OK()
         {
@@ -18,7 +16,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106051015",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Language,
                 Key = string.Empty,
             };
 
@@ -43,7 +41,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106051015",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Language,
                 Key = "key",
             };
 
@@ -66,7 +64,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106051023",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Language,
                 Key = string.Empty,
             };
 

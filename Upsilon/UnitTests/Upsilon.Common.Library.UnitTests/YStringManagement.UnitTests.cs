@@ -13,8 +13,6 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YStringManagement_UnitTests
     {
-        private readonly string _directory = "Files";
-
         [TestMethod]
         public void Test_01_StringManagement_IsIdentifiant_0_OK()
         {
@@ -79,7 +77,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202107091504",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -106,7 +104,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202107091504",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -134,7 +132,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202107091504",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -164,7 +162,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100700",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -188,7 +186,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100700",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -213,7 +211,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100712",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -237,7 +235,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100712",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -262,7 +260,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100712",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -287,7 +285,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100712",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()
@@ -312,7 +310,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106100712",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             YTextBlockSearchConfiguration searchConf = new()

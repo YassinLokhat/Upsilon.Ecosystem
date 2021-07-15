@@ -11,8 +11,6 @@ namespace Upsilon.Database.Library.UnitTests
     [TestClass]
     public class YDatabaseImage_UnitTests
     {
-        private readonly string _directory = "Database";
-
         [TestMethod]
         public void Test_00_DatabaseCreation()
         {
@@ -20,7 +18,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "empty",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
                 CheckExistingFile = false,
             };
@@ -47,7 +45,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "empty",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
                 CheckExistingFile = false,
             };
@@ -113,7 +111,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105240752",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
             };
 
@@ -153,7 +151,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105240752",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
             };
             DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
@@ -197,7 +195,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105240752",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
 
@@ -221,7 +219,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241501",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
             };
 
@@ -243,13 +241,13 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241602",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
             YHelperDatabaseConfiguration configurationReference = new()
             {
                 Reference = "202105250546",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
 
@@ -288,13 +286,13 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105250557",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
             YHelperDatabaseConfiguration configurationReference = new()
             {
                 Reference = "202105241500",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
 
@@ -331,7 +329,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105250606",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
 
@@ -356,7 +354,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241500",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
 
@@ -411,7 +409,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105241500",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
             DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
@@ -419,7 +417,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration2 = new()
             {
                 Reference = "copy",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
                 CheckExistingFile = false,
             };
@@ -460,7 +458,7 @@ namespace Upsilon.Database.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202105281926",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
 

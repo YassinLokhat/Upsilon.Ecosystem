@@ -6,8 +6,7 @@ Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
 Upsilon.Common.Library
-	YStringManagement
-		FindClosureOf
+	YJsonDocument
 	YCSVManagement
 
 Upsilon.Common.Forms
