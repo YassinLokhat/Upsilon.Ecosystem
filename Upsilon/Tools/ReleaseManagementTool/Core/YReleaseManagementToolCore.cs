@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Xml;
 using Upsilon.Common.Library;
 using Upsilon.Common.MetaHelper;
@@ -82,26 +83,39 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             return (YAssembly)assembly.Clone();
         }
 
-        public void Deploy(string assemblyName, string version, string description, string binaryType)
+        public void Deploy(YAssembly assembly)
         {
-            YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+            YAssembly asm = this.Assemblies.Where(x => x.Name == assembly.Name).FirstOrDefault();
 
-            if (assembly == null)
+            if (asm == null)
             {
                 return;
             }
 
-            assembly.Version = version;
-            assembly.Description = description;
-            assembly.BinaryType = binaryType;
+            asm.Version = assembly.Version;
+            asm.Description = assembly.Description;
+            asm.BinaryType = assembly.BinaryType;
+
+            foreach (YDependency dep in assembly.Dependencies)
+            {
+                YDependency dependency = asm.Dependencies.Where(x => x.Name == dep.Name).FirstOrDefault();
+
+                if (dependency == null)
+                {
+                    continue;
+                }
+
+                dependency.MinimalVersion = dep.MinimalVersion;
+                dependency.MaximalVersion = dep.MaximalVersion;
+            }
 
             XmlDocument document = new();
-            document.Load(assembly.Url);
+            document.Load(asm.Url);
 
             XmlNode propertyGroup = document.SelectSingleNode("/Project/PropertyGroup");
             if (propertyGroup == null)
             {
-                throw new Exception($"'{assembly.Url}' does not contain '/Project/PropertyGroup' node.");
+                throw new Exception($"'{asm.Url}' does not contain '/Project/PropertyGroup' node.");
             }
 
             XmlNode v = propertyGroup.SelectSingleNode("./Version");
@@ -110,7 +124,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 v = document.CreateNode(XmlNodeType.Element, "Version", "");
                 propertyGroup.AppendChild(v);
             }
-            v.InnerText = assembly.Version;
+            v.InnerText = asm.Version;
 
             XmlNode bin = propertyGroup.SelectSingleNode("./Description");
 
@@ -119,14 +133,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 bin = document.CreateNode(XmlNodeType.Element, "Description", "");
                 propertyGroup.AppendChild(bin);
             }
-            bin.InnerText = assembly.Description;
+            bin.InnerText = asm.Description;
 
-            foreach (YAssembly asm in this.Assemblies)
+            foreach (YAssembly a in this.Assemblies)
             {
-                YDependency dependency = asm.Dependencies.Where(x => x.Name == assembly.Name).FirstOrDefault();
+                YDependency dependency = a.Dependencies.Where(x => x.Name == asm.Name).FirstOrDefault();
                 if (dependency != null)
                 {
-                    dependency.MaximalVersion = assembly.Version;
+                    dependency.MaximalVersion = asm.Version;
                     if (dependency.MinimalVersion == string.Empty)
                     {
                         dependency.MinimalVersion = dependency.MaximalVersion;
@@ -134,7 +148,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 }
             }
 
-            document.Save(assembly.Url);
+            document.Save(asm.Url);
         }
 
         public void GenerateAssemblyInfo(string assemblyName = null)
@@ -148,8 +162,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                     return;
                 }
 
-                string assemblyInfoPath = Path.Combine( Path.GetDirectoryName(assembly.Url), "assembly.info");
-                File.WriteAllText(assemblyInfoPath, assembly.SerializeObject());
+                assembly = (YAssembly)assembly.Clone();
+                string assemblyInfoPath = Path.Combine(Path.GetDirectoryName(assembly.Url), "assembly.info");
+                
+                assembly.Url = null;
+                string jsonString = JsonSerializer.Serialize(assembly, new JsonSerializerOptions { WriteIndented = true });
+
+                File.WriteAllText(assemblyInfoPath, jsonString);
             }
             else
             {

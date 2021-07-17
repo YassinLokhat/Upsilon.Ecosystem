@@ -69,6 +69,7 @@ namespace Upsilon.Common.Library
         /// <returns>The cloned object.</returns>
         public static object Clone(this object obj)
         {
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions() {  };
             return obj.SerializeObject().DeserializeObject(obj.GetType());
         }
         #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
@@ -34,6 +35,7 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// The url to the assembly.
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Url { get; set; }
 
         /// <summary>
@@ -50,6 +52,7 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// Get the assembly's version as a <c><see cref="YVersion"/></c>.
         /// </summary>
+        [JsonIgnore]
         public YVersion YVersion { get { return new(this.Version); } }
     }
 
@@ -76,11 +79,13 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// Get the minimal version needed by the using assembly as a <c><see cref="YVersion"/></c>.
         /// </summary>
+        [JsonIgnore]
         public YVersion YMinimalVersion { get { return new(this.MinimalVersion); } }
 
         /// <summary>
         /// Get the maximal version needed by the using assembly as a <c><see cref="YVersion"/></c>.
         /// </summary>
+        [JsonIgnore]
         public YVersion YMaximalVersion { get { return new(this.MaximalVersion); } }
     }
 }

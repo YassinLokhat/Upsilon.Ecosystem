@@ -28,6 +28,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             }
         }
 
+        private YAssembly _assembly = null;
+
         public MainForm()
         {
             InitializeComponent();
@@ -36,25 +38,44 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
             this.cbAssembly.Items.AddRange(MainForm.Core.Assemblies.Select(x => x.Name).ToArray());
 
             this.cbAssembly.SelectedIndexChanged += CbAssembly_SelectedIndexChanged;
+            this.dgvDependecies.CellValueChanged += DgvDependecies_CellValueChanged;
+        }
+
+        private void DgvDependecies_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this._assembly == null)
+            {
+                return;
+            }
+
+            switch (e.ColumnIndex)
+            {
+                case 1:
+                    this._assembly.Dependencies[e.RowIndex].MinimalVersion = dgvDependecies.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    break;
+                case 2:
+                    this._assembly.Dependencies[e.RowIndex].MaximalVersion = dgvDependecies.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    break;
+            }
         }
 
         private void CbAssembly_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.dgvDependecies.Rows.Clear();
 
-            YAssembly assembly = MainForm.Core.SelectAssembly(this.cbAssembly.Text);
+            this._assembly = MainForm.Core.SelectAssembly(this.cbAssembly.Text);
 
-            if (assembly == null)
+            if (this._assembly == null)
             {
                 return;
             }
 
-            tbVersion.Text = assembly.Version;
-            tbDescription.Text = assembly.Description;
-            tbBinaryType.Text = assembly.BinaryType;
-            tbUrl.Text = assembly.Url;
+            tbVersion.Text = this._assembly.Version;
+            tbDescription.Text = this._assembly.Description;
+            tbBinaryType.Text = this._assembly.BinaryType;
+            tbUrl.Text = this._assembly.Url;
 
-            foreach (YDependency dependency in assembly.Dependencies)
+            foreach (YDependency dependency in this._assembly.Dependencies)
             {
                 this.dgvDependecies.Rows.Add(dependency.Name, dependency.MinimalVersion, dependency.MaximalVersion);
             }
@@ -69,7 +90,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
 
             try
             {
-                MainForm.Core.Deploy(cbAssembly.Text, tbVersion.Text, tbDescription.Text, tbBinaryType.Text);
+                this._assembly.Version = tbVersion.Text;
+                this._assembly.Description = tbDescription.Text;
+                this._assembly.BinaryType = tbBinaryType.Text;
+                MainForm.Core.Deploy(this._assembly);
                 MessageBox.Show($"Assembly '{cbAssembly.Text}' deployed successfully.", "Deployment success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
