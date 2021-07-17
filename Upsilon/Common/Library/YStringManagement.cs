@@ -62,6 +62,12 @@ namespace Upsilon.Common.Library
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(configuration.Escape))
+            {
+                string key = string.Empty.PadRight((configuration.Escape + configuration.BlockStart).Length);
+                str = str.Replace(configuration.Escape + configuration.BlockStart, key);
+            }
+
             if (!string.IsNullOrWhiteSpace(configuration.BlockIgnoreStart)
                 && !string.IsNullOrWhiteSpace(configuration.BlockIgnoreEnd))
             {

@@ -156,7 +156,36 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_07_StringManagement_GetNextTextBlock_OK_1()
+        public void Test_07_StringManagement_GetNextTextBlock_Escape()
+        {
+            // Given
+            YHelperDatabaseConfiguration configuration = new()
+            {
+                Reference = "202107091504",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
+
+            YTextBlockSearchConfiguration searchConf = new()
+            {
+                BlockStart = "\"",
+                BlockEnd = "\"",
+                Escape = "\\",
+                StartIndex = 230,
+            };
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+
+            // When
+            YTextBlock textBlock = str.GetNextTextBlock(searchConf);
+
+            // Then
+            textBlock.StartIndex.Should().Be(237);
+            textBlock.EndIndex.Should().Be(257);
+            textBlock.InnerText.Should().Be("\\n\\\"Hello World !\\\"");
+            textBlock.OuterText.Should().Be("\"\\n\\\"Hello World !\\\"\"");
+        }
+
+        [TestMethod]
+        public void Test_08_StringManagement_GetNextTextBlock_OK_1()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -180,7 +209,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_08_StringManagement_GetNextTextBlock_OK_2()
+        public void Test_09_StringManagement_GetNextTextBlock_OK_2()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -205,7 +234,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_09_StringManagement_GetNextTextBlock_OK_3()
+        public void Test_10_StringManagement_GetNextTextBlock_OK_3()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -229,7 +258,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_10_StringManagement_GetNextTextBlock_OK_4()
+        public void Test_11_StringManagement_GetNextTextBlock_OK_4()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -254,7 +283,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_11_StringManagement_GetNextTextBlock_OK_5()
+        public void Test_12_StringManagement_GetNextTextBlock_OK_5()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -279,7 +308,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_12_StringManagement_GetNextTextBlock_KO_1()
+        public void Test_13_StringManagement_GetNextTextBlock_KO_1()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
@@ -304,7 +333,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_13_StringManagement_GetNextTextBlock_KO_2()
+        public void Test_14_StringManagement_GetNextTextBlock_KO_2()
         {
             // Given
             YHelperDatabaseConfiguration configuration = new()
