@@ -1,19 +1,19 @@
 {
-	"Name": "Upsilon.Tools.YDBDesigner.Forms",
-	"Version": "1.0.0",
-	"Description": "UI for the YDBDesigner tool.",
-	"BinaryType": "ext",
-	"Depreciated": false,
-	"Dependencies": [
-		{
-			"Name": "Upsilon.Common.Forms",
-			"MinimalVersion": "1.0.0",
-			"MaximalVersion": "1.0.0"
-		},
-		{
-			"Name": "Upsilon.Tools.YDBDesigner.Core",
-			"MinimalVersion": "1.0.0",
-			"MaximalVersion": "1.0.0"
-		}
-	]
+  "Name": "Upsilon.Tools.YDBDesigner.Forms",
+  "Version": "1.0.0",
+  "Description": "UI for the YDBDesigner tool.",
+  "BinaryType": "ext",
+  "Depreciated": false,
+  "Dependencies": [
+    {
+      "Name": "Upsilon.Common.Forms",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.0"
+    },
+    {
+      "Name": "Upsilon.Tools.YDBDesigner.Core",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.0"
+    }
+  ]
 }

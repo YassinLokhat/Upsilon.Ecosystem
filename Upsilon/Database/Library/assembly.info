@@ -1,14 +1,14 @@
 {
-	"Name": "Upsilon.Database.Library",
-	"Version": "1.0.0",
-	"Description": "Database features library.",
-	"BinaryType": "dll",
-	"Depreciated": false,
-	"Dependencies": [
-		{
-			"Name": "Upsilon.Common.Library",
-			"MinimalVersion": "1.0.0",
-			"MaximalVersion": "1.0.2"
-		}
-	]
+  "Name": "Upsilon.Database.Library",
+  "Version": "1.0.0",
+  "Description": "Database features library.",
+  "BinaryType": "dll",
+  "Depreciated": false,
+  "Dependencies": [
+    {
+      "Name": "Upsilon.Common.Library",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.2"
+    }
+  ]
 }
