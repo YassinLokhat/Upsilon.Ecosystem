@@ -74,6 +74,11 @@ namespace Upsilon.Common.MetaHelper
 
         public static string GetSolutionDirectory(string currentPath = null)
         {
+            if (File.Exists(currentPath))
+            {
+                currentPath = Path.GetDirectoryName(currentPath);
+            }
+
             var directory = new DirectoryInfo(
                 currentPath ?? Directory.GetCurrentDirectory());
             while (directory != null && !directory.GetFiles("*.sln").Any())

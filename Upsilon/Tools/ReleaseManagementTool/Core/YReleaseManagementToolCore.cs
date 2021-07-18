@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Xml;
 using Upsilon.Common.Library;
@@ -56,7 +58,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             if (binaryType != null
                 && binaryType.InnerText.ToLower().Contains("exe"))
             {
-                assembly.Version = "exe";
+                assembly.BinaryType = "exe";
             }
 
             List<YDependency> dependencies = new();
@@ -149,6 +151,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
 
             document.Save(asm.Url);
+
+            this._startDeployProcess(asm);
         }
 
         public void GenerateAssemblyInfo(string assemblyName = null)
@@ -176,6 +180,142 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 {
                     GenerateAssemblyInfo(assembly.Name);
                 }
+            }
+        }
+
+        private void _startDeployProcess(YAssembly assembly)
+        {
+            this._startProcess("dotnet", $"clean \"{assembly.Url}\" -c Release");
+            this._startProcess("dotnet", $"build \"{assembly.Url}\" -c Release");
+
+            string solution = YHelper.GetSolutionDirectory(assembly.Url);
+            solution = Directory.GetFiles(solution, "*.sln").FirstOrDefault();
+
+            if (!File.Exists(solution))
+            {
+                throw new Exception($"'{solution}' not found.");
+            }
+
+            this._startProcess("dotnet", $"test \"{solution}\" -c Release");
+
+            this._checkIntegrity();
+
+            if (!Directory.Exists("temp"))
+            {
+                Directory.CreateDirectory("temp");
+            }
+
+            string dotfuscator = File.ReadAllLines("./data/dotfuscator.txt").Where(x => File.Exists(x)).FirstOrDefault();
+
+            if (string.IsNullOrWhiteSpace(dotfuscator))
+            {
+                throw new Exception($"No dotfuscator app found.");
+            }
+
+            string dotfuscatorXml = Path.Combine(Path.GetDirectoryName(assembly.Url), "Dotfuscator.xml");
+           
+            if (!File.Exists(dotfuscatorXml))
+            {
+                throw new Exception($"'{dotfuscatorXml}' not found.");
+            }
+
+            string dotfuscatedAssembly = Path.Combine(Path.GetDirectoryName(assembly.Url), "Dotfuscated");
+            if (Directory.Exists(dotfuscatedAssembly))
+            {
+                Directory.Delete(dotfuscatedAssembly, true);
+            }
+
+            this._startProcess(dotfuscator, $"\"{dotfuscatorXml}\"");
+
+            string ressourceTemplate = File.ReadAllText("./data/Resources.template.rc")
+                .Replace("¤Major¤", assembly.YVersion.Major.ToString())
+                .Replace("¤Minor¤", assembly.YVersion.Minor.ToString())
+                .Replace("¤Build¤", assembly.YVersion.Build.ToString())
+                .Replace("¤Revision¤", assembly.YVersion.Revision.ToString())
+                .Replace("¤FileDescription¤", assembly.Description)
+                .Replace("¤OriginalFilename¤", assembly.Name + "." + assembly.BinaryType)
+                .Replace("¤ProductName¤", assembly.Name);
+            File.WriteAllText("./temp/Resources.rc", ressourceTemplate);
+
+            this._startProcess("\"./data/GoRC.exe\"", $"/fo ./temp/Resources.res ./temp/Resources.rc");
+
+            string dotfuscated = Path.Combine(dotfuscatedAssembly, assembly.Name + "." + assembly.BinaryType);
+
+            if (!File.Exists(dotfuscated))
+            {
+                throw new Exception($"'{dotfuscated}' not found.");
+            }
+
+            this._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscated}\" -save \"{dotfuscated}\" -action addoverwrite -resource ./temp/Resources.res");
+
+            this._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscated}\"");
+
+            this.GenerateAssemblyInfo();
+
+            this.ComputeAssembliesJson(assembly.Name);
+
+            /*
+                Upload Release binary to the Mega repository : https://mega.nz/
+                Create Release/{AssemblyName}/{AssemblyVersion} branch from master branch
+            */
+
+            Directory.Delete("./temp", true);
+
+            Process.Start("explorer", $"\"{dotfuscatedAssembly}\"");
+            YStaticMethods.ProcessStartUrl("https://mega.nz/");
+        }
+
+        public void ComputeAssembliesJson(string assemblyName)
+        {
+            /// Todo : Compute assemblies.json file
+        }
+
+        private void _startProcess(string command, string arguments)
+        {
+            Process process = new();
+            process.StartInfo = new()
+            {
+                FileName = command,
+                Arguments = arguments,
+            };
+            process.Start();
+            process.WaitForExit();
+            if (process.ExitCode != 0)
+            {
+                throw new Exception($"'{command} {arguments}' returns {process.ExitCode}");
+            }
+        }
+
+        private void _checkIntegrity()
+        {
+            if (!File.Exists("./data/dotfuscator.txt"))
+            {
+                throw new Exception("'./data/dotfuscator.txt' not found");
+            }
+
+            if (!File.Exists("./data/GoRC.exe"))
+            {
+                throw new Exception("'./data/GoRC.exe' not found");
+            }
+
+            if (!File.Exists("./data/ResourceHacker.exe"))
+            {
+                throw new Exception("'./data/ResourceHacker.exe' not found");
+            }
+
+            if (!File.Exists("./data/Resources.template.rc"))
+            {
+                throw new Exception("'./data/Resources.template.rc' not found");
+            }
+
+            if (!File.Exists("./data/signtool.exe"))
+            {
+                throw new Exception("'./data/signtool.exe' not found");
+            }
+
+            if (!File.Exists("./data/UpsilonEcosystem.pfx"))
+            {
+                throw new Exception("'./data/UpsilonEcosystem.pfx' not found");
             }
         }
     }
