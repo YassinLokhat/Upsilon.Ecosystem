@@ -267,7 +267,46 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public void ComputeAssembliesJson(string assemblyName)
         {
-            /// Todo : Compute assemblies.json file
+            YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+
+            if (assembly == null)
+            {
+                return;
+            }
+
+            assembly = (YAssembly)assembly.Clone();
+            assembly.Url = null;
+
+            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(), "deployed.assemblies.json");
+            if (!File.Exists(assembliesJsonFile))
+            {
+                throw new Exception($"'{assembliesJsonFile}' not found.");
+            }
+
+            Dictionary<string, List<YAssembly>> assemblies = (Dictionary<string, List<YAssembly>>)File.ReadAllText(assembliesJsonFile).DeserializeObject(typeof(Dictionary<string, List<YAssembly>>));
+
+            if (!assemblies.ContainsKey(assembly.Name))
+            {
+                assemblies[assembly.Name] = new();
+            }
+
+            YAssembly asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
+            
+            if (asm != null)
+            {
+                asm.Depreciated = true;
+            }
+
+            asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+
+            if (asm == null)
+            {
+                assemblies[assembly.Name].Insert(0, assembly);
+            }
+
+            string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
+
+            File.WriteAllText(assembliesJsonFile, jsonString);
         }
 
         private void _startProcess(string command, string arguments)

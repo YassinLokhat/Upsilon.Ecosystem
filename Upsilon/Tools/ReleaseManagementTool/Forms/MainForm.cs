@@ -94,7 +94,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Forms
                 this._assembly.Description = tbDescription.Text;
                 this._assembly.BinaryType = tbBinaryType.Text;
                 MainForm.Core.Deploy(this._assembly);
-                MessageBox.Show($"Assembly '{cbAssembly.Text}' deployed successfully.", "Deployment success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
