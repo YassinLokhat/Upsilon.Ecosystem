@@ -1,0 +1,19 @@
+{
+  "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+  "Version": "1.0.0",
+  "Description": "Core library for the Release Management Tool.",
+  "BinaryType": "dll",
+  "Depreciated": false,
+  "Dependencies": [
+    {
+      "Name": "Upsilon.Common.Library",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.2"
+    },
+    {
+      "Name": "Upsilon.Common.MetaHelper",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.0"
+    }
+  ]
+}

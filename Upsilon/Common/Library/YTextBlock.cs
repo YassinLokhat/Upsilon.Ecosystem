@@ -121,6 +121,11 @@ namespace Upsilon.Common.Library
         public string BlockIgnoreEnd { get; set; } = null;
 
         /// <summary>
+        /// The escape string.
+        /// </summary>
+        public string Escape { get; set; } = null;
+
+        /// <summary>
         /// The index where the search will start.
         /// </summary>
         public int StartIndex { get; set; } = 0;

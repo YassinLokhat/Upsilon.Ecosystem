@@ -13,8 +13,6 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YUpdateCenter_UnitTests
     {
-        private readonly string _directory = "Files";
-
         [TestMethod]
         public void Test_01_CheckForUpdate_OK()
         {
@@ -22,7 +20,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106181373",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
@@ -39,7 +37,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106181375",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
@@ -56,7 +54,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106181373",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
@@ -76,7 +74,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106181373",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
@@ -96,7 +94,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202106181373",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
@@ -113,7 +111,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperDatabaseConfiguration configuration = new()
             {
                 Reference = "202107130901",
-                Directory = _directory,
+                Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When

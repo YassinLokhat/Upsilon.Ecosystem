@@ -1,0 +1,19 @@
+{
+  "Name": "Upsilon.Common.MetaHelper",
+  "Version": "1.0.0",
+  "Description": "Meta-helper library.",
+  "BinaryType": "dll",
+  "Depreciated": false,
+  "Dependencies": [
+    {
+      "Name": "Upsilon.Database.Library",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.0"
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.2"
+    }
+  ]
+}

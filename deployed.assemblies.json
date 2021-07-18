@@ -1,0 +1,28 @@
+{
+  "Upsilon.Common.Library": [
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.2",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": false,
+      "Dependencies": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.1",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": true,
+      "Dependencies": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.0",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": true,
+      "Dependencies": []
+    }
+  ]
+}
