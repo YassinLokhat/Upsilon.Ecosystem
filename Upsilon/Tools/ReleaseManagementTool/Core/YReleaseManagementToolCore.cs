@@ -243,6 +243,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             if (!File.Exists(dotfuscated))
             {
+                dotfuscated = Path.Combine(dotfuscatedAssembly, assembly.Name + ".dll");
+            }
+
+            if (!File.Exists(dotfuscated))
+            {
                 throw new Exception($"'{dotfuscated}' not found.");
             }
 
@@ -277,7 +282,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             assembly = (YAssembly)assembly.Clone();
             assembly.Url = null;
 
-            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(), "deployed.assemblies.json");
+            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(), "Upsilon.Tools.ReleaseManagementTool", "deployed.assemblies.json");
             if (!File.Exists(assembliesJsonFile))
             {
                 throw new Exception($"'{assembliesJsonFile}' not found.");

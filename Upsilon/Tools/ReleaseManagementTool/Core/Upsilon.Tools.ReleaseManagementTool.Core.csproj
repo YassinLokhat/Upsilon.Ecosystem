@@ -1,20 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Authors>Yassin Hassan Shamir Lokhat</Authors>
     <Company>UpsilonEcosystem</Company>
-    <Description>Core library for the Release Management Tool</Description>
+    <Description>Core library for the Release Management Tool.</Description>
     <PackageIcon>UpsilonLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
+    <Version>1.0.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Library\Upsilon.Common.Library.csproj" />
     <ProjectReference Include="..\..\..\Common\MetaHelper\Upsilon.Common.MetaHelper.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="data\dotfuscator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -35,5 +33,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>
