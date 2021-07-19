@@ -6,6 +6,11 @@
   "Depreciated": false,
   "Dependencies": [
     {
+      "Name": "Upsilon.Common.Library",
+      "MinimalVersion": "1.0.3",
+      "MaximalVersion": "1.0.3"
+    },
+    {
       "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
       "MinimalVersion": "1.0.0",
       "MaximalVersion": "1.0.0"

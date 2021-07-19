@@ -1,3 +1,0 @@
-GoRC /fo Resources.res Resources.rc
-ResourceHacker -open Upsilon.Common.Library.dll -save Upsilon.Common.Library2.dll -action addoverwrite -resource Resources.res
-signtool.exe sign /f UpsilonEcosystem.pfx /p YL-upsilonecosystem-passw0rd Upsilon.Common.Library2.dll

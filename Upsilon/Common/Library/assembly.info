@@ -1,6 +1,6 @@
 {
   "Name": "Upsilon.Common.Library",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "Description": "Common features library.",
   "BinaryType": "dll",
   "Depreciated": false,
