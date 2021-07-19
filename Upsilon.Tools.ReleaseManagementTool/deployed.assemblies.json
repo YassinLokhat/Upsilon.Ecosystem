@@ -1,0 +1,115 @@
+{
+  "Upsilon.Common.Library": [
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.3",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": false,
+      "Dependencies": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.2",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": true,
+      "Dependencies": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.1",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": true,
+      "Dependencies": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.0",
+      "Description": "Common features library.",
+      "BinaryType": "dll",
+      "Depreciated": true,
+      "Dependencies": []
+    }
+  ],
+  "Upsilon.Database.Library": [
+    {
+      "Name": "Upsilon.Database.Library",
+      "Version": "1.0.0",
+      "Description": "Database features library.",
+      "BinaryType": "dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.2"
+        }
+      ]
+    }
+  ],
+  "Upsilon.Common.MetaHelper": [
+    {
+      "Name": "Upsilon.Common.MetaHelper",
+      "Version": "1.0.0",
+      "Description": "Meta-helper library.",
+      "BinaryType": "dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Database.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.3"
+        }
+      ]
+    }
+  ],
+  "Upsilon.Tools.ReleaseManagementTool.Core": [
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.0.0",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": "dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.3"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        }
+      ]
+    }
+  ],
+  "Upsilon.Tools.ReleaseManagementTool.Forms": [
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Forms",
+      "Version": "1.0.0",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": "exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "",
+          "MaximalVersion": ""
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        }
+      ]
+    }
+  ]
+}
