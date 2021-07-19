@@ -24,7 +24,7 @@
       <type name="Upsilon.Common.Library.YUpdateCentre/YAssembly" />
     </excludelist>
     <mapping>
-      <mapoutput overwrite="false">
+      <mapoutput overwrite="true">
         <file dir="${configdir}\Dotfuscated" name="Map.xml" />
       </mapoutput>
     </mapping>

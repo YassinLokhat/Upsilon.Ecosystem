@@ -669,6 +669,11 @@
             The block ignore ending string.
             </summary>
         </member>
+        <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.Escape">
+            <summary>
+            The escape string.
+            </summary>
+        </member>
         <member name="P:Upsilon.Common.Library.YTextBlockSearchConfiguration.StartIndex">
             <summary>
             The index where the search will start.
