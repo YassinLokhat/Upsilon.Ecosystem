@@ -477,6 +477,39 @@
             <param name="value2">The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> number.</param>
             <returns>The <c><see cref="T:Upsilon.Common.Library.YBigInteger"/></c> which is the product of the two params</returns>
         </member>
+        <member name="T:Upsilon.Common.Library.YConfigurationProvider`1">
+            <summary>
+            Represents a Configuration provider on the given enum.
+            </summary>
+            <typeparam name="T">The enum type of the configuration file. Each element of the enum will have its own configuration object.</typeparam>
+        </member>
+        <member name="P:Upsilon.Common.Library.YConfigurationProvider`1.ConfigurationFile">
+            <summary>
+            The configuration file path.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.#ctor(System.String,System.String)">
+            <summary>
+            Create a new configuration provider from the given <paramref name="configurationFile"/>.
+            </summary>
+            <param name="configurationFile">The configuration file paht. If it does not exist, it will be created.</param>
+            <param name="key">The encryption key. Leave empty to disable encryption.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.SetConfiguration(`0,System.String)">
+            <summary>
+            Set the configuration value of the given configuration key.
+            </summary>
+            <param name="configurationKey">The configuration key.</param>
+            <param name="configurationValue">The configuration value.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.GetConfiguration(`0)">
+            <summary>
+            Get the configuration value of the given configuration key.
+            </summary>
+            <typeparam name="U">The type of the configuration value.</typeparam>
+            <param name="configurationKey">The configuration key.</param>
+            <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
+        </member>
         <member name="T:Upsilon.Common.Library.YCryptography">
             <summary>
             This static class contains the Cryptographic functions.
@@ -562,6 +595,14 @@
             </summary>
             <param name="toDeserialize">The string to deserialize.</param>
             <param name="type">The type of the object.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.DeserializeObject``1(System.String)">
+            <summary>
+            Deserialize an <c><paramref name="toDeserialize"/></c> string to a <c><typeparamref name="T"/></c> type.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="toDeserialize">The string to deserialize.</param>
             <returns>The deserialized object.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.ProcessStartUrl(System.String)">

@@ -13,14 +13,15 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_01_YTranslator_OK()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106051015",
+                Extention = "ulf",
                 Directory = YUnitTestFilesDirectory.Language,
                 Key = string.Empty,
             };
 
-            string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
+            string filePath = YHelper.GetTestFilePath(configuration, false, true);
 
             // When
             YTranslator translator = new(filePath, configuration.Key);
@@ -38,14 +39,15 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_02_YTranslator_WrongKey()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106051015",
+                Extention = "ulf",
                 Directory = YUnitTestFilesDirectory.Language,
                 Key = "key",
             };
 
-            string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
+            string filePath = YHelper.GetTestFilePath(configuration, false, true);
 
             // When
             Action act = () =>
@@ -61,14 +63,15 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_03_YTranslator_FileCorruption()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106051023",
+                Extention = "ulf",
                 Directory = YUnitTestFilesDirectory.Language,
                 Key = string.Empty,
             };
 
-            string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
+            string filePath = YHelper.GetTestFilePath(configuration, false, true);
 
             // When
             Action act = () =>
