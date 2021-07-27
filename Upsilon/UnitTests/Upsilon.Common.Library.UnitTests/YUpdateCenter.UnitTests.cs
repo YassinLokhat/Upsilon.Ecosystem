@@ -37,7 +37,7 @@ namespace Upsilon.Common.Library.UnitTests
             // Given
             YHelperConfiguration configuration = new()
             {
-                Reference = "202106181375",
+                Reference = "NotExists",
                 Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };

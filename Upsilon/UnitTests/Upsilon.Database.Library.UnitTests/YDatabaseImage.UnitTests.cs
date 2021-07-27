@@ -17,7 +17,7 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YDatabaseHelperConfiguration configuration = new()
             {
-                Reference = "empty",
+                Reference = "NotExists",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
                 CheckExistingFile = false,
@@ -44,7 +44,7 @@ namespace Upsilon.Database.Library.UnitTests
             // Given
             YDatabaseHelperConfiguration configuration = new()
             {
-                Reference = "empty",
+                Reference = "NotExists",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
                 CheckExistingFile = false,
@@ -416,7 +416,7 @@ namespace Upsilon.Database.Library.UnitTests
 
             YDatabaseHelperConfiguration configuration2 = new()
             {
-                Reference = "copy",
+                Reference = "202105241500_copy",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
                 CheckExistingFile = false,
