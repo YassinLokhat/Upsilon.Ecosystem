@@ -22,25 +22,6 @@ namespace Upsilon.Common.MetaHelper
         public string Reference { get; set; } = string.Empty;
         public bool ResetTempFile { get; set; } = true;
         public bool CheckExistingFile { get; set; } = true;
-
-        public YHelperConfiguration() { }
-        public YHelperConfiguration(YHelperConfiguration copy)
-        {
-            this.Reference = copy.Reference;
-            this.Directory = copy.Directory;
-            this.ResetTempFile = copy.ResetTempFile;
-            this.CheckExistingFile = copy.CheckExistingFile;
-        }
-    }
-
-    public class YHelperDatabaseConfiguration : YHelperConfiguration
-    {
         public string Key { get; set; } = string.Empty;
-
-        public YHelperDatabaseConfiguration() { }
-        public YHelperDatabaseConfiguration(YHelperDatabaseConfiguration copy) : base(copy)
-        {
-            this.Key = copy.Key;
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_00_DatabaseCreation()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "empty",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -42,7 +42,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_01_DatabaseCreation_AddRecord()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "empty",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -108,7 +108,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_02_PersistanceTest_RemoveRecord()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105240752",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -148,7 +148,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_03_Changing_Key()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105240752",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -192,7 +192,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_04_WrongKey()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105240752",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -216,7 +216,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_05_WrongKey_CorruptHash()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105241501",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -238,13 +238,13 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_06_MappingToClassesWithLessData()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105241602",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
-            YHelperDatabaseConfiguration configurationReference = new()
+            YHelperConfiguration configurationReference = new()
             {
                 Reference = "202105250546",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -283,13 +283,13 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_07_MappingToClassesWithMoreData()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105250557",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
-            YHelperDatabaseConfiguration configurationReference = new()
+            YHelperConfiguration configurationReference = new()
             {
                 Reference = "202105241500",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -326,7 +326,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_09_BadConceptionClasses_InconsistenFieldType()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105250606",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -351,7 +351,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_10_CompetitiveAccess()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105241500",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -406,7 +406,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_11_SaveAs()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105241500",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -414,7 +414,7 @@ namespace Upsilon.Database.Library.UnitTests
             };
             DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
-            YHelperDatabaseConfiguration configuration2 = new()
+            YHelperConfiguration configuration2 = new()
             {
                 Reference = "copy",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -455,7 +455,7 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_12_RebuildInternalIndex()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202105281926",
                 Directory = YUnitTestFilesDirectory.Database,

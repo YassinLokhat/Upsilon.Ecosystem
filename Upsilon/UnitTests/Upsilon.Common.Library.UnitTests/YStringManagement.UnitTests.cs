@@ -74,7 +74,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_04_StringManagement_GetNextTextBlock_NoIgnore()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -101,7 +101,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_05_StringManagement_GetNextTextBlock_InlineIgnore()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -129,7 +129,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_06_StringManagement_GetNextTextBlock_BlockIgnore()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -159,7 +159,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_07_StringManagement_GetNextTextBlock_Escape()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -188,7 +188,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_08_StringManagement_GetNextTextBlock_OK_1()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100700",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -212,7 +212,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_09_StringManagement_GetNextTextBlock_OK_2()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100700",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -237,7 +237,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_10_StringManagement_GetNextTextBlock_OK_3()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -261,7 +261,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_11_StringManagement_GetNextTextBlock_OK_4()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -286,7 +286,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_12_StringManagement_GetNextTextBlock_OK_5()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -311,7 +311,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_13_StringManagement_GetNextTextBlock_KO_1()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -336,7 +336,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_14_StringManagement_GetNextTextBlock_KO_2()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
                 Directory = YUnitTestFilesDirectory.Files,

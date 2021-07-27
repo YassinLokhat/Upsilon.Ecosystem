@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Upsilon.Common.Library;
 using Upsilon.Database.Library;
 
 namespace Upsilon.Common.MetaHelper
@@ -27,16 +28,16 @@ namespace Upsilon.Common.MetaHelper
             return filePath;
         }
 
-        public static string GetDatabaseFilePath(YHelperDatabaseConfiguration configuration, bool UseTempDatabase = true)
+        public static string GetDatabaseFilePath(YHelperConfiguration configuration, bool UseTempDatabase = true)
         {
             return GetTestFilePath(configuration, "ydb", UseTempDatabase);
         }
 
-        public static T OpenDatabaseImage<T>(YHelperDatabaseConfiguration configuration) where T : YDatabaseImage
+        public static T OpenDatabaseImage<T>(YHelperConfiguration configuration) where T : YDatabaseImage
         {
             string databaseFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
 
-            YHelperDatabaseConfiguration config = new(configuration);
+            YHelperConfiguration config = (YHelperConfiguration)configuration.Clone();
             string sourceFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(config, false);
             if (File.Exists(sourceFilename)
                 && (!File.Exists(databaseFilename)
@@ -63,7 +64,7 @@ namespace Upsilon.Common.MetaHelper
             }
         }
 
-        public static void ClearDatabaseImage(YHelperDatabaseConfiguration configuration)
+        public static void ClearDatabaseImage(YHelperConfiguration configuration)
         {
             string sourceFilePath = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
             if (File.Exists(sourceFilePath))

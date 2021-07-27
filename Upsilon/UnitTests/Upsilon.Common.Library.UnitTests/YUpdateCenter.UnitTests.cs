@@ -17,7 +17,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_01_CheckForUpdate_OK()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -34,7 +34,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_02_CheckForUpdate_OK_ConfigMissing()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106181375",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -51,7 +51,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_03_CheckForUpdate_KO_PrivateAssembly()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -71,7 +71,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_04_CheckForUpdate_KO_AssemblyBecamePrivate()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -91,7 +91,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_05_CheckForUpdate_KO_MissingAssembly()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
                 Directory = YUnitTestFilesDirectory.Files,
@@ -108,7 +108,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_06_CheckForUpdate_OK_moreFieldsInTheJson()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202107130901",
                 Directory = YUnitTestFilesDirectory.Files,

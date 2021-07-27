@@ -13,7 +13,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_01_YTranslator_OK()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106051015",
                 Directory = YUnitTestFilesDirectory.Language,
@@ -38,7 +38,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_02_YTranslator_WrongKey()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106051015",
                 Directory = YUnitTestFilesDirectory.Language,
@@ -61,7 +61,7 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_03_YTranslator_FileCorruption()
         {
             // Given
-            YHelperDatabaseConfiguration configuration = new()
+            YHelperConfiguration configuration = new()
             {
                 Reference = "202106051023",
                 Directory = YUnitTestFilesDirectory.Language,
