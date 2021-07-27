@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Upsilon.Common.Library;
 using Upsilon.Tools.ReleaseManagementTool.Core;
 
-namespace Upsilon.Tools.ReleaseManagementTool.Forms
+namespace Upsilon.Tools.ReleaseManagementTool.GUI
 {
     public partial class MainForm : Form
     {

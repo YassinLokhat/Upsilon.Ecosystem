@@ -1,5 +1,5 @@
 ﻿
-namespace Upsilon.Tools.ReleaseManagementTool.Forms
+namespace Upsilon.Tools.ReleaseManagementTool.GUI
 {
     partial class MainForm
     {

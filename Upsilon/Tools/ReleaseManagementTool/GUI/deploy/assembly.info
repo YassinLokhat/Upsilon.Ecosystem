@@ -1,5 +1,5 @@
 {
-  "Name": "Upsilon.Tools.ReleaseManagementTool.Forms",
+  "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
   "Version": "1.0.0",
   "Description": "UI for the Release Management Tool.",
   "BinaryType": "exe",

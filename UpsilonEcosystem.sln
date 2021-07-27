@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Upsilon.Applications", "Ups
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YDBDesigner", "YDBDesigner", "{7E23BBB6-EB3F-4E2B-BD2A-D638A291DD47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Forms", "Upsilon\Tools\YDBDesigner\Forms\Upsilon.Tools.YDBDesigner.Forms.csproj", "{3E82BF19-97B3-4AAF-B133-24174D7E5E3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.GUI", "Upsilon\Tools\YDBDesigner\GUI\Upsilon.Tools.YDBDesigner.GUI.csproj", "{3E82BF19-97B3-4AAF-B133-24174D7E5E3B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.Core", "Upsilon\Tools\YDBDesigner\Core\Upsilon.Tools.YDBDesigner.Core.csproj", "{801F9DE8-551E-48C9-BDA0-3C561B3F239C}"
 EndProject
@@ -50,9 +50,9 @@ Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "UpsilonEcosystem.Documentat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReleaseManagementTool", "ReleaseManagementTool", "{A94A450D-09FB-4DBB-B69A-1D92E5ED759A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Upsilon.Tools.ReleaseManagementTool.Forms", "Upsilon\Tools\ReleaseManagementTool\Forms\Upsilon.Tools.ReleaseManagementTool.Forms.csproj", "{5B6F6EDB-FD32-4F58-A2EE-5D9669670209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.ReleaseManagementTool.GUI", "Upsilon\Tools\ReleaseManagementTool\GUI\Upsilon.Tools.ReleaseManagementTool.GUI.csproj", "{5B6F6EDB-FD32-4F58-A2EE-5D9669670209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Upsilon.Tools.ReleaseManagementTool.Core", "Upsilon\Tools\ReleaseManagementTool\Core\Upsilon.Tools.ReleaseManagementTool.Core.csproj", "{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.ReleaseManagementTool.Core", "Upsilon\Tools\ReleaseManagementTool\Core\Upsilon.Tools.ReleaseManagementTool.Core.csproj", "{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

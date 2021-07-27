@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Upsilon.Tools.ReleaseManagementTool.Forms
+namespace Upsilon.Tools.ReleaseManagementTool.GUI
 {
     static class Program
     {
