@@ -25,8 +25,8 @@ namespace Upsilon.Common.Library
         /// Create a new configuration provider from the given <paramref name="configurationFile"/>.
         /// </summary>
         /// <param name="configurationFile">The configuration file paht. If it does not exist, it will be created.</param>
-        /// <param name="key">The encryption key. Leave empty to disable encryption.</param>
-        public YConfigurationProvider(string configurationFile, string key)
+        /// <param name="key">The encryption key. Leave empty to disable encryption. The default value is <see cref="string.Empty"/>.</param>
+        public YConfigurationProvider(string configurationFile, string key = "")
         {
             if (!File.Exists(configurationFile))
             {

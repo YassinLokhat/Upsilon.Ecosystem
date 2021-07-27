@@ -45,16 +45,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.tbDescription = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tbVersion = new System.Windows.Forms.TextBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.deployToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.computeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.assemblyinfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.forTheCurrentAssemblyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.forAllAssembliesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.assembliesjsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.cbSolutions = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.bDeploy = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -195,74 +193,58 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.tbVersion.Size = new System.Drawing.Size(100, 23);
             this.tbVersion.TabIndex = 2;
             // 
-            // menuStrip1
+            // toolStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deployToolStripMenuItem,
-            this.computeToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.cbSolutions,
+            this.toolStripSeparator1,
+            this.bDeploy});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(784, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
             // 
-            // deployToolStripMenuItem
+            // toolStripLabel1
             // 
-            this.deployToolStripMenuItem.Name = "deployToolStripMenuItem";
-            this.deployToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.deployToolStripMenuItem.Text = "Deploy";
-            this.deployToolStripMenuItem.Click += new System.EventHandler(this.deployToolStripMenuItem_Click);
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(57, 22);
+            this.toolStripLabel1.Text = "Solution :";
             // 
-            // computeToolStripMenuItem
+            // cbSolutions
             // 
-            this.computeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.assemblyinfoToolStripMenuItem,
-            this.assembliesjsonToolStripMenuItem});
-            this.computeToolStripMenuItem.Name = "computeToolStripMenuItem";
-            this.computeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.computeToolStripMenuItem.Text = "Generate";
+            this.cbSolutions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSolutions.Items.AddRange(new object[] {
+            "New Solution"});
+            this.cbSolutions.MaxDropDownItems = 100;
+            this.cbSolutions.Name = "cbSolutions";
+            this.cbSolutions.Size = new System.Drawing.Size(250, 25);
             // 
-            // assemblyinfoToolStripMenuItem
+            // toolStripSeparator1
             // 
-            this.assemblyinfoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.forTheCurrentAssemblyToolStripMenuItem,
-            this.forAllAssembliesToolStripMenuItem});
-            this.assemblyinfoToolStripMenuItem.Name = "assemblyinfoToolStripMenuItem";
-            this.assemblyinfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.assemblyinfoToolStripMenuItem.Text = "assembly.info";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // forTheCurrentAssemblyToolStripMenuItem
+            // bDeploy
             // 
-            this.forTheCurrentAssemblyToolStripMenuItem.Name = "forTheCurrentAssemblyToolStripMenuItem";
-            this.forTheCurrentAssemblyToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.forTheCurrentAssemblyToolStripMenuItem.Text = "For the current assembly";
-            this.forTheCurrentAssemblyToolStripMenuItem.Click += new System.EventHandler(this.forTheCurrentAssemblyToolStripMenuItem_Click);
-            // 
-            // forAllAssembliesToolStripMenuItem
-            // 
-            this.forAllAssembliesToolStripMenuItem.Name = "forAllAssembliesToolStripMenuItem";
-            this.forAllAssembliesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.forAllAssembliesToolStripMenuItem.Text = "For all assemblies";
-            this.forAllAssembliesToolStripMenuItem.Click += new System.EventHandler(this.forAllAssembliesToolStripMenuItem_Click);
-            // 
-            // assembliesjsonToolStripMenuItem
-            // 
-            this.assembliesjsonToolStripMenuItem.Name = "assembliesjsonToolStripMenuItem";
-            this.assembliesjsonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.assembliesjsonToolStripMenuItem.Text = "assemblies.json";
-            this.assembliesjsonToolStripMenuItem.Click += new System.EventHandler(this.assembliesjsonToolStripMenuItem_Click);
+            this.bDeploy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.bDeploy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bDeploy.Name = "bDeploy";
+            this.bDeploy.Size = new System.Drawing.Size(48, 22);
+            this.bDeploy.Text = "Deploy";
+            this.bDeploy.Click += new System.EventHandler(this.bDeploy_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvDependecies);
-            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -270,8 +252,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,18 +271,16 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.TextBox tbBinaryType;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbDescription;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem deployToolStripMenuItem;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn DependecyName;
         private System.Windows.Forms.DataGridViewTextBoxColumn MinimalVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaximalVersion;
-        private System.Windows.Forms.ToolStripMenuItem computeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem assemblyinfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem forTheCurrentAssemblyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem forAllAssembliesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem assembliesjsonToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripComboBox cbSolutions;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton bDeploy;
     }
 }
 

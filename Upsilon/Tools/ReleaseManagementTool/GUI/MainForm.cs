@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,11 +35,23 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         {
             InitializeComponent();
 
+            this.cbSolutions.Items.AddRange(MainForm.Core.Solutions);
+            if(File.Exists(MainForm.Core.Solution))
+            {
+                this.cbSolutions.SelectedItem = MainForm.Core.Solution;
+            }
+
             this.cbAssembly.Items.Add(string.Empty);
             this.cbAssembly.Items.AddRange(MainForm.Core.Assemblies.Select(x => x.Name).ToArray());
 
+            this.cbSolutions.SelectedIndexChanged += CbSolutions_SelectedIndexChanged;
             this.cbAssembly.SelectedIndexChanged += CbAssembly_SelectedIndexChanged;
             this.dgvDependecies.CellValueChanged += DgvDependecies_CellValueChanged;
+        }
+
+        private void CbSolutions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void DgvDependecies_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -81,7 +94,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             }
         }
 
-        private void deployToolStripMenuItem_Click(object sender, EventArgs e)
+        private void bDeploy_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(cbAssembly.Text))
             {
@@ -99,23 +112,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void assembliesjsonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void forTheCurrentAssemblyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MainForm.Core.GenerateAssemblyInfo(this.cbAssembly.Text);
-            MessageBox.Show($"assembly.info for '{this.cbAssembly.Text}' generated successfully.", "Generation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void forAllAssembliesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MainForm.Core.GenerateAssemblyInfo();
-            MessageBox.Show($"assembly.info for all assemblies generated successfully.", "Generation success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
