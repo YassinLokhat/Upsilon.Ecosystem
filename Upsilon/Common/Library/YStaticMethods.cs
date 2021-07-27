@@ -128,6 +128,17 @@ namespace Upsilon.Common.Library
         {
             return JsonSerializer.Deserialize(toDeserialize, type);
         }
+
+        /// <summary>
+        /// Deserialize an <c><paramref name="toDeserialize"/></c> string to a <c><typeparamref name="T"/></c> type.
+        /// </summary>
+        /// <typeparam name="T">The type of the object.</typeparam>
+        /// <param name="toDeserialize">The string to deserialize.</param>
+        /// <returns>The deserialized object.</returns>
+        public static T DeserializeObject<T>(this string toDeserialize)
+        {
+            return JsonSerializer.Deserialize<T>(toDeserialize);
+        }
         #endregion
 
         #region .Net 5.0 Fixing hacks

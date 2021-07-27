@@ -20,11 +20,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
+                Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.Library");
+            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library");
 
             // Then
             assembly.Version.Should().Be("1.1.0.0");
@@ -37,11 +38,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106181375",
+                Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, false), "Upsilon.Common.Library");
+            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, false), "Upsilon.Common.Library");
 
             // Then
             assembly.Should().BeNull();
@@ -54,13 +56,14 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
+                Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
             Action act = new(() => 
             {
-                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.UnitTestsHelper");
+                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.UnitTestsHelper");
             });
 
             // Then
@@ -74,13 +77,14 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
+                Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
             Action act = new(() =>
             {
-                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "SigmaShell");
+                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "SigmaShell");
             });
 
             // Then
@@ -94,11 +98,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106181373",
+                Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Database.Library");
+            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Database.Library");
 
             // Then
             assembly.Should().BeNull();
@@ -111,11 +116,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202107130901",
+                Extention = "json",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, "json", false, true), "Upsilon.Common.Library");
+            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library");
 
             // Then
             assembly.Version.Should().Be("1.0.0.0");

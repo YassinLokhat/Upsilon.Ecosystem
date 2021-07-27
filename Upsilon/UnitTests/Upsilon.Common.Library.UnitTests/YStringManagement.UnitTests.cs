@@ -77,6 +77,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -85,7 +86,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockStart = "\"",
                 BlockEnd = "\"",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -104,6 +105,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -113,7 +115,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockEnd = "\"",
                 InlineIgnore = "//",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -132,6 +134,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -143,7 +146,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockIgnoreStart = "/*",
                 BlockIgnoreEnd = "*/",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -162,6 +165,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202107091504",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -172,7 +176,7 @@ namespace Upsilon.Common.Library.UnitTests
                 Escape = "\\",
                 StartIndex = 230,
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -191,6 +195,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100700",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -199,7 +204,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockStart = "{",
                 BlockEnd = "}",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -215,6 +220,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100700",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -223,7 +229,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockStart = "{",
                 BlockEnd = "}",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
             str = str[str.IndexOf('{')..];
 
             // When
@@ -240,6 +246,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -248,7 +255,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockStart = "<node>",
                 BlockEnd = "</node>",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -264,6 +271,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -273,7 +281,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockEnd = "</node>",
                 StartIndex = 70,
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -289,6 +297,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -298,7 +307,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockEnd = "</node>",
                 StartIndex = 80,
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -314,6 +323,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -323,7 +333,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockEnd = "</node>",
                 StartIndex = 111,
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);
@@ -339,6 +349,7 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106100712",
+                Extention = "txt",
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
@@ -347,7 +358,7 @@ namespace Upsilon.Common.Library.UnitTests
                 BlockStart = "<root>",
                 BlockEnd = "</root>",
             };
-            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, "txt", false, true));
+            string str = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true));
 
             // When
             YTextBlock textBlock = str.GetNextTextBlock(searchConf);

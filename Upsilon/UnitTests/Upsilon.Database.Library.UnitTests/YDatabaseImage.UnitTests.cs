@@ -15,14 +15,14 @@ namespace Upsilon.Database.Library.UnitTests
         public void Test_00_DatabaseCreation()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "empty",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
                 CheckExistingFile = false,
             };
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
             string filepath = YHelper.GetDatabaseFilePath(configuration);
 
             // When
@@ -35,21 +35,21 @@ namespace Upsilon.Database.Library.UnitTests
 
             // Finally
             configuration.CheckExistingFile = true;
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_01_DatabaseCreation_AddRecord()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "empty",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = string.Empty,
                 CheckExistingFile = false,
             };
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
 
             // When
             DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
@@ -101,14 +101,14 @@ namespace Upsilon.Database.Library.UnitTests
             book2.Synopsis.Should().Be("Macbeth's Synopsis");
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_02_PersistanceTest_RemoveRecord()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105240752",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -141,14 +141,14 @@ namespace Upsilon.Database.Library.UnitTests
             author.Books[0].InternalIndex.Should().Be(book1.InternalIndex);
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_03_Changing_Key()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105240752",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -185,14 +185,14 @@ namespace Upsilon.Database.Library.UnitTests
             book2.Synopsis.Should().Be("Macbeth's Synopsis");
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_04_WrongKey()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105240752",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -209,14 +209,14 @@ namespace Upsilon.Database.Library.UnitTests
             act.Should().ThrowExactly<YWrongDatabaseKeyException>().And.Key.Should().Be("key");
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_05_WrongKey_CorruptHash()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105241501",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -231,20 +231,20 @@ namespace Upsilon.Database.Library.UnitTests
             database.BOOKs.Count.Should().Be(0);
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_06_MappingToClassesWithLessData()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105241602",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
-            YHelperConfiguration configurationReference = new()
+            YDatabaseHelperConfiguration configurationReference = new()
             {
                 Reference = "202105250546",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -276,20 +276,20 @@ namespace Upsilon.Database.Library.UnitTests
             databaseContent.Should().Be(databaseContentReference);
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_07_MappingToClassesWithMoreData()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105250557",
                 Directory = YUnitTestFilesDirectory.Database,
                 Key = "key",
             };
-            YHelperConfiguration configurationReference = new()
+            YDatabaseHelperConfiguration configurationReference = new()
             {
                 Reference = "202105241500",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -319,14 +319,14 @@ namespace Upsilon.Database.Library.UnitTests
             databaseContent.Should().Be(databaseContentReference);
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_09_BadConceptionClasses_InconsistenFieldType()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105250606",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -344,14 +344,14 @@ namespace Upsilon.Database.Library.UnitTests
                                                                                          "Type 'System.DateTime' does not match with 'System.String' type for the 'BirthDay' field.");
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_10_CompetitiveAccess()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105241500",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -399,14 +399,14 @@ namespace Upsilon.Database.Library.UnitTests
 
             // Finally
             configuration.CheckExistingFile = true;
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
 
         [TestMethod]
         public void Test_11_SaveAs()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105241500",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -414,7 +414,7 @@ namespace Upsilon.Database.Library.UnitTests
             };
             DatabaseClasses.Database database = YHelper.OpenDatabaseImage<DatabaseClasses.Database>(configuration);
 
-            YHelperConfiguration configuration2 = new()
+            YDatabaseHelperConfiguration configuration2 = new()
             {
                 Reference = "copy",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -447,15 +447,15 @@ namespace Upsilon.Database.Library.UnitTests
             book2.Synopsis.Should().Be("Macbeth's Synopsis");
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
-            YHelper.ClearDatabaseImage(configuration2);
+            YHelper.ClearTestFile(configuration);
+            YHelper.ClearTestFile(configuration2);
         }
 
         [TestMethod]
         public void Test_12_RebuildInternalIndex()
         {
             // Given
-            YHelperConfiguration configuration = new()
+            YDatabaseHelperConfiguration configuration = new()
             {
                 Reference = "202105281926",
                 Directory = YUnitTestFilesDirectory.Database,
@@ -499,7 +499,7 @@ namespace Upsilon.Database.Library.UnitTests
             book3.InternalIndex.Should().Be(3);
 
             // Finally
-            YHelper.ClearDatabaseImage(configuration);
+            YHelper.ClearTestFile(configuration);
         }
     }
 }

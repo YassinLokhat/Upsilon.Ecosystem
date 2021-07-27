@@ -16,11 +16,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106051015",
+                Extention = "ulf",
                 Directory = YUnitTestFilesDirectory.Language,
                 Key = string.Empty,
             };
 
-            string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
+            string filePath = YHelper.GetTestFilePath(configuration, false, true);
 
             // When
             YTranslator translator = new(filePath, configuration.Key);
@@ -41,11 +42,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106051015",
+                Extention = "ulf",
                 Directory = YUnitTestFilesDirectory.Language,
                 Key = "key",
             };
 
-            string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
+            string filePath = YHelper.GetTestFilePath(configuration, false, true);
 
             // When
             Action act = () =>
@@ -64,11 +66,12 @@ namespace Upsilon.Common.Library.UnitTests
             YHelperConfiguration configuration = new()
             {
                 Reference = "202106051023",
+                Extention = "ulf",
                 Directory = YUnitTestFilesDirectory.Language,
                 Key = string.Empty,
             };
 
-            string filePath = YHelper.GetTestFilePath(configuration, "ulf", false, true);
+            string filePath = YHelper.GetTestFilePath(configuration, false, true);
 
             // When
             Action act = () =>

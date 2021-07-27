@@ -10,9 +10,9 @@ namespace Upsilon.Common.MetaHelper
 {
     public static class YHelper
     {
-        public static string GetTestFilePath(YHelperConfiguration configuration, string extension, bool useTemp = true, bool checkFile = false)
+        public static string GetTestFilePath(YHelperConfiguration configuration, bool useTemp = true, bool checkFile = false)
         {
-            string filePath = GetSolutionDirectory(Environment.CurrentDirectory) + configuration.FullPathDirectory + configuration.Reference + "." + extension;
+            string filePath = GetSolutionDirectory(Environment.CurrentDirectory) + configuration.FullPathDirectory + configuration.Reference + "." + configuration.Extention;
 
             if (checkFile
                 && !File.Exists(filePath))
@@ -22,15 +22,25 @@ namespace Upsilon.Common.MetaHelper
 
             if (useTemp)
             {
-                filePath = filePath.Replace(configuration.Reference + "." + extension, configuration.Reference + "_tmp." + extension);
+                filePath = filePath.Replace(configuration.Reference + "." + configuration.Extention, configuration.Reference + "_tmp." + configuration.Extention);
             }
 
             return filePath;
         }
 
+        public static string GenerateTempFile(YHelperConfiguration configuration, bool @override = true)
+        {
+            string sourceFile = GetTestFilePath(configuration, false, true);
+            string tempFile = GetTestFilePath(configuration);
+
+            File.Copy(sourceFile, tempFile, @override);
+
+            return tempFile;
+        }
+
         public static string GetDatabaseFilePath(YHelperConfiguration configuration, bool UseTempDatabase = true)
         {
-            return GetTestFilePath(configuration, "ydb", UseTempDatabase);
+            return GetTestFilePath(configuration, UseTempDatabase);
         }
 
         public static T OpenDatabaseImage<T>(YHelperConfiguration configuration) where T : YDatabaseImage
@@ -64,9 +74,9 @@ namespace Upsilon.Common.MetaHelper
             }
         }
 
-        public static void ClearDatabaseImage(YHelperConfiguration configuration)
+        public static void ClearTestFile(YHelperConfiguration configuration)
         {
-            string sourceFilePath = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
+            string sourceFilePath = YHelper.GetTestFilePath(configuration);
             if (File.Exists(sourceFilePath))
             {
                 File.Delete(sourceFilePath);
