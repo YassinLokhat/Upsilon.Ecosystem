@@ -16,15 +16,21 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
     public partial class MainForm : Form
     {
         private YAssembly _assembly = null;
+        private bool _locked = false;
 
         public MainForm()
         {
             InitializeComponent();
 
-            this.cbSolutions.Items.AddRange(Program.Core.Solutions);
-            if(File.Exists(Program.Core.Solutions.FirstOrDefault()))
+            if (Program.Core.ConfigProvider.HasConfiguration(Config.OpenOutput))
             {
-                this.cbSolutions.SelectedItem = Program.Core.Solutions.FirstOrDefault();
+                ckbOpenOutput.Checked = Program.Core.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput);
+            }
+
+            this.cbSolutions.Items.AddRange(Program.Core.Solutions.Select(x => Path.GetFileName(x)).ToArray());
+            if(Program.Core.Solutions.Length != 0)
+            {
+                this.cbSolutions.SelectedIndex = 1;
             }
 
             if (Program.Core.Assemblies != null)
@@ -33,14 +39,21 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
             }
 
-            this.cbSolutions.SelectedIndexChanged += CbSolutions_SelectedIndexChanged;
-            this.cbAssembly.SelectedIndexChanged += CbAssembly_SelectedIndexChanged;
-            this.dgvDependecies.CellValueChanged += DgvDependecies_CellValueChanged;
+            this.cbSolutions.SelectedIndexChanged += _cbSolutions_SelectedIndexChanged;
+            this.cbAssembly.SelectedIndexChanged += _cbAssembly_SelectedIndexChanged;
+            this.dgvDependecies.CellValueChanged += _dgvDependecies_CellValueChanged;
+            this.ckbOpenOutput.CheckedChanged += _ckbOpenOutput_CheckedChanged;
         }
 
-        private void CbSolutions_SelectedIndexChanged(object sender, EventArgs e)
+        private void _ckbOpenOutput_CheckedChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.cbSolutions.Text))
+            Program.Core.ConfigProvider.SetConfiguration(Config.OpenOutput, ckbOpenOutput.Checked);
+        }
+
+        private void _cbSolutions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this._locked 
+                || string.IsNullOrWhiteSpace(this.cbSolutions.Text))
             {
                 return;
             }
@@ -55,18 +68,18 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
                 {
-                    this.cbSolutions.Text = string.Empty;
+                    this._loadSolution(Program.Core.Solutions[0]);
                     return;
                 }
 
-                this.cbSolutions.Items.Add(openFileDialog.FileName);
-                this.cbSolutions.SelectedItem = openFileDialog.FileName;
+                this._loadSolution(openFileDialog.FileName);
             }
             else
             {
                 try
                 {
-                    Program.Core.LoadSolution(this.cbSolutions.Text);
+                    string solution = Program.Core.Solutions[this.cbSolutions.SelectedIndex - 1];
+                    this._loadSolution(solution);
 
                     this.cbAssembly.Items.Clear();
                     this.cbAssembly.Items.Add(string.Empty);
@@ -80,7 +93,18 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             }
         }
 
-        private void DgvDependecies_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void _loadSolution(string solution)
+        {
+            this._locked = true;
+            Program.Core.LoadSolution(solution);
+            this.cbSolutions.Items.Clear();
+            this.cbSolutions.Items.Add("New Solution");
+            this.cbSolutions.Items.AddRange(Program.Core.Solutions.Select(x => Path.GetFileName(x)).ToArray());
+            this.cbSolutions.SelectedItem = Path.GetFileName(solution);
+            this._locked = false;
+        }
+
+        private void _dgvDependecies_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (this._assembly == null)
             {
@@ -98,7 +122,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             }
         }
 
-        private void CbAssembly_SelectedIndexChanged(object sender, EventArgs e)
+        private void _cbAssembly_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.dgvDependecies.Rows.Clear();
 
@@ -120,7 +144,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             }
         }
 
-        private void bDeploy_Click(object sender, EventArgs e)
+        private void _bDeploy_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(cbAssembly.Text))
             {
@@ -137,6 +161,49 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void _bOpenRepository_Click(object sender, EventArgs e)
+        {
+            YReleaseManagementToolCore.OpenRepository();
+        }
+
+        private void _bDotfuscator_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "Browse for Dotfuscator",
+                Filter = "Dotfuscator|dotfuscatorUI.exe",
+            };
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            if (File.Exists(openFileDialog.FileName))
+            {
+                Program.Core.ConfigProvider.SetConfiguration(Config.Dotfuscaor, openFileDialog.FileName);
+            }
+        }
+
+        private void _bInnoSetup_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "Browse for InnoSetup",
+                Filter = "InnoSetup|ISCC.exe",
+            };
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            if (File.Exists(openFileDialog.FileName))
+            {
+                Program.Core.ConfigProvider.SetConfiguration(Config.InnoSetup, openFileDialog.FileName);
             }
         }
     }

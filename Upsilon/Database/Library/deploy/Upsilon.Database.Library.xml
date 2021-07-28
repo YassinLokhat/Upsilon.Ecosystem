@@ -13,7 +13,7 @@
         <option>stripoa</option>
         <option>library</option>
         <option>transformxaml</option>
-        <file dir="${configdir}\bin\Release\net5.0" name="Upsilon.Database.Library.dll" />
+        <file dir="${configdir}\..\bin\Release\net5.0" name="Upsilon.Database.Library.dll" />
       </inputassembly>
     </asmlist>
   </input>

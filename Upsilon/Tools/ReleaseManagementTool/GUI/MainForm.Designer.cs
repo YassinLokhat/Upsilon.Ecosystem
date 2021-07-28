@@ -50,6 +50,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.cbSolutions = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bDeploy = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.bOpenRepository = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ckbOpenOutput = new System.Windows.Forms.ToolStripMenuItem();
+            this.bDotfuscator = new System.Windows.Forms.ToolStripMenuItem();
+            this.bInnoSetup = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -199,7 +205,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.toolStripLabel1,
             this.cbSolutions,
             this.toolStripSeparator1,
-            this.bDeploy});
+            this.bDeploy,
+            this.toolStripSeparator2,
+            this.bOpenRepository,
+            this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(784, 25);
@@ -233,7 +242,59 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bDeploy.Name = "bDeploy";
             this.bDeploy.Size = new System.Drawing.Size(48, 22);
             this.bDeploy.Text = "Deploy";
-            this.bDeploy.Click += new System.EventHandler(this.bDeploy_Click);
+            this.bDeploy.Click += new System.EventHandler(this._bDeploy_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bOpenRepository
+            // 
+            this.bOpenRepository.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.bOpenRepository.Image = ((System.Drawing.Image)(resources.GetObject("bOpenRepository.Image")));
+            this.bOpenRepository.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bOpenRepository.Name = "bOpenRepository";
+            this.bOpenRepository.Size = new System.Drawing.Size(99, 22);
+            this.bOpenRepository.Text = "Open Repository";
+            this.bOpenRepository.Click += new System.EventHandler(this._bOpenRepository_Click);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ckbOpenOutput,
+            this.bDotfuscator,
+            this.bInnoSetup});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(62, 22);
+            this.toolStripDropDownButton1.Text = "Settings";
+            // 
+            // ckbOpenOutput
+            // 
+            this.ckbOpenOutput.CheckOnClick = true;
+            this.ckbOpenOutput.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ckbOpenOutput.Name = "ckbOpenOutput";
+            this.ckbOpenOutput.Size = new System.Drawing.Size(195, 22);
+            this.ckbOpenOutput.Text = "Open output folder";
+            // 
+            // bDotfuscator
+            // 
+            this.bDotfuscator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.bDotfuscator.Name = "bDotfuscator";
+            this.bDotfuscator.Size = new System.Drawing.Size(195, 22);
+            this.bDotfuscator.Text = "Browse for Dotfuscator";
+            this.bDotfuscator.Click += new System.EventHandler(this._bDotfuscator_Click);
+            // 
+            // bInnoSetup
+            // 
+            this.bInnoSetup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.bInnoSetup.Name = "bInnoSetup";
+            this.bInnoSetup.Size = new System.Drawing.Size(195, 22);
+            this.bInnoSetup.Text = "Browse for InnoSetup";
+            this.bInnoSetup.Click += new System.EventHandler(this._bInnoSetup_Click);
             // 
             // MainForm
             // 
@@ -281,6 +342,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.ToolStripComboBox cbSolutions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton bDeploy;
+        private System.Windows.Forms.ToolStripButton bOpenRepository;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem ckbOpenOutput;
+        private System.Windows.Forms.ToolStripMenuItem bDotfuscator;
+        private System.Windows.Forms.ToolStripMenuItem bInnoSetup;
     }
 }
 
