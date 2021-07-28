@@ -27,6 +27,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 this.cbSolutions.SelectedItem = Program.Core.Solutions.FirstOrDefault();
             }
 
+            if (Program.Core.Assemblies != null)
+            {
+                this.cbAssembly.Items.Add(string.Empty);
+                this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
+            }
+
             this.cbSolutions.SelectedIndexChanged += CbSolutions_SelectedIndexChanged;
             this.cbAssembly.SelectedIndexChanged += CbAssembly_SelectedIndexChanged;
             this.dgvDependecies.CellValueChanged += DgvDependecies_CellValueChanged;

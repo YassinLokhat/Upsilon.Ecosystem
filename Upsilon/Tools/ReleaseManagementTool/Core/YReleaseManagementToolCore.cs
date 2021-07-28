@@ -75,7 +75,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             foreach (string csproj in projects)
             {
                 YAssembly assembly = (YAssembly)File.ReadAllText(csproj).DeserializeObject(typeof(YAssembly));
-                assembly.Url = Path.Combine(Path.GetDirectoryName(csproj), $"{assembly.Name}.csproj");
+                assembly.Url = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(csproj)), $"{assembly.Name}.csproj");
 
                 assemblies.Add(assembly);
             }
