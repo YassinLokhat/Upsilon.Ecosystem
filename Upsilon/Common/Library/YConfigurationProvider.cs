@@ -18,7 +18,7 @@ namespace Upsilon.Common.Library
         /// </summary>
         public string ConfigurationFile { get; private set; }
 
-        private string _key = string.Empty;
+        private readonly string _key;
         private Dictionary<string, string> _configurations = null;
 
         /// <summary>
@@ -57,12 +57,39 @@ namespace Upsilon.Common.Library
         public string GetConfiguration(T configurationKey)
         {
             this._loadConfigFile();
-            if (this._configurations.ContainsKey(configurationKey.ToString()))
+            if (this.HasConfiguration(configurationKey))
             {
                 return this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key);
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Get the configuration value of the given configuration key.
+        /// </summary>
+        /// <typeparam name="U">The type of the configuration value.</typeparam>
+        /// <param name="configurationKey">The configuration key.</param>
+        /// <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
+        public U GetConfiguration<U>(T configurationKey)
+        {
+            this._loadConfigFile();
+            if (this.HasConfiguration(configurationKey))
+            {
+                return this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key).DeserializeObject<U>();
+            }
+
+            return default;
+        }
+
+        /// <summary>
+        /// Check if the given configuration key has a value.
+        /// </summary>
+        /// <param name="configurationKey">The configuration key.</param>
+        /// <returns><c>true</c> or <c>false</c>.</returns>
+        public bool HasConfiguration(T configurationKey)
+        {
+            return this._configurations.ContainsKey(configurationKey.ToString());
         }
 
         private void _saveConfigFile()

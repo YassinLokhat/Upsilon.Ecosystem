@@ -43,7 +43,7 @@ namespace Upsilon.Common.Library.UnitTests
 
             configurationProvider = new(filePath, string.Empty);
             string config1 = configurationProvider.GetConfiguration(_configTest1.config1);
-            DateTime config2 = configurationProvider.GetConfiguration(_configTest1.config2).DeserializeObject<DateTime>();
+            DateTime config2 = configurationProvider.GetConfiguration<DateTime>(_configTest1.config2);
             string config3 = configurationProvider.GetConfiguration(_configTest1.config3);
 
             // Then
@@ -75,7 +75,7 @@ namespace Upsilon.Common.Library.UnitTests
 
             configurationProvider = new(filePath, "key");
             string config1 = configurationProvider.GetConfiguration(_configTest1.config1);
-            DateTime config2 = configurationProvider.GetConfiguration(_configTest1.config2).DeserializeObject<DateTime>();
+            DateTime config2 = configurationProvider.GetConfiguration<DateTime>(_configTest1.config2);
             string config3 = configurationProvider.GetConfiguration(_configTest1.config3);
 
             // Then
@@ -144,7 +144,7 @@ namespace Upsilon.Common.Library.UnitTests
             configurationProvider2.SetConfiguration(_configTest2.config1, "new value");
             YConfigurationProvider<_configTest1> configurationProvider1 = new(filePath, string.Empty);
             config1 = configurationProvider1.GetConfiguration(_configTest1.config1);
-            DateTime config2 = configurationProvider1.GetConfiguration(_configTest1.config2).DeserializeObject<DateTime>();
+            DateTime config2 = configurationProvider1.GetConfiguration<DateTime>(_configTest1.config2);
 
             // Then
             config1.Should().Be("new value");

@@ -509,6 +509,21 @@
             <param name="configurationKey">The configuration key.</param>
             <returns>The configuration string or <c>null</c> if the given <paramref name="configurationKey"/> is missing.</returns>
         </member>
+        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.GetConfiguration``1(`0)">
+            <summary>
+            Get the configuration value of the given configuration key.
+            </summary>
+            <typeparam name="U">The type of the configuration value.</typeparam>
+            <param name="configurationKey">The configuration key.</param>
+            <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.HasConfiguration(`0)">
+            <summary>
+            Check if the given configuration key has a value.
+            </summary>
+            <param name="configurationKey">The configuration key.</param>
+            <returns><c>true</c> or <c>false</c>.</returns>
+        </member>
         <member name="T:Upsilon.Common.Library.YCryptography">
             <summary>
             This static class contains the Cryptographic functions.
