@@ -66,7 +66,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             this._solutions.Insert(0, solution);
             this._solution = solution;
 
-            this._configProvider.SetConfiguration(_config.Solutions, this._solutions.SerializeObject(true));
+            this._configProvider.SetConfiguration(_config.Solutions, this._solutions.SerializeObject());
 
             string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(this._solution), "assembly.info", SearchOption.AllDirectories);
 

@@ -15,34 +15,17 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 {
     public partial class MainForm : Form
     {
-        private static YReleaseManagementToolCore _core = null;
-        public static YReleaseManagementToolCore Core
-        {
-            get
-            {
-                if (MainForm._core == null)
-                {
-                    MainForm._core = new();
-                }
-
-                return MainForm._core;
-            }
-        }
-
         private YAssembly _assembly = null;
 
         public MainForm()
         {
             InitializeComponent();
 
-            this.cbSolutions.Items.AddRange(MainForm.Core.Solutions);
-            if(File.Exists(MainForm.Core.Solutions.FirstOrDefault()))
+            this.cbSolutions.Items.AddRange(Program.Core.Solutions);
+            if(File.Exists(Program.Core.Solutions.FirstOrDefault()))
             {
-                this.cbSolutions.SelectedItem = MainForm.Core.Solutions.FirstOrDefault();
+                this.cbSolutions.SelectedItem = Program.Core.Solutions.FirstOrDefault();
             }
-
-            this.cbAssembly.Items.Add(string.Empty);
-            this.cbAssembly.Items.AddRange(MainForm.Core.Assemblies.Select(x => x.Name).ToArray());
 
             this.cbSolutions.SelectedIndexChanged += CbSolutions_SelectedIndexChanged;
             this.cbAssembly.SelectedIndexChanged += CbAssembly_SelectedIndexChanged;
@@ -51,13 +34,43 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void CbSolutions_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(this.cbSolutions.Text))
+            {
+                return;
+            }
+
             if (this.cbSolutions.SelectedIndex == 0)
             {
+                OpenFileDialog openFileDialog = new()
+                {
+                    Title = "Open a Visual Studio Solution",
+                    Filter = "Visual Studio Solution|*.sln",
+                };
 
+                if (openFileDialog.ShowDialog() != DialogResult.OK)
+                {
+                    this.cbSolutions.Text = string.Empty;
+                    return;
+                }
+
+                this.cbSolutions.Items.Add(openFileDialog.FileName);
+                this.cbSolutions.SelectedItem = openFileDialog.FileName;
             }
             else
             {
-                throw new NotImplementedException();
+                try
+                {
+                    Program.Core.LoadSolution(this.cbSolutions.Text);
+
+                    this.cbAssembly.Items.Clear();
+                    this.cbAssembly.Items.Add(string.Empty);
+                    this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.cbSolutions.Items.Remove(this.cbSolutions.Text);
+                }
             }
         }
 
@@ -83,7 +96,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         {
             this.dgvDependecies.Rows.Clear();
 
-            this._assembly = MainForm.Core.SelectAssembly(this.cbAssembly.Text);
+            this._assembly = Program.Core.SelectAssembly(this.cbAssembly.Text);
 
             if (this._assembly == null)
             {
@@ -113,7 +126,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 this._assembly.Version = tbVersion.Text;
                 this._assembly.Description = tbDescription.Text;
                 this._assembly.BinaryType = tbBinaryType.Text;
-                MainForm.Core.Deploy(this._assembly);
+                Program.Core.Deploy(this._assembly);
             }
             catch (Exception ex)
             {

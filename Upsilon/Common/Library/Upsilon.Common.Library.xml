@@ -493,7 +493,7 @@
             Create a new configuration provider from the given <paramref name="configurationFile"/>.
             </summary>
             <param name="configurationFile">The configuration file paht. If it does not exist, it will be created.</param>
-            <param name="key">The encryption key. Leave empty to disable encryption.</param>
+            <param name="key">The encryption key. Leave empty to disable encryption. The default value is <see cref="F:System.String.Empty"/>.</param>
         </member>
         <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.SetConfiguration(`0,System.String)">
             <summary>
@@ -506,9 +506,8 @@
             <summary>
             Get the configuration value of the given configuration key.
             </summary>
-            <typeparam name="U">The type of the configuration value.</typeparam>
             <param name="configurationKey">The configuration key.</param>
-            <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
+            <returns>The configuration string or <c>null</c> if the given <paramref name="configurationKey"/> is missing.</returns>
         </member>
         <member name="T:Upsilon.Common.Library.YCryptography">
             <summary>
@@ -582,11 +581,12 @@
             <typeparam name="T">An enum type.</typeparam>
             <returns>Returns all values of the givent enum.</returns>
         </member>
-        <member name="M:Upsilon.Common.Library.YStaticMethods.SerializeObject(System.Object)">
+        <member name="M:Upsilon.Common.Library.YStaticMethods.SerializeObject(System.Object,System.Boolean)">
             <summary>
             Serialize an <c><see cref="T:System.Object"/> <paramref name="toSerialize"/></c>.
             </summary>
             <param name="toSerialize">The object to serialize.</param>
+            <param name="indent">Indent the result or not. Default value is <c>false</c>.</param>
             <returns>The serialized string.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.DeserializeObject(System.String,System.Type)">
