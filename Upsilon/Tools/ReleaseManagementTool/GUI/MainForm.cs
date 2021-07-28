@@ -36,9 +36,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             InitializeComponent();
 
             this.cbSolutions.Items.AddRange(MainForm.Core.Solutions);
-            if(File.Exists(MainForm.Core.Solution))
+            if(File.Exists(MainForm.Core.Solutions.FirstOrDefault()))
             {
-                this.cbSolutions.SelectedItem = MainForm.Core.Solution;
+                this.cbSolutions.SelectedItem = MainForm.Core.Solutions.FirstOrDefault();
             }
 
             this.cbAssembly.Items.Add(string.Empty);
@@ -51,7 +51,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void CbSolutions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (this.cbSolutions.SelectedIndex == 0)
+            {
+
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private void DgvDependecies_CellValueChanged(object sender, DataGridViewCellEventArgs e)

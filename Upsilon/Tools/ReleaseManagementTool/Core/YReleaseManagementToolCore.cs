@@ -15,8 +15,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
     {
         private enum _config
         {
-            LastSolution,
-            SolutionList,
+            Solutions,
         }
 
         public YAssembly[] Assemblies { get; private set; } = null;
@@ -28,8 +27,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        public string Solution { get; private set; } = string.Empty;
-
+        private string _solution = string.Empty;
         private List<string> _solutions = new();
         private readonly string _configFile = "config.json";
         private readonly YConfigurationProvider<_config> _configProvider;
@@ -40,28 +38,37 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             try
             {
-                this._solutions = this._configProvider.GetConfiguration(_config.SolutionList).DeserializeObject<List<string>>();
+                this._solutions = this._configProvider.GetConfiguration(_config.Solutions).DeserializeObject<List<string>>();
             }
             catch (Exception ex)
             {
                 ex.ToString();
             }
 
-            this.Solution = this._configProvider.GetConfiguration(_config.LastSolution);
-            
-            if (File.Exists(this.Solution))
+            this._solution = this._solutions.FirstOrDefault();
+
+
+            if (File.Exists(this._solution))
             {
-                this.LoadSolution(this.Solution);
+                this.LoadSolution(this._solution);
             }
         }
 
         public void LoadSolution(string solution)
         {
             this._solutions.Remove(solution);
-            this._solutions.Insert(0, solution);
-            this.Solution = solution;
+            
+            if (!File.Exists(solution))
+            {
+                throw new Exception($"'{solution}' not found.");
+            }
 
-            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(this.Solution), "assembly.info", SearchOption.AllDirectories);
+            this._solutions.Insert(0, solution);
+            this._solution = solution;
+
+            this._configProvider.SetConfiguration(_config.Solutions, this._solutions.SerializeObject(true));
+
+            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(this._solution), "assembly.info", SearchOption.AllDirectories);
 
             List<YAssembly> assemblies = new();
 
@@ -326,7 +333,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             assembly = (YAssembly)assembly.Clone();
             assembly.Url = null;
 
-            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(this.Solution), "Upsilon.Tools.ReleaseManagementTool", "deployed.assemblies.json");
+            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(this._solution), "Upsilon.Tools.ReleaseManagementTool", "deployed.assemblies.json");
             if (!File.Exists(assembliesJsonFile))
             {
                 throw new Exception($"'{assembliesJsonFile}' not found.");
