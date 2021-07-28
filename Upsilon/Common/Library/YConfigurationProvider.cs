@@ -52,9 +52,8 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// Get the configuration value of the given configuration key.
         /// </summary>
-        /// <typeparam name="U">The type of the configuration value.</typeparam>
         /// <param name="configurationKey">The configuration key.</param>
-        /// <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
+        /// <returns>The configuration string or <c>null</c> if the given <paramref name="configurationKey"/> is missing.</returns>
         public string GetConfiguration(T configurationKey)
         {
             this._loadConfigFile();
@@ -68,7 +67,7 @@ namespace Upsilon.Common.Library
 
         private void _saveConfigFile()
         {
-            File.WriteAllText(this.ConfigurationFile, this._configurations.SerializeObject());
+            File.WriteAllText(this.ConfigurationFile, this._configurations.SerializeObject(true));
         }
 
         private void _loadConfigFile()

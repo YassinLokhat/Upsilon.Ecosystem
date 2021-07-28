@@ -112,10 +112,16 @@ namespace Upsilon.Common.Library
         /// Serialize an <c><see cref="Object"/> <paramref name="toSerialize"/></c>.
         /// </summary>
         /// <param name="toSerialize">The object to serialize.</param>
+        /// <param name="indent">Indent the result or not. Default value is <c>false</c>.</param>
         /// <returns>The serialized string.</returns>
-        public static string SerializeObject(this object toSerialize)
+        public static string SerializeObject(this object toSerialize, bool indent = false)
         {
-            return JsonSerializer.Serialize(toSerialize, toSerialize.GetType());
+            JsonSerializerOptions options = new()
+            {
+                WriteIndented = indent,
+            };
+
+            return JsonSerializer.Serialize(toSerialize, toSerialize.GetType(), options);
         }
 
         /// <summary>
