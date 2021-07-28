@@ -43,26 +43,10 @@ namespace Upsilon.Common.Library
         /// </summary>
         /// <param name="configurationKey">The configuration key.</param>
         /// <param name="configurationValue">The configuration value.</param>
-        public void SetConfiguration(T configurationKey, string configurationValue)
+        public void SetConfiguration(T configurationKey, object configurationValue)
         {
-            this._configurations[configurationKey.ToString()] = configurationValue.Cipher_Aes(this._key);
+            this._configurations[configurationKey.ToString()] = configurationValue.SerializeObject().Cipher_Aes(this._key);
             this._saveConfigFile();
-        }
-
-        /// <summary>
-        /// Get the configuration value of the given configuration key.
-        /// </summary>
-        /// <param name="configurationKey">The configuration key.</param>
-        /// <returns>The configuration string or <c>null</c> if the given <paramref name="configurationKey"/> is missing.</returns>
-        public string GetConfiguration(T configurationKey)
-        {
-            this._loadConfigFile();
-            if (this.HasConfiguration(configurationKey))
-            {
-                return this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key);
-            }
-
-            return null;
         }
 
         /// <summary>

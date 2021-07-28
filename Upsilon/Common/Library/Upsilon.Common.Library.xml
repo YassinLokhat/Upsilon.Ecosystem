@@ -495,19 +495,12 @@
             <param name="configurationFile">The configuration file paht. If it does not exist, it will be created.</param>
             <param name="key">The encryption key. Leave empty to disable encryption. The default value is <see cref="F:System.String.Empty"/>.</param>
         </member>
-        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.SetConfiguration(`0,System.String)">
+        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.SetConfiguration(`0,System.Object)">
             <summary>
             Set the configuration value of the given configuration key.
             </summary>
             <param name="configurationKey">The configuration key.</param>
             <param name="configurationValue">The configuration value.</param>
-        </member>
-        <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.GetConfiguration(`0)">
-            <summary>
-            Get the configuration value of the given configuration key.
-            </summary>
-            <param name="configurationKey">The configuration key.</param>
-            <returns>The configuration string or <c>null</c> if the given <paramref name="configurationKey"/> is missing.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YConfigurationProvider`1.GetConfiguration``1(`0)">
             <summary>
