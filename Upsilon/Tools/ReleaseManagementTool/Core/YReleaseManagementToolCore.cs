@@ -31,7 +31,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         }
 
         private string _solution = string.Empty;
-        private readonly List<string> _solutions = new();
+        private readonly List<string> _solutions;
         private readonly string _configFile = "config.json";
         public readonly YConfigurationProvider<Config> ConfigProvider;
 
@@ -46,6 +46,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             catch (Exception ex)
             {
                 ex.ToString();
+            }
+
+            if (this._solutions == null)
+            {
+                this._solutions = new();
             }
 
             while (this._solutions.Count != 0
@@ -341,10 +346,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             assembly = (YAssembly)assembly.Clone();
             assembly.Url = null;
 
-            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(this._solution), "Upsilon.Tools.ReleaseManagementTool", "deployed.assemblies.json");
+            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(this._solution), "deployed.assemblies.json");
             if (!File.Exists(assembliesJsonFile))
             {
-                throw new Exception($"'{assembliesJsonFile}' not found.");
+                File.WriteAllText(assembliesJsonFile, "{}");
             }
 
             Dictionary<string, List<YAssembly>> assemblies = (Dictionary<string, List<YAssembly>>)File.ReadAllText(assembliesJsonFile).DeserializeObject(typeof(Dictionary<string, List<YAssembly>>));

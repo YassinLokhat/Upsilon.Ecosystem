@@ -80,10 +80,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 {
                     string solution = Program.Core.Solutions[this.cbSolutions.SelectedIndex - 1];
                     this._loadSolution(solution);
-
-                    this.cbAssembly.Items.Clear();
-                    this.cbAssembly.Items.Add(string.Empty);
-                    this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
                 }
                 catch (Exception ex)
                 {
@@ -96,11 +92,17 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private void _loadSolution(string solution)
         {
             this._locked = true;
+
             Program.Core.LoadSolution(solution);
             this.cbSolutions.Items.Clear();
             this.cbSolutions.Items.Add("New Solution");
             this.cbSolutions.Items.AddRange(Program.Core.Solutions.Select(x => Path.GetFileName(x)).ToArray());
             this.cbSolutions.SelectedItem = Path.GetFileName(solution);
+
+            this.cbAssembly.Items.Clear();
+            this.cbAssembly.Items.Add(string.Empty);
+            this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
+            
             this._locked = false;
         }
 
@@ -161,6 +163,15 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                if (ex.Message.StartsWith("Dotfuscator : '"))
+                {
+                    bDotfuscator.PerformClick();
+                }
+                else if (ex.Message.StartsWith("InnoSetup : '"))
+                {
+                    bInnoSetup.PerformClick();
+                }
             }
         }
 
