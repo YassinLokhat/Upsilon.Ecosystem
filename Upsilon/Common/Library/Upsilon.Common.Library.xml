@@ -619,6 +619,29 @@
             </summary>
             <param name="url">The Url to open.</param>
         </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.DownloadString(System.String)">
+            <summary>
+            Download a string from the given URL.
+            </summary>
+            <param name="url">The URL of the string to download.</param>
+            <returns>The downloaded string.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.DownloadFile(System.String,System.String)">
+            <summary>
+            Download a file from the given URL.
+            </summary>
+            <param name="url">The URL of the file to download.</param>
+            <param name="filePath"></param>
+            <returns>The downloaded string.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.Copy(System.String,System.String,System.Boolean)">
+            <summary>
+            Copy a file or a directory.
+            </summary>
+            <param name="sourcePath">The source path.</param>
+            <param name="destinationDirectory">The directory where the copy will be save.</param>
+            <param name="override">Override the destination if already exists.</param>
+        </member>
         <member name="T:Upsilon.Common.Library.YStringManagement">
             <summary>
             This static class contains the string management functions.

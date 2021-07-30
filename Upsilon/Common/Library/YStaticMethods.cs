@@ -70,7 +70,7 @@ namespace Upsilon.Common.Library
         /// <returns>The cloned object.</returns>
         public static object Clone(this object obj)
         {
-            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions() {  };
+            JsonSerializerOptions jsonSerializerOptions = new() {  };
             return obj.SerializeObject().DeserializeObject(obj.GetType());
         }
         #endregion
@@ -214,6 +214,53 @@ namespace Upsilon.Common.Library
             WebClient webClient = new();
 
             webClient.DownloadFile(url, filePath);
+        }
+        #endregion
+
+        #region File Methods
+        /// <summary>
+        /// Copy a file or a directory.
+        /// </summary>
+        /// <param name="sourcePath">The source path.</param>
+        /// <param name="destinationDirectory">The directory where the copy will be save.</param>
+        /// <param name="override">Override the destination if already exists.</param>
+        /// <param name="throwException">Throw an exception when error occurs.</param>
+        public static void Copy(string sourcePath, string destinationDirectory, bool @override = false, bool throwException = true)
+        {
+            if (File.Exists(sourcePath))
+            {
+                Directory.CreateDirectory(destinationDirectory);
+
+                try
+                {
+                    File.Copy(sourcePath, Path.Combine(destinationDirectory, Path.GetFileName(sourcePath)), @override);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    if (throwException)
+                        throw;
+                }
+            }
+            else if (Directory.Exists(sourcePath))
+            {
+                DirectoryInfo dir = new(sourcePath);
+
+                string[] dirs = dir.GetDirectories().Select(x => x.FullName).ToArray();
+                string[] files = dir.GetFiles().Select(x => x.FullName).ToArray();
+
+                destinationDirectory = Path.Combine(destinationDirectory, Path.GetFileName(sourcePath));
+                Directory.CreateDirectory(destinationDirectory);
+
+                foreach (string source in dirs.Union(files))
+                {
+                    YStaticMethods.Copy(source, destinationDirectory, @override);
+                }
+            }
+            else if (throwException)
+            {
+                throw new Exception($"File or Directory not found :\n'{sourcePath}'");
+            }
         }
         #endregion
     }

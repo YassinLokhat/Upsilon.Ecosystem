@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using FluentAssertions;
 using Upsilon.Common.MetaHelper;
+using System.IO;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -96,6 +97,63 @@ namespace Upsilon.Common.Library.UnitTests
 
             // Then
             deserialized.Should().BeEquivalentTo(toSerialize);
+        }
+
+        [TestMethod]
+        public void Test_07_StaticMethods_Copy_OK()
+        {
+            // Given
+            string source = "source";
+            string destination = "source";
+
+            if (Directory.Exists(source))
+            {
+                Directory.Delete(source, true);
+            }
+
+            // When
+            Action act = new(() =>
+            {
+                YStaticMethods.Copy(source, destination, false);
+            });
+
+            // Then
+            act.Should().Throw<Exception>();
+
+            // When
+            Directory.CreateDirectory(source);
+            File.WriteAllText("source/text.txt", "test");
+            YStaticMethods.Copy(source, destination, true);
+
+            // Then
+            Directory.Exists("source/source").Should().BeTrue();
+            File.Exists("source/source/text.txt").Should().BeTrue();
+            File.ReadAllText("source/source/text.txt").Should().Be("test");
+
+            // When
+            destination = "destination";
+            YStaticMethods.Copy(source, destination, true);
+
+            // Then
+            Directory.Exists("destination/source").Should().BeTrue();
+            File.Exists("destination/source/text.txt").Should().BeTrue();
+            File.ReadAllText("destination/source/text.txt").Should().Be("test");
+            Directory.Exists("destination/source/source").Should().BeTrue();
+            File.Exists("destination/source/source/text.txt").Should().BeTrue();
+            File.ReadAllText("destination/source/source/text.txt").Should().Be("test");
+
+            // When
+            act = new(() =>
+            {
+                YStaticMethods.Copy(source, destination, false);
+            });
+
+            // Then
+            act.Should().Throw<Exception>();
+
+            // Finaly
+            Directory.Delete("source", true);
+            Directory.Delete("destination", true);
         }
     }
 }

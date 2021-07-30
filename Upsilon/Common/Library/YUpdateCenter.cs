@@ -32,13 +32,7 @@ namespace Upsilon.Common.Library
             
             try
             {
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-                ServicePointManager.DefaultConnectionLimit = 9999;
-
-                WebClient webClient = new();
-
-                string json = webClient.DownloadString(configUrl);
+                string json = YStaticMethods.DownloadString(configUrl);
 
                 List<YAssembly> assemblies = ((List<YAssembly>)json.DeserializeObject(typeof(List<YAssembly>)))
                     .Where(x => x.Name == assemblyName)
