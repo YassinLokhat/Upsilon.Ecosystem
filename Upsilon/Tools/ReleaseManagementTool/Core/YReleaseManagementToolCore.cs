@@ -262,10 +262,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 throw new Exception($"'{dotfuscatorXml}' not found.");
             }
 
-            string dotfuscatedAssembly = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "Dotfuscated");
-            if (Directory.Exists(dotfuscatedAssembly))
+            string dotfuscatedDirectory = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "Dotfuscated");
+            if (Directory.Exists(dotfuscatedDirectory))
             {
-                Directory.Delete(dotfuscatedAssembly, true);
+                Directory.Delete(dotfuscatedDirectory, true);
             }
 
             YReleaseManagementToolCore._startProcess(dotfuscator, $"\"{dotfuscatorXml}\"");
@@ -282,24 +282,41 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             YReleaseManagementToolCore._startProcess("\"./data/GoRC.exe\"", $"/fo ./data/Resources.res ./data/Resources.rc");
 
-            string dotfuscated = Path.Combine(dotfuscatedAssembly, assembly.Name + "." + assembly.BinaryType);
+            string dotfuscatedAssembly = Path.Combine(dotfuscatedDirectory, assembly.Name + "." + assembly.BinaryType);
 
-            if (!File.Exists(dotfuscated))
+            if (!File.Exists(dotfuscatedAssembly))
             {
-                dotfuscated = Path.Combine(dotfuscatedAssembly, assembly.Name + ".dll");
+                dotfuscatedAssembly = Path.Combine(dotfuscatedDirectory, assembly.Name + ".dll");
             }
 
-            if (!File.Exists(dotfuscated))
+            if (!File.Exists(dotfuscatedAssembly))
             {
-                throw new Exception($"'{dotfuscated}' not found.");
+                throw new Exception($"'{dotfuscatedAssembly}' not found.");
             }
 
-            YReleaseManagementToolCore._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscated}\" -save \"{dotfuscated}\" -action addoverwrite -resource ./data/Resources.res");
+            YReleaseManagementToolCore._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscatedAssembly}\" -save \"{dotfuscatedAssembly}\" -action addoverwrite -resource ./data/Resources.res");
 
-            YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscated}\"");
+            YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
 
-            /// TODO : Copy requred files
-            
+            string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
+            if (File.Exists(fileList))
+            {
+                string[] files = File.ReadAllLines(fileList); 
+                foreach (string file in files)
+                {
+                    string sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file).Trim();
+                    string destination = dotfuscatedDirectory;
+
+                    if (file.Contains('\t'))
+                    {
+                        sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file[0..file.IndexOf('\t')].Trim());
+                        destination = Path.Combine(dotfuscatedDirectory, file[file.IndexOf('\t')..].Trim());
+                    }
+
+                    YStaticMethods.Copy(sourceFile, destination, true);
+                }
+            }
+
             string innoSetup = this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup);
 
             string innoSetupIss = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.iss");
@@ -309,7 +326,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 string setupFile = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy"), "*_setup_*.exe").FirstOrDefault();
                 if (File.Exists(setupFile))
                 {
-                    File.Delete(dotfuscatedAssembly);
+                    File.Delete(dotfuscatedDirectory);
                 }
 
                 YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
@@ -330,7 +347,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             if (this.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
             {
-                Process.Start("explorer", $"\"{dotfuscatedAssembly}\"");
+                Process.Start("explorer", $"\"{dotfuscatedDirectory}\"");
             }
         }
 

@@ -13,7 +13,7 @@
         <option>stripoa</option>
         <option>library</option>
         <option>transformxaml</option>
-        <file dir="${configdir}\..\bin\Release\net5.0-windows" name="Upsilon.Tools.ReleaseManagementTool.Forms.dll" />
+        <file dir="${configdir}\..\bin\Release\net5.0-windows" name="Upsilon.Tools.ReleaseManagementTool.GUI.dll" />
       </inputassembly>
     </asmlist>
   </input>
