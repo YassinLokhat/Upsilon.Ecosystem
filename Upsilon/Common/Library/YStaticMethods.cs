@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -178,6 +179,41 @@ namespace Upsilon.Common.Library
                     throw;
                 }
             }
+        }
+        #endregion
+
+        #region Download Methods
+        /// <summary>
+        /// Download a string from the given URL.
+        /// </summary>
+        /// <param name="url">The URL of the string to download.</param>
+        /// <returns>The downloaded string.</returns>
+        public static string DownloadString(string url)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+
+            WebClient webClient = new();
+
+            return webClient.DownloadString(url);
+        }
+
+        /// <summary>
+        /// Download a file from the given URL.
+        /// </summary>
+        /// <param name="url">The URL of the file to download.</param>
+        /// <param name="filePath"></param>
+        /// <returns>The downloaded string.</returns>
+        public static void DownloadFile(string url, string filePath)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+
+            WebClient webClient = new();
+
+            webClient.DownloadFile(url, filePath);
         }
         #endregion
     }
