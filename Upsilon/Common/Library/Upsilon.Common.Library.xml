@@ -561,10 +561,17 @@
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.GetMD5HashCode(System.Object)">
             <summary>
-            Get the the MD5 Hash code of an <c><see cref="T:System.Object"/> <paramref name="obj"/></c> as a string.
+            Get the MD5 Hash code of an <c><see cref="T:System.Object"/> <paramref name="obj"/></c> as a string.
             </summary>
             <param name="obj">The <see cref="T:System.Object"/>.</param>
             <returns>Return the MD5 Hash code.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.GetUpsilonHashCode(System.Object)">
+            <summary>
+            Get the Upsilon Hash code of an <c><see cref="T:System.Object"/> <paramref name="obj"/></c> as a string.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/>.</param>
+            <returns>Return the Upsilon Hash code.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.Clone(System.Object)">
             <summary>

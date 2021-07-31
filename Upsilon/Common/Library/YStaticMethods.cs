@@ -49,7 +49,7 @@ namespace Upsilon.Common.Library
 
         #region Object Extention Methods
         /// <summary>
-        /// Get the the MD5 Hash code of an <c><see cref="Object"/> <paramref name="obj"/></c> as a string.
+        /// Get the MD5 Hash code of an <c><see cref="Object"/> <paramref name="obj"/></c> as a string.
         /// </summary>
         /// <param name="obj">The <see cref="Object"/>.</param>
         /// <returns>Return the MD5 Hash code.</returns>
@@ -59,6 +59,24 @@ namespace Upsilon.Common.Library
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
             string[] hash = mD5.ComputeHash(Encoding.ASCII.GetBytes(str)).Select(x => x.ToString()).ToArray();
+
+            return string.Join(string.Empty, hash);
+        }
+
+        /// <summary>
+        /// Get the Upsilon Hash code of an <c><see cref="Object"/> <paramref name="obj"/></c> as a string.
+        /// </summary>
+        /// <param name="obj">The <see cref="Object"/>.</param>
+        /// <returns>Return the Upsilon Hash code.</returns>
+        public static string GetUpsilonHashCode(this object obj)
+        {
+            string str = obj.SerializeObject() + obj.ToString();
+
+            System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
+            string[] hash = mD5.ComputeHash(Encoding.UTF8.GetBytes(str)).Select(x => x.ToString()).ToArray();
+
+            System.Security.Cryptography.SHA512 sHA512 = System.Security.Cryptography.SHA512.Create();
+            hash = hash.Union(sHA512.ComputeHash(Encoding.UTF8.GetBytes(str)).Select(x => x.ToString())).ToArray();
 
             return string.Join(string.Empty, hash);
         }
