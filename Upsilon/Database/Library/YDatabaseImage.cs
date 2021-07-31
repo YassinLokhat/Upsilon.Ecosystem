@@ -198,7 +198,7 @@ namespace Upsilon.Database.Library
             }
 
             XmlNode tables = this._document.SelectSingleNode("/tables");
-            tables.Attributes["key"].Value = key.GetMD5HashCode();
+            tables.Attributes["key"].Value = key.GetUpsilonHashCode();
 
             foreach (XmlNode table in tables.SelectNodes("./table"))
             {
@@ -241,7 +241,7 @@ namespace Upsilon.Database.Library
 
         public static string GetEmptyXmlDocument(string key)
         {
-            return $"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetMD5HashCode()}\">\r\n</tables>";
+            return $"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetUpsilonHashCode()}\">\r\n</tables>";
         }
 
         private void _pullXmlDocument(bool lockFile)
@@ -288,7 +288,7 @@ namespace Upsilon.Database.Library
                 throw new YDatabaseXmlCorruptionException(this._filename, "'tables' node definition is not valid.");
             }
 
-            string hash = this._key.GetMD5HashCode();
+            string hash = this._key.GetUpsilonHashCode();
 
             if (hash != root.Attributes["key"].Value)
             {
