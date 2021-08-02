@@ -198,7 +198,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bOpenRepository_Click(object sender, EventArgs e)
         {
-            YReleaseManagementToolCore.OpenRepository();
+            Program.Core.OpenRepository();
         }
 
         private void _bDotfuscator_Click(object sender, EventArgs e)
