@@ -8,12 +8,12 @@
   <input>
     <loadpaths />
     <asmlist>
-      <inputassembly refid="8bc909ad-9fa3-4662-961f-8ab6002dc06c">
+      <inputassembly refid="56110022-5742-4f1d-aece-d25d64adb524">
         <option>honoroas</option>
         <option>stripoa</option>
         <option>library</option>
         <option>transformxaml</option>
-        <file dir="${configdir}\bin\Release\net5.0" name="Upsilon.Database.Library.dll" />
+        <file dir="${configdir}\..\bin\Release\net5.0-windows" name="Upsilon.Common.Forms.dll" />
       </inputassembly>
     </asmlist>
   </input>

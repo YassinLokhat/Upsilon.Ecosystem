@@ -14,9 +14,6 @@
     <ProjectReference Include="..\..\..\Common\MetaHelper\Upsilon.Common.MetaHelper.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="data\dotfuscator.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="data\GoRC.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

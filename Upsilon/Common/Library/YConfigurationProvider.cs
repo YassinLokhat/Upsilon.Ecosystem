@@ -18,15 +18,15 @@ namespace Upsilon.Common.Library
         /// </summary>
         public string ConfigurationFile { get; private set; }
 
-        private string _key = string.Empty;
+        private readonly string _key;
         private Dictionary<string, string> _configurations = null;
 
         /// <summary>
         /// Create a new configuration provider from the given <paramref name="configurationFile"/>.
         /// </summary>
         /// <param name="configurationFile">The configuration file paht. If it does not exist, it will be created.</param>
-        /// <param name="key">The encryption key. Leave empty to disable encryption.</param>
-        public YConfigurationProvider(string configurationFile, string key)
+        /// <param name="key">The encryption key. Leave empty to disable encryption. The default value is <see cref="string.Empty"/>.</param>
+        public YConfigurationProvider(string configurationFile, string key = "")
         {
             if (!File.Exists(configurationFile))
             {
@@ -43,9 +43,9 @@ namespace Upsilon.Common.Library
         /// </summary>
         /// <param name="configurationKey">The configuration key.</param>
         /// <param name="configurationValue">The configuration value.</param>
-        public void SetConfiguration(T configurationKey, string configurationValue)
+        public void SetConfiguration(T configurationKey, object configurationValue)
         {
-            this._configurations[configurationKey.ToString()] = configurationValue.Cipher_Aes(this._key);
+            this._configurations[configurationKey.ToString()] = configurationValue.SerializeObject().Cipher_Aes(this._key);
             this._saveConfigFile();
         }
 
@@ -55,20 +55,30 @@ namespace Upsilon.Common.Library
         /// <typeparam name="U">The type of the configuration value.</typeparam>
         /// <param name="configurationKey">The configuration key.</param>
         /// <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
-        public string GetConfiguration(T configurationKey)
+        public U GetConfiguration<U>(T configurationKey)
         {
             this._loadConfigFile();
-            if (this._configurations.ContainsKey(configurationKey.ToString()))
+            if (this.HasConfiguration(configurationKey))
             {
-                return this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key);
+                return this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key).DeserializeObject<U>();
             }
 
-            return null;
+            return default;
+        }
+
+        /// <summary>
+        /// Check if the given configuration key has a value.
+        /// </summary>
+        /// <param name="configurationKey">The configuration key.</param>
+        /// <returns><c>true</c> or <c>false</c>.</returns>
+        public bool HasConfiguration(T configurationKey)
+        {
+            return this._configurations.ContainsKey(configurationKey.ToString());
         }
 
         private void _saveConfigFile()
         {
-            File.WriteAllText(this.ConfigurationFile, this._configurations.SerializeObject());
+            File.WriteAllText(this.ConfigurationFile, this._configurations.SerializeObject(true));
         }
 
         private void _loadConfigFile()

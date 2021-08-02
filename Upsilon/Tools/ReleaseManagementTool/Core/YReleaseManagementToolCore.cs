@@ -11,20 +11,83 @@ using Upsilon.Common.MetaHelper;
 
 namespace Upsilon.Tools.ReleaseManagementTool.Core
 {
+    public enum Config
+    {
+        Solutions,
+        OpenOutput,
+        Dotfuscaor,
+        InnoSetup,
+        ServerUrl,
+    }
+
     public sealed class YReleaseManagementToolCore
     {
         public YAssembly[] Assemblies { get; private set; } = null;
+        public string[] Solutions
+        {
+            get
+            {
+                return _solutions.ToArray();
+            }
+        }
+
+        private string _solution = string.Empty;
+        private readonly List<string> _solutions;
+        private readonly string _configFile = "config.json";
+        public readonly YConfigurationProvider<Config> ConfigProvider;
 
         public YReleaseManagementToolCore()
         {
-            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(), "assembly.info", SearchOption.AllDirectories);
+            this.ConfigProvider = new(this._configFile);
+
+            try
+            {
+                this._solutions = this.ConfigProvider.GetConfiguration<List<string>>(Config.Solutions);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+
+            if (this._solutions == null)
+            {
+                this._solutions = new();
+            }
+
+            while (this._solutions.Count != 0
+                && !File.Exists(this._solutions.First()))
+            {
+                this._solutions.RemoveAt(0);
+            }
+
+            if (this._solutions.Count != 0)
+            {
+                this.LoadSolution(this._solutions.First());
+            }
+        }
+
+        public void LoadSolution(string solution)
+        {
+            this._solutions.Remove(solution);
+            
+            if (!File.Exists(solution))
+            {
+                throw new Exception($"'{solution}' not found.");
+            }
+
+            this._solutions.Insert(0, solution);
+            this._solution = solution;
+
+            this.ConfigProvider.SetConfiguration(Config.Solutions, this._solutions);
+
+            string[] projects = Directory.GetFiles(YHelper.GetSolutionDirectory(this._solution), "assembly.info", SearchOption.AllDirectories);
 
             List<YAssembly> assemblies = new();
 
             foreach (string csproj in projects)
             {
                 YAssembly assembly = (YAssembly)File.ReadAllText(csproj).DeserializeObject(typeof(YAssembly));
-                assembly.Url = Path.Combine(Path.GetDirectoryName(csproj), $"{assembly.Name}.csproj");
+                assembly.Url = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(csproj)), $"{assembly.Name}.csproj");
 
                 assemblies.Add(assembly);
             }
@@ -167,7 +230,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 }
 
                 assembly = (YAssembly)assembly.Clone();
-                string assemblyInfoPath = Path.Combine(Path.GetDirectoryName(assembly.Url), "assembly.info");
+                string assemblyInfoPath = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "assembly.info");
                 
                 assembly.Url = null;
                 string jsonString = JsonSerializer.Serialize(assembly, new JsonSerializerOptions { WriteIndented = true });
@@ -185,47 +248,28 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         private void _startDeployProcess(YAssembly assembly)
         {
-            this._startProcess("dotnet", $"clean \"{assembly.Url}\" -c Release");
-            this._startProcess("dotnet", $"build \"{assembly.Url}\" -c Release");
+            YReleaseManagementToolCore._startProcess("dotnet", $"clean \"{assembly.Url}\" -c Release");
+            YReleaseManagementToolCore._startProcess("dotnet", $"build \"{assembly.Url}\" -c Release");
+            YReleaseManagementToolCore._startProcess("dotnet", $"test \"{this._solution}\" -c Release");
 
-            string solution = YHelper.GetSolutionDirectory(assembly.Url);
-            solution = Directory.GetFiles(solution, "*.sln").FirstOrDefault();
+            this.CheckIntegrity();
 
-            if (!File.Exists(solution))
-            {
-                throw new Exception($"'{solution}' not found.");
-            }
+            string dotfuscator = this.ConfigProvider.GetConfiguration<string>(Config.Dotfuscaor);
 
-            this._startProcess("dotnet", $"test \"{solution}\" -c Release");
+            string dotfuscatorXml = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.xml");
 
-            this._checkIntegrity();
-
-            if (!Directory.Exists("temp"))
-            {
-                Directory.CreateDirectory("temp");
-            }
-
-            string dotfuscator = File.ReadAllLines("./data/dotfuscator.txt").Where(x => File.Exists(x)).FirstOrDefault();
-
-            if (string.IsNullOrWhiteSpace(dotfuscator))
-            {
-                throw new Exception($"No dotfuscator app found.");
-            }
-
-            string dotfuscatorXml = Path.Combine(Path.GetDirectoryName(assembly.Url), "Dotfuscator.xml");
-           
             if (!File.Exists(dotfuscatorXml))
             {
                 throw new Exception($"'{dotfuscatorXml}' not found.");
             }
 
-            string dotfuscatedAssembly = Path.Combine(Path.GetDirectoryName(assembly.Url), "Dotfuscated");
-            if (Directory.Exists(dotfuscatedAssembly))
+            string dotfuscatedDirectory = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "Dotfuscated");
+            if (Directory.Exists(dotfuscatedDirectory))
             {
-                Directory.Delete(dotfuscatedAssembly, true);
+                Directory.Delete(dotfuscatedDirectory, true);
             }
 
-            this._startProcess(dotfuscator, $"\"{dotfuscatorXml}\"");
+            YReleaseManagementToolCore._startProcess(dotfuscator, $"\"{dotfuscatorXml}\"");
 
             string ressourceTemplate = File.ReadAllText("./data/Resources.template.rc")
                 .Replace("¤Major¤", assembly.YVersion.Major.ToString())
@@ -235,42 +279,96 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 .Replace("¤FileDescription¤", assembly.Description)
                 .Replace("¤OriginalFilename¤", assembly.Name + "." + assembly.BinaryType)
                 .Replace("¤ProductName¤", assembly.Name);
-            File.WriteAllText("./temp/Resources.rc", ressourceTemplate);
+            File.WriteAllText("./data/Resources.rc", ressourceTemplate);
 
-            this._startProcess("\"./data/GoRC.exe\"", $"/fo ./temp/Resources.res ./temp/Resources.rc");
+            YReleaseManagementToolCore._startProcess("\"./data/GoRC.exe\"", $"/fo ./data/Resources.res ./data/Resources.rc");
 
-            string dotfuscated = Path.Combine(dotfuscatedAssembly, assembly.Name + "." + assembly.BinaryType);
+            string dotfuscatedAssembly = Path.Combine(dotfuscatedDirectory, assembly.Name + "." + assembly.BinaryType);
 
-            if (!File.Exists(dotfuscated))
+            if (!File.Exists(dotfuscatedAssembly))
             {
-                dotfuscated = Path.Combine(dotfuscatedAssembly, assembly.Name + ".dll");
+                dotfuscatedAssembly = Path.Combine(dotfuscatedDirectory, assembly.Name + ".dll");
             }
 
-            if (!File.Exists(dotfuscated))
+            if (!File.Exists(dotfuscatedAssembly))
             {
-                throw new Exception($"'{dotfuscated}' not found.");
+                throw new Exception($"'{dotfuscatedAssembly}' not found.");
             }
 
-            this._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscated}\" -save \"{dotfuscated}\" -action addoverwrite -resource ./temp/Resources.res");
+            YReleaseManagementToolCore._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscatedAssembly}\" -save \"{dotfuscatedAssembly}\" -action addoverwrite -resource ./data/Resources.res");
 
-            this._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscated}\"");
+            YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
+
+            string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
+            Dictionary<string, List<YAssembly>> assemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
+
+            this._retrieveDependecies(assembly, assemblies, dotfuscatedDirectory);
+
+            string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
+            if (File.Exists(fileList))
+            {
+                string[] files = File.ReadAllLines(fileList); 
+                foreach (string file in files)
+                {
+                    string sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file).Trim();
+                    string destination = dotfuscatedDirectory;
+
+                    if (file.Contains('\t'))
+                    {
+                        sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file[0..file.IndexOf('\t')].Trim());
+                        destination = Path.Combine(dotfuscatedDirectory, file[file.IndexOf('\t')..].Trim());
+                    }
+
+                    YStaticMethods.Copy(sourceFile, destination, true);
+                }
+            }
+
+            string innoSetup = this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup);
+
+            string innoSetupIss = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.iss");
+
+            if (File.Exists(innoSetupIss))
+            {
+                string setupFile = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy"), "*_setup_*.exe").FirstOrDefault();
+                if (File.Exists(setupFile))
+                {
+                    File.Delete(dotfuscatedDirectory);
+                }
+
+                YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
+            }
 
             this.GenerateAssemblyInfo();
 
-            this.ComputeAssembliesJson(assembly.Name);
+            this._computeAssembliesJson(assembly.Name, assemblies, dotfuscatedDirectory);
 
-            /*
-                Upload Release binary to the Mega repository : https://mega.nz/
-                Create Release/{AssemblyName}/{AssemblyVersion} branch from master branch
-            */
+            File.Delete("./data/Resources.rc");
+            File.Delete("./data/Resources.res");
 
-            Directory.Delete("./temp", true);
-
-            Process.Start("explorer", $"\"{dotfuscatedAssembly}\"");
-            YStaticMethods.ProcessStartUrl("https://mega.nz/");
+            if (this.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
+            {
+                Process.Start("explorer", $"\"{dotfuscatedDirectory}\"");
+            }
         }
 
-        public void ComputeAssembliesJson(string assemblyName)
+        private void _retrieveDependecies(YAssembly assembly, Dictionary<string, List<YAssembly>> assemblies, string dotfuscatedDirectory)
+        {
+            foreach (YDependency dep in assembly.Dependencies)
+            {
+                YAssembly dependecy = assemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
+
+                if (dependecy == null)
+                {
+                    continue;
+                }
+
+                this._retrieveDependecies(dependecy, assemblies, dotfuscatedDirectory);
+             
+                YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
+            }
+        }
+
+        private void _computeAssembliesJson(string assemblyName, Dictionary<string, List<YAssembly>> assemblies, string dotfuscatedDirectory)
         {
             YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
@@ -280,15 +378,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
 
             assembly = (YAssembly)assembly.Clone();
-            assembly.Url = null;
-
-            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(), "Upsilon.Tools.ReleaseManagementTool", "deployed.assemblies.json");
-            if (!File.Exists(assembliesJsonFile))
-            {
-                throw new Exception($"'{assembliesJsonFile}' not found.");
-            }
-
-            Dictionary<string, List<YAssembly>> assemblies = (Dictionary<string, List<YAssembly>>)File.ReadAllText(assembliesJsonFile).DeserializeObject(typeof(Dictionary<string, List<YAssembly>>));
+            assembly.Url = string.Empty;
 
             if (!assemblies.ContainsKey(assembly.Name))
             {
@@ -309,12 +399,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 assemblies[assembly.Name].Insert(0, assembly);
             }
 
+            assemblies = assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
-            File.WriteAllText(assembliesJsonFile, jsonString);
+            File.WriteAllText(Path.Combine(dotfuscatedDirectory, "deployed.assemblies.json"), jsonString);
         }
 
-        private void _startProcess(string command, string arguments)
+        private static void _startProcess(string command, string arguments)
         {
             Process process = new();
             process.StartInfo = new()
@@ -330,11 +422,24 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        private void _checkIntegrity()
+        public void CheckIntegrity()
         {
-            if (!File.Exists("./data/dotfuscator.txt"))
+            if (!this.ConfigProvider.HasConfiguration(Config.Dotfuscaor)
+                || !File.Exists(this.ConfigProvider.GetConfiguration<string>(Config.Dotfuscaor)))
             {
-                throw new Exception("'./data/dotfuscator.txt' not found");
+                throw new Exception($"Dotfuscator : '{this.ConfigProvider.GetConfiguration<string>(Config.Dotfuscaor)}' not found");
+            }
+
+            if (!this.ConfigProvider.HasConfiguration(Config.InnoSetup)
+                || !File.Exists(this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup)))
+            {
+                throw new Exception($"InnoSetup : '{this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup)}' not found");
+            }
+
+            if (!this.ConfigProvider.HasConfiguration(Config.ServerUrl)
+                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl)))
+            {
+                throw new Exception($"Server URL not set");
             }
 
             if (!File.Exists("./data/GoRC.exe"))
@@ -361,6 +466,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             {
                 throw new Exception("'./data/UpsilonEcosystem.pfx' not found");
             }
+        }
+
+        public static void OpenRepository()
+        {
+            YStaticMethods.ProcessStartUrl("https://mega.nz/");
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -48,7 +49,7 @@ namespace Upsilon.Common.Library
 
         #region Object Extention Methods
         /// <summary>
-        /// Get the the MD5 Hash code of an <c><see cref="Object"/> <paramref name="obj"/></c> as a string.
+        /// Get the MD5 Hash code of an <c><see cref="Object"/> <paramref name="obj"/></c> as a string.
         /// </summary>
         /// <param name="obj">The <see cref="Object"/>.</param>
         /// <returns>Return the MD5 Hash code.</returns>
@@ -63,13 +64,31 @@ namespace Upsilon.Common.Library
         }
 
         /// <summary>
+        /// Get the Upsilon Hash code of an <c><see cref="Object"/> <paramref name="obj"/></c> as a string.
+        /// </summary>
+        /// <param name="obj">The <see cref="Object"/>.</param>
+        /// <returns>Return the Upsilon Hash code.</returns>
+        public static string GetUpsilonHashCode(this object obj)
+        {
+            string str = obj.SerializeObject() + obj.ToString();
+
+            System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
+            string[] hash = mD5.ComputeHash(Encoding.UTF8.GetBytes(str)).Select(x => x.ToString()).ToArray();
+
+            System.Security.Cryptography.SHA512 sHA512 = System.Security.Cryptography.SHA512.Create();
+            hash = hash.Union(sHA512.ComputeHash(Encoding.UTF8.GetBytes(str)).Select(x => x.ToString())).ToArray();
+
+            return string.Join(string.Empty, hash);
+        }
+
+        /// <summary>
         /// Clone a object.
         /// </summary>
         /// <param name="obj">The object to clone.</param>
         /// <returns>The cloned object.</returns>
         public static object Clone(this object obj)
         {
-            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions() {  };
+            JsonSerializerOptions jsonSerializerOptions = new() {  };
             return obj.SerializeObject().DeserializeObject(obj.GetType());
         }
         #endregion
@@ -112,10 +131,16 @@ namespace Upsilon.Common.Library
         /// Serialize an <c><see cref="Object"/> <paramref name="toSerialize"/></c>.
         /// </summary>
         /// <param name="toSerialize">The object to serialize.</param>
+        /// <param name="indent">Indent the result or not. Default value is <c>false</c>.</param>
         /// <returns>The serialized string.</returns>
-        public static string SerializeObject(this object toSerialize)
+        public static string SerializeObject(this object toSerialize, bool indent = false)
         {
-            return JsonSerializer.Serialize(toSerialize, toSerialize.GetType());
+            JsonSerializerOptions options = new()
+            {
+                WriteIndented = indent,
+            };
+
+            return JsonSerializer.Serialize(toSerialize, toSerialize.GetType(), options);
         }
 
         /// <summary>
@@ -171,6 +196,88 @@ namespace Upsilon.Common.Library
                 {
                     throw;
                 }
+            }
+        }
+        #endregion
+
+        #region Download Methods
+        /// <summary>
+        /// Download a string from the given URL.
+        /// </summary>
+        /// <param name="url">The URL of the string to download.</param>
+        /// <returns>The downloaded string.</returns>
+        public static string DownloadString(string url)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+
+            WebClient webClient = new();
+
+            return webClient.DownloadString(url);
+        }
+
+        /// <summary>
+        /// Download a file from the given URL.
+        /// </summary>
+        /// <param name="url">The URL of the file to download.</param>
+        /// <param name="filePath"></param>
+        /// <returns>The downloaded string.</returns>
+        public static void DownloadFile(string url, string filePath)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+
+            WebClient webClient = new();
+
+            webClient.DownloadFile(url, filePath);
+        }
+        #endregion
+
+        #region File Methods
+        /// <summary>
+        /// Copy a file or a directory.
+        /// </summary>
+        /// <param name="sourcePath">The source path.</param>
+        /// <param name="destinationDirectory">The directory where the copy will be save.</param>
+        /// <param name="override">Override the destination if already exists.</param>
+        /// <param name="throwException">Throw an exception when error occurs.</param>
+        public static void Copy(string sourcePath, string destinationDirectory, bool @override = false, bool throwException = true)
+        {
+            if (File.Exists(sourcePath))
+            {
+                Directory.CreateDirectory(destinationDirectory);
+
+                try
+                {
+                    File.Copy(sourcePath, Path.Combine(destinationDirectory, Path.GetFileName(sourcePath)), @override);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    if (throwException)
+                        throw;
+                }
+            }
+            else if (Directory.Exists(sourcePath))
+            {
+                DirectoryInfo dir = new(sourcePath);
+
+                string[] dirs = dir.GetDirectories().Select(x => x.FullName).ToArray();
+                string[] files = dir.GetFiles().Select(x => x.FullName).ToArray();
+
+                destinationDirectory = Path.Combine(destinationDirectory, Path.GetFileName(sourcePath));
+                Directory.CreateDirectory(destinationDirectory);
+
+                foreach (string source in dirs.Union(files))
+                {
+                    YStaticMethods.Copy(source, destinationDirectory, @override);
+                }
+            }
+            else if (throwException)
+            {
+                throw new Exception($"File or Directory not found :\n'{sourcePath}'");
             }
         }
         #endregion

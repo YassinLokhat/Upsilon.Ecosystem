@@ -1,0 +1,3 @@
+﻿bin\Release\net5.0-windows\data
+bin\Release\net5.0-windows\Upsilon.Tools.ReleaseManagementTool.GUI.exe
+bin\Release\net5.0-windows\Upsilon.Tools.ReleaseManagementTool.GUI.runtimeconfig.json

@@ -50,7 +50,7 @@ namespace Upsilon.Tools.YDBDesigner.Core
                 throw new YDatabaseXmlCorruptionException(this._filename, "'tables' node definition is not valid.");
             }
 
-            string hash = this._key.GetMD5HashCode();
+            string hash = this._key.GetUpsilonHashCode();
 
             if (hash != root.Attributes["key"].Value)
             {
