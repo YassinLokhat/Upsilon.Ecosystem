@@ -1,10 +1,15 @@
 {
   "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "UI for the Release Management Tool.",
   "BinaryType": "exe",
   "Depreciated": false,
   "Dependencies": [
+    {
+      "Name": "Upsilon.Common.Forms",
+      "MinimalVersion": "1.0.0",
+      "MaximalVersion": "1.0.0"
+    },
     {
       "Name": "Upsilon.Common.Library",
       "MinimalVersion": "1.0.4",
