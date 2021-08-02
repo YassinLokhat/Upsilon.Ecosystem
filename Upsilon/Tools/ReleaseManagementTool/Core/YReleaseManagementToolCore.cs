@@ -329,12 +329,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             if (File.Exists(innoSetupIss))
             {
-                string setupFile = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy"), "*_setup_*.exe").FirstOrDefault();
-                if (File.Exists(setupFile))
-                {
-                    File.Delete(dotfuscatedDirectory);
-                }
-
                 YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
             }
 
@@ -468,9 +462,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        public static void OpenRepository()
+        public void OpenRepository()
         {
-            YStaticMethods.ProcessStartUrl("https://mega.nz/");
+            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl));
         }
     }
 }
