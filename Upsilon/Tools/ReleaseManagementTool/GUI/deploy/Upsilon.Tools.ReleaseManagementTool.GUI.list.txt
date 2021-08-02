@@ -1,7 +1,3 @@
 ﻿bin\Release\net5.0-windows\data
-bin\Release\net5.0-windows\Upsilon.Common.Library.dll
-bin\Release\net5.0-windows\Upsilon.Common.MetaHelper.dll
-bin\Release\net5.0-windows\Upsilon.Database.Library.dll
-bin\Release\net5.0-windows\Upsilon.Tools.ReleaseManagementTool.Core.dll
 bin\Release\net5.0-windows\Upsilon.Tools.ReleaseManagementTool.GUI.exe
 bin\Release\net5.0-windows\Upsilon.Tools.ReleaseManagementTool.GUI.runtimeconfig.json

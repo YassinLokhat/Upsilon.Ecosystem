@@ -252,7 +252,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YReleaseManagementToolCore._startProcess("dotnet", $"build \"{assembly.Url}\" -c Release");
             YReleaseManagementToolCore._startProcess("dotnet", $"test \"{this._solution}\" -c Release");
 
-            this._checkIntegrity();
+            this.CheckIntegrity();
 
             string dotfuscator = this.ConfigProvider.GetConfiguration<string>(Config.Dotfuscaor);
 
@@ -299,6 +299,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
 
+            string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
+            Dictionary<string, List<YAssembly>> assemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
+
+            this._retrieveDependecies(assembly, assemblies, dotfuscatedDirectory);
+
             string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
             if (File.Exists(fileList))
             {
@@ -333,15 +338,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
             }
 
-
             this.GenerateAssemblyInfo();
 
-            this.ComputeAssembliesJson(assembly.Name);
-
-            /*
-                Upload Release binary to the Mega repository : https://mega.nz/
-                Create Release/{AssemblyName}/{AssemblyVersion} branch from master branch
-            */
+            this._computeAssembliesJson(assembly.Name, assemblies, dotfuscatedDirectory);
 
             File.Delete("./data/Resources.rc");
             File.Delete("./data/Resources.res");
@@ -352,7 +351,24 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        public void ComputeAssembliesJson(string assemblyName)
+        private void _retrieveDependecies(YAssembly assembly, Dictionary<string, List<YAssembly>> assemblies, string dotfuscatedDirectory)
+        {
+            foreach (YDependency dep in assembly.Dependencies)
+            {
+                YAssembly dependecy = assemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
+
+                if (dependecy == null)
+                {
+                    continue;
+                }
+
+                this._retrieveDependecies(dependecy, assemblies, dotfuscatedDirectory);
+             
+                YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
+            }
+        }
+
+        private void _computeAssembliesJson(string assemblyName, Dictionary<string, List<YAssembly>> assemblies, string dotfuscatedDirectory)
         {
             YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
@@ -362,15 +378,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
 
             assembly = (YAssembly)assembly.Clone();
-            assembly.Url = null;
-
-            string assembliesJsonFile = Path.Combine(YHelper.GetSolutionDirectory(this._solution), "deployed.assemblies.json");
-            if (!File.Exists(assembliesJsonFile))
-            {
-                File.WriteAllText(assembliesJsonFile, "{}");
-            }
-
-            Dictionary<string, List<YAssembly>> assemblies = (Dictionary<string, List<YAssembly>>)File.ReadAllText(assembliesJsonFile).DeserializeObject(typeof(Dictionary<string, List<YAssembly>>));
+            assembly.Url = string.Empty;
 
             if (!assemblies.ContainsKey(assembly.Name))
             {
@@ -391,9 +399,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 assemblies[assembly.Name].Insert(0, assembly);
             }
 
+            assemblies = assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
-            File.WriteAllText(assembliesJsonFile, jsonString);
+            File.WriteAllText(Path.Combine(dotfuscatedDirectory, "deployed.assemblies.json"), jsonString);
         }
 
         private static void _startProcess(string command, string arguments)
@@ -412,7 +422,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        private void _checkIntegrity()
+        public void CheckIntegrity()
         {
             if (!this.ConfigProvider.HasConfiguration(Config.Dotfuscaor)
                 || !File.Exists(this.ConfigProvider.GetConfiguration<string>(Config.Dotfuscaor)))

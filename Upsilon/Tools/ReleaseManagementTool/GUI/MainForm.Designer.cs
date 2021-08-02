@@ -303,7 +303,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bServerUrl.Name = "bServerUrl";
             this.bServerUrl.Size = new System.Drawing.Size(195, 22);
             this.bServerUrl.Text = "Set the Server URL";
-            this.bServerUrl.Click += new System.EventHandler(this.bServerUrl_Click);
+            this.bServerUrl.Click += new System.EventHandler(this._bServerUrl_Click);
             // 
             // MainForm
             // 

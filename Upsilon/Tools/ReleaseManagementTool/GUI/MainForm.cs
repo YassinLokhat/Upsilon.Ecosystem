@@ -23,6 +23,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         {
             InitializeComponent();
 
+            this._checkIntegrity();
+
             if (Program.Core.ConfigProvider.HasConfiguration(Config.OpenOutput))
             {
                 ckbOpenOutput.Checked = Program.Core.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput);
@@ -86,6 +88,33 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.cbSolutions.Items.Remove(this.cbSolutions.Text);
+                }
+            }
+        }
+
+        private void _checkIntegrity()
+        {
+            while (true)
+            {
+                try
+                {
+                    Program.Core.CheckIntegrity();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.StartsWith("Dotfuscator : '"))
+                    {
+                        bDotfuscator.PerformClick();
+                    }
+                    else if (ex.Message.StartsWith("InnoSetup : '"))
+                    {
+                        bInnoSetup.PerformClick();
+                    }
+                    else if (ex.Message == "Server URL not set")
+                    {
+                        bServerUrl.PerformClick();
+                    }
                 }
             }
         }
@@ -164,19 +193,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                if (ex.Message.StartsWith("Dotfuscator : '"))
-                {
-                    bDotfuscator.PerformClick();
-                }
-                else if (ex.Message.StartsWith("InnoSetup : '"))
-                {
-                    bInnoSetup.PerformClick();
-                }
-                else if (ex.Message == "Server URL not set")
-                {
-                    bServerUrl.PerformClick();
-                }
             }
         }
 
@@ -223,7 +239,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             }
         }
 
-        private void bServerUrl_Click(object sender, EventArgs e)
+        private void _bServerUrl_Click(object sender, EventArgs e)
         {
             if (YInputBox.ShowDialog("Server URL", "Set the Server URL", out string url, YInputBox.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
