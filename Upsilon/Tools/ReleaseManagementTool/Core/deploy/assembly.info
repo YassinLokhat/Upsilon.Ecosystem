@@ -12,8 +12,8 @@
     },
     {
       "Name": "Upsilon.Common.MetaHelper",
-      "MinimalVersion": "1.0.0",
-      "MaximalVersion": "1.0.0"
+      "MinimalVersion": "1.0.1",
+      "MaximalVersion": "1.0.1"
     }
   ]
 }
