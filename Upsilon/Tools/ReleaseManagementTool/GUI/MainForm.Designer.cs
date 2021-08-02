@@ -56,6 +56,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.ckbOpenOutput = new System.Windows.Forms.ToolStripMenuItem();
             this.bDotfuscator = new System.Windows.Forms.ToolStripMenuItem();
             this.bInnoSetup = new System.Windows.Forms.ToolStripMenuItem();
+            this.bServerUrl = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -265,7 +266,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ckbOpenOutput,
             this.bDotfuscator,
-            this.bInnoSetup});
+            this.bInnoSetup,
+            this.bServerUrl});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -295,6 +297,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bInnoSetup.Size = new System.Drawing.Size(195, 22);
             this.bInnoSetup.Text = "Browse for InnoSetup";
             this.bInnoSetup.Click += new System.EventHandler(this._bInnoSetup_Click);
+            // 
+            // bServerUrl
+            // 
+            this.bServerUrl.Name = "bServerUrl";
+            this.bServerUrl.Size = new System.Drawing.Size(195, 22);
+            this.bServerUrl.Text = "Set the Server URL";
+            this.bServerUrl.Click += new System.EventHandler(this.bServerUrl_Click);
             // 
             // MainForm
             // 
@@ -348,6 +357,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.ToolStripMenuItem ckbOpenOutput;
         private System.Windows.Forms.ToolStripMenuItem bDotfuscator;
         private System.Windows.Forms.ToolStripMenuItem bInnoSetup;
+        private System.Windows.Forms.ToolStripMenuItem bServerUrl;
     }
 }
 

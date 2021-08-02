@@ -17,6 +17,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         OpenOutput,
         Dotfuscaor,
         InnoSetup,
+        ServerUrl,
     }
 
     public sealed class YReleaseManagementToolCore
@@ -423,6 +424,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 || !File.Exists(this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup)))
             {
                 throw new Exception($"InnoSetup : '{this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup)}' not found");
+            }
+
+            if (!this.ConfigProvider.HasConfiguration(Config.ServerUrl)
+                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl)))
+            {
+                throw new Exception($"Server URL not set");
             }
 
             if (!File.Exists("./data/GoRC.exe"))

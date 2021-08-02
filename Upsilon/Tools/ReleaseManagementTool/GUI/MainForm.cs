@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Upsilon.Common.Forms;
 using Upsilon.Common.Library;
 using Upsilon.Tools.ReleaseManagementTool.Core;
 
@@ -172,6 +173,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 {
                     bInnoSetup.PerformClick();
                 }
+                else if (ex.Message == "Server URL not set")
+                {
+                    bServerUrl.PerformClick();
+                }
             }
         }
 
@@ -215,6 +220,15 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             if (File.Exists(openFileDialog.FileName))
             {
                 Program.Core.ConfigProvider.SetConfiguration(Config.InnoSetup, openFileDialog.FileName);
+            }
+        }
+
+        private void bServerUrl_Click(object sender, EventArgs e)
+        {
+            if (YInputBox.ShowDialog("Server URL", "Set the Server URL", out string url, YInputBox.YInputType.TextBox) == DialogResult.OK
+                && !string.IsNullOrWhiteSpace(url))
+            {
+                Program.Core.ConfigProvider.SetConfiguration(Config.ServerUrl, url);
             }
         }
     }
