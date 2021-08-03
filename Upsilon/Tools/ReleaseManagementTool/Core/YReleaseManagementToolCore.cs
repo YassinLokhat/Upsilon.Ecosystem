@@ -23,7 +23,23 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
     public sealed class YReleaseManagementToolCore
     {
         public YAssembly[] SolutionAssemblies { get; private set; } = null;
-        public readonly Dictionary<string, List<YAssembly>> DeployedAssemblies = new();
+        public Dictionary<string, List<YAssembly>> DeployedAssemblies
+        {
+            get
+            {
+                try
+                {
+                    string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
+                    return JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+
+                return new();
+            }
+        }
         public string[] Solutions
         {
             get
@@ -45,8 +61,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             {
                 this._solutions = this.ConfigProvider.GetConfiguration<List<string>>(Config.Solutions);
 
-                string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
-                this.DeployedAssemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
             }
             catch (Exception ex)
             {
