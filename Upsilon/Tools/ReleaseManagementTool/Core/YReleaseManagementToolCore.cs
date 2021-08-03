@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Upsilon.Common.Library;
 using Upsilon.Common.MetaHelper;
@@ -339,14 +340,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 }
             }
 
-            string innoSetup = this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup);
-
-            string innoSetupIss = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.iss");
-
-            if (File.Exists(innoSetupIss))
-            {
-                YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
-            }
+            this._innoSetup(assembly, dotfuscatedDirectory);
 
             this._generateAssemblyInfo();
 
@@ -358,6 +352,25 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             if (this.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
             {
                 Process.Start("explorer", $"\"{dotfuscatedDirectory}\"");
+            }
+        }
+
+        private void _innoSetup(YAssembly assembly, string dotfuscatedDirectory)
+        {
+            string innoSetup = this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup);
+
+            string innoSetupIss = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.iss");
+
+            if (File.Exists(innoSetupIss))
+            {
+                string issScript = File.ReadAllText(innoSetupIss);
+                issScript = Regex.Replace(issScript, @"^#define MyAppVersion\s.*$", $"#define MyAppVersion \"{assembly.Version}\"", RegexOptions.Multiline);
+                File.WriteAllText(innoSetupIss, issScript);
+
+                YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
+
+                string setupFile = Path.Combine(dotfuscatedDirectory, $"{assembly.Name}_setup_v{assembly.Version}.exe");
+                YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{setupFile}\"");
             }
         }
 
