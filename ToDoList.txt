@@ -1,6 +1,9 @@
 Release
 	Documentation
-	Create a release management tool
+
+ReleaseManagementTool
+	Removing bad solutions
+	Manage external dependencies
 
 Upsilon.Tools.YDBDesigner
 	YDBDesigner
