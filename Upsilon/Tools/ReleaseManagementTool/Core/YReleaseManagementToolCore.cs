@@ -393,6 +393,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         private void _computeAssembliesJson(string assemblyName, string dotfuscatedDirectory)
         {
+            Dictionary<string, List<YAssembly>> assemblies = this.DeployedAssemblies;
             YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
             if (assembly == null)
@@ -403,26 +404,26 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             assembly = (YAssembly)assembly.Clone();
             assembly.Url = string.Empty;
 
-            if (!this.DeployedAssemblies.ContainsKey(assembly.Name))
+            if (!assemblies.ContainsKey(assembly.Name))
             {
-                this.DeployedAssemblies[assembly.Name] = new();
+                assemblies[assembly.Name] = new();
             }
 
-            YAssembly asm = this.DeployedAssemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
+            YAssembly asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
             
             if (asm != null)
             {
                 asm.Depreciated = true;
             }
 
-            asm = this.DeployedAssemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+            asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
 
             if (asm == null)
             {
-                this.DeployedAssemblies[assembly.Name].Insert(0, assembly);
+                assemblies[assembly.Name].Insert(0, assembly);
             }
 
-            var assemblies = this.DeployedAssemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+            assemblies = assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
 
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
