@@ -36,10 +36,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 this.cbSolutions.SelectedIndex = 1;
             }
 
-            if (Program.Core.Assemblies != null)
+            if (Program.Core.SolutionAssemblies != null)
             {
                 this.cbAssembly.Items.Add(string.Empty);
-                this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
+                this.cbAssembly.Items.AddRange(Program.Core.SolutionAssemblies.Select(x => x.Name).ToArray());
             }
 
             this.cbSolutions.SelectedIndexChanged += _cbSolutions_SelectedIndexChanged;
@@ -131,7 +131,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
             this.cbAssembly.Items.Clear();
             this.cbAssembly.Items.Add(string.Empty);
-            this.cbAssembly.Items.AddRange(Program.Core.Assemblies.Select(x => x.Name).ToArray());
+            this.cbAssembly.Items.AddRange(Program.Core.SolutionAssemblies.Select(x => x.Name).ToArray());
             
             this._locked = false;
         }
@@ -189,6 +189,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 this._assembly.Description = tbDescription.Text;
                 this._assembly.BinaryType = tbBinaryType.Text;
                 Program.Core.Deploy(this._assembly);
+                MessageBox.Show("Deployment success.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
