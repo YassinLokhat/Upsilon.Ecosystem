@@ -22,7 +22,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
     public sealed class YReleaseManagementToolCore
     {
-        public YAssembly[] Assemblies { get; private set; } = null;
+        public YAssembly[] SolutionAssemblies { get; private set; } = null;
+        public readonly Dictionary<string, List<YAssembly>> DeployedAssemblies = new();
         public string[] Solutions
         {
             get
@@ -43,6 +44,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             try
             {
                 this._solutions = this.ConfigProvider.GetConfiguration<List<string>>(Config.Solutions);
+
+                string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
+                this.DeployedAssemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
             }
             catch (Exception ex)
             {
@@ -92,12 +96,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 assemblies.Add(assembly);
             }
 
-            this.Assemblies = assemblies.ToArray();
+            this.SolutionAssemblies = assemblies.ToArray();
         }
 
         public YAssembly SelectAssembly(string assemblyName)
         {
-            YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+            YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
             if (assembly == null)
             {
@@ -126,15 +130,16 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             List<YDependency> dependencies = new();
 
-            foreach (XmlNode projectReference in document.SelectNodes("/Project/ItemGroup/ProjectReference"))
+            foreach (XmlNode reference in document.SelectNodes("/Project/ItemGroup/ProjectReference|/Project/ItemGroup/Reference"))
             {
-                YDependency dependency = assembly.Dependencies.Where(x => x.Name == Path.GetFileNameWithoutExtension(projectReference.Attributes["Include"].Value)).FirstOrDefault();
+                string depName = Path.GetFileName(reference.Attributes["Include"].Value).Replace(".csproj", "");
+                YDependency dependency = assembly.Dependencies.Where(x => x.Name == depName).FirstOrDefault();
 
                 if (dependency == null)
                 {
                     dependency = new()
                     {
-                        Name = Path.GetFileNameWithoutExtension(projectReference.Attributes["Include"].Value),
+                        Name = Path.GetFileNameWithoutExtension(reference.Attributes["Include"].Value),
                         MinimalVersion = string.Empty,
                         MaximalVersion = string.Empty,
                     };
@@ -150,7 +155,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public void Deploy(YAssembly assembly)
         {
-            YAssembly asm = this.Assemblies.Where(x => x.Name == assembly.Name).FirstOrDefault();
+            YAssembly asm = this.SolutionAssemblies.Where(x => x.Name == assembly.Name).FirstOrDefault();
 
             if (asm == null)
             {
@@ -200,7 +205,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
             bin.InnerText = asm.Description;
 
-            foreach (YAssembly a in this.Assemblies)
+            foreach (YAssembly a in this.SolutionAssemblies)
             {
                 YDependency dependency = a.Dependencies.Where(x => x.Name == asm.Name).FirstOrDefault();
                 if (dependency != null)
@@ -218,11 +223,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             this._startDeployProcess(asm);
         }
 
-        public void GenerateAssemblyInfo(string assemblyName = null)
+        private void _generateAssemblyInfo(string assemblyName = null)
         {
             if (!string.IsNullOrWhiteSpace(assemblyName))
             {
-                YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+                YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
                 
                 if (assembly == null)
                 {
@@ -239,9 +244,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
             else
             {
-                foreach (YAssembly assembly in this.Assemblies)
+                foreach (YAssembly assembly in this.SolutionAssemblies)
                 {
-                    GenerateAssemblyInfo(assembly.Name);
+                    this._generateAssemblyInfo(assembly.Name);
                 }
             }
         }
@@ -299,10 +304,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
 
-            string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
-            Dictionary<string, List<YAssembly>> assemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
-
-            this._retrieveDependecies(assembly, assemblies, dotfuscatedDirectory);
+            this._retrieveDependecies(assembly, dotfuscatedDirectory);
 
             string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
             if (File.Exists(fileList))
@@ -332,9 +334,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 YReleaseManagementToolCore._startProcess(innoSetup, $"\"{innoSetupIss}\"");
             }
 
-            this.GenerateAssemblyInfo();
+            this._generateAssemblyInfo();
 
-            this._computeAssembliesJson(assembly.Name, assemblies, dotfuscatedDirectory);
+            this._computeAssembliesJson(assembly.Name, dotfuscatedDirectory);
 
             File.Delete("./data/Resources.rc");
             File.Delete("./data/Resources.res");
@@ -345,26 +347,26 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        private void _retrieveDependecies(YAssembly assembly, Dictionary<string, List<YAssembly>> assemblies, string dotfuscatedDirectory)
+        private void _retrieveDependecies(YAssembly assembly, string dotfuscatedDirectory)
         {
             foreach (YDependency dep in assembly.Dependencies)
             {
-                YAssembly dependecy = assemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
+                YAssembly dependecy = this.DeployedAssemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
 
                 if (dependecy == null)
                 {
                     continue;
                 }
 
-                this._retrieveDependecies(dependecy, assemblies, dotfuscatedDirectory);
+                this._retrieveDependecies(dependecy, dotfuscatedDirectory);
              
                 YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
             }
         }
 
-        private void _computeAssembliesJson(string assemblyName, Dictionary<string, List<YAssembly>> assemblies, string dotfuscatedDirectory)
+        private void _computeAssembliesJson(string assemblyName, string dotfuscatedDirectory)
         {
-            YAssembly assembly = this.Assemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+            YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
             if (assembly == null)
             {
@@ -374,26 +376,26 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             assembly = (YAssembly)assembly.Clone();
             assembly.Url = string.Empty;
 
-            if (!assemblies.ContainsKey(assembly.Name))
+            if (!this.DeployedAssemblies.ContainsKey(assembly.Name))
             {
-                assemblies[assembly.Name] = new();
+                this.DeployedAssemblies[assembly.Name] = new();
             }
 
-            YAssembly asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
+            YAssembly asm = this.DeployedAssemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
             
             if (asm != null)
             {
                 asm.Depreciated = true;
             }
 
-            asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+            asm = this.DeployedAssemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
 
             if (asm == null)
             {
-                assemblies[assembly.Name].Insert(0, assembly);
+                this.DeployedAssemblies[assembly.Name].Insert(0, assembly);
             }
 
-            assemblies = assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+            var assemblies = this.DeployedAssemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
 
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
