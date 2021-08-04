@@ -2,8 +2,7 @@ Release
 	Documentation
 
 ReleaseManagementTool
-	Removing bad solutions
-	Manage external dependencies
+	Open download directory
 
 Upsilon.Tools.YDBDesigner
 	YDBDesigner
