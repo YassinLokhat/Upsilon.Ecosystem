@@ -54,6 +54,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.ReleaseManage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.ReleaseManagementTool.Core", "Upsilon\Tools\ReleaseManagementTool\Core\Upsilon.Tools.ReleaseManagementTool.Core.csproj", "{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CipherEditor", "CipherEditor", "{F2A47D4C-8982-4A01-A773-723494782E66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Upsilon.Tools.CipherEditor", "Upsilon\Tools\CipherEditor\Upsilon.Tools.CipherEditor.csproj", "{69586B8B-3731-492A-B555-C7C6D99A84F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +111,10 @@ Global
 		{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69586B8B-3731-492A-B555-C7C6D99A84F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69586B8B-3731-492A-B555-C7C6D99A84F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69586B8B-3731-492A-B555-C7C6D99A84F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69586B8B-3731-492A-B555-C7C6D99A84F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +134,8 @@ Global
 		{A94A450D-09FB-4DBB-B69A-1D92E5ED759A} = {93203DB7-FEDF-4205-8A67-2EB4F28F2125}
 		{5B6F6EDB-FD32-4F58-A2EE-5D9669670209} = {A94A450D-09FB-4DBB-B69A-1D92E5ED759A}
 		{AFC229A1-C567-47A3-AA1A-2B6A8C5AFFD4} = {A94A450D-09FB-4DBB-B69A-1D92E5ED759A}
+		{F2A47D4C-8982-4A01-A773-723494782E66} = {93203DB7-FEDF-4205-8A67-2EB4F28F2125}
+		{69586B8B-3731-492A-B555-C7C6D99A84F7} = {F2A47D4C-8982-4A01-A773-723494782E66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3BC83A0-7CE1-4C7A-9EAE-EFBB240E1DB5}

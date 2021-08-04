@@ -1,0 +1,14 @@
+{
+  "Name": "Upsilon.Tools.CipherEditor",
+  "Version": "1.0.0",
+  "Description": "A Cither and Clear text editor.",
+  "BinaryType": "exe",
+  "Depreciated": false,
+  "Dependencies": [
+    {
+      "Name": "Upsilon.Common.Library",
+      "MinimalVersion": "1.0.2",
+      "MaximalVersion": "1.0.4"
+    }
+  ]
+}
