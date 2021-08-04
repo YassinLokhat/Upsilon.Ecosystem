@@ -15,9 +15,6 @@ Upsilon.Common.Forms
 	YInputBox
 	YForm
 
-Upsilon.Tools.CipherEditor
-	YCipherEditor
-
 Upsilon.Tools.TranslatorHelper
 	YTranslatorHelper
 
