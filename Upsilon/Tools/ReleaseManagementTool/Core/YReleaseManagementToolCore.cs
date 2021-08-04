@@ -91,6 +91,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             
             if (!File.Exists(solution))
             {
+                this.ConfigProvider.SetConfiguration(Config.Solutions, this._solutions);
                 throw new Exception($"'{solution}' not found.");
             }
 
@@ -150,7 +151,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 string depName = Path.GetFileName(reference.Attributes["Include"].Value).Replace(".csproj", "");
                 YDependency dependency = assembly.Dependencies.Where(x => x.Name == depName).FirstOrDefault();
 
-                if (dependency == null)
+                if (dependency == null
+                    && this.DeployedAssemblies.ContainsKey(depName))
                 {
                     dependency = new()
                     {
@@ -158,6 +160,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                         MinimalVersion = string.Empty,
                         MaximalVersion = string.Empty,
                     };
+                }
+
+                if (dependency == null)
+                {
+                    continue;
                 }
 
                 dependencies.Add(dependency);
@@ -238,42 +245,43 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             this._startDeployProcess(asm);
         }
 
-        private void _generateAssemblyInfo(string assemblyName = null)
+        private void _startDeployProcess(YAssembly assembly)
         {
-            if (!string.IsNullOrWhiteSpace(assemblyName))
-            {
-                YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
-                
-                if (assembly == null)
-                {
-                    return;
-                }
+            this._build(assembly);
 
-                assembly = (YAssembly)assembly.Clone();
-                string assemblyInfoPath = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "assembly.info");
-                
-                assembly.Url = null;
-                string jsonString = JsonSerializer.Serialize(assembly, new JsonSerializerOptions { WriteIndented = true });
+            this.CheckIntegrity();
 
-                File.WriteAllText(assemblyInfoPath, jsonString);
-            }
-            else
+            string dotfuscatedDirectory = this._dotfuscate(assembly);
+
+            this._sign(assembly, dotfuscatedDirectory);
+
+            this._retrieveDependecies(assembly, dotfuscatedDirectory);
+
+            this._copyRequiredFiles(assembly, dotfuscatedDirectory);
+
+            this._innoSetup(assembly, dotfuscatedDirectory);
+
+            this._generateAssemblyInfo();
+
+            this._computeAssembliesJson(assembly.Name, dotfuscatedDirectory);
+
+            this._clearTempFiles();
+
+            if (this.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
             {
-                foreach (YAssembly assembly in this.SolutionAssemblies)
-                {
-                    this._generateAssemblyInfo(assembly.Name);
-                }
+                Process.Start("explorer", $"\"{dotfuscatedDirectory}\"");
             }
         }
 
-        private void _startDeployProcess(YAssembly assembly)
+        private void _build(YAssembly assembly)
         {
             YReleaseManagementToolCore._startProcess("dotnet", $"clean \"{assembly.Url}\" -c Release");
             YReleaseManagementToolCore._startProcess("dotnet", $"build \"{assembly.Url}\" -c Release");
             YReleaseManagementToolCore._startProcess("dotnet", $"test \"{this._solution}\" -c Release");
+        }
 
-            this.CheckIntegrity();
-
+        private string _dotfuscate(YAssembly assembly)
+        {
             string dotfuscator = this.ConfigProvider.GetConfiguration<string>(Config.Dotfuscaor);
 
             string dotfuscatorXml = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.xml");
@@ -291,6 +299,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             YReleaseManagementToolCore._startProcess(dotfuscator, $"\"{dotfuscatorXml}\"");
 
+            return dotfuscatedDirectory;
+        }
+
+        private void _sign(YAssembly assembly, string dotfuscatedDirectory)
+        {
             string ressourceTemplate = File.ReadAllText("./data/Resources.template.rc")
                 .Replace("¤Major¤", assembly.YVersion.Major.ToString())
                 .Replace("¤Minor¤", assembly.YVersion.Minor.ToString())
@@ -318,13 +331,31 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YReleaseManagementToolCore._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscatedAssembly}\" -save \"{dotfuscatedAssembly}\" -action addoverwrite -resource ./data/Resources.res");
 
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
+        }
 
-            this._retrieveDependecies(assembly, dotfuscatedDirectory);
+        private void _retrieveDependecies(YAssembly assembly, string dotfuscatedDirectory)
+        {
+            foreach (YDependency dep in assembly.Dependencies)
+            {
+                YAssembly dependecy = this.DeployedAssemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
 
+                if (dependecy == null)
+                {
+                    continue;
+                }
+
+                this._retrieveDependecies(dependecy, dotfuscatedDirectory);
+             
+                YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
+            }
+        }
+
+        private void _copyRequiredFiles(YAssembly assembly, string dotfuscatedDirectory)
+        {
             string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
             if (File.Exists(fileList))
             {
-                string[] files = File.ReadAllLines(fileList); 
+                string[] files = File.ReadAllLines(fileList);
                 foreach (string file in files)
                 {
                     string sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file).Trim();
@@ -338,20 +369,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
                     YStaticMethods.Copy(sourceFile, destination, true);
                 }
-            }
-
-            this._innoSetup(assembly, dotfuscatedDirectory);
-
-            this._generateAssemblyInfo();
-
-            this._computeAssembliesJson(assembly.Name, dotfuscatedDirectory);
-
-            File.Delete("./data/Resources.rc");
-            File.Delete("./data/Resources.res");
-
-            if (this.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
-            {
-                Process.Start("explorer", $"\"{dotfuscatedDirectory}\"");
             }
         }
 
@@ -374,20 +391,31 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        private void _retrieveDependecies(YAssembly assembly, string dotfuscatedDirectory)
+        private void _generateAssemblyInfo(string assemblyName = null)
         {
-            foreach (YDependency dep in assembly.Dependencies)
+            if (!string.IsNullOrWhiteSpace(assemblyName))
             {
-                YAssembly dependecy = this.DeployedAssemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
+                YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
 
-                if (dependecy == null)
+                if (assembly == null)
                 {
-                    continue;
+                    return;
                 }
 
-                this._retrieveDependecies(dependecy, dotfuscatedDirectory);
-             
-                YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
+                assembly = (YAssembly)assembly.Clone();
+                string assemblyInfoPath = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "assembly.info");
+
+                assembly.Url = null;
+                string jsonString = JsonSerializer.Serialize(assembly, new JsonSerializerOptions { WriteIndented = true });
+
+                File.WriteAllText(assemblyInfoPath, jsonString);
+            }
+            else
+            {
+                foreach (YAssembly assembly in this.SolutionAssemblies)
+                {
+                    this._generateAssemblyInfo(assembly.Name);
+                }
             }
         }
 
@@ -428,6 +456,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
             File.WriteAllText(Path.Combine(dotfuscatedDirectory, "deployed.assemblies.json"), jsonString);
+        }
+
+        private void _clearTempFiles()
+        {
+            File.Delete("./data/Resources.rc");
+            File.Delete("./data/Resources.res");
         }
 
         private static void _startProcess(string command, string arguments)
