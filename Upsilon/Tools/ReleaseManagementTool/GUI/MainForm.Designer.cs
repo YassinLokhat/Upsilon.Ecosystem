@@ -50,6 +50,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.cbSolutions = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bDeploy = new System.Windows.Forms.ToolStripButton();
+            this.bDownload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.bOpenRepository = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -207,6 +208,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.cbSolutions,
             this.toolStripSeparator1,
             this.bDeploy,
+            this.bDownload,
             this.toolStripSeparator2,
             this.bOpenRepository,
             this.toolStripDropDownButton1});
@@ -244,6 +246,16 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bDeploy.Size = new System.Drawing.Size(48, 22);
             this.bDeploy.Text = "Deploy";
             this.bDeploy.Click += new System.EventHandler(this._bDeploy_Click);
+            // 
+            // bDownload
+            // 
+            this.bDownload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.bDownload.Image = ((System.Drawing.Image)(resources.GetObject("bDownload.Image")));
+            this.bDownload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bDownload.Name = "bDownload";
+            this.bDownload.Size = new System.Drawing.Size(65, 22);
+            this.bDownload.Text = "Download";
+            this.bDownload.Click += new System.EventHandler(this._bDownload_Click);
             // 
             // toolStripSeparator2
             // 
@@ -358,6 +370,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.ToolStripMenuItem bDotfuscator;
         private System.Windows.Forms.ToolStripMenuItem bInnoSetup;
         private System.Windows.Forms.ToolStripMenuItem bServerUrl;
+        private System.Windows.Forms.ToolStripButton bDownload;
     }
 }
 

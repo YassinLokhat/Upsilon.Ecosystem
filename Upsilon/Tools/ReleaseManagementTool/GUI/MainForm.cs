@@ -121,19 +121,30 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _loadSolution(string solution)
         {
-            this._locked = true;
+            try
+            {
+                this._locked = true;
 
-            Program.Core.LoadSolution(solution);
-            this.cbSolutions.Items.Clear();
-            this.cbSolutions.Items.Add("New Solution");
-            this.cbSolutions.Items.AddRange(Program.Core.Solutions.Select(x => Path.GetFileName(x)).ToArray());
-            this.cbSolutions.SelectedItem = Path.GetFileName(solution);
+                this.cbAssembly.Items.Clear();
+                this.cbAssembly.Items.Add(string.Empty);
 
-            this.cbAssembly.Items.Clear();
-            this.cbAssembly.Items.Add(string.Empty);
-            this.cbAssembly.Items.AddRange(Program.Core.SolutionAssemblies.Select(x => x.Name).ToArray());
-            
-            this._locked = false;
+                Program.Core.LoadSolution(solution);
+                this.cbSolutions.Items.Clear();
+                this.cbSolutions.Items.Add("New Solution");
+                this.cbSolutions.Items.AddRange(Program.Core.Solutions.Select(x => Path.GetFileName(x)).ToArray());
+                this.cbSolutions.SelectedItem = Path.GetFileName(solution);
+
+                this.cbAssembly.Items.AddRange(Program.Core.SolutionAssemblies.Select(x => x.Name).ToArray());
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                throw;
+            }
+            finally
+            {
+                this._locked = false;
+            }
         }
 
         private void _dgvDependecies_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -246,6 +257,49 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 && !string.IsNullOrWhiteSpace(url))
             {
                 Program.Core.ConfigProvider.SetConfiguration(Config.ServerUrl, url);
+            }
+        }
+
+        private void _bDownload_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cbAssembly.Text))
+            {
+                return;
+            }
+
+            if (!Program.Core.DeployedAssemblies.ContainsKey(cbAssembly.Text))
+            {
+                MessageBox.Show($"The '{cbAssembly.Text}' is missing in the deployed assembly list.", "Missing assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            YAssembly assembly = Program.Core.DeployedAssemblies[cbAssembly.Text].Find(x => x.Version == tbVersion.Text);
+
+            if (assembly == null)
+            {
+                MessageBox.Show($"The version '{tbVersion.Text}' of the '{cbAssembly.Text}' is missing in the deployed assembly list.", "Missing version", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new()
+            {
+                Title = $"Download {assembly.Name} v{assembly.Version}",
+                Filter = $"Assembly|*.{assembly.BinaryType}",
+                FileName = Path.GetFileName(assembly.Url),
+            };
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                YStaticMethods.DownloadFile(assembly.Url, saveFileDialog.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
