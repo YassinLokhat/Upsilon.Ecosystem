@@ -18,7 +18,7 @@
     {
       "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
       "MinimalVersion": "1.0.2",
-      "MaximalVersion": "1.0.2"
+      "MaximalVersion": "1.0.3"
     }
   ]
 }
