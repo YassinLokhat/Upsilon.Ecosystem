@@ -34,15 +34,27 @@ namespace Upsilon.Common.Library
             {
                 string json = YStaticMethods.DownloadString(configUrl);
 
-                List<YAssembly> assemblies = ((List<YAssembly>)json.DeserializeObject(typeof(List<YAssembly>)))
-                    .Where(x => x.Name == assemblyName)
-                    .ToList();
+                Dictionary<string, List<YAssembly>> deployedAssemblies = null;
 
-                if (assemblies.Count != 0)
+                try
                 {
-                    YVersion version = assemblies.Select(x => x.YVersion).Max();
-                    assembly = assemblies.Find(x => x.YVersion == version);
+                    deployedAssemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
                 }
+                catch { }
+
+                List<YAssembly> assemblies = null;
+                if (deployedAssemblies != null)
+                {
+                    assemblies = deployedAssemblies[assemblyName];
+                }
+                else
+                { 
+                    assemblies = JsonSerializer.Deserialize<List<YAssembly>>(json)
+                        .Where(x => x.Name == assemblyName)
+                        .ToList();
+                }
+
+                assembly = assemblies.OrderByDescending(x => x.YVersion).FirstOrDefault();
             }
             catch (Exception ex)
             {

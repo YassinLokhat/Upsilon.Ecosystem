@@ -110,7 +110,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_06_CheckForUpdate_OK_moreFieldsInTheJson()
+        public void Test_06_CheckForUpdate_OK_MoreFieldsInTheJson()
         {
             // Given
             YHelperConfiguration configuration = new()
@@ -126,6 +126,47 @@ namespace Upsilon.Common.Library.UnitTests
             // Then
             assembly.Version.Should().Be("1.0.0.0");
             assembly.Description.Should().Be("Common features library");
+        }
+
+        [TestMethod]
+        public void Test_07_CheckForUpdate_DictionnaryJson_OK()
+        {
+            // Given
+            YHelperConfiguration configuration = new()
+            {
+                Reference = "202108091545",
+                Extention = "json",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
+
+            // When
+            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library");
+
+            // Then
+            assembly.Version.Should().Be("1.0.4");
+            assembly.Url.Should().Be("\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.4\\Upsilon.Common.Library.dll");
+            assembly.Description.Should().Be("Common features library.");
+        }
+
+        [TestMethod]
+        public void Test_08_CheckForUpdate_DictionnaryJson_KO_AssemblyPrivate()
+        {
+            // Given
+            YHelperConfiguration configuration = new()
+            {
+                Reference = "202108091545",
+                Extention = "json",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
+
+            // When
+            Action act = new(() =>
+            {
+                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Forms");
+            });
+
+            // Then
+            act.Should().Throw<Exception>();
         }
     }
 }
