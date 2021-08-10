@@ -2,7 +2,7 @@
   "Name": "Upsilon.Tools.YDBDesigner.Core",
   "Version": "1.0.0",
   "Description": "",
-  "BinaryType": "dll",
+  "BinaryType": 0,
   "Depreciated": false,
   "Dependencies": [
     {

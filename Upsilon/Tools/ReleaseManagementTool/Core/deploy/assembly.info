@@ -2,7 +2,7 @@
   "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
   "Version": "1.0.3",
   "Description": "Core library for the Release Management Tool.",
-  "BinaryType": "dll",
+  "BinaryType": 0,
   "Depreciated": false,
   "Dependencies": [
     {

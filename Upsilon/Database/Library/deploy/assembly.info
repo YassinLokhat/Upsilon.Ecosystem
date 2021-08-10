@@ -2,7 +2,7 @@
   "Name": "Upsilon.Database.Library",
   "Version": "1.0.0",
   "Description": "Database features library.",
-  "BinaryType": "dll",
+  "BinaryType": 0,
   "Depreciated": false,
   "Dependencies": [
     {

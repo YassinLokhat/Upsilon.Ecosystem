@@ -8,6 +8,27 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library
 {
     /// <summary>
+    /// All types of binaries.
+    /// </summary>
+    public enum YBinaryType
+    {
+        /// <summary>
+        /// The assembly is a dll class library.
+        /// </summary>
+        ClassLibrary = 0,
+
+        /// <summary>
+        /// The assembly is a window application.
+        /// </summary>
+        WindowApplication = 1,
+
+        /// <summary>
+        /// The assembly is a console application.
+        /// </summary>
+        ConsoleApplication = 2,
+    }
+
+    /// <summary>
     /// This class represents an assembly.
     /// </summary>
     public sealed class YAssembly
@@ -30,7 +51,7 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// The type of binary of the assembly.
         /// </summary>
-        public string BinaryType { get; set; }
+        public YBinaryType BinaryType { get; set; }
 
         /// <summary>
         /// The url to the assembly.

@@ -2,7 +2,7 @@
   "Name": "Upsilon.Common.MetaHelper",
   "Version": "1.0.1",
   "Description": "Meta-helper library.",
-  "BinaryType": "dll",
+  "BinaryType": 0,
   "Depreciated": false,
   "Dependencies": [
     {

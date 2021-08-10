@@ -4,7 +4,7 @@
       "Name": "Upsilon.Common.Forms",
       "Version": "1.0.0",
       "Description": "Common form features library.",
-      "BinaryType": "dll",
+      "BinaryType": 1,
       "Url": "\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Forms\\1.0.0\\Upsilon.Common.Forms.dll",
       "Depreciated": true,
       "Dependencies": []
@@ -15,7 +15,7 @@
       "Name": "Upsilon.Common.Library",
       "Version": "1.0.4",
       "Description": "Common features library.",
-      "BinaryType": "dll",
+      "BinaryType": 1,
       "Url": "\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.4\\Upsilon.Common.Library.dll",
       "Depreciated": false,
       "Dependencies": []
@@ -24,7 +24,7 @@
       "Name": "Upsilon.Common.Library",
       "Version": "1.0.3",
       "Description": "Common features library.",
-      "BinaryType": "dll",
+      "BinaryType": 1,
       "Url": "\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.3\\Upsilon.Common.Library.dll",
       "Depreciated": true,
       "Dependencies": []
@@ -33,7 +33,7 @@
       "Name": "Upsilon.Common.Library",
       "Version": "1.0.2",
       "Description": "Common features library.",
-      "BinaryType": "dll",
+      "BinaryType": 1,
       "Url": "\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.2\\Upsilon.Common.Library.dll",
       "Depreciated": true,
       "Dependencies": []
@@ -42,7 +42,7 @@
       "Name": "Upsilon.Common.Library",
       "Version": "1.0.1",
       "Description": "Common features library.",
-      "BinaryType": "dll",
+      "BinaryType": 1,
       "Url": "\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.1\\Upsilon.Common.Library.dll",
       "Depreciated": true,
       "Dependencies": []
@@ -51,7 +51,7 @@
       "Name": "Upsilon.Common.Library",
       "Version": "1.0.0",
       "Description": "Common features library.",
-      "BinaryType": "dll",
+      "BinaryType": 1,
       "Url": "\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.0\\Upsilon.Common.Library.dll",
       "Depreciated": true,
       "Dependencies": []

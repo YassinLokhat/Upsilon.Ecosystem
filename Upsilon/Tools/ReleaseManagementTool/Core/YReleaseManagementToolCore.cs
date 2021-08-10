@@ -19,6 +19,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         Dotfuscaor,
         InnoSetup,
         ServerUrl,
+        Repository,
     }
 
     public sealed class YReleaseManagementToolCore
@@ -30,7 +31,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             {
                 try
                 {
-                    string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl) + "/deployed.assemblies.json");
+                    string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl));
                     return JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
                 }
                 catch (Exception ex)
@@ -135,13 +136,19 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 assembly.Version = version.InnerText;
             }
 
-            assembly.BinaryType = "dll";
+            assembly.BinaryType = YBinaryType.ClassLibrary;
 
             XmlNode binaryType = document.SelectSingleNode("/Project/PropertyGroup/OutputType");
-            if (binaryType != null
-                && binaryType.InnerText.ToLower().Contains("exe"))
+            if (binaryType != null)
             {
-                assembly.BinaryType = "exe";
+                if (binaryType.InnerText == "WinExe")
+                {
+                    assembly.BinaryType = YBinaryType.WindowApplication;
+                }
+                else
+                {
+                    assembly.BinaryType = YBinaryType.ConsoleApplication;
+                }
             }
 
             List<YDependency> dependencies = new();
@@ -430,7 +437,20 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
 
             assembly = assembly.Clone();
-            assembly.Url = string.Empty;
+            assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl)).Replace("\\", "//")
+                + "/" + Path.GetFileNameWithoutExtension(this._solution)
+                + "/" + assembly.Name.Replace(".", "/")
+                + "/" + assembly.Version
+                + "/" + assembly.Name;
+
+            if (assembly.BinaryType == YBinaryType.ClassLibrary)
+            {
+                assembly.Url += ".dll";
+            }
+            else
+            {
+                assembly.Url += "_setup_v" + assembly.Version + ".exe";
+            }
 
             if (!assemblies.ContainsKey(assembly.Name))
             {
@@ -500,6 +520,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 throw new Exception($"Server URL not set");
             }
 
+            if (!this.ConfigProvider.HasConfiguration(Config.Repository)
+                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.Repository)))
+            {
+                throw new Exception($"Repository not set");
+            }
+
             if (!File.Exists("./data/GoRC.exe"))
             {
                 throw new Exception("'./data/GoRC.exe' not found");
@@ -528,7 +554,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public void OpenRepository()
         {
-            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl));
+            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.Repository));
         }
     }
 }
