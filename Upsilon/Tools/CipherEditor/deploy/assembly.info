@@ -2,7 +2,7 @@
   "Name": "Upsilon.Tools.CipherEditor",
   "Version": "1.0.0",
   "Description": "A Cither and Clear text editor.",
-  "BinaryType": "exe",
+  "BinaryType": 1,
   "Depreciated": false,
   "Dependencies": [
     {

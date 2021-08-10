@@ -26,6 +26,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
             this._checkIntegrity();
 
+            this.cbBinaryType.Items.AddRange(YStaticMethods.GetEnumValues<YBinaryType>().Select(x => x.ToString()).ToArray());
+
             if (Program.Core.ConfigProvider.HasConfiguration(Config.OpenOutput))
             {
                 ckbOpenOutput.Checked = Program.Core.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput);
@@ -120,6 +122,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                     {
                         bRepository.PerformClick();
                     }
+                    else
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                 }
             }
         }
@@ -183,7 +190,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
             tbVersion.Text = this._assembly.Version;
             tbDescription.Text = this._assembly.Description;
-            tbBinaryType.Text = this._assembly.BinaryType;
+            cbBinaryType.SelectedItem = this._assembly.BinaryType.ToString();
             tbUrl.Text = this._assembly.Url;
 
             foreach (YDependency dependency in this._assembly.Dependencies)
@@ -203,7 +210,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             {
                 this._assembly.Version = tbVersion.Text;
                 this._assembly.Description = tbDescription.Text;
-                this._assembly.BinaryType = tbBinaryType.Text;
+                this._assembly.BinaryType = (YBinaryType)Enum.Parse(typeof(YBinaryType), cbBinaryType.Text);
                 Program.Core.Deploy(this._assembly);
                 MessageBox.Show("Deployment success.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

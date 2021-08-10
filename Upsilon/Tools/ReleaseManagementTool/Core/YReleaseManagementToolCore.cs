@@ -136,13 +136,19 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 assembly.Version = version.InnerText;
             }
 
-            assembly.BinaryType = "dll";
+            assembly.BinaryType = YBinaryType.ClassLibrary;
 
             XmlNode binaryType = document.SelectSingleNode("/Project/PropertyGroup/OutputType");
-            if (binaryType != null
-                && binaryType.InnerText.ToLower().Contains("exe"))
+            if (binaryType != null)
             {
-                assembly.BinaryType = "exe";
+                if (binaryType.InnerText == "WinExe")
+                {
+                    assembly.BinaryType = YBinaryType.WindowApplication;
+                }
+                else
+                {
+                    assembly.BinaryType = YBinaryType.ConsoleApplication;
+                }
             }
 
             List<YDependency> dependencies = new();
@@ -437,7 +443,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 + "/" + assembly.Version
                 + "/" + assembly.Name;
 
-            if (assembly.BinaryType == "dll")
+            if (assembly.BinaryType == YBinaryType.ClassLibrary)
             {
                 assembly.Url += ".dll";
             }

@@ -2,7 +2,7 @@
   "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
   "Version": "1.0.3",
   "Description": "UI for the Release Management Tool.",
-  "BinaryType": "exe",
+  "BinaryType": 1,
   "Depreciated": false,
   "Dependencies": [
     {

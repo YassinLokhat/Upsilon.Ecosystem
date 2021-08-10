@@ -40,7 +40,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.label5 = new System.Windows.Forms.Label();
             this.tbUrl = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.tbBinaryType = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbDescription = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -59,6 +58,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bInnoSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.bServerUrl = new System.Windows.Forms.ToolStripMenuItem();
             this.bRepository = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbBinaryType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -120,10 +120,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbBinaryType);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.tbUrl);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.tbBinaryType);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbDescription);
             this.groupBox1.Controls.Add(this.label2);
@@ -162,13 +162,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.label4.Size = new System.Drawing.Size(72, 15);
             this.label4.TabIndex = 7;
             this.label4.Text = "Binary type :";
-            // 
-            // tbBinaryType
-            // 
-            this.tbBinaryType.Location = new System.Drawing.Point(654, 22);
-            this.tbBinaryType.Name = "tbBinaryType";
-            this.tbBinaryType.Size = new System.Drawing.Size(100, 23);
-            this.tbBinaryType.TabIndex = 6;
             // 
             // label3
             // 
@@ -326,6 +319,15 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bRepository.Text = "Set the Repository URL";
             this.bRepository.Click += new System.EventHandler(this._bRepository_Click);
             // 
+            // cbBinaryType
+            // 
+            this.cbBinaryType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBinaryType.FormattingEnabled = true;
+            this.cbBinaryType.Location = new System.Drawing.Point(654, 22);
+            this.cbBinaryType.Name = "cbBinaryType";
+            this.cbBinaryType.Size = new System.Drawing.Size(100, 23);
+            this.cbBinaryType.TabIndex = 10;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -359,7 +361,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbVersion;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox tbBinaryType;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbDescription;
         private System.Windows.Forms.Label label5;
@@ -381,6 +382,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.ToolStripMenuItem bServerUrl;
         private System.Windows.Forms.ToolStripButton bDownload;
         private System.Windows.Forms.ToolStripMenuItem bRepository;
+        private System.Windows.Forms.ComboBox cbBinaryType;
     }
 }
 

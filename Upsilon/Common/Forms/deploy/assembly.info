@@ -2,7 +2,7 @@
   "Name": "Upsilon.Common.Forms",
   "Version": "1.0.0",
   "Description": "Common form features library.",
-  "BinaryType": "dll",
+  "BinaryType": 0,
   "Depreciated": false,
   "Dependencies": []
 }

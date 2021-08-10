@@ -170,6 +170,26 @@
             Check if the argument is set as a boolean.
             </summary>
         </member>
+        <member name="T:Upsilon.Common.Library.YBinaryType">
+            <summary>
+            All types of binaries.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBinaryType.ClassLibrary">
+            <summary>
+            The assembly is a dll class library.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBinaryType.WindowApplication">
+            <summary>
+            The assembly is a window application.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YBinaryType.ConsoleApplication">
+            <summary>
+            The assembly is a console application.
+            </summary>
+        </member>
         <member name="T:Upsilon.Common.Library.YAssembly">
             <summary>
             This class represents an assembly.
