@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -114,6 +115,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                     else if (ex.Message == "Server URL not set")
                     {
                         bServerUrl.PerformClick();
+                    }
+                    else if (ex.Message == "Repository not set")
+                    {
+                        bRepository.PerformClick();
                     }
                 }
             }
@@ -253,7 +258,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bServerUrl_Click(object sender, EventArgs e)
         {
-            if (YInputBox.ShowDialog("Server URL", "Set the Server URL", out string url, YInputBox.YInputType.TextBox) == DialogResult.OK
+            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.ServerUrl);
+            if (YInputBox.ShowDialog("Server URL", "Set the Server URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
             {
                 Program.Core.ConfigProvider.SetConfiguration(Config.ServerUrl, url);
@@ -296,10 +302,25 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             try
             {
                 YStaticMethods.DownloadFile(assembly.Url, saveFileDialog.FileName);
+
+                if (Program.Core.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
+                {
+                    Process.Start("explorer.exe", "\"" + Path.GetDirectoryName(saveFileDialog.FileName) + "\"");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void _bRepository_Click(object sender, EventArgs e)
+        {
+            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.Repository);
+            if (YInputBox.ShowDialog("Repository URL", "Set the Repository URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
+                && !string.IsNullOrWhiteSpace(url))
+            {
+                Program.Core.ConfigProvider.SetConfiguration(Config.Repository, url);
             }
         }
     }

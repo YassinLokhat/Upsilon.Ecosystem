@@ -14,9 +14,8 @@ namespace Upsilon.Common.Forms
             ComboBox,
         }
 
-        public static DialogResult ShowDialog(string title, string message, out string result, YInputType inputType, string defaultValues = "")
+        public static DialogResult ShowDialog(string title, string message, ref string result, YInputType inputType)
         {
-            result = string.Empty;
             return InputBox.ShowDialog(message, title, ref result, inputType == YInputType.Password ? '*' : '\0');
         }
     }
