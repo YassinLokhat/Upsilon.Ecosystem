@@ -12,8 +12,8 @@
     },
     {
       "Name": "Upsilon.Common.Library",
-      "MinimalVersion": "1.0.4",
-      "MaximalVersion": "1.0.4"
+      "MinimalVersion": "1.0.5",
+      "MaximalVersion": "1.0.5"
     },
     {
       "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
