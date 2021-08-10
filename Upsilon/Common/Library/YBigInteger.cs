@@ -340,7 +340,7 @@ namespace Upsilon.Common.Library
         private static YBase _getBase(ref string strValue)
         {
             string value = strValue;
-            YBase @base = YBaseExtensions.GetBases().Where(x => value.StartsWith(x.GetPrefix())).FirstOrDefault();
+            YBase @base = YBaseExtensions.GetBases().Find(x => value.StartsWith(x.GetPrefix()));
             if (@base == YBase.None)
             {
                 @base = YBase.Decimal;

@@ -117,7 +117,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public YAssembly SelectAssembly(string assemblyName)
         {
-            YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+            YAssembly assembly = this.SolutionAssemblies.Find(x => x.Name == assemblyName);
 
             if (assembly == null)
             {
@@ -149,7 +149,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             foreach (XmlNode reference in document.SelectNodes("/Project/ItemGroup/ProjectReference|/Project/ItemGroup/Reference"))
             {
                 string depName = Path.GetFileName(reference.Attributes["Include"].Value).Replace(".csproj", "");
-                YDependency dependency = assembly.Dependencies.Where(x => x.Name == depName).FirstOrDefault();
+                YDependency dependency = assembly.Dependencies.Find(x => x.Name == depName);
 
                 if (dependency == null
                     && this.DeployedAssemblies.ContainsKey(depName))
@@ -172,12 +172,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             assembly.Dependencies = dependencies.ToArray();
 
-            return (YAssembly)assembly.Clone();
+            return assembly.Clone();
         }
 
         public void Deploy(YAssembly assembly)
         {
-            YAssembly asm = this.SolutionAssemblies.Where(x => x.Name == assembly.Name).FirstOrDefault();
+            YAssembly asm = this.SolutionAssemblies.Find(x => x.Name == assembly.Name);
 
             if (asm == null)
             {
@@ -190,7 +190,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             foreach (YDependency dep in assembly.Dependencies)
             {
-                YDependency dependency = asm.Dependencies.Where(x => x.Name == dep.Name).FirstOrDefault();
+                YDependency dependency = asm.Dependencies.Find(x => x.Name == dep.Name);
 
                 if (dependency == null)
                 {
@@ -229,7 +229,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             foreach (YAssembly a in this.SolutionAssemblies)
             {
-                YDependency dependency = a.Dependencies.Where(x => x.Name == asm.Name).FirstOrDefault();
+                YDependency dependency = a.Dependencies.Find(x => x.Name == asm.Name);
                 if (dependency != null)
                 {
                     dependency.MaximalVersion = asm.Version;
@@ -395,14 +395,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         {
             if (!string.IsNullOrWhiteSpace(assemblyName))
             {
-                YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+                YAssembly assembly = this.SolutionAssemblies.Find(x => x.Name == assemblyName);
 
                 if (assembly == null)
                 {
                     return;
                 }
 
-                assembly = (YAssembly)assembly.Clone();
+                assembly = assembly.Clone();
                 string assemblyInfoPath = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", "assembly.info");
 
                 assembly.Url = null;
@@ -422,14 +422,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         private void _computeAssembliesJson(string assemblyName, string dotfuscatedDirectory)
         {
             Dictionary<string, List<YAssembly>> assemblies = this.DeployedAssemblies;
-            YAssembly assembly = this.SolutionAssemblies.Where(x => x.Name == assemblyName).FirstOrDefault();
+            YAssembly assembly = this.SolutionAssemblies.Find(x => x.Name == assemblyName);
 
             if (assembly == null)
             {
                 return;
             }
 
-            assembly = (YAssembly)assembly.Clone();
+            assembly = assembly.Clone();
             assembly.Url = string.Empty;
 
             if (!assemblies.ContainsKey(assembly.Name))
