@@ -168,5 +168,18 @@ namespace Upsilon.Common.Library.UnitTests
             // Then
             act.Should().Throw<Exception>();
         }
+
+        [TestMethod]
+        public void Test_09_CheckForUpdate_Online_OK()
+        {
+            // Given
+            string url = "http://api.upsilon-ecosystem.xyz/deployed.assemblies.json";
+
+            // When
+            YAssembly assembly = YUpdateCentre.CheckForUpdate(url, "Upsilon.Common.Forms");
+
+            // Then
+            assembly.Should().NotBeNull();
+        }
     }
 }

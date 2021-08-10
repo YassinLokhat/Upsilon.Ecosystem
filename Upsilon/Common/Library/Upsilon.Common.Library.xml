@@ -579,7 +579,7 @@
             </summary>
             <typeparam name="T">The type of the object to clone.</typeparam>
             <param name="obj">The object to clone.</param>
-            <returns></returns>
+            <returns>The cloned object.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.IsEnumFlagPresent``1(``0,``0)">
             <summary>
