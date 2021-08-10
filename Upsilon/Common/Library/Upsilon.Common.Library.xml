@@ -573,10 +573,11 @@
             <param name="obj">The <see cref="T:System.Object"/>.</param>
             <returns>Return the Upsilon Hash code.</returns>
         </member>
-        <member name="M:Upsilon.Common.Library.YStaticMethods.Clone(System.Object)">
+        <member name="M:Upsilon.Common.Library.YStaticMethods.Clone``1(``0)">
             <summary>
             Clone a object.
             </summary>
+            <typeparam name="T">The type of the object to clone.</typeparam>
             <param name="obj">The object to clone.</param>
             <returns>The cloned object.</returns>
         </member>
@@ -649,6 +650,24 @@
             <param name="destinationDirectory">The directory where the copy will be save.</param>
             <param name="override">Override the destination if already exists.</param>
             <param name="throwException">Throw an exception when error occurs.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.Find``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
+            <summary>
+            Find an elemen from a listable object.
+            </summary>
+            <typeparam name="T">The type of object in the list.</typeparam>
+            <param name="list">The list of objects.</param>
+            <param name="predicate">The search criteria.</param>
+            <returns>The object found or <c>null</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.Find``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary>
+            Find an elemen from an enumerable object.
+            </summary>
+            <typeparam name="T">The type of object in the list.</typeparam>
+            <param name="list">The list of objects.</param>
+            <param name="predicate">The search criteria.</param>
+            <returns>The object found or <c>null</c>.</returns>
         </member>
         <member name="T:Upsilon.Common.Library.YStringManagement">
             <summary>

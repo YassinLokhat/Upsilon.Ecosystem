@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -84,12 +85,13 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// Clone a object.
         /// </summary>
+        /// <typeparam name="T">The type of the object to clone.</typeparam>
         /// <param name="obj">The object to clone.</param>
         /// <returns>The cloned object.</returns>
-        public static object Clone(this object obj)
+        public static T Clone<T>(this T obj)
         {
             JsonSerializerOptions jsonSerializerOptions = new() {  };
-            return obj.SerializeObject().DeserializeObject(obj.GetType());
+            return obj.SerializeObject().DeserializeObject<T>();
         }
         #endregion
 
@@ -279,6 +281,32 @@ namespace Upsilon.Common.Library
             {
                 throw new Exception($"File or Directory not found :\n'{sourcePath}'");
             }
+        }
+        #endregion
+
+        #region Linq extention methods
+        /// <summary>
+        /// Find an elemen from a listable object.
+        /// </summary>
+        /// <typeparam name="T">The type of object in the list.</typeparam>
+        /// <param name="list">The list of objects.</param>
+        /// <param name="predicate">The search criteria.</param>
+        /// <returns>The object found or <c>null</c>.</returns>
+        public static T Find<T>(this IList<T> list, Predicate<T> predicate)
+        {
+            return list.ToList().Find(predicate);
+        }
+
+        /// <summary>
+        /// Find an elemen from an enumerable object.
+        /// </summary>
+        /// <typeparam name="T">The type of object in the list.</typeparam>
+        /// <param name="list">The list of objects.</param>
+        /// <param name="predicate">The search criteria.</param>
+        /// <returns>The object found or <c>null</c>.</returns>
+        public static T Find<T>(this IEnumerable<T> list, Predicate<T> predicate)
+        {
+            return list.ToList().Find(predicate);
         }
         #endregion
     }

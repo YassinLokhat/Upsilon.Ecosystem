@@ -47,7 +47,7 @@ namespace Upsilon.Common.MetaHelper
         {
             string databaseFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
 
-            YHelperConfiguration config = (YHelperConfiguration)configuration.Clone();
+            YHelperConfiguration config = configuration.Clone();
             string sourceFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(config, false);
             if (File.Exists(sourceFilename)
                 && (!File.Exists(databaseFilename)

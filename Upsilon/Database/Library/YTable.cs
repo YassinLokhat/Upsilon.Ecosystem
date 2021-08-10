@@ -46,7 +46,7 @@ namespace Upsilon.Database.Library
 
             foreach (PropertyInfo fieldInfo in fieldsInfo)
             {
-                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Where(x => x.Name == fieldInfo.Name).FirstOrDefault();
+                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Find(x => x.Name == fieldInfo.Name);
                 int i = this._DatabaseImage.TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
 
                 fieldsDico[$"field_{i}"] = fieldInfo.GetValue(this).SerializeObject().Cipher_Aes(key);
@@ -66,7 +66,7 @@ namespace Upsilon.Database.Library
 
             foreach (PropertyInfo fieldInfo in fieldsInfo)
             {
-                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Where(x => x.Name == fieldInfo.Name).FirstOrDefault();
+                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Find(x => x.Name == fieldInfo.Name);
                 int i = this._DatabaseImage.TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
 
                 object value = null;

@@ -86,16 +86,14 @@ namespace Upsilon.Database.Library
 
                 XmlNode xmlRecords = this._document.SelectNodes("/tables/table")
                     .Cast<XmlNode>()
-                    .Where(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == dataType.Name)
-                    .FirstOrDefault()
+                    .Find(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == dataType.Name)
                     .SelectSingleNode("./records");
 
                 foreach (YTable yTable in yTables)
                 {
                     XmlNode xmlRecord = xmlRecords.ChildNodes
                         .Cast<XmlNode>()
-                        .Where(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == yTable.InternalIndex.ToString())
-                        .FirstOrDefault();
+                        .Find(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == yTable.InternalIndex.ToString());
 
                     if (xmlRecord == null)
                     {
@@ -123,8 +121,7 @@ namespace Upsilon.Database.Library
                 {
                     XmlNode xmlRecord = xmlRecords.ChildNodes
                         .Cast<XmlNode>()
-                        .Where(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == index.ToString())
-                        .FirstOrDefault();
+                        .Find(x => x.Attributes["field_0"].Value.Uncipher_Aes(this._key) == index.ToString());
 
                     if (xmlRecord == null)
                     {
@@ -164,8 +161,7 @@ namespace Upsilon.Database.Library
             {
                 XmlNode xmlRecords = this._document.SelectNodes("/tables/table")
                     .Cast<XmlNode>()
-                    .Where(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == table)
-                    .FirstOrDefault()
+                    .Find(x => x.Attributes["name"].Value.Uncipher_Aes(this._key) == table)
                     .SelectSingleNode("./records");
 
                 long i = 0;
@@ -301,7 +297,7 @@ namespace Upsilon.Database.Library
             Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
             XmlNode tableXml = root.SelectNodes("./table").Cast<XmlNode>()
-               .Where(n => n.Attributes.Contains("name") && n.Attributes["name"].Value.Uncipher_Aes(this._key) == dataType.Name).FirstOrDefault();
+               .Find(n => n.Attributes.Contains("name") && n.Attributes["name"].Value.Uncipher_Aes(this._key) == dataType.Name);
 
             if (tableXml == null)
             {
@@ -329,7 +325,7 @@ namespace Upsilon.Database.Library
             foreach (PropertyInfo fieldInfo in fieldsInfo)
             {
                 XmlNode fieldXml = root.SelectNodes("./field").Cast<XmlNode>()
-                   .Where(n => n.Attributes.Contains("name") && n.Attributes["name"].Value.Uncipher_Aes(this._key) == fieldInfo.Name).FirstOrDefault();
+                   .Find(n => n.Attributes.Contains("name") && n.Attributes["name"].Value.Uncipher_Aes(this._key) == fieldInfo.Name);
 
                 if (fieldXml == null)
                 {
