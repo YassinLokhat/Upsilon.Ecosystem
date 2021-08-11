@@ -22,6 +22,9 @@
   </output>
   <renaming>
     <option>xmlserialization</option>
+    <excludelist>
+      <type name="Upsilon.Tools.ReleaseManagementTool.Core.Config" />
+    </excludelist>
     <mapping>
       <mapoutput overwrite="true">
         <file dir="${configdir}\Dotfuscated" name="Map.xml" />
