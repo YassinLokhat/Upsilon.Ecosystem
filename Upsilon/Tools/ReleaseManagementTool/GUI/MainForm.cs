@@ -77,7 +77,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
                 {
-                    this._loadSolution(Program.Core.Solutions[0]);
+                    if (Program.Core.Solutions.Any())
+                    {
+                        this._loadSolution(Program.Core.Solutions[0]); 
+                    }
                     return;
                 }
 
@@ -121,9 +124,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                     {
                         bServerUrl.PerformClick();
                     }
-                    else if (ex.Message == "Repository not set")
+                    else if (ex.Message == "Upload Tool not set")
                     {
-                        bRepository.PerformClick();
+                        bUploadTool.PerformClick();
                     }
                     else
                     {
@@ -225,7 +228,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bOpenRepository_Click(object sender, EventArgs e)
         {
-            Program.Core.OpenRepository();
+            Program.Core.OpenUploadTool();
         }
 
         private void _bDotfuscator_Click(object sender, EventArgs e)
@@ -326,11 +329,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bRepository_Click(object sender, EventArgs e)
         {
-            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.Repository);
-            if (YInputBox.ShowDialog("Repository URL", "Set the Repository URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
+            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.UploadTool);
+            if (YInputBox.ShowDialog("Upload Tool", "Set the Upload Tool", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
             {
-                Program.Core.ConfigProvider.SetConfiguration(Config.Repository, url);
+                Program.Core.ConfigProvider.SetConfiguration(Config.UploadTool, url);
             }
         }
     }

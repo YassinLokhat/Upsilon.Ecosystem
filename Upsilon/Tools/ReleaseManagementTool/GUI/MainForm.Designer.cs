@@ -58,7 +58,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bDotfuscator = new System.Windows.Forms.ToolStripMenuItem();
             this.bInnoSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.bServerUrl = new System.Windows.Forms.ToolStripMenuItem();
-            this.bRepository = new System.Windows.Forms.ToolStripMenuItem();
+            this.bUploadTool = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -271,8 +271,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bOpenRepository.Image = ((System.Drawing.Image)(resources.GetObject("bOpenRepository.Image")));
             this.bOpenRepository.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bOpenRepository.Name = "bOpenRepository";
-            this.bOpenRepository.Size = new System.Drawing.Size(99, 22);
-            this.bOpenRepository.Text = "Open Repository";
+            this.bOpenRepository.Size = new System.Drawing.Size(106, 22);
+            this.bOpenRepository.Text = "Open Upload Tool";
             this.bOpenRepository.Click += new System.EventHandler(this._bOpenRepository_Click);
             // 
             // toolStripDropDownButton1
@@ -283,7 +283,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bDotfuscator,
             this.bInnoSetup,
             this.bServerUrl,
-            this.bRepository});
+            this.bUploadTool});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -321,12 +321,12 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bServerUrl.Text = "Set the Deployed Assemblies Json URL";
             this.bServerUrl.Click += new System.EventHandler(this._bServerUrl_Click);
             // 
-            // bRepository
+            // bUploadTool
             // 
-            this.bRepository.Name = "bRepository";
-            this.bRepository.Size = new System.Drawing.Size(275, 22);
-            this.bRepository.Text = "Set the Repository URL";
-            this.bRepository.Click += new System.EventHandler(this._bRepository_Click);
+            this.bUploadTool.Name = "bUploadTool";
+            this.bUploadTool.Size = new System.Drawing.Size(275, 22);
+            this.bUploadTool.Text = "Set the Upload Tool";
+            this.bUploadTool.Click += new System.EventHandler(this._bRepository_Click);
             // 
             // MainForm
             // 
@@ -383,7 +383,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.ToolStripMenuItem bInnoSetup;
         private System.Windows.Forms.ToolStripMenuItem bServerUrl;
         private System.Windows.Forms.ToolStripButton bDownload;
-        private System.Windows.Forms.ToolStripMenuItem bRepository;
+        private System.Windows.Forms.ToolStripMenuItem bUploadTool;
         private System.Windows.Forms.ComboBox cbBinaryType;
     }
 }

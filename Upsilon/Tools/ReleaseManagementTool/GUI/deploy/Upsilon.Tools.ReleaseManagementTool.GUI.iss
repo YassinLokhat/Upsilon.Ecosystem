@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Upsilon.Tools.ReleaseManagementTool.GUI"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.1.1"
 #define MyAppPublisher "UpsilonEcosystem"
 #define MyAppURL "https://www.linkedin.com/in/yassin-lokhat"
 #define MyAppExeName MyAppName + ".exe"
