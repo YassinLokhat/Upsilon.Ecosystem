@@ -1,6 +1,6 @@
 {
   "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
-  "Version": "1.1.1",
+  "Version": "1.1.2",
   "Description": "Core library for the Release Management Tool.",
   "BinaryType": 0,
   "Depreciated": false,

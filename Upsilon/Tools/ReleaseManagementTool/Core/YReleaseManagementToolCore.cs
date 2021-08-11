@@ -19,7 +19,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         Dotfuscaor,
         InnoSetup,
         DeployedAssemblies,
-        Repository,
+        UploadTool,
     }
 
     public sealed class YReleaseManagementToolCore
@@ -524,10 +524,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 throw new Exception($"Deployed Assemblies json not set");
             }
 
-            if (!this.ConfigProvider.HasConfiguration(Config.Repository)
-                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.Repository)))
+            if (!this.ConfigProvider.HasConfiguration(Config.UploadTool)
+                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool)))
             {
-                throw new Exception($"Repository not set");
+                throw new Exception($"Upload Tool not set");
             }
 
             if (!File.Exists("./data/GoRC.exe"))
@@ -556,9 +556,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        public void OpenRepository()
+        public void OpenUploadTool()
         {
-            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.Repository));
+            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool));
         }
     }
 }
