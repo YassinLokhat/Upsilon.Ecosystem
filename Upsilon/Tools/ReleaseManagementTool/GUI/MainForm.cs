@@ -26,6 +26,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
             this._checkIntegrity();
 
+            YVersion version = new(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            this.Text = $"Release Management Tool v{version.ToString(YVersionFormat.Simple)}";
+
             this.cbBinaryType.Items.AddRange(YStaticMethods.GetEnumValues<YBinaryType>().Select(x => x.ToString()).ToArray());
 
             if (Program.Core.ConfigProvider.HasConfiguration(Config.OpenOutput))
@@ -74,7 +77,10 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
                 {
-                    this._loadSolution(Program.Core.Solutions[0]);
+                    if (Program.Core.Solutions.Any())
+                    {
+                        this._loadSolution(Program.Core.Solutions[0]); 
+                    }
                     return;
                 }
 
@@ -114,13 +120,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                     {
                         bInnoSetup.PerformClick();
                     }
-                    else if (ex.Message == "Server URL not set")
+                    else if (ex.Message == "Deployed Assemblies json not set")
                     {
                         bServerUrl.PerformClick();
                     }
-                    else if (ex.Message == "Repository not set")
+                    else if (ex.Message == "Upload Tool not set")
                     {
-                        bRepository.PerformClick();
+                        bUploadTool.PerformClick();
                     }
                     else
                     {
@@ -222,7 +228,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bOpenRepository_Click(object sender, EventArgs e)
         {
-            Program.Core.OpenRepository();
+            Program.Core.OpenUploadTool();
         }
 
         private void _bDotfuscator_Click(object sender, EventArgs e)
@@ -265,11 +271,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bServerUrl_Click(object sender, EventArgs e)
         {
-            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.ServerUrl);
-            if (YInputBox.ShowDialog("Server URL", "Set the Server URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
+            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies);
+            if (YInputBox.ShowDialog("Deployed Assemblies Json", "Set the Deployed Assemblies Json URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
             {
-                Program.Core.ConfigProvider.SetConfiguration(Config.ServerUrl, url);
+                Program.Core.ConfigProvider.SetConfiguration(Config.DeployedAssemblies, url);
             }
         }
 
@@ -323,11 +329,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bRepository_Click(object sender, EventArgs e)
         {
-            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.Repository);
-            if (YInputBox.ShowDialog("Repository URL", "Set the Repository URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
+            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.UploadTool);
+            if (YInputBox.ShowDialog("Upload Tool", "Set the Upload Tool", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
             {
-                Program.Core.ConfigProvider.SetConfiguration(Config.Repository, url);
+                Program.Core.ConfigProvider.SetConfiguration(Config.UploadTool, url);
             }
         }
     }

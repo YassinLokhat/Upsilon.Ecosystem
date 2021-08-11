@@ -37,6 +37,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.MinimalVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MaximalVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbBinaryType = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbUrl = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -57,8 +58,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bDotfuscator = new System.Windows.Forms.ToolStripMenuItem();
             this.bInnoSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.bServerUrl = new System.Windows.Forms.ToolStripMenuItem();
-            this.bRepository = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbBinaryType = new System.Windows.Forms.ComboBox();
+            this.bUploadTool = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDependecies)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -79,7 +79,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.cbAssembly.FormattingEnabled = true;
             this.cbAssembly.Location = new System.Drawing.Point(85, 22);
             this.cbAssembly.Name = "cbAssembly";
-            this.cbAssembly.Size = new System.Drawing.Size(282, 23);
+            this.cbAssembly.Size = new System.Drawing.Size(329, 23);
             this.cbAssembly.TabIndex = 1;
             // 
             // dgvDependecies
@@ -94,7 +94,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.dgvDependecies.Location = new System.Drawing.Point(12, 148);
             this.dgvDependecies.Name = "dgvDependecies";
             this.dgvDependecies.RowTemplate.Height = 25;
-            this.dgvDependecies.Size = new System.Drawing.Size(760, 401);
+            this.dgvDependecies.Size = new System.Drawing.Size(910, 401);
             this.dgvDependecies.TabIndex = 2;
             // 
             // DependecyName
@@ -132,10 +132,19 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.groupBox1.Controls.Add(this.cbAssembly);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(760, 115);
+            this.groupBox1.Size = new System.Drawing.Size(910, 115);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Assembly info";
+            // 
+            // cbBinaryType
+            // 
+            this.cbBinaryType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBinaryType.FormattingEnabled = true;
+            this.cbBinaryType.Location = new System.Drawing.Point(691, 22);
+            this.cbBinaryType.Name = "cbBinaryType";
+            this.cbBinaryType.Size = new System.Drawing.Size(213, 23);
+            this.cbBinaryType.TabIndex = 10;
             // 
             // label5
             // 
@@ -151,13 +160,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.tbUrl.Location = new System.Drawing.Point(85, 80);
             this.tbUrl.Name = "tbUrl";
             this.tbUrl.ReadOnly = true;
-            this.tbUrl.Size = new System.Drawing.Size(669, 23);
+            this.tbUrl.Size = new System.Drawing.Size(819, 23);
             this.tbUrl.TabIndex = 8;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(576, 25);
+            this.label4.Location = new System.Drawing.Point(613, 25);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 15);
             this.label4.TabIndex = 7;
@@ -176,13 +185,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             // 
             this.tbDescription.Location = new System.Drawing.Point(85, 51);
             this.tbDescription.Name = "tbDescription";
-            this.tbDescription.Size = new System.Drawing.Size(669, 23);
+            this.tbDescription.Size = new System.Drawing.Size(819, 23);
             this.tbDescription.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(393, 25);
+            this.label2.Location = new System.Drawing.Point(436, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 15);
             this.label2.TabIndex = 3;
@@ -190,7 +199,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             // 
             // tbVersion
             // 
-            this.tbVersion.Location = new System.Drawing.Point(450, 22);
+            this.tbVersion.Location = new System.Drawing.Point(493, 22);
             this.tbVersion.Name = "tbVersion";
             this.tbVersion.Size = new System.Drawing.Size(100, 23);
             this.tbVersion.TabIndex = 2;
@@ -208,7 +217,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(784, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(934, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -262,8 +271,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bOpenRepository.Image = ((System.Drawing.Image)(resources.GetObject("bOpenRepository.Image")));
             this.bOpenRepository.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bOpenRepository.Name = "bOpenRepository";
-            this.bOpenRepository.Size = new System.Drawing.Size(99, 22);
-            this.bOpenRepository.Text = "Open Repository";
+            this.bOpenRepository.Size = new System.Drawing.Size(106, 22);
+            this.bOpenRepository.Text = "Open Upload Tool";
             this.bOpenRepository.Click += new System.EventHandler(this._bOpenRepository_Click);
             // 
             // toolStripDropDownButton1
@@ -274,7 +283,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.bDotfuscator,
             this.bInnoSetup,
             this.bServerUrl,
-            this.bRepository});
+            this.bUploadTool});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -286,14 +295,14 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             this.ckbOpenOutput.CheckOnClick = true;
             this.ckbOpenOutput.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ckbOpenOutput.Name = "ckbOpenOutput";
-            this.ckbOpenOutput.Size = new System.Drawing.Size(195, 22);
+            this.ckbOpenOutput.Size = new System.Drawing.Size(275, 22);
             this.ckbOpenOutput.Text = "Open output folder";
             // 
             // bDotfuscator
             // 
             this.bDotfuscator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.bDotfuscator.Name = "bDotfuscator";
-            this.bDotfuscator.Size = new System.Drawing.Size(195, 22);
+            this.bDotfuscator.Size = new System.Drawing.Size(275, 22);
             this.bDotfuscator.Text = "Browse for Dotfuscator";
             this.bDotfuscator.Click += new System.EventHandler(this._bDotfuscator_Click);
             // 
@@ -301,44 +310,37 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             // 
             this.bInnoSetup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.bInnoSetup.Name = "bInnoSetup";
-            this.bInnoSetup.Size = new System.Drawing.Size(195, 22);
+            this.bInnoSetup.Size = new System.Drawing.Size(275, 22);
             this.bInnoSetup.Text = "Browse for InnoSetup";
             this.bInnoSetup.Click += new System.EventHandler(this._bInnoSetup_Click);
             // 
             // bServerUrl
             // 
             this.bServerUrl.Name = "bServerUrl";
-            this.bServerUrl.Size = new System.Drawing.Size(195, 22);
-            this.bServerUrl.Text = "Set the Server URL";
+            this.bServerUrl.Size = new System.Drawing.Size(275, 22);
+            this.bServerUrl.Text = "Set the Deployed Assemblies Json URL";
             this.bServerUrl.Click += new System.EventHandler(this._bServerUrl_Click);
             // 
-            // bRepository
+            // bUploadTool
             // 
-            this.bRepository.Name = "bRepository";
-            this.bRepository.Size = new System.Drawing.Size(195, 22);
-            this.bRepository.Text = "Set the Repository URL";
-            this.bRepository.Click += new System.EventHandler(this._bRepository_Click);
-            // 
-            // cbBinaryType
-            // 
-            this.cbBinaryType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBinaryType.FormattingEnabled = true;
-            this.cbBinaryType.Location = new System.Drawing.Point(654, 22);
-            this.cbBinaryType.Name = "cbBinaryType";
-            this.cbBinaryType.Size = new System.Drawing.Size(100, 23);
-            this.cbBinaryType.TabIndex = 10;
+            this.bUploadTool.Name = "bUploadTool";
+            this.bUploadTool.Size = new System.Drawing.Size(275, 22);
+            this.bUploadTool.Text = "Set the Upload Tool";
+            this.bUploadTool.Click += new System.EventHandler(this._bRepository_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(934, 561);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvDependecies);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(950, 600);
+            this.MinimumSize = new System.Drawing.Size(950, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Release Management Tool";
@@ -381,7 +383,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private System.Windows.Forms.ToolStripMenuItem bInnoSetup;
         private System.Windows.Forms.ToolStripMenuItem bServerUrl;
         private System.Windows.Forms.ToolStripButton bDownload;
-        private System.Windows.Forms.ToolStripMenuItem bRepository;
+        private System.Windows.Forms.ToolStripMenuItem bUploadTool;
         private System.Windows.Forms.ComboBox cbBinaryType;
     }
 }

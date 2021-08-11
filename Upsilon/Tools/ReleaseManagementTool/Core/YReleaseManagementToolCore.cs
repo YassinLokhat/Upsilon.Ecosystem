@@ -18,8 +18,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         OpenOutput,
         Dotfuscaor,
         InnoSetup,
-        ServerUrl,
-        Repository,
+        DeployedAssemblies,
+        UploadTool,
     }
 
     public sealed class YReleaseManagementToolCore
@@ -31,7 +31,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             {
                 try
                 {
-                    string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl));
+                    string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies));
                     return JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
                 }
                 catch (Exception ex)
@@ -262,7 +262,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             this._sign(assembly, dotfuscatedDirectory);
 
-            this._retrieveDependecies(assembly, dotfuscatedDirectory);
+            this._retrieveDependecies(assembly, dotfuscatedDirectory, new());
 
             this._copyRequiredFiles(assembly, dotfuscatedDirectory);
 
@@ -340,7 +340,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
         }
 
-        private void _retrieveDependecies(YAssembly assembly, string dotfuscatedDirectory)
+        private void _retrieveDependecies(YAssembly assembly, string dotfuscatedDirectory, List<YAssembly> assemblies)
         {
             foreach (YDependency dep in assembly.Dependencies)
             {
@@ -351,9 +351,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                     continue;
                 }
 
-                this._retrieveDependecies(dependecy, dotfuscatedDirectory);
+                this._retrieveDependecies(dependecy, dotfuscatedDirectory, assemblies);
              
-                YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
+                if (!assemblies.Any(x => x.Name == dependecy.Name && x.YVersion > dependecy.YVersion))
+                {
+                    YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
+                    assemblies.Add(dependecy);
+                }
             }
         }
 
@@ -437,7 +441,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
 
             assembly = assembly.Clone();
-            assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl)).Replace("\\", "//")
+            assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies)).Replace("\\", "//")
                 + "/" + Path.GetFileNameWithoutExtension(this._solution)
                 + "/" + assembly.Name.Replace(".", "/")
                 + "/" + assembly.Version
@@ -514,16 +518,16 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 throw new Exception($"InnoSetup : '{this.ConfigProvider.GetConfiguration<string>(Config.InnoSetup)}' not found");
             }
 
-            if (!this.ConfigProvider.HasConfiguration(Config.ServerUrl)
-                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.ServerUrl)))
+            if (!this.ConfigProvider.HasConfiguration(Config.DeployedAssemblies)
+                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies)))
             {
-                throw new Exception($"Server URL not set");
+                throw new Exception($"Deployed Assemblies json not set");
             }
 
-            if (!this.ConfigProvider.HasConfiguration(Config.Repository)
-                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.Repository)))
+            if (!this.ConfigProvider.HasConfiguration(Config.UploadTool)
+                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool)))
             {
-                throw new Exception($"Repository not set");
+                throw new Exception($"Upload Tool not set");
             }
 
             if (!File.Exists("./data/GoRC.exe"))
@@ -552,9 +556,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        public void OpenRepository()
+        public void OpenUploadTool()
         {
-            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.Repository));
+            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool));
         }
     }
 }
