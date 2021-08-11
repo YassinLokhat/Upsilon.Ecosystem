@@ -26,6 +26,9 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
             this._checkIntegrity();
 
+            YVersion version = new(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            this.Text = $"Release Management Tool v{version.ToString(YVersionFormat.Simple)}";
+
             this.cbBinaryType.Items.AddRange(YStaticMethods.GetEnumValues<YBinaryType>().Select(x => x.ToString()).ToArray());
 
             if (Program.Core.ConfigProvider.HasConfiguration(Config.OpenOutput))
@@ -114,7 +117,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                     {
                         bInnoSetup.PerformClick();
                     }
-                    else if (ex.Message == "Server URL not set")
+                    else if (ex.Message == "Deployed Assemblies json not set")
                     {
                         bServerUrl.PerformClick();
                     }
@@ -265,11 +268,11 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
 
         private void _bServerUrl_Click(object sender, EventArgs e)
         {
-            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.ServerUrl);
-            if (YInputBox.ShowDialog("Server URL", "Set the Server URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
+            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies);
+            if (YInputBox.ShowDialog("Deployed Assemblies Json", "Set the Deployed Assemblies Json URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
             {
-                Program.Core.ConfigProvider.SetConfiguration(Config.ServerUrl, url);
+                Program.Core.ConfigProvider.SetConfiguration(Config.DeployedAssemblies, url);
             }
         }
 
