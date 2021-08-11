@@ -17,4 +17,7 @@
       </PackagePath>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Upsilon.Common.Library.csproj" />
+  </ItemGroup>
 </Project>

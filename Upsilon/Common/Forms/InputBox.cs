@@ -55,6 +55,7 @@ namespace Upsilon.Common.Forms
             form.MaximizeBox = false;
             form.AcceptButton = buttonOk;
             form.CancelButton = buttonCancel;
+            form.TopLevel = true;
 
             DialogResult dialogResult = form.ShowDialog();
             value = textBox.Text;
