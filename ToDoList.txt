@@ -1,9 +1,6 @@
 Release
 	Documentation
 
-ReleaseManagementTool
-	Open download directory
-
 Upsilon.Tools.YDBDesigner
 	YDBDesigner
 
@@ -12,7 +9,9 @@ Upsilon.Common.Library
 	YCSVManagement
 
 Upsilon.Common.Forms
+	YUpdateForm
 	YInputBox
+		TopMost on ShowDialog
 	YForm
 
 Upsilon.Tools.TranslatorHelper
