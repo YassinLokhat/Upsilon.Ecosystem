@@ -73,6 +73,7 @@ namespace Upsilon.Common.Library
         /// <returns><c>true</c> or <c>false</c>.</returns>
         public bool HasConfiguration(T configurationKey)
         {
+            this._loadConfigFile();
             return this._configurations.ContainsKey(configurationKey.ToString());
         }
 
