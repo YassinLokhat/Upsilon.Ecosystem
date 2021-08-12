@@ -7,7 +7,7 @@
     <PackageIcon>UpsilonLogo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Library\Upsilon.Common.Library.csproj" />
