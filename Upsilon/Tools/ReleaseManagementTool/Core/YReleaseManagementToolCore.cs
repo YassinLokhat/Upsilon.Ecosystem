@@ -155,7 +155,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             foreach (XmlNode reference in document.SelectNodes("/Project/ItemGroup/ProjectReference|/Project/ItemGroup/Reference"))
             {
-                string depName = Path.GetFileName(reference.Attributes["Include"].Value).Replace(".csproj", "");
+                string depName = reference.Attributes["Include"].Value;
+
+                if (depName.EndsWith(".csproj"))
+                {
+                    depName = Path.GetFileNameWithoutExtension(depName);
+                }
+
                 YDependency dependency = assembly.Dependencies.Find(x => x.Name == depName);
 
                 if (dependency == null
@@ -163,7 +169,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 {
                     dependency = new()
                     {
-                        Name = Path.GetFileNameWithoutExtension(reference.Attributes["Include"].Value),
+                        Name = depName,
                         MinimalVersion = string.Empty,
                         MaximalVersion = string.Empty,
                     };
