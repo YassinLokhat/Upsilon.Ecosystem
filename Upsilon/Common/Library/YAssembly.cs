@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -75,6 +76,119 @@ namespace Upsilon.Common.Library
         /// </summary>
         [JsonIgnore]
         public YVersion YVersion { get { return new(this.Version); } }
+
+        /// <summary>
+        /// Download all dependecies of the current assembly.
+        /// </summary>
+        /// <param name="deployedAssemblies">The list of dependencies on the server.</param>
+        /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
+        /// <param name="downloadedDependencies">The list of dependecies already downloaded. By default this parameter is <c>null</c>.</param>
+        public void DownloadDependecies(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath, List<YAssembly> downloadedDependencies = null)
+        {
+            if (deployedAssemblies == null)
+            {
+                deployedAssemblies = new();
+            }
+
+            if (downloadedDependencies == null)
+            {
+                downloadedDependencies = new();
+            }
+
+            foreach (YDependency dep in this.Dependencies)
+            {
+                if (!deployedAssemblies.ContainsKey(dep.Name))
+                {
+                    throw new Exception($"'{dep.Name}' assembly not found in the deployed assemblies list.");
+                }
+
+                YAssembly dependency = deployedAssemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
+
+                if (dependency == null)
+                {
+                    throw new Exception($"'{dep.Name}' assembly found in the deployed assemblies list but no version deployed.");
+                }
+
+                dependency.DownloadDependecies(deployedAssemblies, outputPath, downloadedDependencies);
+
+                if (!downloadedDependencies.Any(x => x.Name == dependency.Name && x.YVersion > dependency.YVersion))
+                {
+                    string[] urls = dependency.Url.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
+                    string rootPath = urls.FirstOrDefault();
+                    rootPath = rootPath[0..rootPath.LastIndexOf('/')];
+
+                    if (dependency.BinaryType == YBinaryType.WindowApplication)
+                    {
+                        File.WriteAllText(Path.Combine(rootPath, $"{dependency.Name}.runtimeconfig.json"), "{ \"runtimeOptions\": { \"tfm\": \"net5.0\", \"framework\": { \"name\": \"Microsoft.WindowsDesktop.App\", \"version\": \"5.0.0\" } } }");
+                    }
+
+                    foreach (string url in urls)
+                    {
+                        if (url.Contains($"{dependency.Name}_setup_v" + dependency.Version + ".exe"))
+                        {
+                            continue;
+                        }
+
+                        string filePath = Path.GetDirectoryName(dependency.Url.Replace(rootPath, outputPath));
+                        if (!Directory.Exists(filePath))
+                        {
+                            Directory.CreateDirectory(filePath);
+                        }
+
+                        filePath += Path.GetFileName(url);
+                        if (File.Exists(filePath))
+                        {
+                            File.Delete(filePath);
+                        }
+                        
+                        YStaticMethods.DownloadFile(url, filePath);
+                    }
+
+                    downloadedDependencies.Add(dependency);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Download the assembly with its all dependencies.
+        /// </summary>
+        /// <param name="deployedAssemblies">The list of dependencies on the server.</param>
+        /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
+        public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
+        {
+            string[] urls = this.Url.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
+            string rootPath = urls.FirstOrDefault();
+            rootPath = rootPath[0..rootPath.LastIndexOf('/')];
+
+            if (this.BinaryType == YBinaryType.WindowApplication)
+            {
+                File.WriteAllText(Path.Combine(rootPath, $"{this.Name}.runtimeconfig.json"), "{ \"runtimeOptions\": { \"tfm\": \"net5.0\", \"framework\": { \"name\": \"Microsoft.WindowsDesktop.App\", \"version\": \"5.0.0\" } } }");
+            }
+
+            foreach (string url in urls)
+            {
+                if (url.Contains($"{this.Name}_setup_v" + this.Version + ".exe"))
+                {
+                    continue;
+                }
+
+                string filePath = Path.GetDirectoryName(this.Url.Replace(rootPath, outputPath));
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+
+                filePath += Path.GetFileName(url);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                YStaticMethods.DownloadFile(url, filePath);
+            }
+
+            this.DownloadDependecies(deployedAssemblies, outputPath);
+        }
     }
 
     /// <summary>
