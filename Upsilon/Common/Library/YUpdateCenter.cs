@@ -25,16 +25,17 @@ namespace Upsilon.Common.Library
         /// </remarks>
         /// <param name="configUrl">The url of the source.</param>
         /// <param name="assemblyName">The name of the assembly.</param>
-        /// <returns>Returns the last <c><see cref="YVersion"/></c> of that assembly or <c>null</c> if that assembly is missing in the source.</returns>
-        public static YAssembly CheckForUpdate(string configUrl, string assemblyName)
+        /// <param name="assembly">The lastest <c><see cref="YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
+        /// <returns>Returns the list of <c><see cref="YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
+        public static Dictionary<string, List<YAssembly>> CheckForUpdate(string configUrl, string assemblyName, out YAssembly assembly)
         {
-            YAssembly assembly = null;
-            
+            assembly = null;
+
+            Dictionary<string, List<YAssembly>> deployedAssemblies = null;
+
             try
             {
                 string json = YStaticMethods.DownloadString(configUrl);
-
-                Dictionary<string, List<YAssembly>> deployedAssemblies = null;
 
                 try
                 {
@@ -67,7 +68,7 @@ namespace Upsilon.Common.Library
                 throw new Exception();
             }
 
-            return assembly;
+            return deployedAssemblies;
         }
     }
 }

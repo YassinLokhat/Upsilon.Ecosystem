@@ -236,6 +236,21 @@
             Get the assembly's version as a <c><see cref="P:Upsilon.Common.Library.YAssembly.YVersion"/></c>.
             </summary>
         </member>
+        <member name="M:Upsilon.Common.Library.YAssembly.DownloadDependecies(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly}},System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly})">
+            <summary>
+            Download all dependecies of the current assembly.
+            </summary>
+            <param name="deployedAssemblies">The list of dependencies on the server.</param>
+            <param name="outputPath">The path where the dependecies will be downloaded.</param>
+            <param name="downloadedDependencies">The list of dependecies already downloaded. By default this parameter is <c>null</c>.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YAssembly.DownloadAssembly(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly}},System.String)">
+            <summary>
+            Download the assembly with its all dependencies.
+            </summary>
+            <param name="deployedAssemblies">The list of dependencies on the server.</param>
+            <param name="outputPath">The path where the dependecies will be downloaded.</param>
+        </member>
         <member name="T:Upsilon.Common.Library.YDependency">
             <summary>
             This class represents an assembly used by another assembly.
@@ -826,7 +841,7 @@
             This static class contains update functions.
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Library.YUpdateCentre.CheckForUpdate(System.String,System.String)">
+        <member name="M:Upsilon.Common.Library.YUpdateCentre.CheckForUpdate(System.String,System.String,Upsilon.Common.Library.YAssembly@)">
             <summary>
             <para>Check if an update is available for the given <c><paramref name="assemblyName"/></c> assembly from the <c><paramref name="configUrl"/></c> source.</para>
             <para>In that case, returns that new version as a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>.</para>
@@ -837,7 +852,8 @@
             </remarks>
             <param name="configUrl">The url of the source.</param>
             <param name="assemblyName">The name of the assembly.</param>
-            <returns>Returns the last <c><see cref="T:Upsilon.Common.Library.YVersion"/></c> of that assembly or <c>null</c> if that assembly is missing in the source.</returns>
+            <param name="assembly">The lastest <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
+            <returns>Returns the list of <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
         </member>
         <member name="T:Upsilon.Common.Library.YVersionFormat">
             <summary>
