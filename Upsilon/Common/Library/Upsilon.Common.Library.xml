@@ -236,6 +236,14 @@
             Get the assembly's version as a <c><see cref="P:Upsilon.Common.Library.YAssembly.YVersion"/></c>.
             </summary>
         </member>
+        <member name="M:Upsilon.Common.Library.YAssembly.CreateRuntimeConfigJson(Upsilon.Common.Library.YBinaryType,System.String,System.String)">
+            <summary>
+            Create the runtimeconfig.json file for an assembly.
+            </summary>
+            <param name="binaryType">The binary type of the assembly.</param>
+            <param name="assemblyName">The name of the assembly.</param>
+            <param name="fileLocation">The location of the runtimeconfig.json file.</param>
+        </member>
         <member name="M:Upsilon.Common.Library.YAssembly.DownloadDependecies(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly}},System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly})">
             <summary>
             Download all dependecies of the current assembly.
@@ -703,6 +711,22 @@
             <param name="list">The list of objects.</param>
             <param name="predicate">The search criteria.</param>
             <returns>The object found or <c>null</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.GetCommonRootDirectory(System.Collections.Generic.IList{System.String},System.Char)">
+            <summary>
+            Get the common root of a list of directories.
+            </summary>
+            <param name="directories">The list of directories.</param>
+            <param name="separator">The path separator.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.GetCommonRootDirectory(System.Collections.Generic.IEnumerable{System.String},System.Char)">
+            <summary>
+            Get the common root of a list of directories.
+            </summary>
+            <param name="directories">The list of directories.</param>
+            <param name="separator">The path separator.</param>
+            <returns></returns>
         </member>
         <member name="T:Upsilon.Common.Library.YStringManagement">
             <summary>

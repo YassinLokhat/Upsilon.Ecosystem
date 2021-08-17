@@ -78,6 +78,33 @@ namespace Upsilon.Common.Library
         public YVersion YVersion { get { return new(this.Version); } }
 
         /// <summary>
+        /// Create the runtimeconfig.json file for an assembly.
+        /// </summary>
+        /// <param name="binaryType">The binary type of the assembly.</param>
+        /// <param name="assemblyName">The name of the assembly.</param>
+        /// <param name="fileLocation">The location of the runtimeconfig.json file.</param>
+        public static void CreateRuntimeConfigJson(YBinaryType binaryType, string assemblyName, string fileLocation)
+        {
+            if (!Directory.Exists(fileLocation))
+            {
+                Directory.CreateDirectory(fileLocation);
+            }
+
+            fileLocation = Path.Combine(fileLocation, $"{assemblyName}.runtimeconfig.json");
+
+            switch (binaryType)
+            {
+                case YBinaryType.ClassLibrary:
+                    return;
+                case YBinaryType.WindowApplication:
+                    File.WriteAllText(fileLocation, "{ \"runtimeOptions\": { \"tfm\": \"net5.0\", \"framework\": { \"name\": \"Microsoft.WindowsDesktop.App\", \"version\": \"5.0.0\" } } }");
+                    return;
+                case YBinaryType.ConsoleApplication:
+                    return;
+            }
+        }
+
+        /// <summary>
         /// Download all dependecies of the current assembly.
         /// </summary>
         /// <param name="deployedAssemblies">The list of dependencies on the server.</param>
@@ -114,13 +141,9 @@ namespace Upsilon.Common.Library
                 if (!downloadedDependencies.Any(x => x.Name == dependency.Name && x.YVersion > dependency.YVersion))
                 {
                     string[] urls = dependency.Url.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
-                    string rootPath = urls.FirstOrDefault();
-                    rootPath = rootPath[0..rootPath.LastIndexOf('/')];
+                    string rootPath = YStaticMethods.GetCommonRootDirectory(urls.Select(x => x[0..x.LastIndexOf('/')]), '/');
 
-                    if (dependency.BinaryType == YBinaryType.WindowApplication)
-                    {
-                        File.WriteAllText(Path.Combine(rootPath, $"{dependency.Name}.runtimeconfig.json"), "{ \"runtimeOptions\": { \"tfm\": \"net5.0\", \"framework\": { \"name\": \"Microsoft.WindowsDesktop.App\", \"version\": \"5.0.0\" } } }");
-                    }
+                    YAssembly.CreateRuntimeConfigJson(dependency.BinaryType, dependency.Name, outputPath);
 
                     foreach (string url in urls)
                     {
@@ -129,13 +152,13 @@ namespace Upsilon.Common.Library
                             continue;
                         }
 
-                        string filePath = Path.GetDirectoryName(dependency.Url.Replace(rootPath, outputPath));
+                        string filePath = Path.GetDirectoryName(url.Replace(rootPath, outputPath));
                         if (!Directory.Exists(filePath))
                         {
                             Directory.CreateDirectory(filePath);
                         }
 
-                        filePath += Path.GetFileName(url);
+                        filePath = Path.Combine(filePath, Path.GetFileName(url));
                         if (File.Exists(filePath))
                         {
                             File.Delete(filePath);
@@ -157,13 +180,9 @@ namespace Upsilon.Common.Library
         public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
         {
             string[] urls = this.Url.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
-            string rootPath = urls.FirstOrDefault();
-            rootPath = rootPath[0..rootPath.LastIndexOf('/')];
+            string rootPath = YStaticMethods.GetCommonRootDirectory(urls.Select(x => x[0..x.LastIndexOf('/')]), '/');
 
-            if (this.BinaryType == YBinaryType.WindowApplication)
-            {
-                File.WriteAllText(Path.Combine(rootPath, $"{this.Name}.runtimeconfig.json"), "{ \"runtimeOptions\": { \"tfm\": \"net5.0\", \"framework\": { \"name\": \"Microsoft.WindowsDesktop.App\", \"version\": \"5.0.0\" } } }");
-            }
+            YAssembly.CreateRuntimeConfigJson(this.BinaryType, this.Name, outputPath);
 
             foreach (string url in urls)
             {
@@ -172,13 +191,13 @@ namespace Upsilon.Common.Library
                     continue;
                 }
 
-                string filePath = Path.GetDirectoryName(this.Url.Replace(rootPath, outputPath));
+                string filePath = Path.GetDirectoryName(url.Replace(rootPath, outputPath));
                 if (!Directory.Exists(filePath))
                 {
                     Directory.CreateDirectory(filePath);
                 }
 
-                filePath += Path.GetFileName(url);
+                filePath = Path.Combine(filePath, Path.GetFileName(url));
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
