@@ -546,20 +546,18 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool));
         }
 
-        public void DownloadAssembly(string outputPath, string assemblyName, string version = null)
+        public void DownloadAssembly(YAssembly assembly, string outputPath)
         {
-            YAssembly assembly = null;
-
-            if (version != null)
+            if (assembly.BinaryType == YBinaryType.ClassLibrary
+                || !assembly.Url.Contains($"{assembly.Name}_setup_v{assembly.Version}.exe"))
             {
-                assembly = this.DeployedAssemblies[assemblyName].Find(x => x.Version == version);
+                assembly.DownloadAssembly(this.DeployedAssemblies, outputPath);
             }
             else
             {
-                assembly = this.DeployedAssemblies[assemblyName].OrderByDescending(x => x.YVersion).FirstOrDefault();
+                string url = assembly.Url.Split('|').Find(x => x.Contains($"{assembly.Name}_setup_v{assembly.Version}.exe")).Trim();
+                YStaticMethods.DownloadFile(url, Path.Combine(outputPath, Path.GetFileName(url)));
             }
-
-            assembly.DownloadAssembly(this.DeployedAssemblies, outputPath);
         }
     }
 }

@@ -300,25 +300,23 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 return;
             }
 
-            SaveFileDialog saveFileDialog = new()
+            FolderBrowserDialog folderBrowserDialog = new()
             {
-                Title = $"Download {assembly.Name} v{assembly.Version}",
-                Filter = $"Assembly|*.{assembly.BinaryType}",
-                FileName = Path.GetFileName(assembly.Url),
+                Description = $"Download {assembly.Name} v{assembly.Version}",
             };
 
-            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
             try
             {
-                YStaticMethods.DownloadFile(assembly.Url, saveFileDialog.FileName);
+                Program.Core.DownloadAssembly(assembly, folderBrowserDialog.SelectedPath);
 
                 if (Program.Core.ConfigProvider.GetConfiguration<bool>(Config.OpenOutput))
                 {
-                    Process.Start("explorer.exe", "\"" + Path.GetDirectoryName(saveFileDialog.FileName) + "\"");
+                    Process.Start("explorer.exe", "\"" + folderBrowserDialog.SelectedPath + "\"");
                 }
             }
             catch (Exception ex)
