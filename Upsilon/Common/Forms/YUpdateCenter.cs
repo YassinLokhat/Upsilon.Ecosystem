@@ -13,13 +13,8 @@ namespace Upsilon.Common.Forms
 {
     public static class YUpdateCenter
     {
-        public static YAssembly CheckForUpdate(string serverUrl, string message = null, string title = null)
+        public static YAssembly CheckForUpdate(string serverUrl, string assemblyName, YVersion localVersion, string message = null, string title = null)
         {
-            Assembly local = Assembly.GetCallingAssembly();
-
-            string assemblyName = local.GetName().Name;
-
-            YVersion localVersion = new(local.GetName().Version);
             Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCentre.CheckForUpdate(serverUrl, assemblyName, out YAssembly onlineAssembly);
 
             if (String.IsNullOrWhiteSpace(message))
@@ -39,7 +34,7 @@ namespace Upsilon.Common.Forms
                     && MessageBox.Show(message,
                     title, MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
-                    YUpdateCenter._downloadUpdate(onlineAssembly, deployedAssemblies, local.Location);
+                    YUpdateCenter._downloadUpdate(onlineAssembly, deployedAssemblies, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                 }
 
                 Environment.Exit(0);
@@ -48,9 +43,20 @@ namespace Upsilon.Common.Forms
             return onlineAssembly;
         }
 
+        public static YAssembly CheckForUpdate(string serverUrl, string message = null, string title = null)
+        {
+            Assembly local = Assembly.GetCallingAssembly();
+
+            string assemblyName = local.GetName().Name;
+
+            YVersion localVersion = new(local.GetName().Version);
+
+            return YUpdateCenter.CheckForUpdate(serverUrl, assemblyName, localVersion, message, title);
+        }
+
         private static void _downloadUpdate(YAssembly onlineAssembly, Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
         {
-            string tempDir = Path.Combine(Assembly.GetExecutingAssembly().Location, DateTime.Now.Ticks.ToString());
+            string tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DateTime.Now.Ticks.ToString());
 
             if (Directory.Exists(tempDir))
             {
@@ -59,12 +65,34 @@ namespace Upsilon.Common.Forms
             Directory.CreateDirectory(tempDir);
 
             onlineAssembly.DownloadAssembly(deployedAssemblies, tempDir);
-            string[] files = Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories);
+            var newFiles = Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories);
+            var oldFiles = newFiles.Select(x => x.Replace(tempDir, outputPath)).ToArray();
 
-            string args = "timeout 5"
-                + " & move -Y"
-                + $" {string.Join(',', files.Select(x => $"\"{x}\""))}"
-                + $" {outputPath}";
+            string args = "/C timeout 5"
+                + " & copy -Y"
+                + $" {string.Join(',', newFiles.Select(x => $"\"{x}\""))}"
+                + $" \"{outputPath}\""
+                + $" & rmdir \"{tempDir}\" /S /Q";
+
+            args = "/C timeout 4";
+
+            string delCommand = "";
+            string moveCommand = "";
+            for (int i = 0; i < newFiles.Length; i++)
+            {
+                delCommand += $" & del /F /Q \"{oldFiles[i]}\"";
+                moveCommand += $" & move /Y \"{newFiles[i]}\" \"{oldFiles[i]}\"";
+            }
+
+            args += delCommand 
+                + moveCommand
+                + $" \"{outputPath}\""
+                + $" & rmdir \"{tempDir}\" /S /Q";
+
+            if (onlineAssembly.BinaryType != YBinaryType.ClassLibrary)
+            {
+                args += $" & \"{Path.Combine(outputPath, onlineAssembly.Name + ".exe")}\"";
+            }
 
             ProcessStartInfo processStartInfo = new()
             {
@@ -74,6 +102,7 @@ namespace Upsilon.Common.Forms
             };
 
             Process.Start(processStartInfo);
+            Environment.Exit(0);
         }
     }
 }
