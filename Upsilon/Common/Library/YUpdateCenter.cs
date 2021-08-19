@@ -77,12 +77,12 @@ namespace Upsilon.Common.Library
         /// </summary>
         /// <param name="onlineAssembly">The new version of the assembly.</param>
         /// <param name="deployedAssemblies">The deployed assemblies list.</param>
-        /// <param name="outputPath">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
-        public static void DownloadUpdate(YAssembly onlineAssembly, Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath = null)
+        /// <param name="workingDirectory">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
+        public static void DownloadUpdate(YAssembly onlineAssembly, Dictionary<string, List<YAssembly>> deployedAssemblies, string workingDirectory = null)
         {
-            if (string.IsNullOrWhiteSpace(outputPath))
+            if (string.IsNullOrWhiteSpace(workingDirectory))
             {
-                outputPath = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
+                workingDirectory = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
             }
 
             string tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DateTime.Now.Ticks.ToString());
@@ -96,7 +96,7 @@ namespace Upsilon.Common.Library
 
             onlineAssembly.DownloadAssembly(deployedAssemblies, tempDir);
             var newFiles = Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories);
-            var oldFiles = newFiles.Select(x => x.Replace(tempDir, outputPath)).ToArray();
+            var oldFiles = newFiles.Select(x => x.Replace(tempDir, workingDirectory)).ToArray();
 
             string args = "/C timeout 4";
 
@@ -114,7 +114,7 @@ namespace Upsilon.Common.Library
 
             if (onlineAssembly.BinaryType != YBinaryType.ClassLibrary)
             {
-                args += $" & \"{Path.Combine(outputPath, onlineAssembly.Name + ".exe")}\"";
+                args += $" & \"{Path.Combine(workingDirectory, onlineAssembly.Name + ".exe")}\"";
             }
 
             ProcessStartInfo processStartInfo = new()
