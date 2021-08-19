@@ -10,6 +10,9 @@
     <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
     <Version>1.1.0</Version>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>.\Upsilon.Common.Forms.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Media\UpsilonLogo.png">
       <Pack>True</Pack>

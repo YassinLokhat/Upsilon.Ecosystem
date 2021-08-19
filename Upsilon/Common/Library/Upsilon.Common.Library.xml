@@ -885,7 +885,7 @@
             </summary>
             <param name="onlineAssembly">The new version of the assembly.</param>
             <param name="deployedAssemblies">The deployed assemblies list.</param>
-            <param name="outputPath">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
+            <param name="workingDirectory">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
         </member>
         <member name="T:Upsilon.Common.Library.YVersionFormat">
             <summary>
