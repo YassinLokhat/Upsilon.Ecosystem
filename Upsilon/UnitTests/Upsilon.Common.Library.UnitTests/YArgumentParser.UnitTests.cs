@@ -9,7 +9,7 @@ namespace Upsilon.Common.Library.UnitTests
     class YArgumentParser_UnitTests
     {
         [TestMethod]
-        public void Test_01_ArgumentParser_GetArgument_OK()
+        public void Test_01_YArgumentParser_GetArgument_OK()
         {
             // Given
             string[] args = { "/n", "Variable", "--values", "Test1", "test2", "//present" };
@@ -40,7 +40,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_02_ArgumentParser_WithMain()
+        public void Test_02_YArgumentParser_WithMain()
         {
             // Given
             string[] args = { "Main", "/n", "Variable", "--values", "Test1", "test2", "/p" };
@@ -68,7 +68,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_03_ArgumentParser_WithEmpty()
+        public void Test_03_YArgumentParser_WithEmpty()
         {
             // Given
             string[] args = { "", "/n", "", "--values", "Test1", "test2", "/p" };

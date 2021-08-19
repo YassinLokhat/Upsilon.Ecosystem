@@ -25,9 +25,10 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library");
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
+            deployedList.Should().BeNull();
             assembly.Version.Should().Be("1.1.0.0");
         }
 
@@ -43,9 +44,10 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, false), "Upsilon.Common.Library");
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, false), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
+            deployedList.Should().BeNull();
             assembly.Should().BeNull();
         }
 
@@ -63,7 +65,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() => 
             {
-                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.UnitTestsHelper");
+                var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.UnitTestsHelper", out YAssembly assembly);
             });
 
             // Then
@@ -84,7 +86,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() =>
             {
-                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "SigmaShell");
+                var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "SigmaShell", out YAssembly assembly);
             });
 
             // Then
@@ -103,9 +105,10 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Database.Library");
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Database.Library", out YAssembly assembly);
 
             // Then
+            deployedList.Should().BeNull();
             assembly.Should().BeNull();
         }
 
@@ -121,9 +124,10 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library");
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
+            deployedList.Should().BeNull();
             assembly.Version.Should().Be("1.0.0.0");
             assembly.Description.Should().Be("Common features library");
         }
@@ -140,9 +144,13 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library");
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
+            deployedList.ContainsKey("Upsilon.Common.Forms").Should().BeTrue();
+            deployedList.ContainsKey("Upsilon.Common.Library").Should().BeTrue();
+            deployedList.ContainsKey("Upsilon.Database.Forms").Should().BeFalse();
+            deployedList["Upsilon.Common.Library"].Count.Should().Be(5);
             assembly.Version.Should().Be("1.0.4");
             assembly.Url.Should().Be("\\BinaryServer\\Binaries\\UpsilonEcosystem\\Upsilon\\Common\\Library\\1.0.4\\Upsilon.Common.Library.dll");
             assembly.Description.Should().Be("Common features library.");
@@ -162,7 +170,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() =>
             {
-                YAssembly assembly = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Forms");
+                var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Forms", out YAssembly assembly);
             });
 
             // Then
@@ -176,9 +184,10 @@ namespace Upsilon.Common.Library.UnitTests
             string url = "http://api.upsilon-ecosystem.xyz/deployed.assemblies.json";
 
             // When
-            YAssembly assembly = YUpdateCentre.CheckForUpdate(url, "Upsilon.Common.Forms");
+            var deployedList = YUpdateCenter.CheckForUpdate(url, "Upsilon.Common.Forms", out YAssembly assembly);
 
             // Then
+            deployedList.Should().NotBeNull();
             assembly.Should().NotBeNull();
         }
     }

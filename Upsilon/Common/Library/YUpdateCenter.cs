@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -13,7 +14,7 @@ namespace Upsilon.Common.Library
     /// <summary>
     /// This static class contains update functions.
     /// </summary>
-    public static class YUpdateCentre
+    public static class YUpdateCenter
     {
         /// <summary>
         /// <para>Check if an update is available for the given <c><paramref name="assemblyName"/></c> assembly from the <c><paramref name="configUrl"/></c> source.</para>
@@ -25,16 +26,17 @@ namespace Upsilon.Common.Library
         /// </remarks>
         /// <param name="configUrl">The url of the source.</param>
         /// <param name="assemblyName">The name of the assembly.</param>
-        /// <returns>Returns the last <c><see cref="YVersion"/></c> of that assembly or <c>null</c> if that assembly is missing in the source.</returns>
-        public static YAssembly CheckForUpdate(string configUrl, string assemblyName)
+        /// <param name="assembly">The lastest <c><see cref="YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
+        /// <returns>Returns the list of <c><see cref="YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
+        public static Dictionary<string, List<YAssembly>> CheckForUpdate(string configUrl, string assemblyName, out YAssembly assembly)
         {
-            YAssembly assembly = null;
-            
+            assembly = null;
+
+            Dictionary<string, List<YAssembly>> deployedAssemblies = null;
+
             try
             {
                 string json = YStaticMethods.DownloadString(configUrl);
-
-                Dictionary<string, List<YAssembly>> deployedAssemblies = null;
 
                 try
                 {
@@ -67,7 +69,63 @@ namespace Upsilon.Common.Library
                 throw new Exception();
             }
 
-            return assembly;
+            return deployedAssemblies;
+        }
+
+        /// <summary>
+        /// Download and update the given assembly.
+        /// </summary>
+        /// <param name="onlineAssembly">The new version of the assembly.</param>
+        /// <param name="deployedAssemblies">The deployed assemblies list.</param>
+        /// <param name="workingDirectory">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
+        public static void DownloadUpdate(YAssembly onlineAssembly, Dictionary<string, List<YAssembly>> deployedAssemblies, string workingDirectory = null)
+        {
+            if (string.IsNullOrWhiteSpace(workingDirectory))
+            {
+                workingDirectory = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
+            }
+
+            string tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DateTime.Now.Ticks.ToString());
+            tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "update");
+
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, true);
+            }
+            Directory.CreateDirectory(tempDir);
+
+            onlineAssembly.DownloadAssembly(deployedAssemblies, tempDir);
+            var newFiles = Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories);
+            var oldFiles = newFiles.Select(x => x.Replace(tempDir, workingDirectory)).ToArray();
+
+            string args = "/C timeout 4";
+
+            string delCommand = "";
+            string moveCommand = "";
+            for (int i = 0; i < newFiles.Length; i++)
+            {
+                delCommand += $" & del /F /Q \"{oldFiles[i]}\"";
+                moveCommand += $" & move /Y \"{newFiles[i]}\" \"{oldFiles[i]}\"";
+            }
+
+            args += delCommand
+                + moveCommand
+                + $" & rmdir \"{tempDir}\" /S /Q";
+
+            if (onlineAssembly.BinaryType != YBinaryType.ClassLibrary)
+            {
+                args += $" & \"{Path.Combine(workingDirectory, onlineAssembly.Name + ".exe")}\"";
+            }
+
+            ProcessStartInfo processStartInfo = new()
+            {
+                FileName = "cmd",
+                Arguments = args,
+                CreateNoWindow = true,
+            };
+
+            Process.Start(processStartInfo);
+            Environment.Exit(0);
         }
     }
 }

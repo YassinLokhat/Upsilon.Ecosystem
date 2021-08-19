@@ -268,7 +268,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             this._sign(assembly, dotfuscatedDirectory);
 
-            this._retrieveDependecies(assembly, dotfuscatedDirectory, new());
+            assembly.DownloadDependecies(this.DeployedAssemblies, dotfuscatedDirectory);
 
             this._copyRequiredFiles(assembly, dotfuscatedDirectory);
 
@@ -344,27 +344,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YReleaseManagementToolCore._startProcess("\"./data/ResourceHacker.exe\"", $"-open \"{dotfuscatedAssembly}\" -save \"{dotfuscatedAssembly}\" -action addoverwrite -resource ./data/Resources.res");
 
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
-        }
-
-        private void _retrieveDependecies(YAssembly assembly, string dotfuscatedDirectory, List<YAssembly> assemblies)
-        {
-            foreach (YDependency dep in assembly.Dependencies)
-            {
-                YAssembly dependecy = this.DeployedAssemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
-
-                if (dependecy == null)
-                {
-                    continue;
-                }
-
-                this._retrieveDependecies(dependecy, dotfuscatedDirectory, assemblies);
-             
-                if (!assemblies.Any(x => x.Name == dependecy.Name && x.YVersion > dependecy.YVersion))
-                {
-                    YStaticMethods.DownloadFile(dependecy.Url, Path.Combine(dotfuscatedDirectory, Path.GetFileName(dependecy.Url)));
-                    assemblies.Add(dependecy);
-                }
-            }
         }
 
         private void _copyRequiredFiles(YAssembly assembly, string dotfuscatedDirectory)
@@ -565,6 +544,20 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         public void OpenUploadTool()
         {
             YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool));
+        }
+
+        public void DownloadAssembly(YAssembly assembly, string outputPath)
+        {
+            if (assembly.BinaryType == YBinaryType.ClassLibrary
+                || !assembly.Url.Contains($"{assembly.Name}_setup_v{assembly.Version}.exe"))
+            {
+                assembly.DownloadAssembly(this.DeployedAssemblies, outputPath);
+            }
+            else
+            {
+                string url = assembly.Url.Split('|').Find(x => x.Contains($"{assembly.Name}_setup_v{assembly.Version}.exe")).Trim();
+                YStaticMethods.DownloadFile(url, Path.Combine(outputPath, Path.GetFileName(url)));
+            }
         }
     }
 }

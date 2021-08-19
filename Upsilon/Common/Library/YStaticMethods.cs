@@ -309,5 +309,62 @@ namespace Upsilon.Common.Library
             return list.ToList().Find(predicate);
         }
         #endregion
+
+        #region List extention methods
+        /// <summary>
+        /// Get the common root of a list of directories.
+        /// </summary>
+        /// <param name="directories">The list of directories.</param>
+        /// <param name="separator">The path separator.</param>
+        /// <returns></returns>
+        public static string GetCommonRootDirectory(IList<string> directories, char separator)
+        {
+            var urls = directories.Select(x => x.TrimEnd(separator).Split(separator).ToList()).ToArray();
+
+            if (!urls.Any())
+            {
+                return string.Empty;
+            }
+
+            var rootUrl = new List<string>();
+
+            bool @continue = true;
+            while (@continue)
+            {
+                string firstElement = urls.First().FirstOrDefault();
+                foreach (var url in urls)
+                {
+                    if (url.FirstOrDefault() == firstElement
+                        && url.Any())
+                    {
+                        url.RemoveAt(0);
+                    }
+                    else
+                    {
+                        @continue = false;
+                        break;
+                    }
+                }
+
+                if (@continue)
+                {
+                    rootUrl.Add(firstElement);
+                }
+            }
+
+            return string.Join(separator, rootUrl);
+        }
+
+        /// <summary>
+        /// Get the common root of a list of directories.
+        /// </summary>
+        /// <param name="directories">The list of directories.</param>
+        /// <param name="separator">The path separator.</param>
+        /// <returns></returns>
+        public static string GetCommonRootDirectory(IEnumerable<string> directories, char separator)
+        {
+            return GetCommonRootDirectory(directories.ToArray(), separator);
+        }
+        #endregion
     }
 }

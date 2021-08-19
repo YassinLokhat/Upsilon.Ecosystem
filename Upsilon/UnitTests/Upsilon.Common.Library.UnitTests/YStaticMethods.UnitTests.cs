@@ -11,7 +11,7 @@ namespace Upsilon.Common.Library.UnitTests
     public class YStaticMethods_UnitTests
     {
         [TestMethod]
-        public void Test_01_StaticMethods_SerializeObject_Boolean()
+        public void Test_01_YStaticMethods_SerializeObject_Boolean()
         {
             Random random = new((int)DateTime.Now.Ticks);
             bool toSerialize = random.Next() % 2 == 0;
@@ -25,7 +25,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_02_StaticMethods_SerializeObject_Integer()
+        public void Test_02_YStaticMethods_SerializeObject_Integer()
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
@@ -40,7 +40,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_03_StaticMethods_SerializeObject_Decimal()
+        public void Test_03_YStaticMethods_SerializeObject_Decimal()
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
@@ -55,7 +55,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_04_StaticMethods_SerializeObject_String()
+        public void Test_04_YStaticMethods_SerializeObject_String()
         {
             // Given
             string toSerialize = YHelper.GetRandomString();
@@ -69,7 +69,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_05_StaticMethods_SerializeObject_DateTime()
+        public void Test_05_YStaticMethods_SerializeObject_DateTime()
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
@@ -84,7 +84,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_06_StaticMethods_SerializeObject_Raw()
+        public void Test_06_YStaticMethods_SerializeObject_Raw()
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
@@ -100,7 +100,7 @@ namespace Upsilon.Common.Library.UnitTests
         }
 
         [TestMethod]
-        public void Test_07_StaticMethods_Copy_OK()
+        public void Test_07_YStaticMethods_Copy_OK()
         {
             // Given
             string source = "source";
@@ -154,6 +154,76 @@ namespace Upsilon.Common.Library.UnitTests
             // Finaly
             Directory.Delete("source", true);
             Directory.Delete("destination", true);
+        }
+
+        [TestMethod]
+        public void Test_08_YStaticMethods_GetCommonRootDirectory_Directories_OK()
+        {
+            // Given
+            var directories = new string[] 
+            {
+                @"C:\Directory1\Directory2\Directory3",
+                @"C:\Directory1\Directory2\Directory3\Directory4",
+                @"C:\Directory1\Directory2\",
+            };
+
+            // When
+            string root = YStaticMethods.GetCommonRootDirectory(directories, '\\');
+
+            // Then
+            root.Should().Be(@"C:\Directory1\Directory2");
+        }
+
+        [TestMethod]
+        public void Test_09_YStaticMethods_GetCommonRootDirectory_Directories_KO()
+        {
+            // Given
+            var directories = new string[] 
+            {
+                @"C:\Directory1\Directory2\Directory3",
+                @"D:\Directory1\Directory2\Directory3\Directory4",
+                @"C:\Directory1\Directory2\",
+            };
+
+            // When
+            string root = YStaticMethods.GetCommonRootDirectory(directories, '\\');
+
+            // Then
+            root.Should().Be(string.Empty);
+        }
+
+        [TestMethod]
+        public void Test_10_YStaticMethods_GetCommonRootDirectory_Urls_OK()
+        {
+            // Given
+            var directories = new string[] 
+            {
+                "http://www.test.te/Directory1/Directory2/Directory3",
+                "http://www.test.te/Directory1/Directory2/Directory3/Directory4",
+                "http://www.test.te/Directory1/Directory2",
+            };
+
+            // When
+            string root = YStaticMethods.GetCommonRootDirectory(directories, '/');
+
+            // Then
+            root.Should().Be(@"http://www.test.te/Directory1/Directory2");
+        }
+
+        [TestMethod]
+        public void Test_11_YStaticMethods_GetCommonRootDirectory_OnlyOneElement_OK()
+        {
+            // Given
+            var directories = new string[] 
+            {
+                "http://www.test.te/Directory1/Directory2",
+            };
+
+            // When
+            string root = YStaticMethods.GetCommonRootDirectory(directories, '/');
+
+            // Then
+            root.Should().Be(@"http://www.test.te/Directory1/Directory2");
         }
     }
 }
