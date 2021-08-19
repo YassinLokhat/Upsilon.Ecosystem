@@ -19,7 +19,7 @@ namespace Upsilon.Common.Library.UnitTests
                 Directory.Delete(tempDir, true);
             }
 
-            var deployedAssemblies = YUpdateCentre.CheckForUpdate("http://api.upsilon-ecosystem.xyz/deployed.assemblies.json", "Upsilon.Tools.ReleaseManagementTool.GUI", out var assembly);
+            var deployedAssemblies = YUpdateCenter.CheckForUpdate("http://api.upsilon-ecosystem.xyz/deployed.assemblies.json", "Upsilon.Tools.ReleaseManagementTool.GUI", out var assembly);
 
             // When
             assembly.DownloadAssembly(deployedAssemblies, tempDir);

@@ -13,7 +13,7 @@ namespace Upsilon.Common.Library
     /// <summary>
     /// This static class contains update functions.
     /// </summary>
-    public static class YUpdateCentre
+    public static class YUpdateCenter
     {
         /// <summary>
         /// <para>Check if an update is available for the given <c><paramref name="assemblyName"/></c> assembly from the <c><paramref name="configUrl"/></c> source.</para>

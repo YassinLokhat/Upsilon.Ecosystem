@@ -25,7 +25,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
             deployedList.Should().BeNull();
@@ -44,7 +44,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, false), "Upsilon.Common.Library", out YAssembly assembly);
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, false), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
             deployedList.Should().BeNull();
@@ -65,7 +65,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() => 
             {
-                var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.UnitTestsHelper", out YAssembly assembly);
+                var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.UnitTestsHelper", out YAssembly assembly);
             });
 
             // Then
@@ -86,7 +86,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() =>
             {
-                var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "SigmaShell", out YAssembly assembly);
+                var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "SigmaShell", out YAssembly assembly);
             });
 
             // Then
@@ -105,7 +105,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Database.Library", out YAssembly assembly);
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Database.Library", out YAssembly assembly);
 
             // Then
             deployedList.Should().BeNull();
@@ -124,7 +124,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
             deployedList.Should().BeNull();
@@ -144,7 +144,7 @@ namespace Upsilon.Common.Library.UnitTests
             };
 
             // When
-            var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Library", out YAssembly assembly);
 
             // Then
             deployedList.ContainsKey("Upsilon.Common.Forms").Should().BeTrue();
@@ -170,7 +170,7 @@ namespace Upsilon.Common.Library.UnitTests
             // When
             Action act = new(() =>
             {
-                var deployedList = YUpdateCentre.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Forms", out YAssembly assembly);
+                var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, false, true), "Upsilon.Common.Forms", out YAssembly assembly);
             });
 
             // Then
@@ -184,7 +184,7 @@ namespace Upsilon.Common.Library.UnitTests
             string url = "http://api.upsilon-ecosystem.xyz/deployed.assemblies.json";
 
             // When
-            var deployedList = YUpdateCentre.CheckForUpdate(url, "Upsilon.Common.Forms", out YAssembly assembly);
+            var deployedList = YUpdateCenter.CheckForUpdate(url, "Upsilon.Common.Forms", out YAssembly assembly);
 
             // Then
             deployedList.Should().NotBeNull();
