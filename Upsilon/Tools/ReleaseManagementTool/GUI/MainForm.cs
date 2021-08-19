@@ -24,6 +24,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         {
             InitializeComponent();
 
+            YUpdateForms.CheckForUpdate("http://api.upsilon-ecosystem.xyz/deployed.assemblies.json");
+
             this._checkIntegrity();
 
             YVersion version = new(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
