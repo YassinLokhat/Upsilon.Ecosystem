@@ -11,8 +11,20 @@ using Upsilon.Common.Library;
 
 namespace Upsilon.Common.Forms
 {
+    /// <summary>
+    /// A static class giving some updating methods.
+    /// </summary>
     public static class YUpdateForms
     {
+        /// <summary>
+        /// Download and update the given assembly if available.
+        /// </summary>
+        /// <param name="serverUrl">The deployed assemblies json url.</param>
+        /// <param name="assemblyName">The name of the assembly to update.</param>
+        /// <param name="localVersion">The current version of the assembly.</param>
+        /// <param name="message">The message to show when new version is available.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
         public static YAssembly CheckForUpdate(string serverUrl, string assemblyName, YVersion localVersion, string message = null, string title = null)
         {
             Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(serverUrl, assemblyName, out YAssembly onlineAssembly);
@@ -43,6 +55,13 @@ namespace Upsilon.Common.Forms
             return onlineAssembly;
         }
 
+        /// <summary>
+        /// Download and update the calling assembly if available.
+        /// </summary>
+        /// <param name="serverUrl">The deployed assemblies json url.</param>
+        /// <param name="message">The message to show when new version is available.</param>
+        /// <param name="title">The title of the message box.</param>
+        /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
         public static YAssembly CheckForUpdate(string serverUrl, string message = null, string title = null)
         {
             Assembly local = Assembly.GetCallingAssembly();

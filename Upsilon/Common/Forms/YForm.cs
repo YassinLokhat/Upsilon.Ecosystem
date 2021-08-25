@@ -11,20 +11,36 @@ using System.Windows.Forms;
 
 namespace Upsilon.Common.Forms
 {
+    /// <summary>
+    /// A customizable form with Upsilon design.
+    /// </summary>
     public partial class YForm : Form
     {
+        /// <summary>
+        /// Create a round rectangle.
+        /// </summary>
+        /// <param name="nLeftRect">The x-coordinate of upper-left corner.</param>
+        /// <param name="nTopRect">The y-coordinate of upper-left corner.</param>
+        /// <param name="nRightRect">The x-coordinate of lower-right corner.</param>
+        /// <param name="nBottomRect">The y-coordinate of lower-right corner.</param>
+        /// <param name="nWidthEllipse">The height of ellipse.</param>
+        /// <param name="nHeightEllipse">The width of ellipse.</param>
+        /// <returns>A pointer on the round rectangle.</returns>
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         public static extern IntPtr CreateRoundRectRgn
         (
-            int nLeftRect,     // x-coordinate of upper-left corner
-            int nTopRect,      // y-coordinate of upper-left corner
-            int nRightRect,    // x-coordinate of lower-right corner
-            int nBottomRect,   // y-coordinate of lower-right corner
-            int nWidthEllipse, // height of ellipse
-            int nHeightEllipse // width of ellipse
+            int nLeftRect,     
+            int nTopRect,      
+            int nRightRect,    
+            int nBottomRect,   
+            int nWidthEllipse, 
+            int nHeightEllipse 
         );
 
         private Color _foregroundColor = Color.White;
+        /// <summary>
+        /// The foreground color of the form.
+        /// </summary>
         public Color ForegroundColor
         {
             get
@@ -39,6 +55,9 @@ namespace Upsilon.Common.Forms
         }
 
         private Color _backgroundColor = Color.Black;
+        /// <summary>
+        /// The background color of the form.
+        /// </summary>
         public Color BackgroundColor
         {
             get
@@ -52,6 +71,9 @@ namespace Upsilon.Common.Forms
             }
         }
 
+        /// <summary>
+        /// The icon of the form.
+        /// </summary>
         public new Icon Icon
         {
             get { return base.Icon; }
@@ -62,6 +84,9 @@ namespace Upsilon.Common.Forms
             }
         }
 
+        /// <summary>
+        /// Creates a new <c><see cref="YForm"/></c>.
+        /// </summary>
         public YForm()
         {
             this.InitializeComponent();
@@ -109,6 +134,10 @@ namespace Upsilon.Common.Forms
             this.lTitle.Text = this.Text;
         }
 
+        /// <summary>
+        /// Refresh the given control.
+        /// </summary>
+        /// <param name="control">The control to refresh.</param>
         public void Refresh(Control control = null)
         {
             if (control == null)

@@ -9,19 +9,28 @@ using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
+    /// <summary>
+    /// Represent a Table.
+    /// </summary>
     public abstract class YTable
     {
+        /// <summary>
+        /// The <c><see cref="YDatabaseImage"/></c> containing the table.
+        /// </summary>
         protected YDatabaseImage _DatabaseImage = null;
 
+        /// <summary>
+        /// The internal index of the record.
+        /// </summary>
         public long InternalIndex { get; set; } = 0;
 
-        public XmlNode GetXmlRecord(string key)
+        internal XmlNode _GetXmlRecord(string key)
         {
             XmlDocument document = new();
 
             XmlNode record = document.CreateNode(XmlNodeType.Element, "record", string.Empty);
 
-            Dictionary<string, string> fieldsDico = this.GetFieldsDico(key);
+            Dictionary<string, string> fieldsDico = this._GetFieldsDico(key);
 
             foreach (var field in fieldsDico)
             {
@@ -33,7 +42,7 @@ namespace Upsilon.Database.Library
             return record;
         }
 
-        public Dictionary<string, string> GetFieldsDico(string key)
+        internal Dictionary<string, string> _GetFieldsDico(string key)
         {
             Dictionary<string, string> fieldsDico = new();
 
@@ -46,8 +55,8 @@ namespace Upsilon.Database.Library
 
             foreach (PropertyInfo fieldInfo in fieldsInfo)
             {
-                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Find(x => x.Name == fieldInfo.Name);
-                int i = this._DatabaseImage.TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
+                YField yField = this._DatabaseImage._TablesDefinition[this.GetType().Name].Find(x => x.Name == fieldInfo.Name);
+                int i = this._DatabaseImage._TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
 
                 fieldsDico[$"field_{i}"] = fieldInfo.GetValue(this).SerializeObject().Cipher_Aes(key);
             }
@@ -55,7 +64,7 @@ namespace Upsilon.Database.Library
             return fieldsDico;
         }
         
-        public void SetRecord(XmlNode node, string key)
+        internal void _SetRecord(XmlNode node, string key)
         {
             PropertyInfo[] fieldsInfo = this.GetType().GetProperties()
                 .Where(x => x.CustomAttributes
@@ -66,8 +75,8 @@ namespace Upsilon.Database.Library
 
             foreach (PropertyInfo fieldInfo in fieldsInfo)
             {
-                YField yField = this._DatabaseImage.TablesDefinition[this.GetType().Name].Find(x => x.Name == fieldInfo.Name);
-                int i = this._DatabaseImage.TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
+                YField yField = this._DatabaseImage._TablesDefinition[this.GetType().Name].Find(x => x.Name == fieldInfo.Name);
+                int i = this._DatabaseImage._TablesDefinition[this.GetType().Name].IndexOf(yField) + 1;
 
                 object value = null;
                 if (node.Attributes.Contains($"field_{i}"))
@@ -79,12 +88,16 @@ namespace Upsilon.Database.Library
             }
         }
 
+        /// <summary>
+        /// Create a new record.
+        /// </summary>
+        /// <param name="databaseImage">The database image containing the table.</param>
         public YTable(YDatabaseImage databaseImage)
         {
             this._DatabaseImage = databaseImage;
         }
 
-        public static XmlNode GetEmptyTableNode(string tableName, string key)
+        internal static XmlNode _GetEmptyTableNode(string tableName, string key)
         {
             XmlDocument document = new();
 
@@ -102,6 +115,11 @@ namespace Upsilon.Database.Library
             return table;
         }
 
+        /// <summary>
+        /// Check if the current record equals to the given object.
+        /// </summary>
+        /// <param name="item">The object to compare with.</param>
+        /// <returns><c>true</c> or <c>false</c>.</returns>
         public new bool Equals(object item)
         {
             if (item is not YTable yTable)

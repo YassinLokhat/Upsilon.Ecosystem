@@ -9,6 +9,7 @@ using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
     internal sealed class YField
     {
         public string Name { get; set; }

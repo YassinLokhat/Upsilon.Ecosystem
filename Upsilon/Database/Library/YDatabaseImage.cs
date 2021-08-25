@@ -9,18 +9,27 @@ using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
+    /// <summary>
+    /// Represent an image of the physical database file.
+    /// </summary>
     public abstract class YDatabaseImage
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         private static readonly double _REBUILD_INDEX_RATE = 0.90;
 
         private string _filename = string.Empty;
         private string _key = string.Empty;
         
-        internal readonly Dictionary<string, List<YField>> TablesDefinition = new();
+        internal readonly Dictionary<string, List<YField>> _TablesDefinition = new();
 
         private XmlDocument _document = null;
         private FileStream _file = null;
 
+        /// <summary>
+        /// Create a new <c><see cref="YDatabaseImage"/></c>.
+        /// </summary>
+        /// <param name="filename">The physical database file.</param>
+        /// <param name="key">The encryption key.</param>
         public YDatabaseImage(string filename, string key)
         {
             this._filename = filename;
@@ -29,6 +38,10 @@ namespace Upsilon.Database.Library
             this.Pull(false);
         }
 
+        /// <summary>
+        /// Pull the physical database file to the database image.
+        /// </summary>
+        /// <param name="lockFile">Lock the physical database file or not. If the file is locked, it will not be accessible to other clients untill the next call of <c><see cref="Push"/></c>.</param>
         public void Pull(bool lockFile = true)
         {
             if (!File.Exists(this._filename))
@@ -40,7 +53,7 @@ namespace Upsilon.Database.Library
             {
                 this._pullXmlDocument(lockFile);
                 this._checkXmlHeader();
-                this.TablesDefinition.Clear();
+                this._TablesDefinition.Clear();
 
                 PropertyInfo[] datasetsInfo = this.GetType().GetProperties()
                 .Where(x => x.CustomAttributes
@@ -61,6 +74,9 @@ namespace Upsilon.Database.Library
             }
         }
 
+        /// <summary>
+        /// Push the database image to the physical database file.
+        /// </summary>
         public void Push()
         {
             List<string> indexToRebuild = new();
@@ -75,7 +91,7 @@ namespace Upsilon.Database.Library
                 Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
                 object dataset = datasetInfo.GetValue(this);
-                YTable[] yTables = (YTable[])datasetInfo.PropertyType.GetMethod("GetYTables").Invoke(dataset, Array.Empty<object>());
+                YTable[] yTables = (YTable[])datasetInfo.PropertyType.GetMethod("_GetYTables", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(dataset, Array.Empty<object>());
 
                 if (yTables.Any()
                     && (yTables.Length / yTables.Select(x => x.InternalIndex).Max() < YDatabaseImage._REBUILD_INDEX_RATE
@@ -97,12 +113,12 @@ namespace Upsilon.Database.Library
 
                     if (xmlRecord == null)
                     {
-                        xmlRecord = this._document.ImportNode(yTable.GetXmlRecord(this._key), true);
+                        xmlRecord = this._document.ImportNode(yTable._GetXmlRecord(this._key), true);
                         xmlRecords.AppendChild(xmlRecord);
                     }
                     else
                     {
-                        Dictionary<string, string> fields = yTable.GetFieldsDico(this._key);
+                        Dictionary<string, string> fields = yTable._GetFieldsDico(this._key);
 
                         foreach (var field in fields)
                         {
@@ -150,6 +166,10 @@ namespace Upsilon.Database.Library
             this.Close();
         }
 
+        /// <summary>
+        /// Rebuild the internal index of each table in the given list.
+        /// </summary>
+        /// <param name="tables">The list of tables to rebuild.</param>
         public void RebuildInternalIndex(string[] tables)
         {
             if (this._document == null)
@@ -184,6 +204,11 @@ namespace Upsilon.Database.Library
             this.Close();
         }
 
+        /// <summary>
+        /// Save the current database image to a new physical database file.
+        /// </summary>
+        /// <param name="filename">The new physical database file.</param>
+        /// <param name="key">The new encryption key.</param>
         public void SaveAs(string filename, string key)
         {
             this.Pull(false);
@@ -226,6 +251,9 @@ namespace Upsilon.Database.Library
             this.Push();
         }
 
+        /// <summary>
+        /// Close the database image. If the physical database file is locked, it will be unlocked but the database image will not be pushed.
+        /// </summary>
         public void Close()
         {
             if (this._file != null)
@@ -235,6 +263,11 @@ namespace Upsilon.Database.Library
             }
         }
 
+        /// <summary>
+        /// Get an Xml code with an empty physical database file structure.
+        /// </summary>
+        /// <param name="key">The encryption key.</param>
+        /// <returns>The Xml code.</returns>
         public static string GetEmptyXmlDocument(string key)
         {
             return $"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetUpsilonHashCode()}\">\r\n</tables>";
@@ -301,7 +334,7 @@ namespace Upsilon.Database.Library
 
             if (tableXml == null)
             {
-                tableXml = this._document.ImportNode(YTable.GetEmptyTableNode(dataType.Name, this._key), true);
+                tableXml = this._document.ImportNode(YTable._GetEmptyTableNode(dataType.Name, this._key), true);
                 root.AppendChild(tableXml);
             }
 
@@ -312,14 +345,14 @@ namespace Upsilon.Database.Library
         {
             Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
-            this.TablesDefinition[dataType.Name] = new();
+            this._TablesDefinition[dataType.Name] = new();
             PropertyInfo[] fieldsInfo = dataType.GetProperties()
             .Where(x => x.CustomAttributes
                 .Where(y => y.AttributeType == typeof(YFieldAttribute)).Any()).ToArray();
 
             foreach (XmlNode fieldXml in root.SelectNodes("./field"))
             {
-                this.TablesDefinition[dataType.Name].Add(new(this._filename, this._key, dataType.Name, fieldXml));
+                this._TablesDefinition[dataType.Name].Add(new(this._filename, this._key, dataType.Name, fieldXml));
             }
 
             foreach (PropertyInfo fieldInfo in fieldsInfo)
@@ -331,10 +364,10 @@ namespace Upsilon.Database.Library
                 {
                     fieldXml = this._document.ImportNode(YField.GetFieldNode(fieldInfo, this._key), true);
                     root.AppendChild(fieldXml);
-                    this.TablesDefinition[dataType.Name].Add(new(this._filename, this._key, dataType.Name, fieldXml));
+                    this._TablesDefinition[dataType.Name].Add(new(this._filename, this._key, dataType.Name, fieldXml));
                 }
 
-                YField yField = this.TablesDefinition[dataType.Name].Find(x => x.Name == fieldInfo.Name);
+                YField yField = this._TablesDefinition[dataType.Name].Find(x => x.Name == fieldInfo.Name);
                 if (yField.Type != fieldInfo.PropertyType)
                 {
                     throw new YDatabaseClassesDefinitionException(dataType.Name, $"Type '{fieldInfo.PropertyType}' does not match with '{yField.Type}' type for the '{fieldInfo.Name}' field.");
@@ -346,7 +379,7 @@ namespace Upsilon.Database.Library
         {
             Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
-            object dataset = Activator.CreateInstance(datasetInfo.PropertyType, new object[] { this });
+            object dataset = Activator.CreateInstance(datasetInfo.PropertyType, Array.Empty<object>());
             datasetInfo.SetValue(this, dataset);
 
             foreach (XmlNode recordXml in root.SelectNodes("./record"))
@@ -357,7 +390,7 @@ namespace Upsilon.Database.Library
                 }
 
                 YTable recordClass = (YTable)Activator.CreateInstance(dataType, new object[] { this });
-                recordClass.SetRecord(recordXml, this._key);
+                recordClass._SetRecord(recordXml, this._key);
 
                 var add = datasetInfo.PropertyType.GetMethod("Add");
                 add.Invoke(dataset, new object[] { recordClass });

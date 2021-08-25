@@ -22,9 +22,14 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Upsilon\Common\Library\Upsilon.Common.Library.xml" />
-<DocumentationSource sourceFile="..\Upsilon\Common\Library\Upsilon.Common.Library.csproj" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\Upsilon\Common\Library\Upsilon.Common.Library.csproj" />
+      <DocumentationSource sourceFile="..\Upsilon\Common\Forms\Upsilon.Common.Forms.csproj" />
+      <DocumentationSource sourceFile="..\Upsilon\Common\Forms\Upsilon.Common.Forms.xml" />
+      <DocumentationSource sourceFile="..\Upsilon\Database\Library\Upsilon.Database.Library.csproj" />
+      <DocumentationSource sourceFile="..\Upsilon\Database\Library\Upsilon.Database.Library.xml" />
+    </DocumentationSources>
     <HelpTitle>Upsilon Ecosystem Documentation</HelpTitle>
-    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <HelpFileVersion>1.0.1.0</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <RootNamespaceContainer>True</RootNamespaceContainer>
@@ -34,16 +39,27 @@
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <ProjectSummary>Upsilon Ecosystem is a development toolbox which contains a set of libraries of common and specific features in .Net 5.0.</ProjectSummary>
     <MissingTags>None</MissingTags>
-    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
+    <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <SyntaxFilters>C#</SyntaxFilters>
     <PresentationStyle>VS2013</PresentationStyle>
     <CleanIntermediates>True</CleanIntermediates>
     <KeepLogFile>True</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
-    <IndentHtml>False</IndentHtml>
+    <IndentHtml>True</IndentHtml>
     <BuildAssemblerVerbosity>AllMessages</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <RootNamespaceTitle>Upsilon Ecosystem</RootNamespaceTitle>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="False" />
+      <NamespaceSummaryItem name="Upsilon.Common.Forms" isDocumented="True">Common form features library.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Upsilon.Common.Library" isDocumented="True">Common features library.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Upsilon.Database.Library" isDocumented="True">Database features library.</NamespaceSummaryItem>
+    </NamespaceSummaries>
+    <HtmlSdkLinkType>None</HtmlSdkLinkType>
+    <BinaryTOC>True</BinaryTOC>
+    <IncludeFavorites>False</IncludeFavorites>
+    <WebsiteSdkLinkType>None</WebsiteSdkLinkType>
+    <AppendMarkdownFileExtensionsToUrls>False</AppendMarkdownFileExtensionsToUrls>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
