@@ -4,6 +4,49 @@
         <name>Upsilon.Common.Forms</name>
     </assembly>
     <members>
+        <member name="T:Upsilon.Common.Forms.YForm">
+            <summary>
+            A customizable form with Upsilon design.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YForm.CreateRoundRectRgn(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a round rectangle.
+            </summary>
+            <param name="nLeftRect">The x-coordinate of upper-left corner.</param>
+            <param name="nTopRect">The y-coordinate of upper-left corner.</param>
+            <param name="nRightRect">The x-coordinate of lower-right corner.</param>
+            <param name="nBottomRect">The y-coordinate of lower-right corner.</param>
+            <param name="nWidthEllipse">The height of ellipse.</param>
+            <param name="nHeightEllipse">The width of ellipse.</param>
+            <returns>A pointer on the round rectangle.</returns>
+        </member>
+        <member name="P:Upsilon.Common.Forms.YForm.ForegroundColor">
+            <summary>
+            The foreground color of the form.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Forms.YForm.BackgroundColor">
+            <summary>
+            The background color of the form.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Forms.YForm.Icon">
+            <summary>
+            The icon of the form.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YForm.#ctor">
+            <summary>
+            Creates a new <c><see cref="T:Upsilon.Common.Forms.YForm"/></c>.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YForm.Refresh(System.Windows.Forms.Control)">
+            <summary>
+            Refresh the given control.
+            </summary>
+            <param name="control">The control to refresh.</param>
+        </member>
         <member name="F:Upsilon.Common.Forms.YForm.components">
             <summary>
             Required designer variable.
@@ -20,6 +63,81 @@
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
+        </member>
+        <member name="T:Upsilon.Common.Forms.YInputBox">
+            <summary>
+            An input toolbox.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Forms.YInputBox.YInputType">
+            <summary>
+            The type of input needed.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.TextBox">
+            <summary>
+            A text.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.Password">
+            <summary>
+            A pasword.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.Dropdown">
+            <summary>
+            A dropdown list.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.ComboBox">
+            <summary>
+            A combo list.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.Number">
+            <summary>
+            A number.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YInputBox.ShowDialog(System.String,System.String,System.String@,Upsilon.Common.Forms.YInputBox.YInputType)">
+            <summary>
+            Show a dialog box aking to enter a specific type of input.
+            </summary>
+            <param name="title">The title of the dialog box.</param>
+            <param name="message">The message of the dialog box.</param>
+            <param name="result">The default text on the input dialog and the answer of the user.</param>
+            <param name="inputType">The type of the requested input.</param>
+            <returns>The <c><see cref="T:System.Windows.Forms.DialogResult"/></c> of the dialog box.</returns>
+        </member>
+        <member name="T:Upsilon.Common.Forms.YUpdateForms">
+            <summary>
+            A static class giving some updating methods.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YUpdateForms.CheckForUpdate(System.String,System.String,Upsilon.Common.Library.YVersion,System.String,System.String)">
+            <summary>
+            Download and update the given assembly if available.
+            </summary>
+            <param name="serverUrl">The deployed assemblies json url.</param>
+            <param name="assemblyName">The name of the assembly to update.</param>
+            <param name="localVersion">The current version of the assembly.</param>
+            <param name="message">The message to show when new version is available.</param>
+            <param name="title">The title of the message box.</param>
+            <returns>Return the lastest <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c>.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YUpdateForms.CheckForUpdate(System.String,System.String,System.String)">
+            <summary>
+            Download and update the calling assembly if available.
+            </summary>
+            <param name="serverUrl">The deployed assemblies json url.</param>
+            <param name="message">The message to show when new version is available.</param>
+            <param name="title">The title of the message box.</param>
+            <returns>Return the lastest <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c>.</returns>
         </member>
     </members>
 </doc>
