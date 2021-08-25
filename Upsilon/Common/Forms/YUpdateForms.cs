@@ -11,8 +11,20 @@ using Upsilon.Common.Library;
 
 namespace Upsilon.Common.Forms
 {
+    /// <summary>
+    /// A stati class giving some updating methods.
+    /// </summary>
     public static class YUpdateForms
     {
+        /// <summary>
+        /// Check if the given assembly has a new version.
+        /// </summary>
+        /// <param name="serverUrl"></param>
+        /// <param name="assemblyName"></param>
+        /// <param name="localVersion"></param>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static YAssembly CheckForUpdate(string serverUrl, string assemblyName, YVersion localVersion, string message = null, string title = null)
         {
             Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(serverUrl, assemblyName, out YAssembly onlineAssembly);
