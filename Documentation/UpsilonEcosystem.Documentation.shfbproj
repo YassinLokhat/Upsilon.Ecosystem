@@ -25,6 +25,8 @@
       <DocumentationSource sourceFile="..\Upsilon\Common\Library\Upsilon.Common.Library.csproj" />
       <DocumentationSource sourceFile="..\Upsilon\Common\Forms\Upsilon.Common.Forms.csproj" />
       <DocumentationSource sourceFile="..\Upsilon\Common\Forms\Upsilon.Common.Forms.xml" />
+      <DocumentationSource sourceFile="..\Upsilon\Database\Library\Upsilon.Database.Library.csproj" />
+      <DocumentationSource sourceFile="..\Upsilon\Database\Library\Upsilon.Database.Library.xml" />
     </DocumentationSources>
     <HelpTitle>Upsilon Ecosystem Documentation</HelpTitle>
     <HelpFileVersion>1.0.1.0</HelpFileVersion>
@@ -51,6 +53,7 @@
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
       <NamespaceSummaryItem name="Upsilon.Common.Forms" isDocumented="True">Common form features library.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="Upsilon.Common.Library" isDocumented="True">Common features library.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Upsilon.Database.Library" isDocumented="True">Database features library.</NamespaceSummaryItem>
     </NamespaceSummaries>
     <HtmlSdkLinkType>None</HtmlSdkLinkType>
     <BinaryTOC>True</BinaryTOC>

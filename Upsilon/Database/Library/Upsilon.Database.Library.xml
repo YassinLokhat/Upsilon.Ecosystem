@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Upsilon.Database.Library</name>
+    </assembly>
+    <members>
+        <member name="T:Upsilon.Database.Library.YDatasetAttribute">
+            <summary>
+            Tag a <c><see cref="T:Upsilon.Database.Library.YDataSet`1"/></c> as a dataset.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Database.Library.YFieldAttribute">
+            <summary>
+            Tag a property as a table field.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Database.Library.YDatabaseException">
+            <summary>
+            Represent an <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c> general exception.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseException.#ctor">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YDatabaseException"/></c> with default values.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseException.#ctor(System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YDatabaseException"/></c> with a message.
+            </summary>
+            <param name="message">The message of the exception.</param>
+        </member>
+        <member name="T:Upsilon.Database.Library.YDatabaseFileException">
+            <summary>
+            Represent an <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c> file exception.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Database.Library.YDatabaseFileException.Filename">
+            <summary>
+            The file the exception refers to.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseFileException.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YDatabaseFileException"/></c>.
+            </summary>
+            <param name="filename">The file the exception refers to.</param>
+            <param name="message">The message of the exception.</param>
+        </member>
+        <member name="T:Upsilon.Database.Library.YWrongDatabaseKeyException">
+            <summary>
+            Represent an <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c> wrong key exception.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Database.Library.YWrongDatabaseKeyException.Key">
+            <summary>
+            The wrong key.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YWrongDatabaseKeyException.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YWrongDatabaseKeyException"/></c>.
+            </summary>
+            <param name="filename">The file the exception refers to.</param>
+            <param name="key">The wrong key.</param>
+        </member>
+        <member name="T:Upsilon.Database.Library.YDatabaseXmlCorruptionException">
+            <summary>
+            Represent an <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c> corrupted XML exception.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseXmlCorruptionException.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YDatabaseXmlCorruptionException"/></c>.
+            </summary>
+            <param name="filename">The file the exception refers to.</param>
+            <param name="message">The message of the exception.</param>
+        </member>
+        <member name="T:Upsilon.Database.Library.YDatabaseClassesDefinitionException">
+            <summary>
+            Represent an <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c> classes definition exception.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Database.Library.YDatabaseClassesDefinitionException.TableName">
+            <summary>
+            The table the exception refers to.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseClassesDefinitionException.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YDatabaseClassesDefinitionException"/></c>.
+            </summary>
+            <param name="tableName">The table the exception refers to.</param>
+            <param name="message">The message of the exception.</param>
+        </member>
+        <member name="T:Upsilon.Database.Library.YDatabaseImage">
+            <summary>
+            Represent an image of the physical database file.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c>.
+            </summary>
+            <param name="filename">The physical database file.</param>
+            <param name="key">The encryption key.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.Pull(System.Boolean)">
+            <summary>
+            Pull the physical database file to the database image.
+            </summary>
+            <param name="lockFile">Lock the physical database file or not. If the file is locked, it will not be accessible to other clients untill the next call of <c><see cref="M:Upsilon.Database.Library.YDatabaseImage.Push"/></c>.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.Push">
+            <summary>
+            Push the database image to the physical database file.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.RebuildInternalIndex(System.String[])">
+            <summary>
+            Rebuild the internal index of each table in the given list.
+            </summary>
+            <param name="tables">The list of tables to rebuild.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.SaveAs(System.String,System.String)">
+            <summary>
+            Save the current database image to a new physical database file.
+            </summary>
+            <param name="filename">The new physical database file.</param>
+            <param name="key">The new encryption key.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.Close">
+            <summary>
+            Close the database image. If the physical database file is locked, it will be unlocked but the database image will not be pushed.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDatabaseImage.GetEmptyXmlDocument(System.String)">
+            <summary>
+            Get an Xml code with an empty physical database file structure.
+            </summary>
+            <param name="key">The encryption key.</param>
+            <returns>The Xml code.</returns>
+        </member>
+        <member name="T:Upsilon.Database.Library.YDataSet`1">
+            <summary>
+            Represent a set of record.
+            </summary>
+            <typeparam name="T">The class that represent the record. This class shound inherit to <c><see cref="T:Upsilon.Database.Library.YTable"/></c>.</typeparam>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.PopRemovedIndexes">
+            <summary>
+            Pop all removed Internal Indexes.
+            </summary>
+            <returns>All removed Internal Indexes.</returns>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.Remove(`0)">
+            <summary>
+            Remove a record from the dataset.
+            </summary>
+            <param name="item">The record to remove.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.RemoveAt(System.Int32)">
+            <summary>
+            Remove the record at the given index from the dataset.
+            </summary>
+            <param name="index">The index of the record to remove.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.Insert(System.Int32,`0)">
+            <summary>
+            Insert a record at a certain index in the dataset.
+            </summary>
+            <param name="index">The index where the record will be insert.</param>
+            <param name="item">The record to insert.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add a range of records at the end of the dataset.
+            </summary>
+            <param name="items">The set of record to insert.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.Add(`0)">
+            <summary>
+            Add a record at the end of the dataset.
+            </summary>
+            <param name="item">The record to insert.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.GetRecordByInternalIndex(System.Int64)">
+            <summary>
+            Get a record by its internal index.
+            </summary>
+            <param name="internalIndex">The internal index.</param>
+            <returns>The record found or <c>null</c>.</returns>
+        </member>
+        <member name="M:Upsilon.Database.Library.YDataSet`1.Contains(`0)">
+            <summary>
+            Check if a record is present in the dataset.
+            </summary>
+            <param name="item">The record to check.</param>
+            <returns><c>true</c> or <c>false</c>.</returns>
+        </member>
+        <member name="T:Upsilon.Database.Library.YTable">
+            <summary>
+            Represent a Table.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Database.Library.YTable._DatabaseImage">
+            <summary>
+            The <c><see cref="T:Upsilon.Database.Library.YDatabaseImage"/></c> containing the table.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Database.Library.YTable.InternalIndex">
+            <summary>
+            The internal index of the record.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Database.Library.YTable.#ctor(Upsilon.Database.Library.YDatabaseImage)">
+            <summary>
+            Create a new record.
+            </summary>
+            <param name="databaseImage">The database image containing the table.</param>
+        </member>
+        <member name="M:Upsilon.Database.Library.YTable.Equals(System.Object)">
+            <summary>
+            Check if the current record equals to the given object.
+            </summary>
+            <param name="item">The object to compare with.</param>
+            <returns><c>true</c> or <c>false</c>.</returns>
+        </member>
+    </members>
+</doc>

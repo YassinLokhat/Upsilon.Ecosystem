@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Upsilon.Database.Library
 {
+    /// <summary>
+    /// Represent a set of record.
+    /// </summary>
+    /// <typeparam name="T">The class that represent the record. This class shound inherit to <c><see cref="YTable"/></c>.</typeparam>
     public sealed class YDataSet<T> : List<T> where T : YTable
     {
-        // To be removed
-        private readonly YDatabaseImage _DatabaseImage = null;
-        
         private readonly List<long> _removedIndexes = new();
 
-        public YDataSet(YDatabaseImage databaseImage) : base()
-        {
-            this._DatabaseImage = databaseImage;
-        }
-
+        /// <summary>
+        /// Pop all removed Internal Indexes.
+        /// </summary>
+        /// <returns>All removed Internal Indexes.</returns>
         public long[] PopRemovedIndexes()
         {
             long[] output = this._removedIndexes.ToArray();
@@ -26,23 +26,37 @@ namespace Upsilon.Database.Library
             return output;
         }
 
-        public YTable[] GetYTables()
+        internal YTable[] _GetYTables()
         {
             return this.Select(x => (YTable)x).ToArray();
         }
 
+        /// <summary>
+        /// Remove a record from the dataset.
+        /// </summary>
+        /// <param name="item">The record to remove.</param>
         public new void Remove(T item)
         {
             this._removedIndexes.Add(item.InternalIndex);
             base.Remove(item);
         }
 
+        /// <summary>
+        /// Remove the record at the given index from the dataset.
+        /// </summary>
+        /// <param name="index">The index of the record to remove.</param>
         public new void RemoveAt(int index)
         {
             this.Remove(this[index]);
         }
 
-#pragma warning disable CA1829 // Use Length/Count property instead of Count() when available
+
+        /// <summary>
+        /// Insert a record at a certain index in the dataset.
+        /// </summary>
+        /// <param name="index">The index where the record will be insert.</param>
+        /// <param name="item">The record to insert.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1829:Use Length/Count property instead of Count() when available", Justification = "<Pending>")]
         public new void Insert(int index, T item)
         {
             if (this.Contains(item))
@@ -70,8 +84,11 @@ namespace Upsilon.Database.Library
 
             base.Insert(index, item);
         }
-#pragma warning restore CA1829 // Use Length/Count property instead of Count() when available
 
+        /// <summary>
+        /// Add a range of records at the end of the dataset.
+        /// </summary>
+        /// <param name="items">The set of record to insert.</param>
         public new void AddRange(IEnumerable<T> items)
         {
             foreach (T item in items)
@@ -80,16 +97,30 @@ namespace Upsilon.Database.Library
             }
         }
 
+        /// <summary>
+        /// Add a record at the end of the dataset.
+        /// </summary>
+        /// <param name="item">The record to insert.</param>
         public new void Add(T item)
         {
             this.Insert(this.Count, item);
         }
 
+        /// <summary>
+        /// Get a record by its internal index.
+        /// </summary>
+        /// <param name="internalIndex">The internal index.</param>
+        /// <returns>The record found or <c>null</c>.</returns>
         public T GetRecordByInternalIndex(long internalIndex)
         {
             return this.Find(x => x.InternalIndex == internalIndex);
         }
 
+        /// <summary>
+        /// Check if a record is present in the dataset.
+        /// </summary>
+        /// <param name="item">The record to check.</param>
+        /// <returns><c>true</c> or <c>false</c>.</returns>
         public new bool Contains(T item)
         {
             return base.Contains(item)
