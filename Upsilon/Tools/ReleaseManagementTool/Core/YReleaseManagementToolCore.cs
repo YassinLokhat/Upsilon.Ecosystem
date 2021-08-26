@@ -347,25 +347,48 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
         }
 
-        private void _copyRequiredFiles(YAssembly assembly, string dotfuscatedDirectory)
+        private void _copyRequiredFiles(YAssembly assembly, string outpuoDirectory)
         {
             string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
+            string[] files = null;
+
             if (File.Exists(fileList))
             {
-                string[] files = File.ReadAllLines(fileList);
+                files = File.ReadAllLines(fileList);
                 foreach (string file in files)
                 {
                     string sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file).Trim();
-                    string destination = dotfuscatedDirectory;
+                    string destination = outpuoDirectory;
 
                     if (file.Contains('\t'))
                     {
                         sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file[0..file.IndexOf('\t')].Trim());
-                        destination = Path.Combine(dotfuscatedDirectory, file[file.IndexOf('\t')..].Trim());
+                        destination = Path.Combine(outpuoDirectory, file[file.IndexOf('\t')..].Trim());
                     }
 
                     YStaticMethods.Copy(sourceFile, destination, true);
                 }
+            }
+
+            files = assembly.RequiredFiles.ToArray();
+            string sourceDirectory = Path.GetDirectoryName(assembly.Url);
+            foreach (string file in files)
+            {
+                string sourceFile = Path.Combine(sourceDirectory, file.Trim('/').Trim('\\')).Trim();
+                string destination = Path.GetDirectoryName(sourceFile.Replace(sourceDirectory, outpuoDirectory));
+
+                if (file.Contains('\t'))
+                {
+                    sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file[0..file.IndexOf('\t')].Trim());
+                    destination = Path.Combine(outpuoDirectory, file[file.IndexOf('\t')..].Trim());
+                }
+
+                YStaticMethods.Copy(sourceFile, destination, true);
+            }
+
+            if (assembly.BinaryType != YBinaryType.ClassLibrary)
+            {
+                YAssembly.CreateRuntimeConfigJson(assembly.BinaryType, assembly.Name, outpuoDirectory);
             }
         }
 
