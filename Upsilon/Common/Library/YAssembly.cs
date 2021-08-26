@@ -74,7 +74,7 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// The list of required files of the assembly.
         /// </summary>
-        public string[] RequiredFiles { get; set; }
+        public string[] RequiredFiles { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Get the assembly's version as a <c><see cref="YVersion"/></c>.
@@ -145,8 +145,9 @@ namespace Upsilon.Common.Library
 
                 if (!downloadedDependencies.Any(x => x.Name == dependency.Name && x.YVersion > dependency.YVersion))
                 {
-                    string[] urls = dependency.Url.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
-                    string rootPath = YStaticMethods.GetCommonRootDirectory(urls.Select(x => x[0..x.LastIndexOf('/')]), '/');
+                    string[] urls = new[] { dependency.Url };
+                    urls = urls.Union(dependency.RequiredFiles).ToArray();
+                    string rootPath = dependency.Url[0..dependency.Url.LastIndexOf('/')];
 
                     YAssembly.CreateRuntimeConfigJson(dependency.BinaryType, dependency.Name, outputPath);
 
@@ -184,8 +185,9 @@ namespace Upsilon.Common.Library
         /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
         public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
         {
-            string[] urls = this.Url.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
-            string rootPath = YStaticMethods.GetCommonRootDirectory(urls.Select(x => x[0..x.LastIndexOf('/')]), '/');
+            string[] urls = new[] { this.Url };
+            urls = urls.Union(this.RequiredFiles).ToArray();
+            string rootPath = this.Url[0..this.Url.LastIndexOf('/')];
 
             YAssembly.CreateRuntimeConfigJson(this.BinaryType, this.Name, outputPath);
 

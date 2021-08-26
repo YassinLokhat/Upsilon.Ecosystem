@@ -231,6 +231,11 @@
             <seealso cref="T:Upsilon.Common.Library.YDependency"/>
             </summary>
         </member>
+        <member name="P:Upsilon.Common.Library.YAssembly.RequiredFiles">
+            <summary>
+            The list of required files of the assembly.
+            </summary>
+        </member>
         <member name="P:Upsilon.Common.Library.YAssembly.YVersion">
             <summary>
             Get the assembly's version as a <c><see cref="P:Upsilon.Common.Library.YAssembly.YVersion"/></c>.
