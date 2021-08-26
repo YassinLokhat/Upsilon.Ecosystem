@@ -1,8 +1,9 @@
 {
   "Name": "Upsilon.Common.Library",
-  "Version": "1.0.6",
+  "Version": "1.1.0",
   "Description": "Common features library.",
   "BinaryType": 0,
   "Depreciated": false,
-  "Dependencies": []
+  "Dependencies": [],
+  "RequiredFiles": []
 }

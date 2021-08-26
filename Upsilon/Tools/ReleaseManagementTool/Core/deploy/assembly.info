@@ -8,12 +8,13 @@
     {
       "Name": "Upsilon.Common.Library",
       "MinimalVersion": "1.0.6",
-      "MaximalVersion": "1.0.6"
+      "MaximalVersion": "1.1.0"
     },
     {
       "Name": "Upsilon.Common.MetaHelper",
       "MinimalVersion": "1.0.1",
       "MaximalVersion": "1.0.1"
     }
-  ]
+  ],
+  "RequiredFiles": []
 }
