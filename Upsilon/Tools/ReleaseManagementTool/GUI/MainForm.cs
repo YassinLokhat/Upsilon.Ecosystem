@@ -50,10 +50,75 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 this.cbAssembly.Items.AddRange(Program.Core.SolutionAssemblies.Select(x => x.Name).ToArray());
             }
 
+            this.lbRequiredFiles.KeyUp += LbRequiredFiles_KeyUp;
+            this.lbRequiredFiles.DoubleClick += LbRequiredFiles_DoubleClick;
+
             this.cbSolutions.SelectedIndexChanged += _cbSolutions_SelectedIndexChanged;
             this.cbAssembly.SelectedIndexChanged += _cbAssembly_SelectedIndexChanged;
             this.dgvDependecies.CellValueChanged += _dgvDependecies_CellValueChanged;
             this.ckbOpenOutput.CheckedChanged += _ckbOpenOutput_CheckedChanged;
+        }
+
+        private void _RefreshRequiredFilesList()
+        {
+            if (this._assembly == null)
+            {
+                return;
+            }
+
+            lbRequiredFiles.Items.Clear();
+            lbRequiredFiles.Items.AddRange(this._assembly.RequiredFiles);
+        }
+
+        private void LbRequiredFiles_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Delete
+                || this.lbRequiredFiles.SelectedIndices.Count == 0
+                || MessageBox.Show("Remove selected files from Required files list?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            this._assembly.RequiredFiles = this._assembly.RequiredFiles.Except(this.lbRequiredFiles.SelectedItems.Cast<string>()).ToArray();
+            this._RefreshRequiredFilesList();
+        }
+
+        private void LbRequiredFiles_DoubleClick(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cbAssembly.Text))
+            {
+                return;
+            }
+
+            FolderBrowserDialog folderBrowserDialog = new()
+            {
+                Description = "Select the root folder",
+                ShowNewFolderButton = false,
+            };
+
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "Select requred files",
+                Multiselect = true,
+                Filter = "All files|*",
+                InitialDirectory = folderBrowserDialog.SelectedPath,
+            };
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            List<string> requiredFiles = new(this._assembly.RequiredFiles);
+            requiredFiles.AddRange(openFileDialog.FileNames.Select(x => x.Replace(folderBrowserDialog.SelectedPath, string.Empty).Replace(@"\", "/")));
+
+            this._assembly.RequiredFiles = requiredFiles.Distinct().ToArray();
+            this._RefreshRequiredFilesList();
         }
 
         private void _ckbOpenOutput_CheckedChanged(object sender, EventArgs e)
@@ -205,6 +270,8 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             {
                 this.dgvDependecies.Rows.Add(dependency.Name, dependency.MinimalVersion, dependency.MaximalVersion);
             }
+
+            this._RefreshRequiredFilesList();
         }
 
         private void _bDeploy_Click(object sender, EventArgs e)
@@ -335,6 +402,24 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             {
                 Program.Core.ConfigProvider.SetConfiguration(Config.UploadTool, url);
             }
+        }
+
+        private void _bComputeDeployedAssembliesJson_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new()
+            {
+                Description = "Select the save location",
+                ShowNewFolderButton = false,
+            };
+
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            Program.Core.ComputeDeployedAssembliesJson(folderBrowserDialog.SelectedPath, this._assembly);
+
+            MessageBox.Show($"The deployed.assemblies.json file was computer successfully.", "Success", MessageBoxButtons.OK);
         }
     }
 }

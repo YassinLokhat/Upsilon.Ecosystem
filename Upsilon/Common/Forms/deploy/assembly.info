@@ -1,6 +1,6 @@
 {
   "Name": "Upsilon.Common.Forms",
-  "Version": "1.1.0",
+  "Version": "1.2.0",
   "Description": "Common form features library.",
   "BinaryType": 0,
   "Depreciated": false,
@@ -10,5 +10,6 @@
       "MinimalVersion": "1.0.3",
       "MaximalVersion": "1.0.6"
     }
-  ]
+  ],
+  "RequiredFiles": []
 }

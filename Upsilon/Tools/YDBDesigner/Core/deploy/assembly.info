@@ -8,12 +8,13 @@
     {
       "Name": "Upsilon.Common.Library",
       "MinimalVersion": "1.0.0",
-      "MaximalVersion": "1.0.6"
+      "MaximalVersion": "1.1.0"
     },
     {
       "Name": "Upsilon.Database.Library",
       "MinimalVersion": "1.0.0",
       "MaximalVersion": "1.0.0"
     }
-  ]
+  ],
+  "RequiredFiles": []
 }

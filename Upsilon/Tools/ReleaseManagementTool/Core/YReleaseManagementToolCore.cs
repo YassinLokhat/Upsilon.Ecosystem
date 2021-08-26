@@ -200,6 +200,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             asm.Version = assembly.Version;
             asm.Description = assembly.Description;
             asm.BinaryType = assembly.BinaryType;
+            asm.RequiredFiles = assembly.RequiredFiles.ToArray();
 
             foreach (YDependency dep in assembly.Dependencies)
             {
@@ -276,7 +277,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             this._generateAssemblyInfo();
 
-            this._computeAssembliesJson(assembly.Name, dotfuscatedDirectory);
+            this.ComputeDeployedAssembliesJson(dotfuscatedDirectory, assembly);
 
             this._clearTempFiles();
 
@@ -346,25 +347,48 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             YReleaseManagementToolCore._startProcess("\"./data/signtool.exe\"", $"sign /f \"./data/UpsilonEcosystem.pfx\" /p YL-upsilonecosystem-passw0rd \"{dotfuscatedAssembly}\"");
         }
 
-        private void _copyRequiredFiles(YAssembly assembly, string dotfuscatedDirectory)
+        private void _copyRequiredFiles(YAssembly assembly, string outpuoDirectory)
         {
             string fileList = Path.Combine(Path.GetDirectoryName(assembly.Url), "deploy", $"{assembly.Name}.list.txt");
+            string[] files = null;
+
             if (File.Exists(fileList))
             {
-                string[] files = File.ReadAllLines(fileList);
+                files = File.ReadAllLines(fileList);
                 foreach (string file in files)
                 {
                     string sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file).Trim();
-                    string destination = dotfuscatedDirectory;
+                    string destination = outpuoDirectory;
 
                     if (file.Contains('\t'))
                     {
                         sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file[0..file.IndexOf('\t')].Trim());
-                        destination = Path.Combine(dotfuscatedDirectory, file[file.IndexOf('\t')..].Trim());
+                        destination = Path.Combine(outpuoDirectory, file[file.IndexOf('\t')..].Trim());
                     }
 
                     YStaticMethods.Copy(sourceFile, destination, true);
                 }
+            }
+
+            files = assembly.RequiredFiles.ToArray();
+            string sourceDirectory = Path.GetDirectoryName(assembly.Url);
+            foreach (string file in files)
+            {
+                string sourceFile = Path.Combine(sourceDirectory, file.Trim('/').Trim('\\')).Trim();
+                string destination = Path.GetDirectoryName(sourceFile.Replace(sourceDirectory, outpuoDirectory));
+
+                if (file.Contains('\t'))
+                {
+                    sourceFile = Path.Combine(Path.GetDirectoryName(assembly.Url), file[0..file.IndexOf('\t')].Trim());
+                    destination = Path.Combine(outpuoDirectory, file[file.IndexOf('\t')..].Trim());
+                }
+
+                YStaticMethods.Copy(sourceFile, destination, true);
+            }
+
+            if (assembly.BinaryType != YBinaryType.ClassLibrary)
+            {
+                YAssembly.CreateRuntimeConfigJson(assembly.BinaryType, assembly.Name, outpuoDirectory);
             }
         }
 
@@ -415,56 +439,56 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             }
         }
 
-        private void _computeAssembliesJson(string assemblyName, string dotfuscatedDirectory)
+        public void ComputeDeployedAssembliesJson(string outputDirectory, YAssembly assembly)
         {
             Dictionary<string, List<YAssembly>> assemblies = this.DeployedAssemblies;
-            YAssembly assembly = this.SolutionAssemblies.Find(x => x.Name == assemblyName);
 
-            if (assembly == null)
+            if (assembly != null)
             {
-                return;
-            }
+                assembly = assembly.Clone();
+                assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies)).Replace("\\", "//")
+                    + "/" + Path.GetFileNameWithoutExtension(this._solution)
+                    + "/" + assembly.Name.Replace(".", "/")
+                    + "/" + assembly.Version;
 
-            assembly = assembly.Clone();
-            assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies)).Replace("\\", "//")
-                + "/" + Path.GetFileNameWithoutExtension(this._solution)
-                + "/" + assembly.Name.Replace(".", "/")
-                + "/" + assembly.Version
-                + "/" + assembly.Name;
+                assembly.RequiredFiles = assembly.RequiredFiles.Select(x => assembly.Url + x).ToArray();
 
-            if (assembly.BinaryType == YBinaryType.ClassLibrary)
-            {
-                assembly.Url += ".dll";
-            }
-            else
-            {
-                assembly.Url += "_setup_v" + assembly.Version + ".exe";
-            }
+                assembly.Url += "/" + assembly.Name;
 
-            if (!assemblies.ContainsKey(assembly.Name))
-            {
-                assemblies[assembly.Name] = new();
-            }
+                if (assembly.BinaryType == YBinaryType.ClassLibrary)
+                {
+                    assembly.Url += ".dll";
+                }
+                else
+                {
+                    assembly.Url += "_setup_v" + assembly.Version + ".exe";
+                }
 
-            YAssembly asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
-            
-            if (asm != null)
-            {
-                asm.Depreciated = true;
-            }
+                if (!assemblies.ContainsKey(assembly.Name))
+                {
+                    assemblies[assembly.Name] = new();
+                }
 
-            asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+                YAssembly asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
 
-            if (asm == null)
-            {
-                assemblies[assembly.Name].Insert(0, assembly);
+                if (asm != null)
+                {
+                    asm.Depreciated = true;
+                }
+
+                asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+
+                if (asm == null)
+                {
+                    assemblies[assembly.Name].Insert(0, assembly);
+                }
             }
 
             assemblies = assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
 
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
-            File.WriteAllText(Path.Combine(dotfuscatedDirectory, "deployed.assemblies.json"), jsonString);
+            File.WriteAllText(Path.Combine(outputDirectory, "deployed.assemblies.json"), jsonString);
         }
 
         private void _clearTempFiles()
@@ -548,15 +572,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public void DownloadAssembly(YAssembly assembly, string outputPath)
         {
-            if (assembly.BinaryType == YBinaryType.ClassLibrary
-                || !assembly.Url.Contains($"{assembly.Name}_setup_v{assembly.Version}.exe"))
+            if (assembly.BinaryType == YBinaryType.ClassLibrary)
             {
                 assembly.DownloadAssembly(this.DeployedAssemblies, outputPath);
             }
             else
             {
-                string url = assembly.Url.Split('|').Find(x => x.Contains($"{assembly.Name}_setup_v{assembly.Version}.exe")).Trim();
-                YStaticMethods.DownloadFile(url, Path.Combine(outputPath, Path.GetFileName(url)));
+                YStaticMethods.DownloadFile(assembly.Url, Path.Combine(outputPath, Path.GetFileName(assembly.Url)));
             }
         }
     }
