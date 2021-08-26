@@ -10,5 +10,6 @@
       "MinimalVersion": "1.0.3",
       "MaximalVersion": "1.0.6"
     }
-  ]
+  ],
+  "RequiredFiles": []
 }
