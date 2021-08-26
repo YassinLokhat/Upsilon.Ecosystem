@@ -72,6 +72,11 @@ namespace Upsilon.Common.Library
         public YDependency[] Dependencies { get; set; }
 
         /// <summary>
+        /// The list of required files of the assembly.
+        /// </summary>
+        public string[] RequiredFiles { get; set; }
+
+        /// <summary>
         /// Get the assembly's version as a <c><see cref="YVersion"/></c>.
         /// </summary>
         [JsonIgnore]
