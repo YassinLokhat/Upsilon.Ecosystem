@@ -177,6 +177,7 @@ namespace Upsilon.Common.Library.UnitTests
             act.Should().Throw<Exception>();
         }
 
+        [Ignore]
         [TestMethod]
         public void Test_09_CheckForUpdate_Online_OK()
         {

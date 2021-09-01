@@ -9,6 +9,7 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YAssembly_UnitTests
     {
+        [Ignore]
         [TestMethod]
         public void Test_01_YAssembly_DownloadAssembly_OK()
         {
