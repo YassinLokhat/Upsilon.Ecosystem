@@ -77,11 +77,27 @@
   "Upsilon.Common.Forms": [
     {
       "Name": "Upsilon.Common.Forms",
+      "Version": "1.2.1",
+      "Description": "Common form features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.2.1/Upsilon.Common.Forms.dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.1.0",
+          "MaximalVersion": "1.2.0"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Forms",
       "Version": "1.2.0",
       "Description": "Common form features library.",
       "BinaryType": 0,
       "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.2.0/Upsilon.Common.Forms.dll",
-      "Depreciated": false,
+      "Depreciated": true,
       "Dependencies": [
         {
           "Name": "Upsilon.Common.Library",
