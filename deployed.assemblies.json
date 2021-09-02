@@ -568,7 +568,7 @@
       "Version": "1.2.0.1",
       "Description": "UI for the Release Management Tool.",
       "BinaryType": 1,
-      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.2.0/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.2.0.1.exe",
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.2.0.1/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.2.0.1.exe",
       "Depreciated": false,
       "Dependencies": [
         {
@@ -578,13 +578,13 @@
         },
         {
           "Name": "Upsilon.Common.Library",
-          "MinimalVersion": "1.2.0",
-          "MaximalVersion": "1.2.0"
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
         },
         {
           "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
-          "MinimalVersion": "1.2.1",
-          "MaximalVersion": "1.2.1"
+          "MinimalVersion": "1.2.2",
+          "MaximalVersion": "1.2.2"
         }
       ],
       "RequiredFiles": []
