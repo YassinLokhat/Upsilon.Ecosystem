@@ -267,20 +267,17 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             string outputDirectory = this._getOutputDirectory(assembly);
 
-            if (assembly.YVersion.Revision == 0)
-            {
-                this._dotfuscate(assembly, outputDirectory);
+            this._dotfuscate(assembly, outputDirectory);
 
-                this._sign(assembly, outputDirectory);
+            this._sign(assembly, outputDirectory);
 
-                assembly.DownloadDependecies(this.DeployedAssemblies, outputDirectory);
+            assembly.DownloadDependecies(this.DeployedAssemblies, outputDirectory);
 
-                this._copyRequiredFiles(assembly, outputDirectory);
+            this._copyRequiredFiles(assembly, outputDirectory);
 
-                this._innoSetup(assembly, outputDirectory);
+            this._innoSetup(assembly, outputDirectory);
 
-                this._generateAssemblyInfo();
-            }
+            this._generateAssemblyInfo();
 
             this.ComputeDeployedAssembliesJson(outputDirectory, assembly);
 
@@ -456,7 +453,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies)).Replace("\\", "//")
                     + "/" + Path.GetFileNameWithoutExtension(this._solution)
                     + "/" + assembly.Name.Replace(".", "/")
-                    + "/" + assembly.YVersion.ToString(YVersionFormat.Extended);
+                    + "/" + assembly.Version;
 
                 assembly.RequiredFiles = assembly.RequiredFiles.Select(x => assembly.Url + x).ToArray();
 
