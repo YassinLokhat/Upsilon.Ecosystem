@@ -131,11 +131,21 @@
   "Upsilon.Common.Library": [
     {
       "Name": "Upsilon.Common.Library",
+      "Version": "1.2.0",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.2.0/Upsilon.Common.Library.dll",
+      "Depreciated": false,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
       "Version": "1.1.0",
       "Description": "Common features library.",
       "BinaryType": 0,
       "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.1.0/Upsilon.Common.Library.dll",
-      "Depreciated": false,
+      "Depreciated": true,
       "Dependencies": [],
       "RequiredFiles": []
     },
