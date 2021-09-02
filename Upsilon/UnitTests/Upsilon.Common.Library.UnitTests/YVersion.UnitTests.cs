@@ -34,6 +34,7 @@ namespace Upsilon.Common.Library.UnitTests
 
                 version.ToString(YVersionFormat.Extended).Should().Be($"{major}.{minor}.{build}");
                 version.ToString(YVersionFormat.Full).Should().Be(strVersion);
+                version.ToString("M.m.b.r").Should().Be(strVersion);
             }
         }
 
