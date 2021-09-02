@@ -476,18 +476,26 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                     assemblies[assembly.Name] = new();
                 }
 
-                YAssembly asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false);
+                YAssembly[] asms = assemblies[assembly.Name].Where(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false).ToArray();
 
-                if (asm != null)
+                foreach (YAssembly item in asms)
                 {
-                    asm.Depreciated = true;
+                    if (item != null
+                        && assembly.YVersion.Revision == 0)
+                    {
+                        item.Depreciated = true;
+                    }
                 }
 
-                asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+                var asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
 
                 if (asm == null)
                 {
                     assemblies[assembly.Name].Insert(0, assembly);
+                }
+                else
+                {
+                    asm.CopyFrom(assembly);
                 }
             }
 
