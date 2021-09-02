@@ -621,6 +621,14 @@
             <param name="obj">The <see cref="T:System.Object"/>.</param>
             <returns>Return the Upsilon Hash code.</returns>
         </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.CopyFrom``1(``0,``0)">
+            <summary>
+            Copy the content of a given object to the current object without creating new object.
+            </summary>
+            <typeparam name="T">The type of the object to copy.</typeparam>
+            <param name="objectDestination">The object destination.</param>
+            <param name="objectSource">The object source.</param>
+        </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.Clone``1(``0)">
             <summary>
             Clone a object.

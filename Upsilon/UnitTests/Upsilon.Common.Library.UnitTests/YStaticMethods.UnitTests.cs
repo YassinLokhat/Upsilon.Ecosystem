@@ -4,6 +4,7 @@ using System.Text;
 using FluentAssertions;
 using Upsilon.Common.MetaHelper;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -224,6 +225,61 @@ namespace Upsilon.Common.Library.UnitTests
 
             // Then
             root.Should().Be(@"http://www.test.te/Directory1/Directory2");
+        }
+
+        [TestMethod]
+        public void Test_12_YStaticMethods_CopyFrom_YVersion_OK()
+        {
+            // Given
+            Random random = new Random((int)DateTime.Now.Ticks);
+            
+            // When
+            YVersion soure = new YVersion($"{random.Next(0, 256)}.{random.Next(0, 256)}.{random.Next(0, 256)}.1");
+            YVersion destination = new YVersion($"{random.Next(0, 256)}.{random.Next(0, 256)}.{random.Next(0, 256)}");
+
+            // Then
+            (soure == destination).Should().BeFalse();
+            soure.Revision.Should().Be(1);
+            destination.Revision.Should().Be(0);
+
+            // When
+            destination.CopyFrom(soure);
+
+            // Then
+            (soure == destination).Should().BeTrue();
+            soure.Revision.Should().Be(1);
+            destination.Revision.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void Test_12_YStaticMethods_CopyFrom_YAssembly_OK()
+        {
+            // Given
+            YHelperConfiguration configuration = new()
+            {
+                Reference = "202108091545",
+                Extention = "json",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
+
+            var deployedList = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true)).DeserializeObject<Dictionary<string, List<YAssembly>>>();
+            var assembly = deployedList["Upsilon.Common.Library"][0].Clone();
+            assembly.Dependencies = new[] { new YDependency() { Name = assembly.Name, MaximalVersion = assembly.Version, MinimalVersion = assembly.Version } };
+
+            // When
+            var asm = deployedList[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+
+            // Then
+            asm.Dependencies.Length.Should().Be(0);
+
+            // When
+            asm.CopyFrom(assembly);
+
+            // Then
+            asm.Dependencies.Length.Should().Be(1);
+            asm.Dependencies[0].Name.Should().Be(assembly.Name);
+            asm.Dependencies[0].MaximalVersion.Should().Be(assembly.Version);
+            asm.Dependencies[0].MinimalVersion.Should().Be(assembly.Version);
         }
     }
 }
