@@ -86,7 +86,7 @@
         {
           "Name": "Upsilon.Common.Library",
           "MinimalVersion": "1.1.0",
-          "MaximalVersion": "1.2.0"
+          "MaximalVersion": "1.2.1"
         }
       ],
       "RequiredFiles": []
@@ -329,11 +329,38 @@
   "Upsilon.Tools.ReleaseManagementTool.Core": [
     {
       "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.2.2",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.2/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": [
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/GoRC.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/ResourceHacker.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/Resources.template.rc",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/signtool.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/UpsilonEcosystem.pfx"
+      ]
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
       "Version": "1.2.1",
       "Description": "Core library for the Release Management Tool.",
       "BinaryType": 0,
       "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.1/Upsilon.Tools.ReleaseManagementTool.Core.dll",
-      "Depreciated": false,
+      "Depreciated": true,
       "Dependencies": [
         {
           "Name": "Upsilon.Common.Library",
