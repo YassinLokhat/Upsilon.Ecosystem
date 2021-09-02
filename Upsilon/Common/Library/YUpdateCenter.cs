@@ -86,7 +86,6 @@ namespace Upsilon.Common.Library
             }
 
             string tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DateTime.Now.Ticks.ToString());
-            tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "update");
 
             if (Directory.Exists(tempDir))
             {

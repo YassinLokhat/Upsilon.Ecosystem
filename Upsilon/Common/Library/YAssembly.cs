@@ -147,12 +147,21 @@ namespace Upsilon.Common.Library
                 {
                     string[] urls = new[] { dependency.Url };
                     urls = urls.Union(dependency.RequiredFiles).ToArray();
-                    string rootPath = dependency.Url[0..dependency.Url.LastIndexOf('/')];
 
                     YAssembly.CreateRuntimeConfigJson(dependency.BinaryType, dependency.Name, outputPath);
 
                     foreach (string url in urls)
                     {
+                        string rootPath = dependency.Url[0..dependency.Url.LastIndexOf('/')];
+
+                        if (!url.StartsWith(rootPath))
+                        {
+                            rootPath = dependency.Name.Replace(".", "/") + "/";
+                            var index = url.LastIndexOf(rootPath) + rootPath.Length + 1;
+                            index = url.IndexOf("/", index);
+                            rootPath = url[0..index];
+                        }
+
                         if (url.Contains($"{dependency.Name}_setup_v" + dependency.Version + ".exe"))
                         {
                             continue;
@@ -186,6 +195,16 @@ namespace Upsilon.Common.Library
         public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
         {
             string[] urls = new[] { this.Url };
+
+            if (this.Url.EndsWith($"{this.Name}_setup_v" + this.Version + ".exe"))
+            {
+                urls = new[]
+                {
+                    this.Url.Replace($"{this.Name}_setup_v" + this.Version + ".exe", $"{this.Name}.exe"),
+                    this.Url.Replace($"{this.Name}_setup_v" + this.Version + ".exe", $"{this.Name}.dll"),
+                };
+            }
+
             urls = urls.Union(this.RequiredFiles).ToArray();
             string rootPath = this.Url[0..this.Url.LastIndexOf('/')];
 
@@ -193,11 +212,6 @@ namespace Upsilon.Common.Library
 
             foreach (string url in urls)
             {
-                if (url.Contains($"{this.Name}_setup_v" + this.Version + ".exe"))
-                {
-                    continue;
-                }
-
                 string filePath = Path.GetDirectoryName(url.Replace(rootPath, outputPath));
                 if (!Directory.Exists(filePath))
                 {
@@ -210,7 +224,15 @@ namespace Upsilon.Common.Library
                     File.Delete(filePath);
                 }
 
-                YStaticMethods.DownloadFile(url, filePath);
+                try
+                {
+                    YStaticMethods.DownloadFile(url, filePath);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    throw new Exception($"Cannot download '{url}' to '{filePath}'");
+                }
             }
 
             this.DownloadDependecies(deployedAssemblies, outputPath);

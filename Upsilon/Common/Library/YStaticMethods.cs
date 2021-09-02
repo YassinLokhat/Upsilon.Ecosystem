@@ -83,6 +83,29 @@ namespace Upsilon.Common.Library
         }
 
         /// <summary>
+        /// Copy the content of a given object to the current object without creating new object.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to copy.</typeparam>
+        /// <param name="objectDestination">The object destination.</param>
+        /// <param name="objectSource">The object source.</param>
+        public static void CopyFrom<T>(this T objectDestination, T objectSource)
+        {
+            Type type = typeof(T);
+            var properties = type.GetProperties();
+
+            foreach (var property in properties)
+            {
+                if (!property.CanWrite)
+                {
+                    continue;
+                }
+
+                object value = property.GetValue(objectSource);
+                property.SetValue(objectDestination, value);
+            }
+        }
+
+        /// <summary>
         /// Clone a object.
         /// </summary>
         /// <typeparam name="T">The type of the object to clone.</typeparam>

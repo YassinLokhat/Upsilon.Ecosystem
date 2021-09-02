@@ -110,6 +110,37 @@ namespace Upsilon.Common.Library
         }
 
         /// <summary>
+        /// Get the string format of the <c><see cref="YVersion"/></c> according to the given format.
+        /// <list type="bullet">
+        ///     <listheader>
+        ///         <description>Characters for the format string.</description>
+        ///     </listheader>
+        ///     <item>
+        ///         <description><c>M</c> for Major.</description>
+        ///     </item>
+        ///     <item>
+        ///         <description><c>m</c> for Minor.</description>
+        ///     </item>
+        ///     <item>
+        ///         <description><c>b</c> for Build.</description>
+        ///     </item>
+        ///     <item>
+        ///         <description><c>r</c> for Revision.</description>
+        ///     </item>
+        /// </list>   
+        /// </summary>
+        /// <param name="format">The format of the string version.</param>
+        /// <returns>Returns the <c><see cref="YVersion"/></c> string in the <c><see cref="YVersionFormat.Full"/></c> format.</returns>
+        public string ToString(string format)
+        {
+            return format
+                .Replace("M", Major.ToString())
+                .Replace("m", Minor.ToString())
+                .Replace("b", Build.ToString())
+                .Replace("r", Revision.ToString());
+        }
+
+        /// <summary>
         /// Get the string format of the <c><see cref="YVersion"/></c> according to the <c><see cref="YVersionFormat.Full"/></c> format.
         /// </summary>
         /// <returns>Returns the <c><see cref="YVersion"/></c> string in the <c><see cref="YVersionFormat.Full"/></c> format.</returns>

@@ -1,0 +1,770 @@
+{
+  "BaseConverter": [
+    {
+      "Name": "BaseConverter",
+      "Version": "1.4.0",
+      "Description": "A base converter tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/BaseConverter/1.4.0/BaseConverter_setup_v1.4.0.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.1.0",
+          "MaximalVersion": "1.1.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.2",
+          "MaximalVersion": "1.0.5"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "BaseConverter",
+      "Version": "1.3.3",
+      "Description": "A base converter tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/BaseConverter/1.3.3/BaseConverter_setup_v1.3.3.exe",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.2",
+          "MaximalVersion": "1.0.4"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "ParametreSysHelper": [
+    {
+      "Name": "ParametreSysHelper",
+      "Version": "1.1.1",
+      "Description": "A Parametre.sys file editor.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/ParametreSysHelper/1.1.1/ParametreSysHelper_setup_v1.1.1.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.3",
+          "MaximalVersion": "1.0.4"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "UnitTestHelper": [
+    {
+      "Name": "UnitTestHelper",
+      "Version": "2.3.0",
+      "Description": "An Unit Test generator.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/UnitTestHelper/2.3.0/UnitTestHelper_setup_v2.3.0.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.3",
+          "MaximalVersion": "1.0.4"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Common.Forms": [
+    {
+      "Name": "Upsilon.Common.Forms",
+      "Version": "1.2.1",
+      "Description": "Common form features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.2.1/Upsilon.Common.Forms.dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.1.0",
+          "MaximalVersion": "1.2.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Forms",
+      "Version": "1.2.0",
+      "Description": "Common form features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.2.0/Upsilon.Common.Forms.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.3",
+          "MaximalVersion": "1.1.0"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Forms",
+      "Version": "1.1.0",
+      "Description": "Common form features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.1.0/Upsilon.Common.Forms.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.3",
+          "MaximalVersion": "1.0.5"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Forms",
+      "Version": "1.0.1",
+      "Description": "Common form features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.0.1/Upsilon.Common.Forms.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Forms",
+      "Version": "1.0.0",
+      "Description": "Common form features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Forms/1.0.0/Upsilon.Common.Forms.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Common.Library": [
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.2.1",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.2.1/Upsilon.Common.Library.dll",
+      "Depreciated": false,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.2.0",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.2.0/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.1.0",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.1.0/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.6",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.6/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.5",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.5/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.4",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.4/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.3",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.3/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.2",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.2/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.1",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.1/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.Library",
+      "Version": "1.0.0",
+      "Description": "Common features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/Library/1.0.0/Upsilon.Common.Library.dll",
+      "Depreciated": true,
+      "Dependencies": [],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Common.MetaHelper": [
+    {
+      "Name": "Upsilon.Common.MetaHelper",
+      "Version": "1.0.1",
+      "Description": "Meta-helper library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/MetaHelper/1.0.1/Upsilon.Common.MetaHelper.dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Database.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.2",
+          "MaximalVersion": "1.0.4"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Common.MetaHelper",
+      "Version": "1.0.0",
+      "Description": "Meta-helper library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Common/MetaHelper/1.0.0/Upsilon.Common.MetaHelper.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Database.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.3"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Database.Library": [
+    {
+      "Name": "Upsilon.Database.Library",
+      "Version": "1.0.0",
+      "Description": "Database features library.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Database/Library/1.0.0/Upsilon.Database.Library.dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.2"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Tools.CipherEditor": [
+    {
+      "Name": "Upsilon.Tools.CipherEditor",
+      "Version": "1.0.0",
+      "Description": "A Cither and Clear text editor.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/CipherEditor/1.0.0/Upsilon.Tools.CipherEditor_setup_v1.0.0.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.2",
+          "MaximalVersion": "1.0.4"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Tools.ReleaseManagementTool.Core": [
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.2.2",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.2/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": [
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/GoRC.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/ResourceHacker.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/Resources.template.rc",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/signtool.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/UpsilonEcosystem.pfx"
+      ]
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.2.1",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.1/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.2.0",
+          "MaximalVersion": "1.2.0"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": [
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/GoRC.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/ResourceHacker.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/Resources.template.rc",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/signtool.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/UpsilonEcosystem.pfx"
+      ]
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.2.0",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.1.0",
+          "MaximalVersion": "1.1.0"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": [
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/GoRC.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/ResourceHacker.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/Resources.template.rc",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/signtool.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.2.0/data/UpsilonEcosystem.pfx"
+      ]
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.1.2",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.2/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.5",
+          "MaximalVersion": "1.0.5"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": [
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.2/data/GoRC.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.2/data/ResourceHacker.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.2/data/Resources.template.rc",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.2/data/signtool.exe",
+        "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.2/data/UpsilonEcosystem.pfx"
+      ]
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.1.1",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.1/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.5",
+          "MaximalVersion": "1.0.5"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.1.0",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.1.0/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.5",
+          "MaximalVersion": "1.0.5"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.0.3",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.0.3/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.4",
+          "MaximalVersion": "1.0.4"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.0.2",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.0.2/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.4",
+          "MaximalVersion": "1.0.4"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.0.1",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.0.1/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.4",
+          "MaximalVersion": "1.0.4"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+      "Version": "1.0.0",
+      "Description": "Core library for the Release Management Tool.",
+      "BinaryType": 0,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/Core/1.0.0/Upsilon.Tools.ReleaseManagementTool.Core.dll",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.3",
+          "MaximalVersion": "1.0.3"
+        },
+        {
+          "Name": "Upsilon.Common.MetaHelper",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ],
+  "Upsilon.Tools.ReleaseManagementTool.GUI": [
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.2.0.1",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.2.0.1/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.2.0.1.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.2.2",
+          "MaximalVersion": "1.2.2"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.2.0",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.2.0/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.2.0.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.2.0",
+          "MaximalVersion": "1.2.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.1.0",
+          "MaximalVersion": "1.1.0"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.2.0",
+          "MaximalVersion": "1.2.0"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.1.1",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.1.1/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.1.1.exe|http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.1.1/Upsilon.Tools.ReleaseManagementTool.GUI.exe|http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.1.1/Upsilon.Tools.ReleaseManagementTool.GUI.dll|",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.5",
+          "MaximalVersion": "1.0.5"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.1.2",
+          "MaximalVersion": "1.1.2"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.1.0",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.1.0/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.1.0.exe",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.5",
+          "MaximalVersion": "1.0.5"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.1.1",
+          "MaximalVersion": "1.1.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.0.3",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.0.3/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.0.3.exe",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.4",
+          "MaximalVersion": "1.0.4"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.0.2",
+          "MaximalVersion": "1.0.3"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.0.2",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.0.2/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.0.2.exe",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.4",
+          "MaximalVersion": "1.0.4"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.0.2",
+          "MaximalVersion": "1.0.2"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.0.1",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.0.1/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.0.1.exe",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.0.4",
+          "MaximalVersion": "1.0.4"
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.0.1",
+          "MaximalVersion": "1.0.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
+      "Version": "1.0.0",
+      "Description": "UI for the Release Management Tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/UpsilonEcosystem/Upsilon/Tools/ReleaseManagementTool/GUI/1.0.0/Upsilon.Tools.ReleaseManagementTool.GUI_setup_v1.0.0.exe",
+      "Depreciated": true,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "",
+          "MaximalVersion": ""
+        },
+        {
+          "Name": "Upsilon.Tools.ReleaseManagementTool.Core",
+          "MinimalVersion": "1.0.0",
+          "MaximalVersion": "1.0.0"
+        }
+      ],
+      "RequiredFiles": []
+    }
+  ]
+}

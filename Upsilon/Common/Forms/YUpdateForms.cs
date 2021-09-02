@@ -29,19 +29,19 @@ namespace Upsilon.Common.Forms
         {
             Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(serverUrl, assemblyName, out YAssembly onlineAssembly);
 
-            if (String.IsNullOrWhiteSpace(message))
-            {
-                message = $"A new version of {assemblyName} is available : '{onlineAssembly.Version}'.\nPlease update the software since the version '{localVersion}' is depreciated.";
-            }
-
-            if (String.IsNullOrWhiteSpace(title))
-            {
-                title = "New version";
-            }
-
             if (onlineAssembly != null
                 && onlineAssembly.YVersion > localVersion)
             {
+                if (String.IsNullOrWhiteSpace(message))
+                {
+                    message = $"A new version of {assemblyName} is available : '{onlineAssembly.Version}'.\nPlease update the software since the version '{localVersion}' is depreciated.";
+                }
+
+                if (String.IsNullOrWhiteSpace(title))
+                {
+                    title = "New version";
+                }
+
                 if (!string.IsNullOrWhiteSpace(onlineAssembly.Url)
                     && MessageBox.Show(message,
                     title, MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
