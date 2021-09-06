@@ -2,11 +2,32 @@
   "BaseConverter": [
     {
       "Name": "BaseConverter",
+      "Version": "1.4.1",
+      "Description": "A base converter tool.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/BaseConverter/1.4.1/BaseConverter_setup_v1.4.1.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "BaseConverter",
       "Version": "1.4.0",
       "Description": "A base converter tool.",
       "BinaryType": 1,
       "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/BaseConverter/1.4.0/BaseConverter_setup_v1.4.0.exe",
-      "Depreciated": false,
+      "Depreciated": true,
       "Dependencies": [
         {
           "Name": "Upsilon.Common.Forms",
@@ -41,11 +62,32 @@
   "ParametreSysHelper": [
     {
       "Name": "ParametreSysHelper",
+      "Version": "1.1.2",
+      "Description": "A Parametre.sys file editor.",
+      "BinaryType": 1,
+      "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/ParametreSysHelper/1.1.2/ParametreSysHelper_setup_v1.1.2.exe",
+      "Depreciated": false,
+      "Dependencies": [
+        {
+          "Name": "Upsilon.Common.Forms",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        },
+        {
+          "Name": "Upsilon.Common.Library",
+          "MinimalVersion": "1.2.1",
+          "MaximalVersion": "1.2.1"
+        }
+      ],
+      "RequiredFiles": []
+    },
+    {
+      "Name": "ParametreSysHelper",
       "Version": "1.1.1",
       "Description": "A Parametre.sys file editor.",
       "BinaryType": 1,
       "Url": "http://api.upsilon-ecosystem.xyz/Projet_Perso/ParametreSysHelper/1.1.1/ParametreSysHelper_setup_v1.1.1.exe",
-      "Depreciated": false,
+      "Depreciated": true,
       "Dependencies": [
         {
           "Name": "Upsilon.Common.Library",
