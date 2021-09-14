@@ -725,6 +725,25 @@
             <param name="predicate">The search criteria.</param>
             <returns>The object found or <c>null</c>.</returns>
         </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.TakeElementFrom``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+            <summary>
+            Take <paramref name="count"/> elements from the <paramref name="startIndex"/> of the <paramref name="list"/>.
+            </summary>
+            <typeparam name="T">The type of object in the list.</typeparam>
+            <param name="list">The list of objects.</param>
+            <param name="startIndex">The start index.</param>
+            <param name="count">The number of element to take.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YStaticMethods.TakeElementFrom``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Take all elements from the <paramref name="startIndex"/> of the <paramref name="list"/>.
+            </summary>
+            <typeparam name="T">The type of object in the list.</typeparam>
+            <param name="list">The list of objects.</param>
+            <param name="startIndex">The start index.</param>
+            <returns></returns>
+        </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.GetCommonRootDirectory(System.Collections.Generic.IList{System.String},System.Char)">
             <summary>
             Get the common root of a list of directories.

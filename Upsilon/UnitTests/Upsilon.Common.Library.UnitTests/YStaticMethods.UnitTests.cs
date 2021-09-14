@@ -5,6 +5,7 @@ using FluentAssertions;
 using Upsilon.Common.MetaHelper;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -280,6 +281,53 @@ namespace Upsilon.Common.Library.UnitTests
             asm.Dependencies[0].Name.Should().Be(assembly.Name);
             asm.Dependencies[0].MaximalVersion.Should().Be(assembly.Version);
             asm.Dependencies[0].MinimalVersion.Should().Be(assembly.Version);
+        }
+
+        [TestMethod]
+        public void Test_13_YStaticMethods_TakeElementFrom_OK()
+        {
+            // Given
+            var array = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // When
+            var subArray1 = array.TakeElementFrom(2, 5).ToArray();
+            var subArray2 = array.TakeElementFrom(2).ToArray();
+
+            // Then
+            subArray1.Should().BeEquivalentTo(new int[] { 2, 3, 4, 5, 6 });
+            subArray2.Should().BeEquivalentTo(new int[] { 2, 3, 4, 5, 6, 7, 8, 9 });
+        }
+
+        [TestMethod]
+        public void Test_14_YStaticMethods_TakeElementFrom_StartIndex_K0()
+        {
+            // Given
+            var array = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // When
+            var act = new Action(() =>
+            {
+                var subArray = array.TakeElementFrom(50, 5).ToArray();
+            });
+
+            // Then
+            act.Should().Throw<Exception>();
+        }
+
+        [TestMethod]
+        public void Test_15_YStaticMethods_TakeElementFrom_Count_K0()
+        {
+            // Given
+            var array = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // When
+            var act = new Action(() =>
+            {
+                var subArray = array.TakeElementFrom(5, 50).ToArray();
+            });
+
+            // Then
+            act.Should().Throw<Exception>();
         }
     }
 }

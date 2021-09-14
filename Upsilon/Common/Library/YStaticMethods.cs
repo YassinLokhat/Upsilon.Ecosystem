@@ -331,6 +331,39 @@ namespace Upsilon.Common.Library
         {
             return list.ToList().Find(predicate);
         }
+
+        /// <summary>
+        /// Take <paramref name="count"/> elements from the <paramref name="startIndex"/> of the <paramref name="list"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of object in the list.</typeparam>
+        /// <param name="list">The list of objects.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The number of element to take.</param>
+        /// <returns></returns>
+        public static IEnumerable<T> TakeElementFrom<T>(this IEnumerable<T> list, int startIndex, int count)
+        {
+            if (count < 0)
+            {
+                count = list.Count() - startIndex;
+            }
+
+            T[] subArray = new T[count];
+            Array.Copy(list.ToArray(), startIndex, subArray, 0, count);
+
+            return subArray.AsEnumerable();
+        }
+
+        /// <summary>
+        /// Take all elements from the <paramref name="startIndex"/> of the <paramref name="list"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of object in the list.</typeparam>
+        /// <param name="list">The list of objects.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <returns></returns>
+        public static IEnumerable<T> TakeElementFrom<T>(this IEnumerable<T> list, int startIndex)
+        {
+            return list.TakeElementFrom(startIndex, -1);
+        }
         #endregion
 
         #region List extention methods
