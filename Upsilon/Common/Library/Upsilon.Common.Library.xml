@@ -586,6 +586,31 @@
             <param name="key">The password key.</param>
             <returns></returns>
         </member>
+        <member name="T:Upsilon.Common.Library.YDT">
+            <summary>
+            The Upsilon Debug Trace feature class
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDT.InitTrace(System.String)">
+            <summary>
+            Initialize tracing with the solution file directory.
+            </summary>
+            <param name="solutionDirectory">The solution file directory.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDT.TrOn(System.Int32)">
+            <summary>
+            Start tracing block.
+            </summary>
+            <param name="sourceLineNumber">Leave default.</param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDT.TrOff(System.String,System.Int32,System.String)">
+            <summary>
+            Stop tracing block.
+            </summary>
+            <param name="sourceFilePath">Leave default.</param>
+            <param name="sourceLineNumber">Leave default.</param>
+            <param name="sourceMemberName">Leave default.</param>
+        </member>
         <member name="T:Upsilon.Common.Library.YStaticMethods">
             <summary>
             This static class contains some static methods and extention methods.
