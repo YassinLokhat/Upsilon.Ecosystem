@@ -66,7 +66,7 @@ namespace Upsilon.Common.Library
                 { 
                     FileName = YDT._getFilePath(sourceFilePath), 
                     StartLine = sourceLineNumber, 
-                    ExecutingCode = sourceMemberName,
+                    ExecutingMethodeName = sourceMemberName,
                     Parameters = sourceMemberParameters,
                 };
                 YDT._currentTrace = YDT._rootTrace;
@@ -87,7 +87,7 @@ namespace Upsilon.Common.Library
             { 
                 FileName = YDT._getFilePath(sourceFilePath), 
                 StartLine = sourceLineNumber, 
-                ExecutingCode = sourceMemberName,
+                ExecutingMethodeName = sourceMemberName,
                 Parameters = sourceMemberParameters,
                 CallerMethod = caller.GetMethod().Name, 
                 CallerLine = caller.GetFileLineNumber(), 
@@ -120,7 +120,7 @@ namespace Upsilon.Common.Library
             if (trace == null
                 || trace.FileName != YDT._getFilePath(sourceFilePath)
                 || trace.StartLine > sourceLineNumber
-                || trace.ExecutingCode != sourceMemberName)
+                || trace.ExecutingMethodeName != sourceMemberName)
             {
                 throw new Exception("Current Trace off call does not match to a previous Trace on call.");
             }
@@ -158,7 +158,7 @@ namespace Upsilon.Common.Library
         public int EndLine { get; set; } = -1;
         public string CallerMethod { get; set; } = string.Empty;
         public int CallerLine { get; set; } = -1;
-        public string ExecutingCode { get; set; } = string.Empty;
+        public string ExecutingMethodeName { get; set; } = string.Empty;
         public object[] Parameters { get; set; } = null;
         public object Return { get; set; } = null;
 
@@ -188,7 +188,7 @@ namespace Upsilon.Common.Library
 
             var trace = new List<string> { $"\n\"{FileName}\" [{StartLine + 1} - {EndLine - 1}]" };
             trace.Add($"Called in {CallerMethod} line {CallerLine} :");
-            trace.Add($"{ExecutingCode}");
+            trace.Add($"{ExecutingMethodeName}");
             trace.Add("(");
             trace.AddRange(Parameters.Select((x, i) => $"\t{x.SerializeObject()}"));
             trace.Add(")");
