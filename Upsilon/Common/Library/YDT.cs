@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,7 +17,6 @@ namespace Upsilon.Common.Library
         private static readonly string _traceLogFile = "trace.log";
         //private static readonly string _key = "UpsilonEcosystem";
         private static readonly string _key = "";
-        private static Stack<int> _startIndex = new();
         private static bool _traceIsPossible
         {
             get
@@ -25,6 +25,9 @@ namespace Upsilon.Common.Library
                     && Directory.Exists(File.ReadAllText(YDT._traceLogFile).Uncipher_Aes(YDT._key).Split('\n').FirstOrDefault());
             }
         }
+
+        private static _Trace _rootTrace = null;
+        private static _Trace _currentTrace = null;
 
         /// <summary>
         /// Initialize tracing with the solution file directory.
@@ -38,25 +41,11 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// Start tracing block.
         /// </summary>
-        /// <param name="sourceLineNumber">Leave default.</param>
-        public static void TrOn(
-            [CallerLineNumber] int sourceLineNumber = 0)
-        {
-            if (!YDT._traceIsPossible)
-            {
-                return;
-            }
-
-            YDT._startIndex.Push(sourceLineNumber);
-        }
-
-        /// <summary>
-        /// Stop tracing block.
-        /// </summary>
+        /// <param name="sourceMemberParameters">The method parameters.</param>
         /// <param name="sourceFilePath">Leave default.</param>
         /// <param name="sourceLineNumber">Leave default.</param>
         /// <param name="sourceMemberName">Leave default.</param>
-        public static void TrOff(
+        public static void TrOn(object[] sourceMemberParameters = null,
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0,
             [CallerMemberName] string sourceMemberName = "")
@@ -66,14 +55,80 @@ namespace Upsilon.Common.Library
                 return;
             }
 
-            var startIndex = YDT._startIndex.Pop();
-            sourceFilePath = YDT._getFilePath(sourceFilePath);
-            var trace = new List<string> { $"\n/// \"{sourceFilePath}\" [{startIndex + 1} - {sourceLineNumber - 1}] ({sourceMemberName})" };
-            trace.AddRange(File.ReadLines(sourceFilePath).TakeElementFrom(startIndex, sourceLineNumber - startIndex - 1));
+            if (sourceMemberParameters == null)
+            {
+                sourceMemberParameters = Array.Empty<object>();
+            }
 
-            var tmp = File.ReadLines(sourceFilePath).ToArray();
+            if (YDT._rootTrace == null)
+            {
+                YDT._rootTrace = new _Trace() 
+                { 
+                    FileName = YDT._getFilePath(sourceFilePath), 
+                    StartLine = sourceLineNumber, 
+                    ExecutingCode = sourceMemberName,
+                    Parameters = sourceMemberParameters,
+                };
+                YDT._currentTrace = YDT._rootTrace;
+            }
 
-            YDT._logTrace(trace.ToArray());
+            StackTrace stackTrace = new StackTrace(true);
+            var frames = stackTrace.GetFrames();
+            int callerIndex = 1;
+
+            while (frames[callerIndex - 1].GetMethod().Name != sourceMemberName)
+            {
+                callerIndex++;
+            }
+
+            var caller = frames[callerIndex];
+
+            var trace = new _Trace()
+            { 
+                FileName = YDT._getFilePath(sourceFilePath), 
+                StartLine = sourceLineNumber, 
+                ExecutingCode = sourceMemberName,
+                Parameters = sourceMemberParameters,
+                CallerMethod = caller.GetMethod().Name, 
+                CallerLine = caller.GetFileLineNumber(), 
+            };
+
+            YDT._currentTrace.AddTrace(trace);
+            YDT._currentTrace = trace;
+        }
+
+        /// <summary>
+        /// Stop tracing block.
+        /// </summary>
+        /// <param name="sourceMemberReturn">The method returned object.</param>
+        /// <param name="sourceFilePath">Leave default.</param>
+        /// <param name="sourceLineNumber">Leave default.</param>
+        /// <param name="sourceMemberName">Leave default.</param>
+        public static void TrOff(object sourceMemberReturn = null,
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0,
+            [CallerMemberName] string sourceMemberName = "")
+        {
+            if (!YDT._traceIsPossible)
+            {
+                return;
+            }
+
+            var trace = YDT._currentTrace;
+            YDT._currentTrace = YDT._currentTrace.Parent;
+
+            if (trace == null
+                || trace.FileName != YDT._getFilePath(sourceFilePath)
+                || trace.StartLine > sourceLineNumber
+                || trace.ExecutingCode != sourceMemberName)
+            {
+                throw new Exception("Current Trace off call does not match to a previous Trace on call.");
+            }
+
+            trace.Return = sourceMemberReturn;
+            trace.EndLine = sourceLineNumber;
+
+            YDT._logTrace(trace);
         }
 
         private static string _getFilePath(string sourceFilePath)
@@ -88,12 +143,63 @@ namespace Upsilon.Common.Library
             return Path.Combine(absolutePath, sourceFilePath);
         }
 
-        private static void _logTrace(string[] trace)
+        private static void _logTrace(_Trace trace)
         {
-            var traces = File.ReadAllText(YDT._traceLogFile).Uncipher_Aes(YDT._key).Split('\n').ToList();
-            traces.AddRange(trace);
+            var header = File.ReadAllText(YDT._traceLogFile).Uncipher_Aes(YDT._key).Split('\n').FirstOrDefault();
             
-            File.WriteAllText(YDT._traceLogFile, string.Join("\n", traces).Cipher_Aes(YDT._key));
+            File.WriteAllText(YDT._traceLogFile, header + "\n" + trace.ToString().Cipher_Aes(YDT._key));
+        }
+    }
+
+    internal class _Trace
+    {
+        public string FileName { get; set; } = string.Empty;
+        public int StartLine { get; set; } = -1;
+        public int EndLine { get; set; } = -1;
+        public string CallerMethod { get; set; } = string.Empty;
+        public int CallerLine { get; set; } = -1;
+        public string ExecutingCode { get; set; } = string.Empty;
+        public object[] Parameters { get; set; } = null;
+        public object Return { get; set; } = null;
+
+        public bool IsClosed
+        {
+            get
+            {
+                return EndLine != -1;
+            }
+        }
+
+        public List<_Trace> Traces { get; set; } = new();
+        public _Trace Parent { get; set; } = null;
+
+        public void AddTrace(_Trace trace)
+        {
+            trace.Parent = this;
+            this.Traces.Add(trace);
+        }
+
+        public override string ToString()
+        {
+            if (!this.IsClosed)
+            {
+                return string.Empty;
+            }
+
+            var trace = new List<string> { $"\n\"{FileName}\" [{StartLine + 1} - {EndLine - 1}]" };
+            trace.Add($"Called in {CallerMethod} line {CallerLine} :");
+            trace.Add($"{ExecutingCode}");
+            trace.Add("(");
+            trace.AddRange(Parameters.Select((x, i) => $"\t{x.SerializeObject()}"));
+            trace.Add(")");
+            trace.Add("{");
+            trace.AddRange(File.ReadLines(FileName).TakeElementFrom(StartLine, EndLine - StartLine - 1).Select((x, i) => $"{StartLine + i + 1}\t{x}"));
+            trace.Add($"\tReturned {(Return != null ? Return.SerializeObject() : "null")}");
+            trace.Add("}");
+            
+            trace.AddRange(this.Traces.Select(x => x.ToString()));
+
+            return string.Join("\n", trace);
         }
     }
 }

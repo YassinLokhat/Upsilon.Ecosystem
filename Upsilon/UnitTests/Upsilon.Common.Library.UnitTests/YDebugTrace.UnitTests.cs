@@ -18,28 +18,30 @@ namespace Upsilon.Common.Library.UnitTests
             YDT.InitTrace(MetaHelper.YHelper.GetSolutionDirectory());
 
             // When
-            this.function1();
+            this.function1(15);
 
             // Then
             1.Should().Be(0);
         }
 
-        private void function1()
+        private void function1(int param)
         {
-            YDT.TrOn();
+            YDT.TrOn(new object[] { param });
+            int local = 10;
             // preprocessing function2
-            this.function2();
+            this.function2(local);
             // postprocessing function2
             YDT.TrOff(); 
         }
 
-        private void function2()
-        { 
-            YDT.TrOn();
+        private int function2(int param)
+        {
+            YDT.TrOn(new object[] { param });
             // processing function2
             var random = new Random((int)DateTime.Now.Ticks);
+            var n = random.Next(100);
 
-            if (random.Next() % 2 == 0)
+            if (n % 2 == 0)
             {
                 // preprocessing function3
                 this.function3();
@@ -52,7 +54,8 @@ namespace Upsilon.Common.Library.UnitTests
                 // postprocessing function4
             }
 
-            YDT.TrOff();
+            YDT.TrOff(n);
+            return n;
         }
 
         private void function3()
