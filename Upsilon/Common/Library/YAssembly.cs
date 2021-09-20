@@ -90,6 +90,8 @@ namespace Upsilon.Common.Library
         /// <param name="fileLocation">The location of the runtimeconfig.json file.</param>
         public static void CreateRuntimeConfigJson(YBinaryType binaryType, string assemblyName, string fileLocation)
         {
+            YDT.TrOn(new object[] { binaryType, assemblyName, fileLocation });
+
             if (!Directory.Exists(fileLocation))
             {
                 Directory.CreateDirectory(fileLocation);
@@ -107,6 +109,8 @@ namespace Upsilon.Common.Library
                 case YBinaryType.ConsoleApplication:
                     return;
             }
+
+            YDT.TrOff();
         }
 
         /// <summary>
@@ -117,6 +121,8 @@ namespace Upsilon.Common.Library
         /// <param name="downloadedDependencies">The list of dependecies already downloaded. By default this parameter is <c>null</c>.</param>
         public void DownloadDependecies(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath, List<YAssembly> downloadedDependencies = null)
         {
+            YDT.TrOn(new object[] { deployedAssemblies, outputPath, downloadedDependencies });
+
             if (deployedAssemblies == null)
             {
                 deployedAssemblies = new();
@@ -185,6 +191,8 @@ namespace Upsilon.Common.Library
                     downloadedDependencies.Add(dependency);
                 }
             }
+
+            YDT.TrOff();
         }
 
         /// <summary>
@@ -194,6 +202,8 @@ namespace Upsilon.Common.Library
         /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
         public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
         {
+            YDT.TrOn(new object[] { deployedAssemblies, outputPath });
+
             string[] urls = new[] { this.Url };
 
             if (this.Url.EndsWith($"{this.Name}_setup_v" + this.Version + ".exe"))
@@ -236,6 +246,8 @@ namespace Upsilon.Common.Library
             }
 
             this.DownloadDependecies(deployedAssemblies, outputPath);
+
+            YDT.TrOff();
         }
     }
 

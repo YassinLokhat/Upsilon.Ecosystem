@@ -27,6 +27,8 @@ namespace Upsilon.Common.Forms
         /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
         public static YAssembly CheckForUpdate(string serverUrl, string assemblyName, YVersion localVersion, string message = null, string title = null)
         {
+            YDT.TrOn(new object[] { serverUrl, assemblyName, localVersion, message, title });
+
             Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(serverUrl, assemblyName, out YAssembly onlineAssembly);
 
             if (onlineAssembly != null
@@ -52,7 +54,7 @@ namespace Upsilon.Common.Forms
                 Environment.Exit(0);
             }
 
-            return onlineAssembly;
+            return YDT.RetTrOff(onlineAssembly);
         }
 
         /// <summary>
@@ -64,13 +66,15 @@ namespace Upsilon.Common.Forms
         /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
         public static YAssembly CheckForUpdate(string serverUrl, string message = null, string title = null)
         {
+            YDT.TrOn(new object[] { serverUrl, message, title });
+
             Assembly local = Assembly.GetCallingAssembly();
 
             string assemblyName = local.GetName().Name;
 
             YVersion localVersion = new(local.GetName().Version);
 
-            return YUpdateForms.CheckForUpdate(serverUrl, assemblyName, localVersion, message, title);
+            return YDT.RetTrOff(YUpdateForms.CheckForUpdate(serverUrl, assemblyName, localVersion, message, title));
         }
     }
 }

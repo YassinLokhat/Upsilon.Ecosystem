@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +22,12 @@ namespace Upsilon.Common.Library
         {
             get
             {
-                return File.Exists(YDT._traceLogFile)
-                    && Directory.Exists(File.ReadAllText(YDT._traceLogFile).Uncipher_Aes(YDT._key).Split('\n').FirstOrDefault());
+                return File.Exists(YDT._traceLogFile);
             }
         }
 
-        private static _Trace _rootTrace = null;
-        private static _Trace _currentTrace = null;
+        private static YDebugTrace _rootTrace = null;
+        private static YDebugTrace _currentTrace = null;
 
         /// <summary>
         /// Initialize tracing with the solution file directory.
@@ -35,7 +35,7 @@ namespace Upsilon.Common.Library
         /// <param name="solutionDirectory">The solution file directory.</param>
         public static void InitTrace(string solutionDirectory)
         {
-            File.WriteAllText(YDT._traceLogFile, solutionDirectory.Cipher_Aes(YDT._key));
+            File.WriteAllText(YDT._traceLogFile, string.Empty);
         }
 
         /// <summary>
@@ -62,12 +62,13 @@ namespace Upsilon.Common.Library
 
             if (YDT._rootTrace == null)
             {
-                YDT._rootTrace = new _Trace() 
-                { 
-                    FileName = YDT._getFilePath(sourceFilePath), 
-                    StartLine = sourceLineNumber, 
-                    ExecutingMethodeName = sourceMemberName,
-                    Parameters = sourceMemberParameters,
+                YDT._rootTrace = new YDebugTrace() 
+                {
+                    TraceId = DateTime.Now.Ticks,
+                    FileName = "root", 
+                    StartLine = 0,
+                    ExecutingMethodeName = "root",
+                    Parameters = Array.Empty<object>(),
                 };
                 YDT._currentTrace = YDT._rootTrace;
             }
@@ -76,15 +77,17 @@ namespace Upsilon.Common.Library
             var frames = stackTrace.GetFrames();
             int callerIndex = 1;
 
-            while (frames[callerIndex - 1].GetMethod().Name != sourceMemberName)
+            while (frames[callerIndex - 1].GetMethod().Name != sourceMemberName
+                && frames[callerIndex - 1].GetMethod().Name != "get_" + sourceMemberName)
             {
                 callerIndex++;
             }
 
             var caller = frames[callerIndex];
 
-            var trace = new _Trace()
+            var trace = new YDebugTrace()
             { 
+                TraceId = DateTime.Now.Ticks,
                 FileName = YDT._getFilePath(sourceFilePath), 
                 StartLine = sourceLineNumber, 
                 ExecutingMethodeName = sourceMemberName,
@@ -128,78 +131,60 @@ namespace Upsilon.Common.Library
             trace.Return = sourceMemberReturn;
             trace.EndLine = sourceLineNumber;
 
-            YDT._logTrace(trace);
+            if (YDT._currentTrace == YDT._rootTrace
+                && !YDT._rootTrace.Traces.Any(x => !x.IsClosed))
+            {
+                YDT._rootTrace.EndLine = 0;
+            }
+
+            YDT._logTrace();
+        }
+
+        /// <summary>
+        /// Stop tracing block and return the given value.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to return.</typeparam>
+        /// <param name="sourceMemberReturn">The method returned object.</param>
+        /// <param name="sourceFilePath">Leave default.</param>
+        /// <param name="sourceLineNumber">Leave default.</param>
+        /// <param name="sourceMemberName">Leave default.</param>
+        /// <returns>The value given as parameter.</returns>
+        public static T RetTrOff<T>(T sourceMemberReturn,
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0,
+            [CallerMemberName] string sourceMemberName = "")
+        {
+            YDT.TrOff(sourceMemberReturn, sourceFilePath, sourceLineNumber + 1, sourceMemberName);
+
+            return sourceMemberReturn;
+        }
+
+        /// <summary>
+        /// Trace a getter method.
+        /// </summary>
+        /// <typeparam name="T">The type of the getter.</typeparam>
+        /// <param name="ret">The value to return.</param>
+        /// <param name="sourceFilePath">Leave default.</param>
+        /// <param name="sourceLineNumber">Leave default.</param>
+        /// <param name="sourceMemberName">Leave default.</param>
+        /// <returns>The value given as parameter.</returns>
+        public static T Ret<T>(T ret,
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0,
+            [CallerMemberName] string sourceMemberName = "")
+        {
+            YDT.TrOn(new object[] { ret }, sourceFilePath, sourceLineNumber - 1, sourceMemberName);
+            return YDT.RetTrOff(ret, sourceFilePath, sourceLineNumber, sourceMemberName);
         }
 
         private static string _getFilePath(string sourceFilePath)
         {
-            var absolutePath = File.ReadAllText(YDT._traceLogFile).Uncipher_Aes(YDT._key).Split('\n').FirstOrDefault();
-            do
-            {
-                sourceFilePath = sourceFilePath.Substring(sourceFilePath.IndexOf(@"\") + 1);
-            }
-            while (!File.Exists(Path.Combine(absolutePath, sourceFilePath)));
-
-            return Path.Combine(absolutePath, sourceFilePath);
+            return sourceFilePath[sourceFilePath.IndexOf(@"\UpsilonEcosystem\")..];
         }
 
-        private static void _logTrace(_Trace trace)
+        private static void _logTrace()
         {
-            var header = File.ReadAllText(YDT._traceLogFile).Uncipher_Aes(YDT._key).Split('\n').FirstOrDefault();
-            
-            File.WriteAllText(YDT._traceLogFile, header + "\n" + trace.ToString().Cipher_Aes(YDT._key));
-        }
-    }
-
-    internal class _Trace
-    {
-        public string FileName { get; set; } = string.Empty;
-        public int StartLine { get; set; } = -1;
-        public int EndLine { get; set; } = -1;
-        public string CallerMethod { get; set; } = string.Empty;
-        public int CallerLine { get; set; } = -1;
-        public string ExecutingMethodeName { get; set; } = string.Empty;
-        public object[] Parameters { get; set; } = null;
-        public object Return { get; set; } = null;
-
-        public bool IsClosed
-        {
-            get
-            {
-                return EndLine != -1;
-            }
-        }
-
-        public List<_Trace> Traces { get; set; } = new();
-        public _Trace Parent { get; set; } = null;
-
-        public void AddTrace(_Trace trace)
-        {
-            trace.Parent = this;
-            this.Traces.Add(trace);
-        }
-
-        public override string ToString()
-        {
-            if (!this.IsClosed)
-            {
-                return string.Empty;
-            }
-
-            var trace = new List<string> { $"\n\"{FileName}\" [{StartLine + 1} - {EndLine - 1}]" };
-            trace.Add($"Called in {CallerMethod} line {CallerLine} :");
-            trace.Add($"{ExecutingMethodeName}");
-            trace.Add("(");
-            trace.AddRange(Parameters.Select((x, i) => $"\t{x.SerializeObject()}"));
-            trace.Add(")");
-            trace.Add("{");
-            trace.AddRange(File.ReadLines(FileName).TakeElementFrom(StartLine, EndLine - StartLine - 1).Select((x, i) => $"{StartLine + i + 1}\t{x}"));
-            trace.Add($"\tReturned {(Return != null ? Return.SerializeObject() : "null")}");
-            trace.Add("}");
-            
-            trace.AddRange(this.Traces.Select(x => x.ToString()));
-
-            return string.Join("\n", trace);
+            File.WriteAllText(YDT._traceLogFile, YDT._rootTrace.ToString().Cipher_Aes(YDT._key));
         }
     }
 }

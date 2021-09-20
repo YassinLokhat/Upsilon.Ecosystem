@@ -58,6 +58,8 @@ namespace Upsilon.Common.Library
         /// <param name="args">The arguments list</param>
         public YArgumentParser(string[] args)
         {
+            YDT.TrOn(new object[] { args });
+
             this.Args = args;
             this.Arguments = new List<YArgument>();
 
@@ -93,6 +95,8 @@ namespace Upsilon.Common.Library
 
                 i = j - 1;
             }
+
+            YDT.TrOff();
         }
 
         /// <summary>
@@ -126,7 +130,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YArgument"/></c> or <c>null</c></returns>
         public YArgument GetArgument(string argName)
         {
-            return this.Arguments.Find(x => x.Name == argName);
+            return YDT.Ret(this.Arguments.Find(x => x.Name == argName));
         }
 
         /// <summary>
@@ -157,7 +161,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c></returns>
         public bool HasArgument(string argName)
         {
-            return GetArgument(argName) != null;
+            return YDT.Ret(GetArgument(argName) != null);
         }
 
         /// <summary>
@@ -189,7 +193,7 @@ namespace Upsilon.Common.Library
         public bool ArgumentIsSet(string argName)
         {
             YArgument arg = GetArgument(argName);
-            return arg != null && arg.IsBoolean;
+            return YDT.Ret(arg != null && arg.IsBoolean);
         }
 
         /// <summary>
@@ -198,12 +202,12 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YArgument"/></c> or <c>null</c></returns>
         public YArgument GetMainArgument()
         {
-            return GetArgument(string.Empty);
+            return YDT.Ret(GetArgument(string.Empty));
         }
 
         private static bool _isArgumentModifier(string arg)
         {
-            return (!string.IsNullOrEmpty(arg) && ArgModifiers.Contains(arg[0]));
+            return YDT.Ret(!string.IsNullOrEmpty(arg) && ArgModifiers.Contains(arg[0]));
         }
     }
 
@@ -230,7 +234,7 @@ namespace Upsilon.Common.Library
         {
             get
             {
-                return Values == null;
+                return YDT.Ret(Values == null);
             }
         }
     }

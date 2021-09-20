@@ -615,6 +615,33 @@
             <param name="sourceLineNumber">Leave default.</param>
             <param name="sourceMemberName">Leave default.</param>
         </member>
+        <member name="M:Upsilon.Common.Library.YDT.RetTrOff``1(``0,System.String,System.Int32,System.String)">
+            <summary>
+            Stop tracing block and return the given value.
+            </summary>
+            <typeparam name="T">The type of the value to return.</typeparam>
+            <param name="sourceMemberReturn">The method returned object.</param>
+            <param name="sourceFilePath">Leave default.</param>
+            <param name="sourceLineNumber">Leave default.</param>
+            <param name="sourceMemberName">Leave default.</param>
+            <returns>The value given as parameter.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDT.Ret``1(``0,System.String,System.Int32,System.String)">
+            <summary>
+            Trace a getter method.
+            </summary>
+            <typeparam name="T">The type of the getter.</typeparam>
+            <param name="ret">The value to return.</param>
+            <param name="sourceFilePath">Leave default.</param>
+            <param name="sourceLineNumber">Leave default.</param>
+            <param name="sourceMemberName">Leave default.</param>
+            <returns>The value given as parameter.</returns>
+        </member>
+        <member name="T:Upsilon.Common.Library.Trace">
+            <summary>
+            Represent a debug trace.
+            </summary>
+        </member>
         <member name="T:Upsilon.Common.Library.YStaticMethods">
             <summary>
             This static class contains some static methods and extention methods.
