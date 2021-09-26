@@ -24,6 +24,8 @@ namespace Upsilon.Common.Library
         /// <returns>Return <c>true</c> or <c>false</c>.</returns>
         public static bool IsIdentifiant(this string identifiant)
         {
+            YDebugTrace.TraceOn();
+
             string specialChars = new(identifiant.Where(x => !char.IsLetterOrDigit(x)).ToArray());
             specialChars = new(specialChars.Where(x => x != '_').ToArray());
 
@@ -32,10 +34,10 @@ namespace Upsilon.Common.Library
                 || char.IsDigit(identifiant[0]))
 
             {
-                return false;
+                return YDebugTrace.TraceOff(false);
             }
 
-            return true;
+            return YDebugTrace.TraceOff(true);
         }
 
         /// <summary>
@@ -46,6 +48,8 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static YTextBlock GetNextTextBlock(this string str, YTextBlockSearchConfiguration configuration)
         {
+            YDebugTrace.TraceOn();
+
             YTextBlock textBlock = new()
             {
                 Text = str,
@@ -106,7 +110,7 @@ namespace Upsilon.Common.Library
                 }
             }
 
-            return textBlock;
+            return YDebugTrace.TraceOff(textBlock);
         }
 
         /// <summary>
@@ -118,9 +122,11 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the index of the previous occurence of the <c><paramref name="value"/></c> string or <c>-1</c> if not found.</returns>
         public static int IndexOfPrevious(this string str, string value, int startIndex = -1)
         {
+            YDebugTrace.TraceOn();
+
             if (string.IsNullOrEmpty(str))
             {
-                return -1;
+                return YDebugTrace.TraceOff(-1);
             }
 
             if (startIndex < 0
@@ -133,14 +139,14 @@ namespace Upsilon.Common.Library
             {
                 if (str[startIndex..].StartsWith(value))
                 {
-                    return startIndex;
+                    return YDebugTrace.TraceOff(startIndex);
                 }
 
                 startIndex--;
             }
             while (startIndex >= 0);
 
-            return -1;
+            return YDebugTrace.TraceOff(-1);
         }
     }
 }

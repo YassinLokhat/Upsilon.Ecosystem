@@ -6,7 +6,7 @@ using FluentAssertions;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YArgumentParser_UnitTests
+    public class YArgumentParser_UnitTests : UnitTestsClass
     {
         [TestMethod]
         public void Test_01_YArgumentParser_GetArgument_OK()

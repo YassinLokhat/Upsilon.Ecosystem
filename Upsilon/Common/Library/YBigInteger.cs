@@ -55,7 +55,7 @@ namespace Upsilon.Common.Library
         /// </returns>
         public static short GetBaseNumber(this YBase @base)
         {
-            return (short)@base;
+            return YDebugTrace.Trace((short)@base, new object[] { @base });
         }
 
         /// <summary>
@@ -74,14 +74,14 @@ namespace Upsilon.Common.Library
         /// </returns>
         public static string GetAlphabet(this YBase @base)
         {
-            return @base switch
+            return YDebugTrace.Trace(@base switch
             {
                 YBase.Binary => "01",
                 YBase.Octal => "01234567",
                 YBase.Decimal => "0123456789",
                 YBase.Hexadecimal => "0123456789ABCDEF",
                 _ => string.Empty,
-            };
+            }, new object[] { @base });
         }
 
         /// <summary>
@@ -100,14 +100,14 @@ namespace Upsilon.Common.Library
         /// </returns>
         public static string GetPrefix(this YBase @base)
         {
-            return @base switch
+            return YDebugTrace.Trace(@base switch
             {
                 YBase.Binary => "0b",
                 YBase.Octal => "0o",
                 YBase.Decimal => "0d",
                 YBase.Hexadecimal => "0x",
                 _ => string.Empty,
-            };
+            }, new object[] { @base });
         }
 
         /// <summary>
@@ -126,13 +126,13 @@ namespace Upsilon.Common.Library
         /// </returns>
         public static byte GetDigitGroup(this YBase @base)
         {
-            return @base switch
+            return YDebugTrace.Trace((byte)(@base switch
             {
                 YBase.Binary => 8,
                 YBase.Octal or YBase.Hexadecimal => 2,
                 YBase.Decimal => 1,
                 _ => 0,
-            };
+            }), new object[] { @base });
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Upsilon.Common.Library
         /// <returns>All values of the <c><see cref="YBase"/></c> enum</returns>
         public static YBase[] GetBases()
         {
-            return YStaticMethods.GetEnumValues<YBase>().Except(new[] { YBase.None }).ToArray();
+            return YDebugTrace.Trace(YStaticMethods.GetEnumValues<YBase>().Except(new[] { YBase.None }).ToArray());
         }
     }
 
@@ -161,12 +161,16 @@ namespace Upsilon.Common.Library
         /// <param name="byteArray">The byte array.</param>
         public YBigInteger(byte[] byteArray)
         {
+            YDebugTrace.TraceOn(new object[] { byteArray });
+
             while (byteArray.Last() == 0 && byteArray.Length > 1)
             {
                 byteArray = byteArray.Take(byteArray.Length - 1).ToArray();
             }
 
             this.ByteArray = byteArray;
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -180,6 +184,8 @@ namespace Upsilon.Common.Library
         /// <param name="strValue">The <c><see cref="YBase"/></c> prefixed string number</param>
         public YBigInteger(string strValue)
         {
+            YDebugTrace.TraceOn(new object[] { strValue });
+
             YBase @base = _getBase(ref strValue);
 
             YBigInteger number = new(new byte[] { 0 });
@@ -189,6 +195,8 @@ namespace Upsilon.Common.Library
             }
 
             this.ByteArray = number.ByteArray;
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -197,7 +205,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBase.Decimal"/></c> string format.</returns>
         public override string ToString()
         {
-            return this.ToString(YBase.Decimal);
+            return YDebugTrace.Trace(this.ToString(YBase.Decimal));
         }
 
         /// <summary>
@@ -207,6 +215,8 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><paramref name="base"/></c> prefixed string format.</returns>
         public string ToString(YBase @base)
         {
+            YDebugTrace.TraceOn(new object[] { @base });
+
             string result = string.Empty;
 
             switch (@base)
@@ -227,11 +237,13 @@ namespace Upsilon.Common.Library
                 i++;
             }
 
-            return @base.GetPrefix() + result;
+            return YDebugTrace.TraceOff(@base.GetPrefix() + result);
         }
 
         private string _toOctalOrDecimalString(YBase @base)
         {
+            YDebugTrace.TraceOn(new object[] { @base });
+
             string strValue = @base.GetPrefix() + "0";
 
             for (int i = this.ByteArray.Length - 1; i >= 0; i--)
@@ -249,11 +261,13 @@ namespace Upsilon.Common.Library
                 strValue = strValue.TrimStart('0');
             }
 
-            return strValue;
+            return YDebugTrace.TraceOff(strValue);
         }
 
         private string _toBinaryOrHexadecimalString(YBase @base)
         {
+            YDebugTrace.TraceOn(new object[] { @base });
+
             int digit = @base.GetDigitGroup();
 
             StringBuilder builder = new();
@@ -278,7 +292,7 @@ namespace Upsilon.Common.Library
                 builder.Append(strNumber);
             }
 
-            return builder.ToString();
+            return YDebugTrace.TraceOff(builder.ToString());
         }
 
         /// <summary>
@@ -291,6 +305,8 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBase"/></c> prefixed string which is the sum of the two strings</returns>
         public static string AddString(string strValue1, string strValue2)
         {
+            YDebugTrace.TraceOn(new object[] { strValue1, strValue2 });
+
             YBase base1 = _getBase(ref strValue1);
             YBase base2 = _getBase(ref strValue2);
 
@@ -306,7 +322,7 @@ namespace Upsilon.Common.Library
                 strValue2.Select(x => (byte)base1.GetAlphabet().IndexOf(x)).ToArray(),
                 base1.GetBaseNumber());
 
-            return base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray());
+            return YDebugTrace.TraceOff(base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray()));
         }
 
         /// <summary>
@@ -319,6 +335,8 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBase"/></c> prefixed string which is the product of the two strings.</returns>
         public static string MultiplyString(string strValue1, string strValue2)
         {
+            YDebugTrace.TraceOn(new object[] { strValue1, strValue2 });
+
             YBase base1 = _getBase(ref strValue1);
             YBase base2 = _getBase(ref strValue2);
 
@@ -334,11 +352,13 @@ namespace Upsilon.Common.Library
                 strValue2.Select(x => (byte)base1.GetAlphabet().IndexOf(x)).ToArray(),
                 base1.GetBaseNumber());
 
-            return base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray());
+            return YDebugTrace.TraceOff(base1.GetPrefix() + new string(result.Select(x => base1.GetAlphabet()[x]).Reverse().ToArray()));
         }
 
         private static YBase _getBase(ref string strValue)
         {
+            YDebugTrace.TraceOn(new object[] { strValue });
+
             string value = strValue;
             YBase @base = YBaseExtensions.GetBases().Find(x => value.StartsWith(x.GetPrefix()));
             if (@base == YBase.None)
@@ -354,7 +374,7 @@ namespace Upsilon.Common.Library
 
             strValue = Regex.Replace(value[2..], @"\s", "").ToUpper();
 
-            return @base;
+            return YDebugTrace.TraceOff(@base);
         }
 
         /// <summary>
@@ -366,6 +386,8 @@ namespace Upsilon.Common.Library
         /// <returns>The sum of the two byte arrays.</returns>
         public static byte[] AddBytes(byte[] value1, byte[] value2, short @base)
         {
+            YDebugTrace.TraceOn(new object[] { value1, value2, @base });
+
             List<byte> result = new();
 
             short carry = 0;
@@ -399,7 +421,7 @@ namespace Upsilon.Common.Library
                 result.RemoveAt(result.Count - 1);
             }
 
-            return result.ToArray();
+            return YDebugTrace.TraceOff(result.ToArray());
         }
 
         /// <summary>
@@ -411,6 +433,8 @@ namespace Upsilon.Common.Library
         /// <returns>The product of the two byte arrays.</returns>
         public static byte[] MultiplyBytes(byte[] value1, byte[] value2, short @base)
         {
+            YDebugTrace.TraceOn(new object[] { value1, value2, @base });
+
             List<byte[]> subResults = new();
 
             for (int i = 0; i < value2.Length; i++)
@@ -448,7 +472,7 @@ namespace Upsilon.Common.Library
                 result = YBigInteger.AddBytes(result, subResult, @base);
             }
 
-            return result;
+            return YDebugTrace.TraceOff(result);
         }
 
         /// <summary>
@@ -459,7 +483,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBigInteger"/></c> which is the sum of the two params</returns>
         public static YBigInteger operator +(YBigInteger value1, YBigInteger value2)
         {
-            return new YBigInteger(YBigInteger.AddBytes(value1.ByteArray, value2.ByteArray, 0x100));
+            return YDebugTrace.Trace(new YBigInteger(YBigInteger.AddBytes(value1.ByteArray, value2.ByteArray, 0x100)), new object[] { value1, value2 });
         }
 
         /// <summary>
@@ -470,7 +494,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBigInteger"/></c> which is the sum of the two params</returns>
         public static YBigInteger operator +(YBigInteger value1, long value2)
         {
-            return value1 + new YBigInteger(BitConverter.GetBytes(value2));
+            return YDebugTrace.Trace(value1 + new YBigInteger(BitConverter.GetBytes(value2)), new object[] { value1, value2 });
         }
 
         /// <summary>
@@ -481,7 +505,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBigInteger"/></c> which is the sum of the two params</returns>
         public static YBigInteger operator +(long value1, YBigInteger value2)
         {
-            return value2 + value1;
+            return YDebugTrace.Trace(value2 + value1, new object[] { value1, value2 });
         }
 
         /// <summary>
@@ -492,7 +516,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBigInteger"/></c> which is the product of the two params</returns>
         public static YBigInteger operator *(YBigInteger value1, YBigInteger value2)
         {
-            return new YBigInteger(YBigInteger.MultiplyBytes(value1.ByteArray, value2.ByteArray, 0x100));
+            return YDebugTrace.Trace(new YBigInteger(YBigInteger.MultiplyBytes(value1.ByteArray, value2.ByteArray, 0x100)), new object[] { value1, value2 });
         }
 
         /// <summary>
@@ -503,7 +527,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBigInteger"/></c> which is the product of the two params</returns>
         public static YBigInteger operator *(YBigInteger value1, long value2)
         {
-            return value1 * new YBigInteger(BitConverter.GetBytes(value2));
+            return YDebugTrace.Trace(value1 * new YBigInteger(BitConverter.GetBytes(value2)), new object[] { value1, value2 });
         }
 
         /// <summary>
@@ -514,7 +538,7 @@ namespace Upsilon.Common.Library
         /// <returns>The <c><see cref="YBigInteger"/></c> which is the product of the two params</returns>
         public static YBigInteger operator *(long value1, YBigInteger value2)
         {
-            return value2 * value1;
+            return YDebugTrace.Trace(value2 * value1, new object[] { value1, value2 });
         }
     }
 }

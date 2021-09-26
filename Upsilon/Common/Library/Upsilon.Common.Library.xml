@@ -586,18 +586,120 @@
             <param name="key">The password key.</param>
             <returns></returns>
         </member>
-        <member name="T:Upsilon.Common.Library.YDT">
+        <member name="T:Upsilon.Common.Library.YDebugTrace">
             <summary>
             The Upsilon Debug Trace feature class
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Library.YDT.InitTrace(System.String)">
+        <member name="P:Upsilon.Common.Library.YDebugTrace.TraceId">
             <summary>
-            Initialize tracing with the solution file directory.
+            An unique identifiant.
             </summary>
-            <param name="solutionDirectory">The solution file directory.</param>
         </member>
-        <member name="M:Upsilon.Common.Library.YDT.TrOn(System.Object[],System.String,System.Int32,System.String)">
+        <member name="P:Upsilon.Common.Library.YDebugTrace.FileName">
+            <summary>
+            The traced code file.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.StartLine">
+            <summary>
+            The traced code start line.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.EndLine">
+            <summary>
+            The traced code end line.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.CallerMethod">
+            <summary>
+            The traced code caller method.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.CallerLine">
+            <summary>
+            The traced code caller method line number.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.ExecutingMethodeName">
+            <summary>
+            The traced code method name.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.Parent">
+            <summary>
+            The traced code parent.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.Parameters">
+            <summary>
+            The traced code parameters.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.Return">
+            <summary>
+            The traced code return value.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.IsClosed">
+            <summary>
+            Check if the current trace is closed.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.Traces">
+            <summary>
+            The list of traced codes called by the current trace.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.AddTrace(Upsilon.Common.Library.YDebugTrace)">
+            <summary>
+            Add a trace to the current trace.
+            </summary>
+            <param name="trace"></param>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.ToString(System.Int32)">
+            <summary>
+            Return the current traces as a string.
+            </summary>
+            <param name="level">The indent level.</param>
+            <returns>The current traces as a string</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.LogTrace">
+            <summary>
+            Log the current trace.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.TraceLogDirectory">
+            <summary>
+            The Trace log directory.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.StartTracing">
+            <summary>
+            Start tracing process.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.StopTracing">
+            <summary>
+            Stop tracing process.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.SuspendTracing">
+            <summary>
+            Suspend tracing process.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.ResumeTracing">
+            <summary>
+            Resume tracing process.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.ComputeTraceLog">
+            <summary>
+            Compute the trace log directory to a single file log.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.TraceOn(System.Object[],System.String,System.Int32,System.String)">
             <summary>
             Start tracing block.
             </summary>
@@ -606,16 +708,7 @@
             <param name="sourceLineNumber">Leave default.</param>
             <param name="sourceMemberName">Leave default.</param>
         </member>
-        <member name="M:Upsilon.Common.Library.YDT.TrOff(System.Object,System.String,System.Int32,System.String)">
-            <summary>
-            Stop tracing block.
-            </summary>
-            <param name="sourceMemberReturn">The method returned object.</param>
-            <param name="sourceFilePath">Leave default.</param>
-            <param name="sourceLineNumber">Leave default.</param>
-            <param name="sourceMemberName">Leave default.</param>
-        </member>
-        <member name="M:Upsilon.Common.Library.YDT.RetTrOff``1(``0,System.String,System.Int32,System.String)">
+        <member name="M:Upsilon.Common.Library.YDebugTrace.TraceOff``1(``0,System.String,System.Int32,System.String)">
             <summary>
             Stop tracing block and return the given value.
             </summary>
@@ -626,21 +719,27 @@
             <param name="sourceMemberName">Leave default.</param>
             <returns>The value given as parameter.</returns>
         </member>
-        <member name="M:Upsilon.Common.Library.YDT.Ret``1(``0,System.String,System.Int32,System.String)">
+        <member name="M:Upsilon.Common.Library.YDebugTrace.TraceOff(System.Object,System.String,System.Int32,System.String)">
             <summary>
-            Trace a getter method.
+            Stop tracing block and return the given value.
             </summary>
-            <typeparam name="T">The type of the getter.</typeparam>
-            <param name="ret">The value to return.</param>
+            <param name="sourceMemberReturn">The method returned object.</param>
             <param name="sourceFilePath">Leave default.</param>
             <param name="sourceLineNumber">Leave default.</param>
             <param name="sourceMemberName">Leave default.</param>
             <returns>The value given as parameter.</returns>
         </member>
-        <member name="T:Upsilon.Common.Library.Trace">
+        <member name="M:Upsilon.Common.Library.YDebugTrace.Trace``1(``0,System.Object[],System.String,System.Int32,System.String)">
             <summary>
-            Represent a debug trace.
+            Trace a getter method.
             </summary>
+            <typeparam name="T">The type of the getter.</typeparam>
+            <param name="ret">The value to return.</param>
+            <param name="sourceMemberParameters">The method parameters.</param>
+            <param name="sourceFilePath">Leave default.</param>
+            <param name="sourceLineNumber">Leave default.</param>
+            <param name="sourceMemberName">Leave default.</param>
+            <returns>The value given as parameter.</returns>
         </member>
         <member name="T:Upsilon.Common.Library.YStaticMethods">
             <summary>

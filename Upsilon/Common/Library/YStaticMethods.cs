@@ -27,13 +27,15 @@ namespace Upsilon.Common.Library
         /// <returns>Return <c>true</c> or <c>false</c>.</returns>
         public static bool Contains(this XmlAttributeCollection Attributes, string attribute)
         {
+            YDebugTrace.TraceOn();
+
             if (Attributes != null
                 && Attributes[attribute] != null)
             {
-                return true;
+                return YDebugTrace.TraceOff(true);
             }
 
-            return false;
+            return YDebugTrace.Trace(false);
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace Upsilon.Common.Library
         /// <returns>Return <c>true</c> or <c>false</c>.</returns>
         public static bool IsNullOrWhiteSpace(this XmlAttributeCollection Attributes, string attribute)
         {
-            return !Attributes.Contains(attribute) || String.IsNullOrWhiteSpace(Attributes[attribute].Value);
+            return YDebugTrace.Trace(!Attributes.Contains(attribute) || String.IsNullOrWhiteSpace(Attributes[attribute].Value));
         }
         #endregion
 
@@ -56,12 +58,14 @@ namespace Upsilon.Common.Library
         /// <returns>Return the MD5 Hash code.</returns>
         public static string GetMD5HashCode(this object obj)
         {
+            YDebugTrace.TraceOn();
+
             string str = obj.ToString();
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
             string[] hash = mD5.ComputeHash(Encoding.ASCII.GetBytes(str)).Select(x => x.ToString()).ToArray();
 
-            return string.Join(string.Empty, hash);
+            return YDebugTrace.TraceOff(string.Join(string.Empty, hash));
         }
 
         /// <summary>
@@ -71,6 +75,8 @@ namespace Upsilon.Common.Library
         /// <returns>Return the Upsilon Hash code.</returns>
         public static string GetUpsilonHashCode(this object obj)
         {
+            YDebugTrace.TraceOn();
+
             string str = obj.SerializeObject() + obj.ToString();
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
@@ -79,7 +85,7 @@ namespace Upsilon.Common.Library
             System.Security.Cryptography.SHA512 sHA512 = System.Security.Cryptography.SHA512.Create();
             hash = hash.Union(sHA512.ComputeHash(Encoding.UTF8.GetBytes(str)).Select(x => x.ToString())).ToArray();
 
-            return string.Join(string.Empty, hash);
+            return YDebugTrace.TraceOff(string.Join(string.Empty, hash));
         }
 
         /// <summary>
@@ -90,6 +96,8 @@ namespace Upsilon.Common.Library
         /// <param name="objectSource">The object source.</param>
         public static void CopyFrom<T>(this T objectDestination, T objectSource)
         {
+            YDebugTrace.TraceOn();
+
             Type type = typeof(T);
             var properties = type.GetProperties();
 
@@ -103,6 +111,8 @@ namespace Upsilon.Common.Library
                 object value = property.GetValue(objectSource);
                 property.SetValue(objectDestination, value);
             }
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -113,8 +123,11 @@ namespace Upsilon.Common.Library
         /// <returns>The cloned object.</returns>
         public static T Clone<T>(this T obj)
         {
+            YDebugTrace.TraceOn();
+
             JsonSerializerOptions jsonSerializerOptions = new() {  };
-            return obj.SerializeObject().DeserializeObject<T>();
+
+            return YDebugTrace.TraceOff(obj.SerializeObject().DeserializeObject<T>());
         }
         #endregion
 
@@ -129,6 +142,8 @@ namespace Upsilon.Common.Library
         public static bool IsEnumFlagPresent<T>(this T value, T lookingForFlag)
             where T : struct
         {
+            YDebugTrace.TraceOn();
+
             if (!typeof(T).IsEnum)
             {
                 throw new ArgumentException("T must be an enumerated type");
@@ -136,7 +151,8 @@ namespace Upsilon.Common.Library
 
             int intValue = (int)(object)value;
             int intLookingForFlag = (int)(object)lookingForFlag;
-            return ((intValue & intLookingForFlag) == intLookingForFlag);
+
+            return YDebugTrace.TraceOff((intValue & intLookingForFlag) == intLookingForFlag);
         }
 
         /// <summary>
@@ -147,7 +163,7 @@ namespace Upsilon.Common.Library
         public static T[] GetEnumValues<T>()
             where T : struct
         {
-            return Enum.GetValues(typeof(T)).Cast<T>().ToArray();
+            return YDebugTrace.Trace(Enum.GetValues(typeof(T)).Cast<T>().ToArray());
         }
         #endregion
 
@@ -160,12 +176,14 @@ namespace Upsilon.Common.Library
         /// <returns>The serialized string.</returns>
         public static string SerializeObject(this object toSerialize, bool indent = false)
         {
+            YDebugTrace.TraceOn();
+
             JsonSerializerOptions options = new()
             {
                 WriteIndented = indent,
             };
 
-            return JsonSerializer.Serialize(toSerialize, toSerialize.GetType(), options);
+            return YDebugTrace.TraceOff(JsonSerializer.Serialize(toSerialize, toSerialize.GetType(), options));
         }
 
         /// <summary>
@@ -176,7 +194,7 @@ namespace Upsilon.Common.Library
         /// <returns>The deserialized object.</returns>
         public static object DeserializeObject(this string toDeserialize, Type type)
         {
-            return JsonSerializer.Deserialize(toDeserialize, type);
+            return YDebugTrace.Trace(JsonSerializer.Deserialize(toDeserialize, type));
         }
 
         /// <summary>
@@ -187,7 +205,7 @@ namespace Upsilon.Common.Library
         /// <returns>The deserialized object.</returns>
         public static T DeserializeObject<T>(this string toDeserialize)
         {
-            return JsonSerializer.Deserialize<T>(toDeserialize);
+            return YDebugTrace.Trace(JsonSerializer.Deserialize<T>(toDeserialize));
         }
         #endregion
 
@@ -198,6 +216,8 @@ namespace Upsilon.Common.Library
         /// <param name="url">The Url to open.</param>
         public static void ProcessStartUrl(string url)
         {
+            YDebugTrace.TraceOn();
+
             try
             {
                 Process.Start(url);
@@ -222,6 +242,8 @@ namespace Upsilon.Common.Library
                     throw;
                 }
             }
+
+            YDebugTrace.TraceOff();
         }
         #endregion
 
@@ -233,13 +255,15 @@ namespace Upsilon.Common.Library
         /// <returns>The downloaded string.</returns>
         public static string DownloadString(string url)
         {
+            YDebugTrace.TraceOn();
+
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
             ServicePointManager.DefaultConnectionLimit = 9999;
 
             WebClient webClient = new();
 
-            return webClient.DownloadString(url);
+            return YDebugTrace.TraceOff(webClient.DownloadString(url));
         }
 
         /// <summary>
@@ -250,6 +274,8 @@ namespace Upsilon.Common.Library
         /// <returns>The downloaded string.</returns>
         public static void DownloadFile(string url, string filePath)
         {
+            YDebugTrace.TraceOn();
+
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
             ServicePointManager.DefaultConnectionLimit = 9999;
@@ -257,6 +283,8 @@ namespace Upsilon.Common.Library
             WebClient webClient = new();
 
             webClient.DownloadFile(url, filePath);
+
+            YDebugTrace.TraceOff();
         }
         #endregion
 
@@ -270,6 +298,8 @@ namespace Upsilon.Common.Library
         /// <param name="throwException">Throw an exception when error occurs.</param>
         public static void Copy(string sourcePath, string destinationDirectory, bool @override = false, bool throwException = true)
         {
+            YDebugTrace.TraceOn();
+
             if (File.Exists(sourcePath))
             {
                 Directory.CreateDirectory(destinationDirectory);
@@ -304,6 +334,8 @@ namespace Upsilon.Common.Library
             {
                 throw new Exception($"File or Directory not found :\n'{sourcePath}'");
             }
+
+            YDebugTrace.TraceOff();
         }
         #endregion
 
@@ -317,7 +349,7 @@ namespace Upsilon.Common.Library
         /// <returns>The object found or <c>null</c>.</returns>
         public static T Find<T>(this IList<T> list, Predicate<T> predicate)
         {
-            return list.ToList().Find(predicate);
+            return YDebugTrace.Trace(list.ToList().Find(predicate));
         }
 
         /// <summary>
@@ -329,7 +361,7 @@ namespace Upsilon.Common.Library
         /// <returns>The object found or <c>null</c>.</returns>
         public static T Find<T>(this IEnumerable<T> list, Predicate<T> predicate)
         {
-            return list.ToList().Find(predicate);
+            return YDebugTrace.Trace(list.ToList().Find(predicate));
         }
 
         /// <summary>
@@ -342,6 +374,8 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static IEnumerable<T> TakeElementFrom<T>(this IEnumerable<T> list, int startIndex, int count)
         {
+            YDebugTrace.TraceOn(); 
+
             if (count < 0)
             {
                 count = list.Count() - startIndex;
@@ -350,7 +384,7 @@ namespace Upsilon.Common.Library
             T[] subArray = new T[count];
             Array.Copy(list.ToArray(), startIndex, subArray, 0, count);
 
-            return subArray.AsEnumerable();
+            return YDebugTrace.TraceOff(subArray.AsEnumerable());
         }
 
         /// <summary>
@@ -362,7 +396,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static IEnumerable<T> TakeElementFrom<T>(this IEnumerable<T> list, int startIndex)
         {
-            return list.TakeElementFrom(startIndex, -1);
+            return YDebugTrace.Trace(list.TakeElementFrom(startIndex, -1));
         }
         #endregion
 
@@ -375,6 +409,8 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string GetCommonRootDirectory(IList<string> directories, char separator)
         {
+            YDebugTrace.TraceOn();
+
             var urls = directories.Select(x => x.TrimEnd(separator).Split(separator).ToList()).ToArray();
 
             if (!urls.Any())
@@ -408,7 +444,7 @@ namespace Upsilon.Common.Library
                 }
             }
 
-            return string.Join(separator, rootUrl);
+            return YDebugTrace.TraceOff(string.Join(separator, rootUrl));
         }
 
         /// <summary>
@@ -419,7 +455,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string GetCommonRootDirectory(IEnumerable<string> directories, char separator)
         {
-            return GetCommonRootDirectory(directories.ToArray(), separator);
+            return YDebugTrace.Trace(GetCommonRootDirectory(directories.ToArray(), separator));
         }
         #endregion
     }

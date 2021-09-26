@@ -6,7 +6,7 @@ using FluentAssertions;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YVersion_UnitTests
+    public class YVersion_UnitTests : UnitTestsClass
     {
         private readonly short loopCount = 1000;
 

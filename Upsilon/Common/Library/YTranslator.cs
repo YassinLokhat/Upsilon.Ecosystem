@@ -31,6 +31,8 @@ namespace Upsilon.Common.Library
         /// <param name="key">The key to uncipher the given file.</param>
         public YTranslator(string filePath, string key) : base()
         {
+            YDebugTrace.TraceOn();
+            
             JsonDocument document = JsonDocument.Parse(File.ReadAllText(filePath).Uncipher_Aes(key));
             JsonElement root = document.RootElement;
             this.LanguageCode = root.GetProperty("language_code").GetString();
@@ -41,6 +43,8 @@ namespace Upsilon.Common.Library
             {
                 this[item.GetProperty("key").GetString()] = item.GetProperty("value").GetString();
             }
+
+            YDebugTrace.TraceOff();
         }
     }
 }

@@ -1,6 +1,9 @@
 Release
 	Documentation
 
+Upsilon.Tools.DebugTraceTool
+	DebugTraceTool
+
 Upsilon.Tools.YDBDesigner
 	YDBDesigner
 

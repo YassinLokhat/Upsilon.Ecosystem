@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YDebugTrace_UnitTests
+    public class YDebugTrace_UnitTests : UnitTestsClass
     {
         [TestMethod]
         public void Test_01_()
         {
             // Given
-            YDT.InitTrace(MetaHelper.YHelper.GetSolutionDirectory());
 
             // When
             this.function1(15);
@@ -24,19 +23,31 @@ namespace Upsilon.Common.Library.UnitTests
             1.Should().Be(0);
         }
 
+        [TestMethod]
+        public void Test_02_()
+        {
+            // Given
+
+            // When
+            this.function1(15);
+
+            // Then
+            1.Should().Be(1);
+        }
+
         private void function1(int param)
         {
-            YDT.TrOn(new object[] { param });
+            YDebugTrace.TraceOn(new object[] { param });
             int local = 10;
             // preprocessing function2
             this.function2(local);
             // postprocessing function2
-            YDT.TrOff(); 
+            YDebugTrace.TraceOff(); 
         }
 
         private int function2(int param)
         {
-            YDT.TrOn(new object[] { param });
+            YDebugTrace.TraceOn(new object[] { param });
             // processing function2
             var random = new Random((int)DateTime.Now.Ticks);
             var n = random.Next(100);
@@ -54,22 +65,22 @@ namespace Upsilon.Common.Library.UnitTests
                 // postprocessing function4
             }
 
-            YDT.TrOff(n);
+            YDebugTrace.TraceOff((object)n);
             return n;
         }
 
         private void function3()
         {
-            YDT.TrOn();
+            YDebugTrace.TraceOn();
             // processing function3
-            YDT.TrOff();
+            YDebugTrace.TraceOff();
         }
 
         private void function4()
         {
-            YDT.TrOn();
+            YDebugTrace.TraceOn();
             // processing function4
-            YDT.TrOff();
+            YDebugTrace.TraceOff();
         }
     }
 }

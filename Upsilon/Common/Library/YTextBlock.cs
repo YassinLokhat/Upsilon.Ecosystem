@@ -38,13 +38,15 @@ namespace Upsilon.Common.Library
         {
             get
             {
+                YDebugTrace.TraceOn();
+                
                 if (this.Text == null
                    || this.Configuration == null)
                 {
-                    return null;
+                    return YDebugTrace.TraceOff<string>(null);
                 }
 
-                return this.Text[this.StartIndex..(this.EndIndex + this.Configuration.BlockEnd.Length)];
+                return YDebugTrace.TraceOff(this.Text[this.StartIndex..(this.EndIndex + this.Configuration.BlockEnd.Length)]);
             }
         }
 
@@ -55,18 +57,22 @@ namespace Upsilon.Common.Library
         {
             get
             {
+                YDebugTrace.TraceOn();
+
                 if (this.Text == null
                     || this.Configuration == null)
                 {
-                    return null;
+                    return YDebugTrace.TraceOff<string>(null);
                 }
 
-                return this.Text[(this.StartIndex + this.Configuration.BlockStart.Length)..this.EndIndex];
+                return YDebugTrace.TraceOff(this.Text[(this.StartIndex + this.Configuration.BlockStart.Length)..this.EndIndex]);
             }
         }
 
         internal static string GetIgnoreStringKey(string[] keys, int length)
         {
+            YDebugTrace.TraceOn();
+
             if (length < 3)
             {
                 return "¤¤";
@@ -86,7 +92,7 @@ namespace Upsilon.Common.Library
             }
             while (keys.Contains(key));
 
-            return $"¤{key}¤";
+            return YDebugTrace.TraceOff($"¤{key}¤");
         }
     }
 

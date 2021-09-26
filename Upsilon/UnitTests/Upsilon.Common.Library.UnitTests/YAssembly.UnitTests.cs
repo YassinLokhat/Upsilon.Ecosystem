@@ -7,7 +7,7 @@ using System.IO;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YAssembly_UnitTests
+    public class YAssembly_UnitTests : UnitTestsClass
     {
         [Ignore]
         [TestMethod]

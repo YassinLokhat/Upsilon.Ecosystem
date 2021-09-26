@@ -6,7 +6,7 @@ using Upsilon.Common.MetaHelper;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YCryptography_UnitTests
+    public class YCryptography_UnitTests : UnitTestsClass
     {
         [TestMethod]
         public void Test_01_Cryptography_Encrypt_Decrypt_0_OK()

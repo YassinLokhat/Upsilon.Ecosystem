@@ -58,7 +58,7 @@ namespace Upsilon.Common.Library
         /// <param name="args">The arguments list</param>
         public YArgumentParser(string[] args)
         {
-            YDT.TrOn(new object[] { args });
+            YDebugTrace.TraceOn(new object[] { args });
 
             this.Args = args;
             this.Arguments = new List<YArgument>();
@@ -96,7 +96,7 @@ namespace Upsilon.Common.Library
                 i = j - 1;
             }
 
-            YDT.TrOff();
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YArgument"/></c> or <c>null</c></returns>
         public YArgument GetArgument(string argName)
         {
-            return YDT.Ret(this.Arguments.Find(x => x.Name == argName));
+            return YDebugTrace.Trace(this.Arguments.Find(x => x.Name == argName), new object[] { argName });
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c></returns>
         public bool HasArgument(string argName)
         {
-            return YDT.Ret(GetArgument(argName) != null);
+            return YDebugTrace.Trace(GetArgument(argName) != null, new object[] { argName });
         }
 
         /// <summary>
@@ -192,8 +192,9 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c></returns>
         public bool ArgumentIsSet(string argName)
         {
+            YDebugTrace.TraceOn(new object[] { argName });
             YArgument arg = GetArgument(argName);
-            return YDT.Ret(arg != null && arg.IsBoolean);
+            return YDebugTrace.TraceOff(arg != null && arg.IsBoolean);
         }
 
         /// <summary>
@@ -202,12 +203,12 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YArgument"/></c> or <c>null</c></returns>
         public YArgument GetMainArgument()
         {
-            return YDT.Ret(GetArgument(string.Empty));
+            return YDebugTrace.Trace(GetArgument(string.Empty));
         }
 
         private static bool _isArgumentModifier(string arg)
         {
-            return YDT.Ret(!string.IsNullOrEmpty(arg) && ArgModifiers.Contains(arg[0]));
+            return YDebugTrace.Trace(!string.IsNullOrEmpty(arg) && ArgModifiers.Contains(arg[0]), new object[] { arg });
         }
     }
 
@@ -234,7 +235,7 @@ namespace Upsilon.Common.Library
         {
             get
             {
-                return YDT.Ret(Values == null);
+                return YDebugTrace.Trace(Values == null);
             }
         }
     }

@@ -59,6 +59,8 @@ namespace Upsilon.Common.Library
         /// <param name="version">The string formated version.</param>
         public YVersion(string version)
         {
+            YDebugTrace.TraceOn();
+
             string[] info = version.Split('.');
             int major = 0, minor = 0, build = 0, revision = 0;
 
@@ -85,6 +87,8 @@ namespace Upsilon.Common.Library
             this.Minor = minor;
             this.Build = build;
             this.Revision = revision;
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -100,13 +104,13 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YVersion"/></c> formated string.</returns>
         public string ToString(YVersionFormat format)
         {
-            return format switch
+            return YDebugTrace.Trace(format switch
             {
                 YVersionFormat.Simple => String.Format("{0}.{1}{2}", this.Major, this.Minor, this.Build != 0 ? "" + YVersion.Alphabet[(this.Build - 1) % YVersion.Alphabet.Length] : ""),
                 YVersionFormat.Extended => String.Format("{0}.{1}.{2}", this.Major, this.Minor, this.Build),
                 YVersionFormat.Full => String.Format("{0}.{1}.{2}.{3}", this.Major, this.Minor, this.Build, this.Revision),
                 _ => "",
-            };
+            });
         }
 
         /// <summary>
@@ -133,11 +137,11 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YVersion"/></c> string in the <c><see cref="YVersionFormat.Full"/></c> format.</returns>
         public string ToString(string format)
         {
-            return format
+            return YDebugTrace.Trace(format
                 .Replace("M", Major.ToString())
                 .Replace("m", Minor.ToString())
                 .Replace("b", Build.ToString())
-                .Replace("r", Revision.ToString());
+                .Replace("r", Revision.ToString()));
         }
 
         /// <summary>
@@ -146,7 +150,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the <c><see cref="YVersion"/></c> string in the <c><see cref="YVersionFormat.Full"/></c> format.</returns>
         public override string ToString()
         {
-            return this.ToString(YVersionFormat.Full);
+            return YDebugTrace.Trace(this.ToString(YVersionFormat.Full));
         }
 
         /// <summary>
@@ -156,7 +160,7 @@ namespace Upsilon.Common.Library
         public override int GetHashCode()
         {
             int[] version = new int[4] { Major, Minor, Build, Revision };
-            return version.GetHashCode();
+            return YDebugTrace.Trace(version.GetHashCode());
         }
 
         #region Compare Operator
@@ -168,7 +172,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator <(YVersion version1, YVersion version2)
         {
-            return Comparison(version1, version2) < 0;
+            return YDebugTrace.Trace(Comparison(version1, version2) < 0);
         }
 
         /// <summary>
@@ -179,7 +183,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator >(YVersion version1, YVersion version2)
         {
-            return Comparison(version1, version2) > 0;
+            return YDebugTrace.Trace(Comparison(version1, version2) > 0);
         }
 
         /// <summary>
@@ -190,7 +194,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator ==(YVersion version1, YVersion version2)
         {
-            return Comparison(version1, version2) == 0;
+            return YDebugTrace.Trace(Comparison(version1, version2) == 0);
         }
 
         /// <summary>
@@ -201,7 +205,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator !=(YVersion version1, YVersion version2)
         {
-            return Comparison(version1, version2) != 0;
+            return YDebugTrace.Trace(Comparison(version1, version2) != 0);
         }
 
         /// <summary>
@@ -212,7 +216,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator <=(YVersion version1, YVersion version2)
         {
-            return Comparison(version1, version2) <= 0;
+            return YDebugTrace.Trace(Comparison(version1, version2) <= 0);
         }
 
         /// <summary>
@@ -223,7 +227,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator >=(YVersion version1, YVersion version2)
         {
-            return Comparison(version1, version2) >= 0;
+            return YDebugTrace.Trace(Comparison(version1, version2) >= 0);
         }
 
         /// <summary>
@@ -234,9 +238,9 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is YVersion)) return false;
+            if (!(obj is YVersion)) return YDebugTrace.Trace(false);
 
-            return this == (YVersion)obj;
+            return YDebugTrace.Trace(this == (YVersion)obj);
         }
 
         /// <summary>
@@ -286,7 +290,7 @@ namespace Upsilon.Common.Library
         /// </returns>
         public int CompareTo(object obj)
         {
-            return Comparison(this, (YVersion)obj);
+            return YDebugTrace.Trace(Comparison(this, (YVersion)obj));
         }
         #endregion
     }

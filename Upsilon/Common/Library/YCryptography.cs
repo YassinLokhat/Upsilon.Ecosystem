@@ -19,9 +19,11 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string Cipher_Aes(this string plainText, string key)
         {
+            YDebugTrace.TraceOn();
+
             if (String.IsNullOrWhiteSpace(key) || String.IsNullOrWhiteSpace(plainText))
             {
-                return plainText;
+                return YDebugTrace.TraceOff(plainText);
             }
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
@@ -34,11 +36,13 @@ namespace Upsilon.Common.Library
 
             byte[] bytes = YCryptography._cipher_Aes(plainText, _key, IV);
 
-            return new string(bytes.Select(x => (char)x).ToArray());
+            return YDebugTrace.TraceOff(new string(bytes.Select(x => (char)x).ToArray()));
         }
 
         private static byte[] _cipher_Aes(string plainText, byte[] key, byte[] IV)
         {
+            YDebugTrace.TraceOn();
+
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
                 throw new ArgumentNullException(nameof(plainText));
@@ -75,7 +79,7 @@ namespace Upsilon.Common.Library
             }
 
             // Return the encrypted bytes from the memory stream.
-            return encrypted;
+            return YDebugTrace.TraceOff(encrypted);
         }
 
         /// <summary>
@@ -86,9 +90,11 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string Uncipher_Aes(this string cipherText, string key)
         {
+            YDebugTrace.TraceOn();
+
             if (String.IsNullOrWhiteSpace(key) || cipherText.Length == 0)
             {
-                return cipherText;
+                return YDebugTrace.TraceOff(cipherText);
             }
 
             System.Security.Cryptography.MD5 mD5 = System.Security.Cryptography.MD5.Create();
@@ -101,11 +107,13 @@ namespace Upsilon.Common.Library
 
             byte[] bytes = cipherText.Select(x => (byte)x).ToArray();
 
-            return YCryptography._uncither_Aes(bytes, _key, IV);
+            return YDebugTrace.TraceOff(YCryptography._uncither_Aes(bytes, _key, IV));
         }
 
         private static string _uncither_Aes(byte[] cipherText, byte[] key, byte[] IV)
         {
+            YDebugTrace.TraceOn();
+
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
                 throw new ArgumentNullException(nameof(cipherText));
@@ -143,7 +151,7 @@ namespace Upsilon.Common.Library
                 ex.ToString();
             }
 
-            return plaintext;
+            return YDebugTrace.TraceOff(plaintext);
         }
     }
 }

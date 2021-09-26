@@ -90,7 +90,7 @@ namespace Upsilon.Common.Library
         /// <param name="fileLocation">The location of the runtimeconfig.json file.</param>
         public static void CreateRuntimeConfigJson(YBinaryType binaryType, string assemblyName, string fileLocation)
         {
-            YDT.TrOn(new object[] { binaryType, assemblyName, fileLocation });
+            YDebugTrace.TraceOn(new object[] { binaryType, assemblyName, fileLocation });
 
             if (!Directory.Exists(fileLocation))
             {
@@ -110,7 +110,7 @@ namespace Upsilon.Common.Library
                     return;
             }
 
-            YDT.TrOff();
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Upsilon.Common.Library
         /// <param name="downloadedDependencies">The list of dependecies already downloaded. By default this parameter is <c>null</c>.</param>
         public void DownloadDependecies(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath, List<YAssembly> downloadedDependencies = null)
         {
-            YDT.TrOn(new object[] { deployedAssemblies, outputPath, downloadedDependencies });
+            YDebugTrace.TraceOn(new object[] { deployedAssemblies, outputPath, downloadedDependencies });
 
             if (deployedAssemblies == null)
             {
@@ -192,7 +192,7 @@ namespace Upsilon.Common.Library
                 }
             }
 
-            YDT.TrOff();
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Upsilon.Common.Library
         /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
         public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
         {
-            YDT.TrOn(new object[] { deployedAssemblies, outputPath });
+            YDebugTrace.TraceOn(new object[] { deployedAssemblies, outputPath });
 
             string[] urls = new[] { this.Url };
 
@@ -247,7 +247,7 @@ namespace Upsilon.Common.Library
 
             this.DownloadDependecies(deployedAssemblies, outputPath);
 
-            YDT.TrOff();
+            YDebugTrace.TraceOff();
         }
     }
 

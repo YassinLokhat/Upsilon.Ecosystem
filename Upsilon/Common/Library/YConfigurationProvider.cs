@@ -28,6 +28,8 @@ namespace Upsilon.Common.Library
         /// <param name="key">The encryption key. Leave empty to disable encryption. The default value is <see cref="string.Empty"/>.</param>
         public YConfigurationProvider(string configurationFile, string key = "")
         {
+            YDebugTrace.TraceOn();
+
             if (!File.Exists(configurationFile))
             {
                 File.CreateText(configurationFile).Close();
@@ -36,6 +38,8 @@ namespace Upsilon.Common.Library
             this.ConfigurationFile = configurationFile;
             this._key = key;
             this._configurations = new();
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -45,8 +49,12 @@ namespace Upsilon.Common.Library
         /// <param name="configurationValue">The configuration value.</param>
         public void SetConfiguration(T configurationKey, object configurationValue)
         {
+            YDebugTrace.TraceOn();
+
             this._configurations[configurationKey.ToString()] = configurationValue.SerializeObject().Cipher_Aes(this._key);
             this._saveConfigFile();
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -57,13 +65,15 @@ namespace Upsilon.Common.Library
         /// <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
         public U GetConfiguration<U>(T configurationKey)
         {
+            YDebugTrace.TraceOn();
+
             this._loadConfigFile();
             if (this.HasConfiguration(configurationKey))
             {
-                return this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key).DeserializeObject<U>();
+                return YDebugTrace.TraceOff(this._configurations[configurationKey.ToString()].Uncipher_Aes(this._key).DeserializeObject<U>());
             }
 
-            return default;
+            return YDebugTrace.TraceOff(default(U));
         }
 
         /// <summary>
@@ -73,17 +83,23 @@ namespace Upsilon.Common.Library
         /// <returns><c>true</c> or <c>false</c>.</returns>
         public bool HasConfiguration(T configurationKey)
         {
+            YDebugTrace.TraceOn();
+
             this._loadConfigFile();
-            return this._configurations.ContainsKey(configurationKey.ToString());
+
+            return YDebugTrace.TraceOff(this._configurations.ContainsKey(configurationKey.ToString()));
         }
 
         private void _saveConfigFile()
         {
+            YDebugTrace.TraceOn();
             File.WriteAllText(this.ConfigurationFile, this._configurations.SerializeObject(true));
+            YDebugTrace.TraceOff();
         }
 
         private void _loadConfigFile()
         {
+            YDebugTrace.TraceOn();
             this._configurations.Clear();
 
             try
@@ -94,6 +110,8 @@ namespace Upsilon.Common.Library
             {
                 ex.ToString();
             }
+
+            YDebugTrace.TraceOff();
         }
     }
 }

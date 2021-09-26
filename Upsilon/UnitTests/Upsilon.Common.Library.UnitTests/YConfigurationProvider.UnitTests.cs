@@ -7,7 +7,7 @@ using Upsilon.Common.MetaHelper;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YConfigurationProvider_UnitTests
+    public class YConfigurationProvider_UnitTests : UnitTestsClass
     {
         private enum _configTest1
         {

@@ -9,9 +9,15 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YBigInteger_UnitTests
+    public class YBigInteger_UnitTests : UnitTestsClass
     {
-        private readonly int LoopCount = 1000;
+        private readonly int LoopCount = 100;
+
+        [ClassInitialize]
+        public static void Inilialize(TestContext testContext)
+        {
+            UnitTestsClass.EnableTrace = false;
+        }
 
         [TestMethod]
         public void Test_01_Sum()

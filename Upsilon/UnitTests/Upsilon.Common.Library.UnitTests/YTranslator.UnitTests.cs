@@ -7,7 +7,7 @@ using Upsilon.Common.MetaHelper;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YTranslator_UnitTests
+    public class YTranslator_UnitTests : UnitTestsClass
     {
         [TestMethod]
         public void Test_01_YTranslator_OK()
