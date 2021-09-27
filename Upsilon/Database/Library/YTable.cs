@@ -26,6 +26,8 @@ namespace Upsilon.Database.Library
 
         internal XmlNode _GetXmlRecord(string key)
         {
+            YDebugTrace.TraceOn(new object[] { "key not logged" });
+
             XmlDocument document = new();
 
             XmlNode record = document.CreateNode(XmlNodeType.Element, "record", string.Empty);
@@ -39,11 +41,13 @@ namespace Upsilon.Database.Library
                 record.Attributes.Append(xmlField);
             }
 
-            return record;
+            return YDebugTrace.TraceOff(record);
         }
 
         internal Dictionary<string, string> _GetFieldsDico(string key)
         {
+            YDebugTrace.TraceOn(new object[] { "key not logged" });
+
             Dictionary<string, string> fieldsDico = new();
 
             fieldsDico[$"field_0"] = this.InternalIndex.ToString().Cipher_Aes(key);
@@ -61,11 +65,13 @@ namespace Upsilon.Database.Library
                 fieldsDico[$"field_{i}"] = fieldInfo.GetValue(this).SerializeObject().Cipher_Aes(key);
             }
 
-            return fieldsDico;
+            return YDebugTrace.TraceOff(fieldsDico);
         }
         
         internal void _SetRecord(XmlNode node, string key)
         {
+            YDebugTrace.TraceOn(new object[] { node, "key not logged" });
+
             PropertyInfo[] fieldsInfo = this.GetType().GetProperties()
                 .Where(x => x.CustomAttributes
                     .Where(y => y.AttributeType == typeof(YFieldAttribute)).Any())
@@ -86,6 +92,8 @@ namespace Upsilon.Database.Library
 
                 fieldInfo.SetValue(this, value);
             }
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -94,11 +102,15 @@ namespace Upsilon.Database.Library
         /// <param name="databaseImage">The database image containing the table.</param>
         public YTable(YDatabaseImage databaseImage)
         {
+            YDebugTrace.TraceOn(new object[] { databaseImage });
             this._DatabaseImage = databaseImage;
+            YDebugTrace.TraceOff();
         }
 
         internal static XmlNode _GetEmptyTableNode(string tableName, string key)
         {
+            YDebugTrace.TraceOn(new object[] { tableName, "key not logged" });
+
             XmlDocument document = new();
 
             XmlNode table = document.CreateNode(XmlNodeType.Element, "table", string.Empty);
@@ -112,7 +124,7 @@ namespace Upsilon.Database.Library
             node = document.CreateNode(XmlNodeType.Element, "records", string.Empty);
             table.AppendChild(node);
 
-            return table;
+            return YDebugTrace.TraceOff(table);
         }
 
         /// <summary>
@@ -122,12 +134,14 @@ namespace Upsilon.Database.Library
         /// <returns><c>true</c> or <c>false</c>.</returns>
         public new bool Equals(object item)
         {
+            YDebugTrace.TraceOn(new object[] { item });
+
             if (item is not YTable yTable)
             {
-                return base.Equals(item);
+                return YDebugTrace.TraceOff(base.Equals(item));
             }
 
-            return yTable.InternalIndex == this.InternalIndex;
+            return YDebugTrace.TraceOff(yTable.InternalIndex == this.InternalIndex);
         }
     }
 }

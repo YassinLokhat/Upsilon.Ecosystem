@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
@@ -20,15 +21,17 @@ namespace Upsilon.Database.Library
         /// <returns>All removed Internal Indexes.</returns>
         public long[] PopRemovedIndexes()
         {
+            YDebugTrace.TraceOn();
+
             long[] output = this._removedIndexes.ToArray();
             this._removedIndexes.Clear();
 
-            return output;
+            return YDebugTrace.TraceOff(output);
         }
 
         internal YTable[] _GetYTables()
         {
-            return this.Select(x => (YTable)x).ToArray();
+            return YDebugTrace.Trace(this.Select(x => (YTable)x).ToArray());
         }
 
         /// <summary>
@@ -37,8 +40,12 @@ namespace Upsilon.Database.Library
         /// <param name="item">The record to remove.</param>
         public new void Remove(T item)
         {
+            YDebugTrace.TraceOn(new object[] { item });
+
             this._removedIndexes.Add(item.InternalIndex);
             base.Remove(item);
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -47,7 +54,11 @@ namespace Upsilon.Database.Library
         /// <param name="index">The index of the record to remove.</param>
         public new void RemoveAt(int index)
         {
+            YDebugTrace.TraceOn(new object[] { index });
+
             this.Remove(this[index]);
+
+            YDebugTrace.TraceOff();
         }
 
 
@@ -59,6 +70,8 @@ namespace Upsilon.Database.Library
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1829:Use Length/Count property instead of Count() when available", Justification = "<Pending>")]
         public new void Insert(int index, T item)
         {
+            YDebugTrace.TraceOn(new object[] { index, item });
+
             if (this.Contains(item))
             {
                 throw new YDatabaseException($"Cannot add '{item.InternalIndex}' since it is already in this Dataset");
@@ -83,6 +96,8 @@ namespace Upsilon.Database.Library
             }
 
             base.Insert(index, item);
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -91,10 +106,14 @@ namespace Upsilon.Database.Library
         /// <param name="items">The set of record to insert.</param>
         public new void AddRange(IEnumerable<T> items)
         {
+            YDebugTrace.TraceOn(new object[] { items });
+
             foreach (T item in items)
             {
                 this.Add(item);
             }
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -103,7 +122,11 @@ namespace Upsilon.Database.Library
         /// <param name="item">The record to insert.</param>
         public new void Add(T item)
         {
+            YDebugTrace.TraceOn(new object[] { item });
+
             this.Insert(this.Count, item);
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -113,7 +136,7 @@ namespace Upsilon.Database.Library
         /// <returns>The record found or <c>null</c>.</returns>
         public T GetRecordByInternalIndex(long internalIndex)
         {
-            return this.Find(x => x.InternalIndex == internalIndex);
+            return YDebugTrace.Trace(this.Find(x => x.InternalIndex == internalIndex), new object[] { internalIndex });
         }
 
         /// <summary>
@@ -123,8 +146,8 @@ namespace Upsilon.Database.Library
         /// <returns><c>true</c> or <c>false</c>.</returns>
         public new bool Contains(T item)
         {
-            return base.Contains(item)
-                || this.Any(x => x.InternalIndex == item.InternalIndex);
+            return YDebugTrace.Trace(base.Contains(item)
+                || this.Any(x => x.InternalIndex == item.InternalIndex), new object[] { item });
         }
     }
 }

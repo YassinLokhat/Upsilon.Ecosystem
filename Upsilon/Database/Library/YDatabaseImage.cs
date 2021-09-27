@@ -32,10 +32,14 @@ namespace Upsilon.Database.Library
         /// <param name="key">The encryption key.</param>
         public YDatabaseImage(string filename, string key)
         {
+            YDebugTrace.TraceOn(new object[] { filename, "key not logged" });
+
             this._filename = filename;
             this._key = key;
 
             this.Pull(false);
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -44,6 +48,8 @@ namespace Upsilon.Database.Library
         /// <param name="lockFile">Lock the physical database file or not. If the file is locked, it will not be accessible to other clients untill the next call of <c><see cref="Push"/></c>.</param>
         public void Pull(bool lockFile = true)
         {
+            YDebugTrace.TraceOn(new object[] { lockFile });
+
             if (!File.Exists(this._filename))
             {
                 File.WriteAllText(this._filename, YDatabaseImage.GetEmptyXmlDocument(this._key));
@@ -72,6 +78,8 @@ namespace Upsilon.Database.Library
                 this.Close();
                 throw;
             }
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -79,6 +87,8 @@ namespace Upsilon.Database.Library
         /// </summary>
         public void Push()
         {
+            YDebugTrace.TraceOn();
+
             List<string> indexToRebuild = new();
 
             PropertyInfo[] datasetsInfo = this.GetType().GetProperties()
@@ -164,6 +174,8 @@ namespace Upsilon.Database.Library
             }
 
             this.Close();
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -172,8 +184,11 @@ namespace Upsilon.Database.Library
         /// <param name="tables">The list of tables to rebuild.</param>
         public void RebuildInternalIndex(string[] tables)
         {
+            YDebugTrace.TraceOn(new object[] { tables });
+
             if (this._document == null)
             {
+                YDebugTrace.TraceOff();
                 return;
             }
 
@@ -202,6 +217,8 @@ namespace Upsilon.Database.Library
             }
 
             this.Close();
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -211,6 +228,8 @@ namespace Upsilon.Database.Library
         /// <param name="key">The new encryption key.</param>
         public void SaveAs(string filename, string key)
         {
+            YDebugTrace.TraceOn(new object[] { filename, "key not logged" });
+
             this.Pull(false);
 
             if (string.IsNullOrEmpty(filename))
@@ -249,6 +268,8 @@ namespace Upsilon.Database.Library
             this._filename = filename;
 
             this.Push();
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -256,11 +277,15 @@ namespace Upsilon.Database.Library
         /// </summary>
         public void Close()
         {
+            YDebugTrace.TraceOn();
+
             if (this._file != null)
             {
                 this._file.Close();
                 this._file = null;
             }
+
+            YDebugTrace.TraceOff();
         }
 
         /// <summary>
@@ -270,11 +295,13 @@ namespace Upsilon.Database.Library
         /// <returns>The Xml code.</returns>
         public static string GetEmptyXmlDocument(string key)
         {
-            return $"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetUpsilonHashCode()}\">\r\n</tables>";
+            return YDebugTrace.Trace($"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tables key=\"{key.GetUpsilonHashCode()}\">\r\n</tables>", new object[] { "key not logged" });
         }
 
         private void _pullXmlDocument(bool lockFile)
         {
+            YDebugTrace.TraceOn(new object[] { lockFile });
+
             string content;
             while (true)
             {
@@ -305,10 +332,14 @@ namespace Upsilon.Database.Library
             {
                 throw new YDatabaseXmlCorruptionException(this._filename, ex.Message);
             }
+
+            YDebugTrace.TraceOff();
         }
 
         private void _checkXmlHeader()
         {
+            YDebugTrace.TraceOn();
+
             XmlNode root = this._document.SelectSingleNode("//tables");
 
             if (root == null
@@ -323,10 +354,14 @@ namespace Upsilon.Database.Library
             {
                 throw new YWrongDatabaseKeyException(this._filename, this._key);
             }
+
+            YDebugTrace.TraceOff();
         }
 
         private XmlNode _pullTable(PropertyInfo datasetInfo, XmlNode root)
         {
+            YDebugTrace.TraceOn(new object[] { datasetInfo, root });
+
             Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
             XmlNode tableXml = root.SelectNodes("./table").Cast<XmlNode>()
@@ -338,11 +373,13 @@ namespace Upsilon.Database.Library
                 root.AppendChild(tableXml);
             }
 
-            return tableXml;
+            return YDebugTrace.TraceOff(tableXml);
         }
 
         private void _pullFields(PropertyInfo datasetInfo, XmlNode root)
         {
+            YDebugTrace.TraceOn(new object[] { datasetInfo, root });
+
             Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
             this._TablesDefinition[dataType.Name] = new();
@@ -373,10 +410,14 @@ namespace Upsilon.Database.Library
                     throw new YDatabaseClassesDefinitionException(dataType.Name, $"Type '{fieldInfo.PropertyType}' does not match with '{yField.Type}' type for the '{fieldInfo.Name}' field.");
                 }
             }
+
+            YDebugTrace.TraceOff();
         }
 
         private void _pullDataset(PropertyInfo datasetInfo, XmlNode root)
         {
+            YDebugTrace.TraceOn(new object[] { datasetInfo, root });
+
             Type dataType = datasetInfo.PropertyType.GenericTypeArguments.FirstOrDefault();
 
             object dataset = Activator.CreateInstance(datasetInfo.PropertyType, Array.Empty<object>());
@@ -395,6 +436,8 @@ namespace Upsilon.Database.Library
                 var add = datasetInfo.PropertyType.GetMethod("Add");
                 add.Invoke(dataset, new object[] { recordClass });
             }
+
+            YDebugTrace.TraceOff();
         }
     }
 }

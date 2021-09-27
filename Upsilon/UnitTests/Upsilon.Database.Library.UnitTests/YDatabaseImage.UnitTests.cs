@@ -9,7 +9,7 @@ using Upsilon.Common.MetaHelper;
 namespace Upsilon.Database.Library.UnitTests
 {
     [TestClass]
-    public class YDatabaseImage_UnitTests
+    public class YDatabaseImage_UnitTests : YUnitTestsClass
     {
         [TestMethod]
         public void Test_00_DatabaseCreation()

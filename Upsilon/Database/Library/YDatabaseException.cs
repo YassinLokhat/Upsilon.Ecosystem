@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Upsilon.Common.Library;
 
 namespace Upsilon.Database.Library
 {
@@ -14,13 +15,19 @@ namespace Upsilon.Database.Library
         /// <summary>
         /// Create a new <c><see cref="YDatabaseException"/></c> with default values.
         /// </summary>
-        public YDatabaseException() : base() { }
+        public YDatabaseException() : base()
+        {
+            YDebugTrace.Trace((object)null);
+        }
 
         /// <summary>
         /// Create a new <c><see cref="YDatabaseException"/></c> with a message.
         /// </summary>
         /// <param name="message">The message of the exception.</param>
-        public YDatabaseException(string message) : base(message) { }
+        public YDatabaseException(string message) : base(message)
+        {
+            YDebugTrace.Trace((object)null, new object[] { message });
+        }
     }
 
     /// <summary>
@@ -40,7 +47,11 @@ namespace Upsilon.Database.Library
         /// <param name="message">The message of the exception.</param>
         public YDatabaseFileException(string filename, string message) : base(message)
         {
+            YDebugTrace.TraceOn(new object[] { filename, message });
+
             this.Filename = filename;
+
+            YDebugTrace.TraceOff();
         }
     }
 
@@ -62,7 +73,11 @@ namespace Upsilon.Database.Library
         public YWrongDatabaseKeyException(string filename, string key) :
             base(filename, $"Wrong Database key.\nFilename : {filename}\nKey : {key}") 
         {
+            YDebugTrace.TraceOn(new object[] { filename, key });
+
             this.Key = key;
+
+            YDebugTrace.TraceOff();
         }
     }
 
@@ -77,7 +92,10 @@ namespace Upsilon.Database.Library
         /// <param name="filename">The file the exception refers to.</param>
         /// <param name="message">The message of the exception.</param>
         public YDatabaseXmlCorruptionException(string filename, string message) :
-            base(filename, $"Database Xml is corrupted.\nFilename : {filename}\n{message}") { }
+            base(filename, $"Database Xml is corrupted.\nFilename : {filename}\n{message}")
+        {
+            YDebugTrace.Trace((object)null, new object[] { filename, message });
+        }
     }
 
     /// <summary>
@@ -98,7 +116,11 @@ namespace Upsilon.Database.Library
         public YDatabaseClassesDefinitionException(string tableName, string message) : 
             base($"Database Classes has bad definition.\nTable name : '{tableName}'\n{message}")
         {
+            YDebugTrace.TraceOn(new object[] { tableName, message });
+
             this.TableName = tableName;
+
+            YDebugTrace.TraceOff();
         }
     }
 }

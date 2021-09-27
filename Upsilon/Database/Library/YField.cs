@@ -17,6 +17,8 @@ namespace Upsilon.Database.Library
 
         public YField(string filename, string key, string tablename, XmlNode node)
         {
+            YDebugTrace.TraceOn(new object[] { filename, key, tablename, node });
+
             try
             {
                 this.Name = node.Attributes["name"].Value.Uncipher_Aes(key);
@@ -26,10 +28,14 @@ namespace Upsilon.Database.Library
             {
                 throw new YDatabaseXmlCorruptionException(filename, $"A field definition is not valid in '{tablename}' table node.");
             }
+
+            YDebugTrace.TraceOff();
         }
 
         public static XmlNode GetFieldNode(PropertyInfo field, string key)
         {
+            YDebugTrace.TraceOn(new object[] { field, key });
+
             XmlDocument document = new ();
             
             XmlNode node = document.CreateNode(XmlNodeType.Element, "field", "");
@@ -42,7 +48,7 @@ namespace Upsilon.Database.Library
             attribute.Value = field.PropertyType.FullName.Cipher_Aes(key);
             node.Attributes.Append(attribute);
 
-            return node;
+            return YDebugTrace.TraceOff(node);
         }
     }
 }
