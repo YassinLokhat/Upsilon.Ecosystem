@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YBigInteger_UnitTests : UnitTestsClass
+    public class YBigInteger_UnitTests : YUnitTestsClass
     {
         private readonly int LoopCount = 100;
 
         [ClassInitialize]
         public static void Inilialize(TestContext testContext)
         {
-            UnitTestsClass.EnableTrace = false;
+            YUnitTestsClass.EnableTrace = false;
         }
 
         [TestMethod]

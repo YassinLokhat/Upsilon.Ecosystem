@@ -11,7 +11,7 @@ using Upsilon.Common.MetaHelper;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YUpdateCenter_UnitTests : UnitTestsClass
+    public class YUpdateCenter_UnitTests : YUnitTestsClass
     {
         [TestMethod]
         public void Test_01_CheckForUpdate_OK()

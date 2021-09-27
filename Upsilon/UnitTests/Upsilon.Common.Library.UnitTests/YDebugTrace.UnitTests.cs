@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YDebugTrace_UnitTests : UnitTestsClass
+    public class YDebugTrace_UnitTests : YUnitTestsClass
     {
         [TestMethod]
         public void Test_01_()

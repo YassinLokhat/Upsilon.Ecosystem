@@ -11,7 +11,7 @@ using Upsilon.Common.MetaHelper;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YStringManagement_UnitTests : UnitTestsClass
+    public class YStringManagement_UnitTests : YUnitTestsClass
     {
         [TestMethod]
         public void Test_01_StringManagement_IsIdentifiant_0_OK()

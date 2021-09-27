@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Upsilon.Common.Library;
 
 namespace Upsilon.Common.Library.UnitTests
 {
-    public class UnitTestsClass
+    public class YUnitTestsClass
     {
         public static bool EnableTrace { get; set; } = true;
         public TestContext TestContext { get; set; }
@@ -15,7 +16,7 @@ namespace Upsilon.Common.Library.UnitTests
         [TestInitialize()]
         public void Initialize()
         {
-            if (!UnitTestsClass.EnableTrace)
+            if (!YUnitTestsClass.EnableTrace)
             {
                 YDebugTrace.SuspendTracing();
                 return;
@@ -27,7 +28,7 @@ namespace Upsilon.Common.Library.UnitTests
         [TestCleanup()]
         public void Cleanup()
         {
-            if (!UnitTestsClass.EnableTrace)
+            if (!YUnitTestsClass.EnableTrace)
             {
                 YDebugTrace.ResumeTracing();
                 return;

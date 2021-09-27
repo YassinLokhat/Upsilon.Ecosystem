@@ -10,7 +10,7 @@ using System.Linq;
 namespace Upsilon.Common.Library.UnitTests
 {
     [TestClass]
-    public class YStaticMethods_UnitTests : UnitTestsClass
+    public class YStaticMethods_UnitTests : YUnitTestsClass
     {
         [TestMethod]
         public void Test_01_YStaticMethods_SerializeObject_Boolean()
