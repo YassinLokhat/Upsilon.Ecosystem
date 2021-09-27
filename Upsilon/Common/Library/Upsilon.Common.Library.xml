@@ -748,17 +748,17 @@
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.Contains(System.Xml.XmlAttributeCollection,System.String)">
             <summary>
-            Check if a <c><see cref="T:System.Xml.XmlAttributeCollection"/> <paramref name="Attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c>.
+            Check if a <c><see cref="T:System.Xml.XmlAttributeCollection"/> <paramref name="attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c>.
             </summary>
-            <param name="Attributes">The <see cref="T:System.Xml.XmlAttributeCollection"/>.</param>
+            <param name="attributes">The <see cref="T:System.Xml.XmlAttributeCollection"/>.</param>
             <param name="attribute">The name of the attribute to check.</param>
             <returns>Return <c>true</c> or <c>false</c>.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.IsNullOrWhiteSpace(System.Xml.XmlAttributeCollection,System.String)">
             <summary>
-            Check if a <c><see cref="T:System.Xml.XmlAttributeCollection"/> <paramref name="Attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c> and its value is not null or empty.
+            Check if a <c><see cref="T:System.Xml.XmlAttributeCollection"/> <paramref name="attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c> and its value is not null or empty.
             </summary>
-            <param name="Attributes">The <see cref="T:System.Xml.XmlAttributeCollection"/>.</param>
+            <param name="attributes">The <see cref="T:System.Xml.XmlAttributeCollection"/>.</param>
             <param name="attribute">The name of the attribute to check.</param>
             <returns>Return <c>true</c> or <c>false</c>.</returns>
         </member>

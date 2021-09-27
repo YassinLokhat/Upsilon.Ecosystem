@@ -69,9 +69,9 @@ namespace Upsilon.Common.Library
             }
         }
 
-        internal static string GetIgnoreStringKey(string[] keys, int length)
+        internal static string _GetIgnoreStringKey(string[] keys, int length)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { keys, length });
 
             if (length < 3)
             {
@@ -79,7 +79,7 @@ namespace Upsilon.Common.Library
             }
 
             string key;
-            Random random = new Random((int)DateTime.Now.Ticks);
+            var random = new Random((int)DateTime.Now.Ticks);
 
             do
             {

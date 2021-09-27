@@ -122,8 +122,8 @@ namespace Upsilon.Common.Library
             serializeParametersThread.Join();
             serializeReturnThread.Join();
 
-            stringBuilder.Append(indent + serializedParameters);
-            stringBuilder.Append(indent + serializedReturn);
+            stringBuilder.Append(indent + _serializedParameters);
+            stringBuilder.Append(indent + _serializedReturn);
 
             stringBuilder.Append($"{indent}{this.Traces.Count}\n");
             stringBuilder.Append(string.Join("\n", this.Traces.Select(x => indent + x.TraceId)));
@@ -132,7 +132,7 @@ namespace Upsilon.Common.Library
             return stringBuilder.ToString(); ;
         }
 
-        string serializedParameters = "";
+        private string _serializedParameters = "";
         private void _serializeParameters()
         {
             StringBuilder stringBuilder = new();
@@ -145,22 +145,29 @@ namespace Upsilon.Common.Library
                     continue;
                 }
 
-                stringBuilder.Append(JsonSerializer.Serialize(param) + "\n");
+                try
+                {
+                    stringBuilder.Append(JsonSerializer.Serialize(param) + "\n");
+                }
+                catch (Exception)
+                {
+                    stringBuilder.Append(param.ToString() + "\n");
+                }
             }
 
-            serializedParameters = stringBuilder.ToString();
+            _serializedParameters = stringBuilder.ToString();
         }
 
-        string serializedReturn = "";
+        private string _serializedReturn = "";
         private void _serializeReturn()
         {
             if (Return == null)
             {
-                serializedReturn = "\n";
+                _serializedReturn = "\n";
                 return;
             }
 
-            serializedReturn = JsonSerializer.Serialize(Return) + "\n";
+            _serializedReturn = JsonSerializer.Serialize(Return) + "\n";
         }
 
         /// <summary>

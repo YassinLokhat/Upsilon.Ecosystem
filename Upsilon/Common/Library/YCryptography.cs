@@ -19,7 +19,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string Cipher_Aes(this string plainText, string key)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { plainText, "key not logged" });
 
             if (String.IsNullOrWhiteSpace(key) || String.IsNullOrWhiteSpace(plainText))
             {
@@ -41,7 +41,7 @@ namespace Upsilon.Common.Library
 
         private static byte[] _cipher_Aes(string plainText, byte[] key, byte[] IV)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { plainText, key, IV });
 
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
@@ -90,7 +90,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string Uncipher_Aes(this string cipherText, string key)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { cipherText, "key not logged" });
 
             if (String.IsNullOrWhiteSpace(key) || cipherText.Length == 0)
             {
@@ -112,7 +112,7 @@ namespace Upsilon.Common.Library
 
         private static string _uncither_Aes(byte[] cipherText, byte[] key, byte[] IV)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { cipherText, key, IV });
 
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)

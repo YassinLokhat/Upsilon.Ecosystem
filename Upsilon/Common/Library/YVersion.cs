@@ -59,7 +59,7 @@ namespace Upsilon.Common.Library
         /// <param name="version">The string formated version.</param>
         public YVersion(string version)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { version });
 
             string[] info = version.Split('.');
             int major = 0, minor = 0, build = 0, revision = 0;
@@ -75,7 +75,7 @@ namespace Upsilon.Common.Library
             if (info.Length > 1
                 && !int.TryParse(info[1], out minor))
             {
-                int.TryParse(info[1][0..^1], out minor);
+                _ = int.TryParse(info[1][0..^1], out minor);
                 build = YVersion.Alphabet.IndexOf(info[1].Last()) + 1;
             }
             if (info.Length > 3)
@@ -110,7 +110,7 @@ namespace Upsilon.Common.Library
                 YVersionFormat.Extended => String.Format("{0}.{1}.{2}", this.Major, this.Minor, this.Build),
                 YVersionFormat.Full => String.Format("{0}.{1}.{2}.{3}", this.Major, this.Minor, this.Build, this.Revision),
                 _ => "",
-            });
+            }, new object[] { format });
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Upsilon.Common.Library
                 .Replace("M", Major.ToString())
                 .Replace("m", Minor.ToString())
                 .Replace("b", Build.ToString())
-                .Replace("r", Revision.ToString()));
+                .Replace("r", Revision.ToString()), new object[] { format });
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator <(YVersion version1, YVersion version2)
         {
-            return YDebugTrace.Trace(Comparison(version1, version2) < 0);
+            return YDebugTrace.Trace(Comparison(version1, version2) < 0, new object[] { version1, version2 });
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator >(YVersion version1, YVersion version2)
         {
-            return YDebugTrace.Trace(Comparison(version1, version2) > 0);
+            return YDebugTrace.Trace(Comparison(version1, version2) > 0, new object[] { version1, version2 });
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator ==(YVersion version1, YVersion version2)
         {
-            return YDebugTrace.Trace(Comparison(version1, version2) == 0);
+            return YDebugTrace.Trace(Comparison(version1, version2) == 0, new object[] { version1, version2 });
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator !=(YVersion version1, YVersion version2)
         {
-            return YDebugTrace.Trace(Comparison(version1, version2) != 0);
+            return YDebugTrace.Trace(Comparison(version1, version2) != 0, new object[] { version1, version2 });
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator <=(YVersion version1, YVersion version2)
         {
-            return YDebugTrace.Trace(Comparison(version1, version2) <= 0);
+            return YDebugTrace.Trace(Comparison(version1, version2) <= 0, new object[] { version1, version2 });
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public static bool operator >=(YVersion version1, YVersion version2)
         {
-            return YDebugTrace.Trace(Comparison(version1, version2) >= 0);
+            return YDebugTrace.Trace(Comparison(version1, version2) >= 0, new object[] { version1, version2 });
         }
 
         /// <summary>
@@ -238,9 +238,9 @@ namespace Upsilon.Common.Library
         /// <returns>Returns <c>true</c> or <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is YVersion)) return YDebugTrace.Trace(false);
+            if (!(obj is YVersion)) return YDebugTrace.Trace(false, new object[] { obj });
 
-            return YDebugTrace.Trace(this == (YVersion)obj);
+            return YDebugTrace.Trace(this == (YVersion)obj, new object[] { obj });
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Upsilon.Common.Library
         /// </returns>
         public int CompareTo(object obj)
         {
-            return YDebugTrace.Trace(Comparison(this, (YVersion)obj));
+            return YDebugTrace.Trace(Comparison(this, (YVersion)obj), new object[] { obj });
         }
         #endregion
     }

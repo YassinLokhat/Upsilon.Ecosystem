@@ -30,7 +30,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the list of <c><see cref="YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
         public static Dictionary<string, List<YAssembly>> CheckForUpdate(string configUrl, string assemblyName, out YAssembly assembly)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { configUrl, assemblyName });
 
             assembly = null;
 
@@ -82,7 +82,7 @@ namespace Upsilon.Common.Library
         /// <param name="workingDirectory">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
         public static void DownloadUpdate(YAssembly onlineAssembly, Dictionary<string, List<YAssembly>> deployedAssemblies, string workingDirectory = null)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { onlineAssembly, deployedAssemblies, workingDirectory });
 
             if (string.IsNullOrWhiteSpace(workingDirectory))
             {

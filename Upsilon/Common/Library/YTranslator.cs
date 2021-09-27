@@ -31,7 +31,7 @@ namespace Upsilon.Common.Library
         /// <param name="key">The key to uncipher the given file.</param>
         public YTranslator(string filePath, string key) : base()
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { filePath, "key not logged" });
             
             JsonDocument document = JsonDocument.Parse(File.ReadAllText(filePath).Uncipher_Aes(key));
             JsonElement root = document.RootElement;

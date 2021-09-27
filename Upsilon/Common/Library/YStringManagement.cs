@@ -24,7 +24,7 @@ namespace Upsilon.Common.Library
         /// <returns>Return <c>true</c> or <c>false</c>.</returns>
         public static bool IsIdentifiant(this string identifiant)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { identifiant });
 
             string specialChars = new(identifiant.Where(x => !char.IsLetterOrDigit(x)).ToArray());
             specialChars = new(specialChars.Where(x => x != '_').ToArray());
@@ -48,7 +48,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static YTextBlock GetNextTextBlock(this string str, YTextBlockSearchConfiguration configuration)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { str, configuration });
 
             YTextBlock textBlock = new()
             {
@@ -122,7 +122,7 @@ namespace Upsilon.Common.Library
         /// <returns>Returns the index of the previous occurence of the <c><paramref name="value"/></c> string or <c>-1</c> if not found.</returns>
         public static int IndexOfPrevious(this string str, string value, int startIndex = -1)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { str, value, startIndex });
 
             if (string.IsNullOrEmpty(str))
             {

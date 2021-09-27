@@ -20,33 +20,33 @@ namespace Upsilon.Common.Library
     {
         #region XmlAttributeCollection Extention Methods
         /// <summary>
-        /// Check if a <c><see cref="XmlAttributeCollection"/> <paramref name="Attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c>.
+        /// Check if a <c><see cref="XmlAttributeCollection"/> <paramref name="attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c>.
         /// </summary>
-        /// <param name="Attributes">The <see cref="XmlAttributeCollection"/>.</param>
+        /// <param name="attributes">The <see cref="XmlAttributeCollection"/>.</param>
         /// <param name="attribute">The name of the attribute to check.</param>
         /// <returns>Return <c>true</c> or <c>false</c>.</returns>
-        public static bool Contains(this XmlAttributeCollection Attributes, string attribute)
+        public static bool Contains(this XmlAttributeCollection attributes, string attribute)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { attributes, attribute });
 
-            if (Attributes != null
-                && Attributes[attribute] != null)
+            if (attributes != null
+                && attributes[attribute] != null)
             {
                 return YDebugTrace.TraceOff(true);
             }
 
-            return YDebugTrace.Trace(false);
+            return YDebugTrace.TraceOff(false);
         }
 
         /// <summary>
-        /// Check if a <c><see cref="XmlAttributeCollection"/> <paramref name="Attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c> and its value is not null or empty.
+        /// Check if a <c><see cref="XmlAttributeCollection"/> <paramref name="attributes"/></c> contains an attribute named as the <c><paramref name="attribute"/></c> and its value is not null or empty.
         /// </summary>
-        /// <param name="Attributes">The <see cref="XmlAttributeCollection"/>.</param>
+        /// <param name="attributes">The <see cref="XmlAttributeCollection"/>.</param>
         /// <param name="attribute">The name of the attribute to check.</param>
         /// <returns>Return <c>true</c> or <c>false</c>.</returns>
-        public static bool IsNullOrWhiteSpace(this XmlAttributeCollection Attributes, string attribute)
+        public static bool IsNullOrWhiteSpace(this XmlAttributeCollection attributes, string attribute)
         {
-            return YDebugTrace.Trace(!Attributes.Contains(attribute) || String.IsNullOrWhiteSpace(Attributes[attribute].Value));
+            return YDebugTrace.Trace(!attributes.Contains(attribute) || String.IsNullOrWhiteSpace(attributes[attribute].Value), new object[] { attributes, attribute });
         }
         #endregion
 
@@ -58,7 +58,7 @@ namespace Upsilon.Common.Library
         /// <returns>Return the MD5 Hash code.</returns>
         public static string GetMD5HashCode(this object obj)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { obj });
 
             string str = obj.ToString();
 
@@ -75,7 +75,7 @@ namespace Upsilon.Common.Library
         /// <returns>Return the Upsilon Hash code.</returns>
         public static string GetUpsilonHashCode(this object obj)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { obj });
 
             string str = obj.SerializeObject() + obj.ToString();
 
@@ -96,7 +96,7 @@ namespace Upsilon.Common.Library
         /// <param name="objectSource">The object source.</param>
         public static void CopyFrom<T>(this T objectDestination, T objectSource)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { objectDestination, objectSource });
 
             Type type = typeof(T);
             var properties = type.GetProperties();
@@ -123,11 +123,7 @@ namespace Upsilon.Common.Library
         /// <returns>The cloned object.</returns>
         public static T Clone<T>(this T obj)
         {
-            YDebugTrace.TraceOn();
-
-            JsonSerializerOptions jsonSerializerOptions = new() {  };
-
-            return YDebugTrace.TraceOff(obj.SerializeObject().DeserializeObject<T>());
+            return YDebugTrace.Trace(obj.SerializeObject().DeserializeObject<T>(), new object[] { obj });
         }
         #endregion
 
@@ -142,7 +138,7 @@ namespace Upsilon.Common.Library
         public static bool IsEnumFlagPresent<T>(this T value, T lookingForFlag)
             where T : struct
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { value, lookingForFlag });
 
             if (!typeof(T).IsEnum)
             {
@@ -176,7 +172,7 @@ namespace Upsilon.Common.Library
         /// <returns>The serialized string.</returns>
         public static string SerializeObject(this object toSerialize, bool indent = false)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { toSerialize, indent });
 
             JsonSerializerOptions options = new()
             {
@@ -194,7 +190,7 @@ namespace Upsilon.Common.Library
         /// <returns>The deserialized object.</returns>
         public static object DeserializeObject(this string toDeserialize, Type type)
         {
-            return YDebugTrace.Trace(JsonSerializer.Deserialize(toDeserialize, type));
+            return YDebugTrace.Trace(JsonSerializer.Deserialize(toDeserialize, type), new object[] { toDeserialize, type });
         }
 
         /// <summary>
@@ -205,7 +201,7 @@ namespace Upsilon.Common.Library
         /// <returns>The deserialized object.</returns>
         public static T DeserializeObject<T>(this string toDeserialize)
         {
-            return YDebugTrace.Trace(JsonSerializer.Deserialize<T>(toDeserialize));
+            return YDebugTrace.Trace(JsonSerializer.Deserialize<T>(toDeserialize), new object[] { toDeserialize });
         }
         #endregion
 
@@ -216,7 +212,7 @@ namespace Upsilon.Common.Library
         /// <param name="url">The Url to open.</param>
         public static void ProcessStartUrl(string url)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { url });
 
             try
             {
@@ -255,7 +251,7 @@ namespace Upsilon.Common.Library
         /// <returns>The downloaded string.</returns>
         public static string DownloadString(string url)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { url });
 
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
@@ -274,7 +270,7 @@ namespace Upsilon.Common.Library
         /// <returns>The downloaded string.</returns>
         public static void DownloadFile(string url, string filePath)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { url, filePath });
 
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
@@ -298,7 +294,7 @@ namespace Upsilon.Common.Library
         /// <param name="throwException">Throw an exception when error occurs.</param>
         public static void Copy(string sourcePath, string destinationDirectory, bool @override = false, bool throwException = true)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { sourcePath, destinationDirectory, @override, throwException });
 
             if (File.Exists(sourcePath))
             {
@@ -349,7 +345,7 @@ namespace Upsilon.Common.Library
         /// <returns>The object found or <c>null</c>.</returns>
         public static T Find<T>(this IList<T> list, Predicate<T> predicate)
         {
-            return YDebugTrace.Trace(list.ToList().Find(predicate));
+            return YDebugTrace.Trace(list.ToList().Find(predicate), new object[] { list, predicate });
         }
 
         /// <summary>
@@ -361,7 +357,7 @@ namespace Upsilon.Common.Library
         /// <returns>The object found or <c>null</c>.</returns>
         public static T Find<T>(this IEnumerable<T> list, Predicate<T> predicate)
         {
-            return YDebugTrace.Trace(list.ToList().Find(predicate));
+            return YDebugTrace.Trace(list.ToList().Find(predicate), new object[] { list, predicate });
         }
 
         /// <summary>
@@ -374,7 +370,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static IEnumerable<T> TakeElementFrom<T>(this IEnumerable<T> list, int startIndex, int count)
         {
-            YDebugTrace.TraceOn(); 
+            YDebugTrace.TraceOn(new object[] { list, startIndex, count }); 
 
             if (count < 0)
             {
@@ -396,7 +392,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static IEnumerable<T> TakeElementFrom<T>(this IEnumerable<T> list, int startIndex)
         {
-            return YDebugTrace.Trace(list.TakeElementFrom(startIndex, -1));
+            return YDebugTrace.Trace(list.TakeElementFrom(startIndex, -1), new object[] { list, startIndex });
         }
         #endregion
 
@@ -409,7 +405,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string GetCommonRootDirectory(IList<string> directories, char separator)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { directories, separator });
 
             var urls = directories.Select(x => x.TrimEnd(separator).Split(separator).ToList()).ToArray();
 
@@ -455,7 +451,7 @@ namespace Upsilon.Common.Library
         /// <returns></returns>
         public static string GetCommonRootDirectory(IEnumerable<string> directories, char separator)
         {
-            return YDebugTrace.Trace(GetCommonRootDirectory(directories.ToArray(), separator));
+            return YDebugTrace.Trace(GetCommonRootDirectory(directories.ToArray(), separator), new object[] { directories, separator });
         }
         #endregion
     }

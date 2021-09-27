@@ -28,7 +28,7 @@ namespace Upsilon.Common.Library
         /// <param name="key">The encryption key. Leave empty to disable encryption. The default value is <see cref="string.Empty"/>.</param>
         public YConfigurationProvider(string configurationFile, string key = "")
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { configurationFile, "key not logged" });
 
             if (!File.Exists(configurationFile))
             {
@@ -49,7 +49,7 @@ namespace Upsilon.Common.Library
         /// <param name="configurationValue">The configuration value.</param>
         public void SetConfiguration(T configurationKey, object configurationValue)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { configurationKey, configurationValue });
 
             this._configurations[configurationKey.ToString()] = configurationValue.SerializeObject().Cipher_Aes(this._key);
             this._saveConfigFile();
@@ -65,7 +65,7 @@ namespace Upsilon.Common.Library
         /// <returns>The configuration value or the default value of <typeparamref name="U"/> if the given <paramref name="configurationKey"/> is missing.</returns>
         public U GetConfiguration<U>(T configurationKey)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { configurationKey });
 
             this._loadConfigFile();
             if (this.HasConfiguration(configurationKey))
@@ -83,7 +83,7 @@ namespace Upsilon.Common.Library
         /// <returns><c>true</c> or <c>false</c>.</returns>
         public bool HasConfiguration(T configurationKey)
         {
-            YDebugTrace.TraceOn();
+            YDebugTrace.TraceOn(new object[] { configurationKey });
 
             this._loadConfigFile();
 
