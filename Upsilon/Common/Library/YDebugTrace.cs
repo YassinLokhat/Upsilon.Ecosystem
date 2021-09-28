@@ -215,7 +215,10 @@ namespace Upsilon.Common.Library
             }
         }
 
-        private static YDebugTrace _rootTrace = null;
+        /// <summary>
+        /// The root trace.
+        /// </summary>
+        public static YDebugTrace RootTrace = null;
         private static YDebugTrace _currentTrace = null;
 
         /// <summary>
@@ -225,7 +228,7 @@ namespace Upsilon.Common.Library
         {
             Directory.CreateDirectory(YDebugTrace.TraceLogDirectory);
 
-            YDebugTrace._rootTrace = YDebugTrace._currentTrace = null;
+            YDebugTrace.RootTrace = YDebugTrace._currentTrace = null;
         }
 
         /// <summary>
@@ -238,7 +241,7 @@ namespace Upsilon.Common.Library
                 Directory.Delete(YDebugTrace.TraceLogDirectory, true);
             }
 
-            YDebugTrace._rootTrace = YDebugTrace._currentTrace = null;
+            YDebugTrace.RootTrace = YDebugTrace._currentTrace = null;
         }
 
         /// <summary>
@@ -262,9 +265,9 @@ namespace Upsilon.Common.Library
         /// </summary>
         public static void ComputeTraceLog()
         {
-            if (YDebugTrace._rootTrace != null)
+            if (YDebugTrace.RootTrace != null)
             {
-                YDebugTrace._rootTrace.LogTrace();
+                YDebugTrace.RootTrace.LogTrace();
             }
         }
 
@@ -303,9 +306,9 @@ namespace Upsilon.Common.Library
                 sourceMemberParameters = Array.Empty<object>();
             }
 
-            if (YDebugTrace._rootTrace == null)
+            if (YDebugTrace.RootTrace == null)
             {
-                YDebugTrace._rootTrace = new YDebugTrace()
+                YDebugTrace.RootTrace = new YDebugTrace()
                 {
                     TraceId = DateTime.Now.Ticks,
                     FileName = "root",
@@ -313,7 +316,7 @@ namespace Upsilon.Common.Library
                     ExecutingMethodeName = "root",
                     Parameters = Array.Empty<object>(),
                 };
-                YDebugTrace._currentTrace = YDebugTrace._rootTrace;
+                YDebugTrace._currentTrace = YDebugTrace.RootTrace;
             }
 
             var trace = new YDebugTrace()
@@ -392,7 +395,7 @@ namespace Upsilon.Common.Library
             [CallerLineNumber] int sourceLineNumber = 0,
             [CallerMemberName] string sourceMemberName = "")
         {
-            YDebugTrace.TraceOn(sourceMemberParameters, sourceFilePath, sourceLineNumber - 1, sourceMemberName);
+            YDebugTrace.TraceOn(sourceMemberParameters, sourceFilePath, sourceLineNumber, sourceMemberName);
             return YDebugTrace.TraceOff(ret, sourceFilePath, sourceLineNumber, sourceMemberName);
         }
 
@@ -418,11 +421,11 @@ namespace Upsilon.Common.Library
             trace.Return = sourceMemberReturn;
             trace.EndLine = sourceLineNumber;
 
-            if (YDebugTrace._currentTrace == YDebugTrace._rootTrace
-                && !YDebugTrace._rootTrace.Traces.Any(x => !x.IsClosed))
+            if (YDebugTrace._currentTrace == YDebugTrace.RootTrace
+                && !YDebugTrace.RootTrace.Traces.Any(x => !x.IsClosed))
             {
-                YDebugTrace._rootTrace.EndLine = 0;
-                YDebugTrace._rootTrace.LogTrace();
+                YDebugTrace.RootTrace.EndLine = 0;
+                YDebugTrace.RootTrace.LogTrace();
             }
 
             trace.LogTrace();

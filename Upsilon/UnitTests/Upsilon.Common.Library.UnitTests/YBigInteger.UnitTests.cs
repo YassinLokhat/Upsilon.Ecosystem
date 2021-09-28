@@ -11,12 +11,11 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YBigInteger_UnitTests : YUnitTestsClass
     {
-        private readonly int LoopCount = 100;
+        private readonly int _loopCount = 100;
 
-        [ClassInitialize]
-        public static void Inilialize(TestContext testContext)
+        public YBigInteger_UnitTests() : base()
         {
-            YUnitTestsClass.EnableTrace = false;
+            this.EnableTrace = false;
         }
 
         [TestMethod]
@@ -24,7 +23,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 // Given
                 long val1 = random.Next();
@@ -46,7 +45,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 // Given
                 long val1 = random.Next();
@@ -68,7 +67,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 // Given
                 int count = random.Next(20) + 1;
@@ -90,7 +89,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 // Given
                 int count = random.Next(20) + 1;
@@ -112,7 +111,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 // Given
                 int count = random.Next(20) + 1;
@@ -134,7 +133,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             Random random = new((int)DateTime.Now.Ticks);
 
-            for (int i = 0; i < LoopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 // Given
                 int count = random.Next(20) + 1;
@@ -158,7 +157,7 @@ namespace Upsilon.Common.Library.UnitTests
 
             foreach (YBase @base in YBaseExtensions.GetBases())
             {
-                for (int i = 0; i < LoopCount; i++)
+                for (int i = 0; i < _loopCount; i++)
                 {
                     // Given
                     long value1 = random.Next();
@@ -230,7 +229,7 @@ namespace Upsilon.Common.Library.UnitTests
 
             foreach (YBase @base in YBaseExtensions.GetBases())
             {
-                for (int i = 0; i < LoopCount; i++)
+                for (int i = 0; i < _loopCount; i++)
                 {
                     // Given
                     long value1 = random.Next();

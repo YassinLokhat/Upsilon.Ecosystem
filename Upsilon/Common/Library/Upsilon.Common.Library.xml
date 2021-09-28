@@ -674,6 +674,11 @@
             The Trace log directory.
             </summary>
         </member>
+        <member name="F:Upsilon.Common.Library.YDebugTrace.RootTrace">
+            <summary>
+            The root trace.
+            </summary>
+        </member>
         <member name="M:Upsilon.Common.Library.YDebugTrace.StartTracing">
             <summary>
             Start tracing process.

@@ -10,13 +10,13 @@ namespace Upsilon.Common.Library.UnitTests
 {
     public class YUnitTestsClass
     {
-        public static bool EnableTrace { get; set; } = true;
+        public bool EnableTrace { get; set; } = true;
         public TestContext TestContext { get; set; }
 
         [TestInitialize()]
         public void Initialize()
         {
-            if (!YUnitTestsClass.EnableTrace)
+            if (!this.EnableTrace)
             {
                 YDebugTrace.SuspendTracing();
                 return;
@@ -28,7 +28,7 @@ namespace Upsilon.Common.Library.UnitTests
         [TestCleanup()]
         public void Cleanup()
         {
-            if (!YUnitTestsClass.EnableTrace)
+            if (!this.EnableTrace)
             {
                 YDebugTrace.ResumeTracing();
                 return;

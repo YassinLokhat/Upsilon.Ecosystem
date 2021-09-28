@@ -41,7 +41,9 @@ namespace Upsilon.Common.Library
                 YDebugTrace.TraceOn();
                 
                 if (this.Text == null
-                   || this.Configuration == null)
+                   || this.Configuration == null
+                   || this.StartIndex == -1
+                   || this.EndIndex == -1)
                 {
                     return YDebugTrace.TraceOff<string>(null);
                 }
@@ -60,7 +62,9 @@ namespace Upsilon.Common.Library
                 YDebugTrace.TraceOn();
 
                 if (this.Text == null
-                    || this.Configuration == null)
+                   || this.Configuration == null
+                   || this.StartIndex == -1
+                   || this.EndIndex == -1)
                 {
                     return YDebugTrace.TraceOff<string>(null);
                 }

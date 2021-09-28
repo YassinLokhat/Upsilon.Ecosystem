@@ -5,6 +5,7 @@ using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Upsilon.Common.Library.UnitTests.TestClasses;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -12,75 +13,251 @@ namespace Upsilon.Common.Library.UnitTests
     public class YDebugTrace_UnitTests : YUnitTestsClass
     {
         [TestMethod]
-        public void Test_01_()
+        public void Test_01_SimpleTraceStack_Case1()
         {
             // Given
+            var param = 15;
 
             // When
-            this.function1(15);
+            YDebugTraceClasses.Function1(param);
 
             // Then
-            1.Should().Be(0);
+            YDebugTrace.RootTrace.Should().NotBeNull();
+            YDebugTrace.RootTrace.Traces.Count.Should().Be(1);
+
+            var parent = YDebugTrace.RootTrace;
+
+            var trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(13);
+            trace.EndLine.Should().Be(18);
+            trace.CallerMethod.Should().Be("Test_01_SimpleTraceStack_Case1");
+            trace.CallerLine.Should().Be(22);
+            trace.ExecutingMethodeName.Should().Be("Function1");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param });
+            trace.Return.Should().BeNull();
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(23);
+            trace.EndLine.Should().Be(47);
+            trace.CallerMethod.Should().Be("Function1");
+            trace.CallerLine.Should().Be(16);
+            trace.ExecutingMethodeName.Should().Be("Function2");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param, false });
+            trace.Return.Should().Be(param + 1);
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.CallerMethod.Should().Be("Function2");
+            trace.StartLine.Should().Be(59);
+            trace.EndLine.Should().Be(59);
+            trace.CallerLine.Should().Be(37);
+            trace.ExecutingMethodeName.Should().Contain("Function4");
+            trace.Return.Should().Be(true);
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Count().Should().Be(0);
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(0);
         }
 
         [TestMethod]
-        public void Test_02_()
+        public void Test_02_SimpleTraceStack_Case2()
         {
             // Given
+            var param = 20;
 
             // When
-            this.function1(15);
+            YDebugTraceClasses.Function1(param);
 
             // Then
-            1.Should().Be(1);
+            YDebugTrace.RootTrace.Should().NotBeNull();
+            YDebugTrace.RootTrace.Traces.Count.Should().Be(1);
+
+            var parent = YDebugTrace.RootTrace;
+
+            var trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(13);
+            trace.EndLine.Should().Be(18);
+            trace.CallerMethod.Should().Be("Test_02_SimpleTraceStack_Case2");
+            trace.CallerLine.Should().Be(82);
+            trace.ExecutingMethodeName.Should().Be("Function1");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param });
+            trace.Return.Should().BeNull();
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(23);
+            trace.EndLine.Should().Be(47);
+            trace.CallerMethod.Should().Be("Function1");
+            trace.CallerLine.Should().Be(16);
+            trace.ExecutingMethodeName.Should().Be("Function2");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param, false });
+            trace.Return.Should().Be(param + 1);
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.CallerMethod.Should().Be("Function2");
+            trace.StartLine.Should().Be(52);
+            trace.EndLine.Should().Be(54);
+            trace.CallerLine.Should().Be(31);
+            trace.ExecutingMethodeName.Should().Contain("Function3");
+            trace.Return.Should().BeNull();
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Count().Should().Be(0);
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(0);
         }
 
-        private void function1(int param)
+        [TestMethod]
+        public void Test_03_ExceptionThrown_Case1()
         {
-            YDebugTrace.TraceOn(new object[] { param });
-            int local = 10;
-            // preprocessing function2
-            this.function2(local);
-            // postprocessing function2
-            YDebugTrace.TraceOff(); 
-        }
+            // Given
+            var param = 15;
 
-        private int function2(int param)
-        {
-            YDebugTrace.TraceOn(new object[] { param });
-            // processing function2
-            var random = new Random((int)DateTime.Now.Ticks);
-            var n = random.Next(100);
-
-            if (n % 2 == 0)
+            // When
+            Action act = new(() => 
             {
-                // preprocessing function3
-                this.function3();
-                // postprocessing function3
-            }
-            else
+                YDebugTraceClasses.Function1(param, true);
+            });
+
+            // Then
+            act.Should().Throw<Exception>();
+            YDebugTrace.RootTrace.Should().NotBeNull();
+            YDebugTrace.RootTrace.Traces.Count.Should().Be(1);
+
+            var parent = YDebugTrace.RootTrace;
+
+            var trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(13);
+            trace.EndLine.Should().Be(-1);
+            trace.CallerMethod.Should().Contain("Test_03_ExceptionThrown_Case1");
+            trace.CallerLine.Should().Be(144);
+            trace.ExecutingMethodeName.Should().Be("Function1");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param });
+            trace.Return.Should().BeNull();
+            trace.IsClosed.Should().BeFalse();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(23);
+            trace.EndLine.Should().Be(-1);
+            trace.CallerMethod.Should().Be("Function1");
+            trace.CallerLine.Should().Be(16);
+            trace.ExecutingMethodeName.Should().Be("Function2");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param, true });
+            trace.Return.Should().BeNull();
+            trace.IsClosed.Should().BeFalse();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.CallerMethod.Should().Be("Function2");
+            trace.StartLine.Should().Be(59);
+            trace.EndLine.Should().Be(59);
+            trace.CallerLine.Should().Be(37);
+            trace.ExecutingMethodeName.Should().Contain("Function4");
+            trace.Return.Should().Be(true);
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Count().Should().Be(0);
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Test_04_ExceptionThrown_Case2()
+        {
+            // Given
+            var param = 20;
+
+            // When
+            Action act = new(() => 
             {
-                // preprocessing function4
-                this.function4();
-                // postprocessing function4
-            }
+                YDebugTraceClasses.Function1(param, true);
+            });
 
-            YDebugTrace.TraceOff((object)n);
-            return n;
-        }
+            // Then
+            act.Should().Throw<Exception>();
+            YDebugTrace.RootTrace.Should().NotBeNull();
+            YDebugTrace.RootTrace.Traces.Count.Should().Be(1);
 
-        private void function3()
-        {
-            YDebugTrace.TraceOn();
-            // processing function3
-            YDebugTrace.TraceOff();
-        }
+            var parent = YDebugTrace.RootTrace;
 
-        private void function4()
-        {
-            YDebugTrace.TraceOn();
-            // processing function4
-            YDebugTrace.TraceOff();
+            var trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(13);
+            trace.EndLine.Should().Be(-1);
+            trace.CallerMethod.Should().Contain("Test_04_ExceptionThrown_Case2");
+            trace.CallerLine.Should().Be(208);
+            trace.ExecutingMethodeName.Should().Be("Function1");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param });
+            trace.Return.Should().BeNull();
+            trace.IsClosed.Should().BeFalse();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.StartLine.Should().Be(23);
+            trace.EndLine.Should().Be(-1);
+            trace.CallerMethod.Should().Be("Function1");
+            trace.CallerLine.Should().Be(16);
+            trace.ExecutingMethodeName.Should().Be("Function2");
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Should().BeEquivalentTo(new object[] { param, true });
+            trace.Return.Should().BeNull();
+            trace.IsClosed.Should().BeFalse();
+            trace.Traces.Count.Should().Be(1);
+
+            parent = trace;
+            trace = parent.Traces.First();
+            trace.TraceId.Should().Be(1);
+            trace.FileName.Should().Be(@"\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs");
+            trace.CallerMethod.Should().Be("Function2");
+            trace.StartLine.Should().Be(52);
+            trace.EndLine.Should().Be(54);
+            trace.CallerLine.Should().Be(31);
+            trace.ExecutingMethodeName.Should().Contain("Function3");
+            trace.Return.Should().BeNull();
+            trace.Parent.Should().Be(parent);
+            trace.Parameters.Count().Should().Be(0);
+            trace.IsClosed.Should().BeTrue();
+            trace.Traces.Count.Should().Be(0);
         }
     }
 }

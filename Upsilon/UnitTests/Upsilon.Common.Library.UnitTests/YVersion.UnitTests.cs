@@ -8,14 +8,19 @@ namespace Upsilon.Common.Library.UnitTests
     [TestClass]
     public class YVersion_UnitTests : YUnitTestsClass
     {
-        private readonly short loopCount = 1000;
+        private readonly short _loopCount = 1000;
+
+        public YVersion_UnitTests() : base()
+        {
+            this.EnableTrace = false;
+        }
 
         [TestMethod]
         public void Test_01_FullVersionOK()
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
-            for (int i = 0; i < loopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 int major = random.Next();
                 int minor = random.Next();
@@ -43,7 +48,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
-            for (int i = 0; i < loopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 int major = random.Next();
                 int minor = random.Next();
@@ -69,7 +74,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
-            for (int i = 0; i < loopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 int major = random.Next();
                 int minor = random.Next();
@@ -96,7 +101,7 @@ namespace Upsilon.Common.Library.UnitTests
         {
             // Given
             Random random = new((int)DateTime.Now.Ticks);
-            for (int i = 0; i < loopCount; i++)
+            for (int i = 0; i < _loopCount; i++)
             {
                 int major = random.Next();
                 int minor = random.Next();
