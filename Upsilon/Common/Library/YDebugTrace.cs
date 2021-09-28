@@ -78,6 +78,26 @@ namespace Upsilon.Common.Library
             }
         }
 
+        /// <summary>
+        /// Get the log directory path of the current trace.
+        /// </summary>
+        public string LogDirectoryPath
+        {
+            get
+            {
+                var directory = string.Empty;
+                var trace = this;
+
+                while (trace != null)
+                {
+                    directory = Path.Combine(trace.TraceId.ToString(), directory);
+                    trace = trace.Parent;
+                }
+
+                return Path.Combine(YDebugTrace.TraceLogDirectory, directory);
+            }
+        }
+
 
         /// <summary>
         /// The list of traced codes called by the current trace.
@@ -100,40 +120,35 @@ namespace Upsilon.Common.Library
         /// </summary>
         /// <param name="level">The indent level.</param>
         /// <returns>The current traces as a string</returns>
-        public string ToString(int level = 0)
+        public override string ToString()
         {
-            string indent = string.Empty.PadLeft(level).Replace(" ", "\t");
-            StringBuilder stringBuilder = new($"{indent}{this.TraceId}\n");
+            StringBuilder stringBuilder = new($"{this.TraceId}\n");
 
-            stringBuilder.Append($"{indent}{this.FileName}\n");
-            stringBuilder.Append($"{indent}{this.StartLine}\n");
-            stringBuilder.Append($"{indent}{this.EndLine}\n");
-            stringBuilder.Append($"{indent}{this.CallerMethod}\n");
-            stringBuilder.Append($"{indent}{this.CallerLine}\n");
-            stringBuilder.Append($"{indent}{this.ExecutingMethodeName}\n");
-            stringBuilder.Append($"{indent}{(this.Parent != null ? this.Parent.TraceId : -1)}\n");
-            stringBuilder.Append($"{indent}{this.Parameters.Length}\n");
+            stringBuilder.Append($"{this.FileName}\n");
+            stringBuilder.Append($"{this.StartLine}\n");
+            stringBuilder.Append($"{this.EndLine}\n");
+            stringBuilder.Append($"{this.CallerMethod}\n");
+            stringBuilder.Append($"{this.CallerLine}\n");
+            stringBuilder.Append($"{this.ExecutingMethodeName}\n");
+            stringBuilder.Append($"{(this.Parent != null ? this.Parent.TraceId : -1)}\n");
+            stringBuilder.Append($"{this.Parameters.Length}\n");
 
-            Thread serializeParametersThread = new(_serializeParameters);
-            serializeParametersThread.Start();
-            Thread serializeReturnThread = new(_serializeReturn);
-            serializeReturnThread.Start();
-            
-            serializeParametersThread.Join();
-            serializeReturnThread.Join();
+            Task<string> serializeParametersTask = Task.Run<string>(_serializeParameters);
+            Task<string> serializeReturnTask = Task.Run<string>(_serializeReturn);
+            serializeParametersTask.Wait();
+            serializeReturnTask.Wait();
 
-            stringBuilder.Append(indent + _serializedParameters);
-            stringBuilder.Append(indent + _serializedReturn);
+            stringBuilder.Append(serializeParametersTask.Result);
+            stringBuilder.Append(serializeReturnTask.Result);
 
-            stringBuilder.Append($"{indent}{this.Traces.Count}\n");
-            stringBuilder.Append(string.Join("\n", this.Traces.Select(x => indent + x.TraceId)));
+            stringBuilder.Append($"{this.Traces.Count}\n");
+            stringBuilder.Append(string.Join("\n", this.Traces.Select(x => x.TraceId)));
             stringBuilder.Append($"");
 
             return stringBuilder.ToString(); ;
         }
 
-        private string _serializedParameters = "";
-        private void _serializeParameters()
+        private string _serializeParameters()
         {
             StringBuilder stringBuilder = new();
 
@@ -155,19 +170,17 @@ namespace Upsilon.Common.Library
                 }
             }
 
-            _serializedParameters = stringBuilder.ToString();
+            return stringBuilder.ToString();
         }
 
-        private string _serializedReturn = "";
-        private void _serializeReturn()
+        private string _serializeReturn()
         {
             if (Return == null)
             {
-                _serializedReturn = "\n";
-                return;
+                return "\n";
             }
 
-            _serializedReturn = JsonSerializer.Serialize(Return) + "\n";
+            return JsonSerializer.Serialize(Return) + "\n";
         }
 
         /// <summary>
@@ -175,23 +188,41 @@ namespace Upsilon.Common.Library
         /// </summary>
         public void LogTrace()
         {
-            var path = string.Empty;
-            var trace = this;
+            var directory = this.LogDirectoryPath;
 
-            while (trace != null)
+            if (!Directory.Exists(directory))
             {
-                path = Path.Combine(trace.TraceId.ToString(), path);
-                trace = trace.Parent;
+                Directory.CreateDirectory(directory);
             }
 
-            path = Path.Combine(YDebugTrace.TraceLogDirectory, path);
+            File.WriteAllText(Path.Combine(directory, $"{this.TraceId}.log"), this.ToString());
+        }
 
-            if (!Directory.Exists(path))
+        /// <summary>
+        /// Return the computed log trace from the current trace.
+        /// </summary>
+        /// <param name="level">The indent level.</param>
+        /// <returns>The computed log trace from the current trace.</returns>
+        public string ReadLogTrace(int level = 0)
+        {
+            string logFile = Path.Combine(this.LogDirectoryPath, this.TraceId + ".log");
+
+            if (!File.Exists(logFile))
             {
-                Directory.CreateDirectory(path);
+                this.LogTrace();
             }
 
-            File.WriteAllText(Path.Combine(path, $"{this.TraceId}.log"), this.ToString());
+            string indent = string.Empty.PadLeft(level).Replace(" ", "\t");
+
+            StringBuilder stringBuilder = new();
+            stringBuilder.AppendJoin("", File.ReadAllLines(logFile).Select(x => indent + x + "\n"));
+
+            foreach (var trace in this.Traces)
+            {
+                stringBuilder.Append(trace.ReadLogTrace(level + 1));
+            }
+
+            return stringBuilder.ToString();
         }
     }
 
@@ -263,12 +294,16 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// Compute the trace log directory to a single file log.
         /// </summary>
-        public static void ComputeTraceLog()
+        public static void ComputeLogTrace()
         {
-            if (YDebugTrace.RootTrace != null)
+            if (!YDebugTrace._traceIsPossible
+                || YDebugTrace.RootTrace == null)
             {
-                YDebugTrace.RootTrace.LogTrace();
+                return;
             }
+
+            YDebugTrace.RootTrace.LogTrace();
+            File.WriteAllText(Path.Combine(YDebugTrace.TraceLogDirectory, "trace.log"), YDebugTrace.RootTrace.ReadLogTrace());
         }
 
         /// <summary>

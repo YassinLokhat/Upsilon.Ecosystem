@@ -34,7 +34,7 @@ namespace Upsilon.Database.Library.UnitTests
                 return;
             }
 
-            YDebugTrace.ComputeTraceLog();
+            YDebugTrace.ComputeLogTrace();
 
             if (TestContext.CurrentTestOutcome == UnitTestOutcome.Passed)
             {

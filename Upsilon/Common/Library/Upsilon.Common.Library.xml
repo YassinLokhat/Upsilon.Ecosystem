@@ -646,6 +646,11 @@
             Check if the current trace is closed.
             </summary>
         </member>
+        <member name="P:Upsilon.Common.Library.YDebugTrace.LogDirectoryPath">
+            <summary>
+            Get the log directory path of the current trace.
+            </summary>
+        </member>
         <member name="P:Upsilon.Common.Library.YDebugTrace.Traces">
             <summary>
             The list of traced codes called by the current trace.
@@ -657,7 +662,7 @@
             </summary>
             <param name="trace"></param>
         </member>
-        <member name="M:Upsilon.Common.Library.YDebugTrace.ToString(System.Int32)">
+        <member name="M:Upsilon.Common.Library.YDebugTrace.ToString">
             <summary>
             Return the current traces as a string.
             </summary>
@@ -668,6 +673,13 @@
             <summary>
             Log the current trace.
             </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YDebugTrace.ReadLogTrace(System.Int32)">
+            <summary>
+            Return the computed log trace from the current trace.
+            </summary>
+            <param name="level">The indent level.</param>
+            <returns>The computed log trace from the current trace.</returns>
         </member>
         <member name="P:Upsilon.Common.Library.YDebugTrace.TraceLogDirectory">
             <summary>
@@ -699,7 +711,7 @@
             Resume tracing process.
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Library.YDebugTrace.ComputeTraceLog">
+        <member name="M:Upsilon.Common.Library.YDebugTrace.ComputeLogTrace">
             <summary>
             Compute the trace log directory to a single file log.
             </summary>

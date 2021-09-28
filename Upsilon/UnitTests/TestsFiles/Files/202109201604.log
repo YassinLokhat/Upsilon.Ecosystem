@@ -1,0 +1,50 @@
+
+root
+0
+0
+
+-1
+root
+-1
+0
+
+1
+1
+	1
+	\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs
+	13
+	18
+	Test_01_SimpleTraceStack_Case1
+	30
+	Function1
+
+	1
+	15
+	
+	1
+	1
+		1
+		\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs
+		23
+		47
+		Function1
+		16
+		Function2
+		1
+		2
+		15
+		false
+		16
+		1
+		1
+			1
+			\UpsilonEcosystem\Upsilon\UnitTests\Upsilon.Common.Library.UnitTests\TestClasses\YDebugTraceClasses.cs
+			59
+			59
+			Function2
+			37
+			Function4
+			1
+			0
+			true
+			0

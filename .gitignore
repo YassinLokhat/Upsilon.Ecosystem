@@ -1,6 +1,3 @@
-# Log files
-*.log
-
 # Unit test reports
 TEST*.xml
 

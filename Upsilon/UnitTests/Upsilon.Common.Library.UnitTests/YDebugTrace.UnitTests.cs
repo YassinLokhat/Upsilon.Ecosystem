@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Upsilon.Common.Library.UnitTests.TestClasses;
+using Upsilon.Common.MetaHelper;
+using System.IO;
 
 namespace Upsilon.Common.Library.UnitTests
 {
@@ -16,6 +18,12 @@ namespace Upsilon.Common.Library.UnitTests
         public void Test_01_SimpleTraceStack_Case1()
         {
             // Given
+            YHelperConfiguration configuration = new()
+            {
+                Reference = "202109201604",
+                Extention = "log",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
             var param = 15;
 
             // When
@@ -33,7 +41,7 @@ namespace Upsilon.Common.Library.UnitTests
             trace.StartLine.Should().Be(13);
             trace.EndLine.Should().Be(18);
             trace.CallerMethod.Should().Be("Test_01_SimpleTraceStack_Case1");
-            trace.CallerLine.Should().Be(22);
+            trace.CallerLine.Should().Be(30);
             trace.ExecutingMethodeName.Should().Be("Function1");
             trace.Parent.Should().Be(parent);
             trace.Parameters.Should().BeEquivalentTo(new object[] { param });
@@ -70,6 +78,10 @@ namespace Upsilon.Common.Library.UnitTests
             trace.Parameters.Count().Should().Be(0);
             trace.IsClosed.Should().BeTrue();
             trace.Traces.Count.Should().Be(0);
+
+            var computedLogTrace = YDebugTrace.RootTrace.ReadLogTrace().Split('\n');
+            computedLogTrace[0] = computedLogTrace[19] = "";
+            computedLogTrace.Should().BeEquivalentTo(File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true)).Split('\n'));
         }
 
         [TestMethod]
@@ -93,7 +105,7 @@ namespace Upsilon.Common.Library.UnitTests
             trace.StartLine.Should().Be(13);
             trace.EndLine.Should().Be(18);
             trace.CallerMethod.Should().Be("Test_02_SimpleTraceStack_Case2");
-            trace.CallerLine.Should().Be(82);
+            trace.CallerLine.Should().Be(94);
             trace.ExecutingMethodeName.Should().Be("Function1");
             trace.Parent.Should().Be(parent);
             trace.Parameters.Should().BeEquivalentTo(new object[] { param });
@@ -157,7 +169,7 @@ namespace Upsilon.Common.Library.UnitTests
             trace.StartLine.Should().Be(13);
             trace.EndLine.Should().Be(-1);
             trace.CallerMethod.Should().Contain("Test_03_ExceptionThrown_Case1");
-            trace.CallerLine.Should().Be(144);
+            trace.CallerLine.Should().Be(156);
             trace.ExecutingMethodeName.Should().Be("Function1");
             trace.Parent.Should().Be(parent);
             trace.Parameters.Should().BeEquivalentTo(new object[] { param });
@@ -221,7 +233,7 @@ namespace Upsilon.Common.Library.UnitTests
             trace.StartLine.Should().Be(13);
             trace.EndLine.Should().Be(-1);
             trace.CallerMethod.Should().Contain("Test_04_ExceptionThrown_Case2");
-            trace.CallerLine.Should().Be(208);
+            trace.CallerLine.Should().Be(220);
             trace.ExecutingMethodeName.Should().Be("Function1");
             trace.Parent.Should().Be(parent);
             trace.Parameters.Should().BeEquivalentTo(new object[] { param });
