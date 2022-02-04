@@ -1,6 +1,6 @@
 {
   "Name": "Upsilon.Tools.ReleaseManagementTool.GUI",
-  "Version": "1.2.0.1",
+  "Version": "1.2.1",
   "Description": "UI for the Release Management Tool.",
   "BinaryType": 1,
   "Depreciated": false,
