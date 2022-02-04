@@ -152,7 +152,12 @@ namespace Upsilon.Common.Library
 
                     foreach (string url in urls)
                     {
-                        string rootPath = dependency.Url[0..dependency.Url.LastIndexOf('/')];
+                        var lastIndex = dependency.Url.LastIndexOf('/');
+                        if (lastIndex == -1)
+                        {
+                            lastIndex = dependency.Url.LastIndexOf('\\');
+                        }
+                        string rootPath = dependency.Url[0..lastIndex];
 
                         if (!url.StartsWith(rootPath))
                         {
