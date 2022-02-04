@@ -17,4 +17,9 @@
     <ProjectReference Include="..\..\..\Common\Library\Upsilon.Common.Library.csproj" />
     <ProjectReference Include="..\Core\Upsilon.Tools.ReleaseManagementTool.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="servers">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         {
             InitializeComponent();
 
-            YUpdateForms.CheckForUpdate("http://api.upsilon-ecosystem.xyz/deployed.assemblies.json");
+            YUpdateForms.CheckForUpdate("servers", "JifS&1?D$f8$WBBEsQ&R");
 
             this._checkIntegrity();
 
