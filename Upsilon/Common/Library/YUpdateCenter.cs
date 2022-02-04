@@ -73,6 +73,34 @@ namespace Upsilon.Common.Library
         }
 
         /// <summary>
+        /// <para>Check if an update is available for the given <c><paramref name="assemblyName"/></c> assembly from the <c><paramref name="configFile"/></c> source.</para>
+        /// <para>In that case, returns that new version as a <c><see cref="YVersion"/></c>.</para>
+        /// </summary>
+        /// <param name="configFile">The configuration file which contains the server url list.</param>
+        /// <param name="configKey">The key of the configuration file.</param>
+        /// <param name="assemblyName">The name of the assembly.</param>
+        /// <param name="assembly">The lastest <c><see cref="YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
+        /// <returns>Returns the list of <c><see cref="YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
+        public static Dictionary<string, List<YAssembly>> CheckForUpdate(string configFile, string configKey, string assemblyName, out YAssembly assembly)
+        {
+            var config = new YConfigurationProvider<bool>(configFile, configKey);
+            var configUrlList = config.GetConfiguration<string[]>(true);
+
+            foreach (var configUrl in configUrlList)
+            {
+                var deployedAssemblies = CheckForUpdate(configUrl, assemblyName, out assembly);
+
+                if (assembly != null)
+                {
+                    return deployedAssemblies;
+                }
+            }
+
+            assembly = null;
+            return null;
+        }
+
+        /// <summary>
         /// Download and update the given assembly.
         /// </summary>
         /// <param name="onlineAssembly">The new version of the assembly.</param>

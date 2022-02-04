@@ -191,5 +191,41 @@ namespace Upsilon.Common.Library.UnitTests
             deployedList.Should().NotBeNull();
             assembly.Should().NotBeNull();
         }
+
+        [TestMethod]
+        public void Test_10_CheckForUpdate_ConfigFile_OK()
+        {
+            // Given
+            YHelperConfiguration configuration = new()
+            {
+                Reference = "202202031601",
+                Extention = "json",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
+
+            // Given
+            YHelperConfiguration server1Config = new()
+            {
+                Reference = "202106181373",
+                Extention = "json",
+                Directory = YUnitTestFilesDirectory.Files,
+            };
+
+            var config = new YConfigurationProvider<bool>(YHelper.GetTestFilePath(configuration, true, false), string.Empty);
+            config.SetConfiguration(true, new string[] 
+            {
+                "http://api.upsilon-ecosystem.xyz/deployed.assemblies.json",
+                YHelper.GetTestFilePath(server1Config, false, true),
+            });
+
+            // When
+            var deployedList = YUpdateCenter.CheckForUpdate(YHelper.GetTestFilePath(configuration, true, false), string.Empty, "Upsilon.Common.Library", out YAssembly assembly);
+
+            // Then
+            deployedList.Should().BeNull();
+            assembly.Version.Should().Be("1.1.0.0");
+
+            YHelper.ClearTestFile(configuration);
+        }
     }
 }
