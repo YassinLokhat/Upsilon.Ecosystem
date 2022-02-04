@@ -177,23 +177,8 @@ namespace Upsilon.Common.Library.UnitTests
             act.Should().Throw<Exception>();
         }
 
-        [Ignore]
         [TestMethod]
-        public void Test_09_CheckForUpdate_Online_OK()
-        {
-            // Given
-            string url = "http://api.upsilon-ecosystem.xyz/deployed.assemblies.json";
-
-            // When
-            var deployedList = YUpdateCenter.CheckForUpdate(url, "Upsilon.Common.Forms", out YAssembly assembly);
-
-            // Then
-            deployedList.Should().NotBeNull();
-            assembly.Should().NotBeNull();
-        }
-
-        [TestMethod]
-        public void Test_10_CheckForUpdate_ConfigFile_OK()
+        public void Test_09_CheckForUpdate_ConfigFile_OK()
         {
             // Given
             YHelperConfiguration configuration = new()
@@ -214,7 +199,7 @@ namespace Upsilon.Common.Library.UnitTests
             var config = new YConfigurationProvider<bool>(YHelper.GetTestFilePath(configuration, true, false), string.Empty);
             config.SetConfiguration(true, new string[] 
             {
-                "http://api.upsilon-ecosystem.xyz/deployed.assemblies.json",
+                "http://api.upsilon-ecosystem.xyz/servers",
                 YHelper.GetTestFilePath(server1Config, false, true),
             });
 

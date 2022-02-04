@@ -47,6 +47,7 @@ Source: "{#MyAppExeDirectory}\Upsilon.Common.MetaHelper.dll"; DestDir: "{app}"; 
 Source: "{#MyAppExeDirectory}\Upsilon.Database.Library.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppExeDirectory}\Upsilon.Tools.ReleaseManagementTool.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppExeDirectory}\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MyAppExeDirectory}\servers"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

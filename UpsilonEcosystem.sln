@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Database.Library.Un
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Upsilon.Tools", "Upsilon.Tools", "{93203DB7-FEDF-4205-8A67-2EB4F28F2125}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Upsilon.Applications", "Upsilon.Applications", "{54719308-C58F-45EC-ABCA-EAA9430B7286}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YDBDesigner", "YDBDesigner", "{7E23BBB6-EB3F-4E2B-BD2A-D638A291DD47}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.YDBDesigner.GUI", "Upsilon\Tools\YDBDesigner\GUI\Upsilon.Tools.YDBDesigner.GUI.csproj", "{3E82BF19-97B3-4AAF-B133-24174D7E5E3B}"
@@ -56,7 +54,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.ReleaseManage
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CipherEditor", "CipherEditor", "{F2A47D4C-8982-4A01-A773-723494782E66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Upsilon.Tools.CipherEditor", "Upsilon\Tools\CipherEditor\Upsilon.Tools.CipherEditor.csproj", "{69586B8B-3731-492A-B555-C7C6D99A84F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upsilon.Tools.CipherEditor", "Upsilon\Tools\CipherEditor\Upsilon.Tools.CipherEditor.csproj", "{69586B8B-3731-492A-B555-C7C6D99A84F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
