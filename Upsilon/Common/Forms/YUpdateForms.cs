@@ -19,15 +19,16 @@ namespace Upsilon.Common.Forms
         /// <summary>
         /// Download and update the given assembly if available.
         /// </summary>
-        /// <param name="serverUrl">The deployed assemblies json url.</param>
+        /// <param name="configFile">The configuration file which contains the server url list.</param>
+        /// <param name="configKey">The key of the configuration file.</param>
         /// <param name="assemblyName">The name of the assembly to update.</param>
         /// <param name="localVersion">The current version of the assembly.</param>
         /// <param name="message">The message to show when new version is available.</param>
         /// <param name="title">The title of the message box.</param>
         /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
-        public static YAssembly CheckForUpdate(string serverUrl, string assemblyName, YVersion localVersion, string message = null, string title = null)
+        public static YAssembly CheckForUpdate(string configFile, string configKey, string assemblyName, YVersion localVersion, string message = null, string title = null)
         {
-            Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(serverUrl, assemblyName, out YAssembly onlineAssembly);
+            Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(configFile, configKey, assemblyName, out YAssembly onlineAssembly);
 
             if (onlineAssembly != null
                 && onlineAssembly.YVersion > localVersion)
@@ -58,11 +59,12 @@ namespace Upsilon.Common.Forms
         /// <summary>
         /// Download and update the calling assembly if available.
         /// </summary>
-        /// <param name="serverUrl">The deployed assemblies json url.</param>
+        /// <param name="configFile">The configuration file which contains the server url list.</param>
+        /// <param name="configKey">The key of the configuration file.</param>
         /// <param name="message">The message to show when new version is available.</param>
         /// <param name="title">The title of the message box.</param>
         /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
-        public static YAssembly CheckForUpdate(string serverUrl, string message = null, string title = null)
+        public static YAssembly CheckForUpdate(string configFile, string configKey, string message = null, string title = null)
         {
             Assembly local = Assembly.GetCallingAssembly();
 
@@ -70,7 +72,7 @@ namespace Upsilon.Common.Forms
 
             YVersion localVersion = new(local.GetName().Version);
 
-            return YUpdateForms.CheckForUpdate(serverUrl, assemblyName, localVersion, message, title);
+            return YUpdateForms.CheckForUpdate(configFile, configKey, assemblyName, localVersion, message, title);
         }
     }
 }
