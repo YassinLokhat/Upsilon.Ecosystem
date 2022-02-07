@@ -19,20 +19,19 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
         Dotfuscaor,
         InnoSetup,
         DeployedAssemblies,
-        UploadTool,
     }
 
     public sealed class YReleaseManagementToolCore
     {
         public YAssembly[] SolutionAssemblies { get; private set; } = null;
-        public Dictionary<string, List<YAssembly>> DeployedAssemblies
+        public YAssemblySet DeployedAssemblies
         {
             get
             {
                 try
                 {
                     string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies));
-                    return JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
+                    return JsonSerializer.Deserialize<YAssemblySet>(json);
                 }
                 catch (Exception ex)
                 {
@@ -165,7 +164,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 YDependency dependency = assembly.Dependencies.Find(x => x.Name == depName);
 
                 if (dependency == null
-                    && this.DeployedAssemblies.ContainsKey(depName))
+                    && this.DeployedAssemblies.Assemblies.ContainsKey(depName))
                 {
                     dependency = new()
                     {
@@ -445,13 +444,15 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
         public void ComputeDeployedAssembliesJson(string outputDirectory, YAssembly assembly)
         {
-            Dictionary<string, List<YAssembly>> assemblies = this.DeployedAssemblies;
+            YAssemblySet assemblies = new()
+            {
+                ServerRootPath = this.DeployedAssemblies.ServerRootPath,
+            };
 
             if (assembly != null)
             {
                 assembly = assembly.Clone();
-                assembly.Url = Path.GetDirectoryName(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies)).Replace("\\", "//")
-                    + "/" + Path.GetFileNameWithoutExtension(this._solution)
+                assembly.Url = "/" + Path.GetFileNameWithoutExtension(this._solution)
                     + "/" + assembly.Name.Replace(".", "/")
                     + "/" + assembly.Version;
 
@@ -468,35 +469,20 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                     assembly.Url += "_setup_v" + assembly.Version + ".exe";
                 }
 
-                if (!assemblies.ContainsKey(assembly.Name))
-                {
-                    assemblies[assembly.Name] = new();
-                }
+                assemblies.Assemblies[assembly.Name] = new();
+                assemblies.Assemblies[assembly.Name].Add(assembly);
 
-                YAssembly[] asms = assemblies[assembly.Name].Where(x => x.Name == assembly.Name && x.YVersion < assembly.YVersion && x.Depreciated == false).ToArray();
+                var asm = this.DeployedAssemblies.Assemblies[assembly.Name].Find(x => x.Name == assembly.Name && !x.Depreciated);
 
-                foreach (YAssembly item in asms)
+                if (asm != null
+                    && asm.YVersion != assembly.YVersion)
                 {
-                    if (item != null
-                        && assembly.YVersion.Revision == 0)
-                    {
-                        item.Depreciated = true;
-                    }
-                }
-
-                var asm = assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
-
-                if (asm == null)
-                {
-                    assemblies[assembly.Name].Insert(0, assembly);
-                }
-                else
-                {
-                    asm.CopyFrom(assembly);
+                    asm.Depreciated = true;
+                    assemblies.Assemblies[assembly.Name].Add(asm);
                 }
             }
 
-            assemblies = assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+            assemblies.Sort();
 
             string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
 
@@ -545,12 +531,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 throw new Exception($"Deployed Assemblies json not set");
             }
 
-            if (!this.ConfigProvider.HasConfiguration(Config.UploadTool)
-                || string.IsNullOrWhiteSpace(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool)))
-            {
-                throw new Exception($"Upload Tool not set");
-            }
-
             if (!File.Exists("./data/GoRC.exe"))
             {
                 throw new Exception("'./data/GoRC.exe' not found");
@@ -575,11 +555,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
             {
                 throw new Exception("'./data/UpsilonEcosystem.pfx' not found");
             }
-        }
-
-        public void OpenUploadTool()
-        {
-            YStaticMethods.ProcessStartUrl(this.ConfigProvider.GetConfiguration<string>(Config.UploadTool));
         }
 
         public void DownloadAssembly(YAssembly assembly, string outputPath)

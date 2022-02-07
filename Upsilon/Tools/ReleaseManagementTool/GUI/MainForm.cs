@@ -191,10 +191,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                     {
                         bServerUrl.PerformClick();
                     }
-                    else if (ex.Message == "Upload Tool not set")
-                    {
-                        bUploadTool.PerformClick();
-                    }
                     else
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -295,11 +291,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             }
         }
 
-        private void _bOpenRepository_Click(object sender, EventArgs e)
-        {
-            Program.Core.OpenUploadTool();
-        }
-
         private void _bDotfuscator_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new()
@@ -355,13 +346,13 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 return;
             }
 
-            if (!Program.Core.DeployedAssemblies.ContainsKey(cbAssembly.Text))
+            if (!Program.Core.DeployedAssemblies.Assemblies.ContainsKey(cbAssembly.Text))
             {
                 MessageBox.Show($"The '{cbAssembly.Text}' is missing in the deployed assembly list.", "Missing assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            YAssembly assembly = Program.Core.DeployedAssemblies[cbAssembly.Text].Find(x => x.Version == tbVersion.Text);
+            YAssembly assembly = Program.Core.DeployedAssemblies.Assemblies[cbAssembly.Text].Find(x => x.Version == tbVersion.Text);
 
             if (assembly == null)
             {
@@ -391,16 +382,6 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void _bRepository_Click(object sender, EventArgs e)
-        {
-            string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.UploadTool);
-            if (YInputBox.ShowDialog("Upload Tool", "Set the Upload Tool", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
-                && !string.IsNullOrWhiteSpace(url))
-            {
-                Program.Core.ConfigProvider.SetConfiguration(Config.UploadTool, url);
             }
         }
 

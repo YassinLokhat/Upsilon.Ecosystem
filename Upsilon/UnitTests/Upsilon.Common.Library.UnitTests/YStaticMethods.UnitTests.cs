@@ -263,12 +263,12 @@ namespace Upsilon.Common.Library.UnitTests
                 Directory = YUnitTestFilesDirectory.Files,
             };
 
-            var deployedList = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true)).DeserializeObject<Dictionary<string, List<YAssembly>>>();
-            var assembly = deployedList["Upsilon.Common.Library"][0].Clone();
+            var deployedList = File.ReadAllText(YHelper.GetTestFilePath(configuration, false, true)).DeserializeObject<YAssemblySet>();
+            var assembly = deployedList.Assemblies["Upsilon.Common.Library"][0].Clone();
             assembly.Dependencies = new[] { new YDependency() { Name = assembly.Name, MaximalVersion = assembly.Version, MinimalVersion = assembly.Version } };
 
             // When
-            var asm = deployedList[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
+            var asm = deployedList.Assemblies[assembly.Name].Find(x => x.Name == assembly.Name && x.YVersion == assembly.YVersion);
 
             // Then
             asm.Dependencies.Length.Should().Be(0);

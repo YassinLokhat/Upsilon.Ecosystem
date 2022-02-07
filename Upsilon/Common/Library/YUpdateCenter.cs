@@ -27,12 +27,12 @@ namespace Upsilon.Common.Library
         /// <param name="configUrl">The url of the source.</param>
         /// <param name="assemblyName">The name of the assembly.</param>
         /// <param name="assembly">The lastest <c><see cref="YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
-        /// <returns>Returns the list of <c><see cref="YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
-        public static Dictionary<string, List<YAssembly>> CheckForUpdate(string configUrl, string assemblyName, out YAssembly assembly)
+        /// <returns>Returns a <c><see cref="YAssemblySet"/></c> deployed on the server or <c>null</c>.</returns>
+        public static YAssemblySet CheckForUpdate(string configUrl, string assemblyName, out YAssembly assembly)
         {
             assembly = null;
 
-            Dictionary<string, List<YAssembly>> deployedAssemblies = null;
+            YAssemblySet deployedAssemblies = null;
 
             try
             {
@@ -40,14 +40,14 @@ namespace Upsilon.Common.Library
 
                 try
                 {
-                    deployedAssemblies = JsonSerializer.Deserialize<Dictionary<string, List<YAssembly>>>(json);
+                    deployedAssemblies = JsonSerializer.Deserialize<YAssemblySet>(json);
                 }
                 catch { }
 
                 List<YAssembly> assemblies = null;
                 if (deployedAssemblies != null)
                 {
-                    assemblies = deployedAssemblies[assemblyName];
+                    assemblies = deployedAssemblies.Assemblies[assemblyName];
                 }
                 else
                 { 
@@ -80,8 +80,8 @@ namespace Upsilon.Common.Library
         /// <param name="configKey">The key of the configuration file.</param>
         /// <param name="assemblyName">The name of the assembly.</param>
         /// <param name="assembly">The lastest <c><see cref="YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
-        /// <returns>Returns the list of <c><see cref="YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
-        public static Dictionary<string, List<YAssembly>> CheckForUpdate(string configFile, string configKey, string assemblyName, out YAssembly assembly)
+        /// <returns>Returns a <c><see cref="YAssemblySet"/></c> deployed on the server or <c>null</c>.</returns>
+        public static YAssemblySet CheckForUpdate(string configFile, string configKey, string assemblyName, out YAssembly assembly)
         {
             var config = new YConfigurationProvider<bool>(configFile, configKey);
             var configUrlList = config.GetConfiguration<string[]>(true);
@@ -106,7 +106,7 @@ namespace Upsilon.Common.Library
         /// <param name="onlineAssembly">The new version of the assembly.</param>
         /// <param name="deployedAssemblies">The deployed assemblies list.</param>
         /// <param name="workingDirectory">The directory where the assembly to update binaries are. By default it will be the location of the calling assembly.</param>
-        public static void DownloadUpdate(YAssembly onlineAssembly, Dictionary<string, List<YAssembly>> deployedAssemblies, string workingDirectory = null)
+        public static void DownloadUpdate(YAssembly onlineAssembly, YAssemblySet deployedAssemblies, string workingDirectory = null)
         {
             if (string.IsNullOrWhiteSpace(workingDirectory))
             {

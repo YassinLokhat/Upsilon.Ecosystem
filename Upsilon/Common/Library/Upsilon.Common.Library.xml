@@ -241,6 +241,13 @@
             Get the assembly's version as a <c><see cref="P:Upsilon.Common.Library.YAssembly.YVersion"/></c>.
             </summary>
         </member>
+        <member name="M:Upsilon.Common.Library.YAssembly.UrlWithRoot(System.String)">
+            <summary>
+            The url to the assembly with the given root.
+            </summary>
+            <param name="root">The root url.</param>
+            <returns>The url to the assembly with the given root.</returns>
+        </member>
         <member name="M:Upsilon.Common.Library.YAssembly.CreateRuntimeConfigJson(Upsilon.Common.Library.YBinaryType,System.String,System.String)">
             <summary>
             Create the runtimeconfig.json file for an assembly.
@@ -249,7 +256,7 @@
             <param name="assemblyName">The name of the assembly.</param>
             <param name="fileLocation">The location of the runtimeconfig.json file.</param>
         </member>
-        <member name="M:Upsilon.Common.Library.YAssembly.DownloadDependecies(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly}},System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly})">
+        <member name="M:Upsilon.Common.Library.YAssembly.DownloadDependecies(Upsilon.Common.Library.YAssemblySet,System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly})">
             <summary>
             Download all dependecies of the current assembly.
             </summary>
@@ -257,7 +264,7 @@
             <param name="outputPath">The path where the dependecies will be downloaded.</param>
             <param name="downloadedDependencies">The list of dependecies already downloaded. By default this parameter is <c>null</c>.</param>
         </member>
-        <member name="M:Upsilon.Common.Library.YAssembly.DownloadAssembly(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly}},System.String)">
+        <member name="M:Upsilon.Common.Library.YAssembly.DownloadAssembly(Upsilon.Common.Library.YAssemblySet,System.String)">
             <summary>
             Download the assembly with its all dependencies.
             </summary>
@@ -292,6 +299,26 @@
         <member name="P:Upsilon.Common.Library.YDependency.YMaximalVersion">
             <summary>
             Get the maximal version needed by the using assembly as a <c><see cref="T:Upsilon.Common.Library.YVersion"/></c>.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YAssemblySet">
+            <summary>
+            This class represents a set of assemblies.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssemblySet.Assemblies">
+            <summary>
+            The dictionary of assemblies and versions.
+            </summary>
+        </member>
+        <member name="P:Upsilon.Common.Library.YAssemblySet.ServerRootPath">
+            <summary>
+            The path of the server.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YAssemblySet.Sort">
+            <summary>
+            Sort the dictionary of assemblies and versions by Assembly name and version.
             </summary>
         </member>
         <member name="T:Upsilon.Common.Library.YBase">
@@ -938,7 +965,7 @@
             <param name="configUrl">The url of the source.</param>
             <param name="assemblyName">The name of the assembly.</param>
             <param name="assembly">The lastest <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
-            <returns>Returns the list of <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
+            <returns>Returns a <c><see cref="T:Upsilon.Common.Library.YAssemblySet"/></c> deployed on the server or <c>null</c>.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YUpdateCenter.CheckForUpdate(System.String,System.String,System.String,Upsilon.Common.Library.YAssembly@)">
             <summary>
@@ -949,9 +976,9 @@
             <param name="configKey">The key of the configuration file.</param>
             <param name="assemblyName">The name of the assembly.</param>
             <param name="assembly">The lastest <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c> or <c>null</c> if that assembly is missing in the source.</param>
-            <returns>Returns the list of <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c> deployed on the server or <c>null</c>.</returns>
+            <returns>Returns a <c><see cref="T:Upsilon.Common.Library.YAssemblySet"/></c> deployed on the server or <c>null</c>.</returns>
         </member>
-        <member name="M:Upsilon.Common.Library.YUpdateCenter.DownloadUpdate(Upsilon.Common.Library.YAssembly,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Upsilon.Common.Library.YAssembly}},System.String)">
+        <member name="M:Upsilon.Common.Library.YUpdateCenter.DownloadUpdate(Upsilon.Common.Library.YAssembly,Upsilon.Common.Library.YAssemblySet,System.String)">
             <summary>
             Download and update the given assembly.
             </summary>

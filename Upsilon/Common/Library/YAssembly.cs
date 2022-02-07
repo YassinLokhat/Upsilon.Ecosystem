@@ -83,6 +83,16 @@ namespace Upsilon.Common.Library
         public YVersion YVersion { get { return new(this.Version); } }
 
         /// <summary>
+        /// The url to the assembly with the given root.
+        /// </summary>
+        /// <param name="root">The root url.</param>
+        /// <returns>The url to the assembly with the given root.</returns>
+        public string UrlWithRoot(string root)
+        {
+            return $"{root.Replace(@"\", "/")}/{this.Url.Replace(@"\", "/")}";
+        }
+
+        /// <summary>
         /// Create the runtimeconfig.json file for an assembly.
         /// </summary>
         /// <param name="binaryType">The binary type of the assembly.</param>
@@ -115,7 +125,7 @@ namespace Upsilon.Common.Library
         /// <param name="deployedAssemblies">The list of dependencies on the server.</param>
         /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
         /// <param name="downloadedDependencies">The list of dependecies already downloaded. By default this parameter is <c>null</c>.</param>
-        public void DownloadDependecies(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath, List<YAssembly> downloadedDependencies = null)
+        public void DownloadDependecies(YAssemblySet deployedAssemblies, string outputPath, List<YAssembly> downloadedDependencies = null)
         {
             if (deployedAssemblies == null)
             {
@@ -129,12 +139,12 @@ namespace Upsilon.Common.Library
 
             foreach (YDependency dep in this.Dependencies)
             {
-                if (!deployedAssemblies.ContainsKey(dep.Name))
+                if (!deployedAssemblies.Assemblies.ContainsKey(dep.Name))
                 {
                     throw new Exception($"'{dep.Name}' assembly not found in the deployed assemblies list.");
                 }
 
-                YAssembly dependency = deployedAssemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
+                YAssembly dependency = deployedAssemblies.Assemblies[dep.Name].Find(x => x.Version == dep.MaximalVersion);
 
                 if (dependency == null)
                 {
@@ -145,19 +155,15 @@ namespace Upsilon.Common.Library
 
                 if (!downloadedDependencies.Any(x => x.Name == dependency.Name && x.YVersion > dependency.YVersion))
                 {
-                    string[] urls = new[] { dependency.Url };
-                    urls = urls.Union(dependency.RequiredFiles).ToArray();
+                    string[] urls = new[] { dependency.UrlWithRoot(deployedAssemblies.ServerRootPath) };
+                    urls = urls.Union(dependency.RequiredFiles.Select(x => $"{deployedAssemblies.ServerRootPath}/{x}")).ToArray();
 
                     YAssembly.CreateRuntimeConfigJson(dependency.BinaryType, dependency.Name, outputPath);
 
                     foreach (string url in urls)
                     {
-                        var lastIndex = dependency.Url.LastIndexOf('/');
-                        if (lastIndex == -1)
-                        {
-                            lastIndex = dependency.Url.LastIndexOf('\\');
-                        }
-                        string rootPath = dependency.Url[0..lastIndex];
+                        var lastIndex = dependency.UrlWithRoot(deployedAssemblies.ServerRootPath).LastIndexOf('/');
+                        string rootPath = dependency.UrlWithRoot(deployedAssemblies.ServerRootPath)[0..lastIndex];
 
                         if (!url.StartsWith(rootPath))
                         {
@@ -197,21 +203,22 @@ namespace Upsilon.Common.Library
         /// </summary>
         /// <param name="deployedAssemblies">The list of dependencies on the server.</param>
         /// <param name="outputPath">The path where the dependecies will be downloaded.</param>
-        public void DownloadAssembly(Dictionary<string, List<YAssembly>> deployedAssemblies, string outputPath)
+        public void DownloadAssembly(YAssemblySet deployedAssemblies, string outputPath)
         {
-            string[] urls = new[] { this.Url };
+            string[] urls = new[] { this.UrlWithRoot(deployedAssemblies.ServerRootPath) };
 
-            if (this.Url.EndsWith($"{this.Name}_setup_v" + this.Version + ".exe"))
+            if (this.UrlWithRoot(deployedAssemblies.ServerRootPath).EndsWith($"{this.Name}_setup_v" + this.Version + ".exe"))
             {
                 urls = new[]
                 {
-                    this.Url.Replace($"{this.Name}_setup_v" + this.Version + ".exe", $"{this.Name}.exe"),
-                    this.Url.Replace($"{this.Name}_setup_v" + this.Version + ".exe", $"{this.Name}.dll"),
+                    this.UrlWithRoot(deployedAssemblies.ServerRootPath).Replace($"{this.Name}_setup_v" + this.Version + ".exe", $"{this.Name}.exe"),
+                    this.UrlWithRoot(deployedAssemblies.ServerRootPath).Replace($"{this.Name}_setup_v" + this.Version + ".exe", $"{this.Name}.dll"),
                 };
             }
 
             urls = urls.Union(this.RequiredFiles).ToArray();
-            string rootPath = this.Url[0..this.Url.LastIndexOf('/')];
+            var lastIndex = this.UrlWithRoot(deployedAssemblies.ServerRootPath).LastIndexOf('/');
+            string rootPath = this.UrlWithRoot(deployedAssemblies.ServerRootPath)[0..lastIndex];
 
             YAssembly.CreateRuntimeConfigJson(this.BinaryType, this.Name, outputPath);
 
@@ -275,5 +282,51 @@ namespace Upsilon.Common.Library
         /// </summary>
         [JsonIgnore]
         public YVersion YMaximalVersion { get { return new(this.MaximalVersion); } }
+    }
+
+    /// <summary>
+    /// This class represents a set of assemblies.
+    /// </summary>
+    public sealed class YAssemblySet
+    {
+        /// <summary>
+        /// The dictionary of assemblies and versions.
+        /// </summary>
+        public Dictionary<string, List<YAssembly>> Assemblies { get; set; } = new();
+
+        /// <summary>
+        /// The path of the server.
+        /// </summary>
+        public string ServerRootPath
+        {
+            get
+            {
+                if (!Directory.Exists(this._serverRootPath))
+                {
+                    throw new IOException($"Directory '{this._serverRootPath}' does not exists.");
+                }
+
+                return this._serverRootPath; 
+            }
+            set
+            {
+                if (!Directory.Exists(value))
+                {
+                    throw new IOException($"Directory '{value}' does not exists.");
+                }
+
+                _serverRootPath = value;
+            }
+        }
+        [JsonIgnore]
+        private string _serverRootPath = "";
+
+        /// <summary>
+        /// Sort the dictionary of assemblies and versions by Assembly name and version.
+        /// </summary>
+        public void Sort()
+        {
+            this.Assemblies = this.Assemblies.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Upsilon.Common.Forms
         /// <returns>Return the lastest <c><see cref="YAssembly"/></c>.</returns>
         public static YAssembly CheckForUpdate(string configFile, string configKey, string assemblyName, YVersion localVersion, string message = null, string title = null)
         {
-            Dictionary<string, List<YAssembly>> deployedAssemblies = YUpdateCenter.CheckForUpdate(configFile, configKey, assemblyName, out YAssembly onlineAssembly);
+            var deployedAssemblies = YUpdateCenter.CheckForUpdate(configFile, configKey, assemblyName, out YAssembly onlineAssembly);
 
             if (onlineAssembly != null
                 && onlineAssembly.YVersion > localVersion)
