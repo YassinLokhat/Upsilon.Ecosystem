@@ -155,16 +155,15 @@ namespace Upsilon.Common.Library
 
                 if (!downloadedDependencies.Any(x => x.Name == dependency.Name && x.YVersion > dependency.YVersion))
                 {
+                    var lastIndex = dependency.UrlWithRoot(deployedAssemblies.ServerRootPath).LastIndexOf('/');
+                    string rootPath = dependency.UrlWithRoot(deployedAssemblies.ServerRootPath)[0..lastIndex];
                     string[] urls = new[] { dependency.UrlWithRoot(deployedAssemblies.ServerRootPath) };
-                    urls = urls.Union(dependency.RequiredFiles.Select(x => $"{deployedAssemblies.ServerRootPath}/{x}")).ToArray();
+                    urls = urls.Union(dependency.RequiredFiles.Select(x => $"{rootPath}/{x}")).ToArray();
 
                     YAssembly.CreateRuntimeConfigJson(dependency.BinaryType, dependency.Name, outputPath);
 
                     foreach (string url in urls)
                     {
-                        var lastIndex = dependency.UrlWithRoot(deployedAssemblies.ServerRootPath).LastIndexOf('/');
-                        string rootPath = dependency.UrlWithRoot(deployedAssemblies.ServerRootPath)[0..lastIndex];
-
                         if (!url.StartsWith(rootPath))
                         {
                             rootPath = dependency.Name.Replace(".", "/") + "/";
@@ -216,9 +215,9 @@ namespace Upsilon.Common.Library
                 };
             }
 
-            urls = urls.Union(this.RequiredFiles).ToArray();
             var lastIndex = this.UrlWithRoot(deployedAssemblies.ServerRootPath).LastIndexOf('/');
             string rootPath = this.UrlWithRoot(deployedAssemblies.ServerRootPath)[0..lastIndex];
+            urls = urls.Union(this.RequiredFiles.Select(x => $"{rootPath}/{x}")).ToArray();
 
             YAssembly.CreateRuntimeConfigJson(this.BinaryType, this.Name, outputPath);
 
