@@ -114,19 +114,44 @@ namespace Upsilon.Common.Library
                 workingDirectory = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
             }
 
-            string tempDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DateTime.Now.Ticks.ToString());
+            string updateDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "update_data");
 
-            if (Directory.Exists(tempDir))
+            if (Directory.Exists(updateDirectory))
             {
-                Directory.Delete(tempDir, true);
+                Directory.Delete(updateDirectory, true);
             }
-            Directory.CreateDirectory(tempDir);
+            Directory.CreateDirectory(updateDirectory);
 
-            onlineAssembly.DownloadAssembly(deployedAssemblies, tempDir);
-            var newFiles = Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories);
-            var oldFiles = newFiles.Select(x => x.Replace(tempDir, workingDirectory)).ToArray();
+            onlineAssembly.DownloadAssembly(deployedAssemblies, updateDirectory);
+            var newFiles = Directory.GetFiles(updateDirectory, "*", SearchOption.AllDirectories);
+            var oldFiles = newFiles.Select(x => x.Replace(updateDirectory, workingDirectory)).ToArray();
 
-            string args = "/C timeout 4";
+            var mainExecutable = Assembly.GetEntryAssembly().Location;
+            if (mainExecutable.EndsWith(".dll"))
+            {
+                mainExecutable = mainExecutable[0..(mainExecutable.Length - 3)] + "exe";
+            }
+
+            ProcessStartInfo processStartInfo = new()
+            {
+                FileName = "Upsilon.Tools.Updater.exe",
+                CreateNoWindow = true,
+            };
+
+            processStartInfo.ArgumentList.Add(Process.GetCurrentProcess().ProcessName);
+            processStartInfo.ArgumentList.Add(workingDirectory);
+            processStartInfo.ArgumentList.Add(updateDirectory);
+            processStartInfo.ArgumentList.Add(mainExecutable);
+            processStartInfo.ArgumentList.Add("5000");
+
+            try
+            {
+                Process.Start(processStartInfo);
+                Environment.Exit(0);
+            }
+            catch { }
+
+            string args = "/C timeout 5";
 
             string delCommand = "";
             string moveCommand = "";
@@ -138,14 +163,14 @@ namespace Upsilon.Common.Library
 
             args += delCommand
                 + moveCommand
-                + $" & rmdir \"{tempDir}\" /S /Q";
+                + $" & rmdir \"{updateDirectory}\" /S /Q";
 
             if (onlineAssembly.BinaryType != YBinaryType.ClassLibrary)
             {
                 args += $" & \"{Path.Combine(workingDirectory, onlineAssembly.Name + ".exe")}\"";
             }
 
-            ProcessStartInfo processStartInfo = new()
+            processStartInfo = new()
             {
                 FileName = "cmd",
                 Arguments = args,
