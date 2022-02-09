@@ -32,7 +32,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
                 try
                 {
                     string json = YStaticMethods.DownloadString(this.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies));
-                    return JsonSerializer.Deserialize<YAssemblySet>(json);
+                    return JsonSerializer.Deserialize<YAssemblySet>(json, new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() }, WriteIndented = true, });
                 }
                 catch (Exception ex)
                 {
