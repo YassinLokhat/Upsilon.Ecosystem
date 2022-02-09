@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Upsilon.Common.Library;
@@ -484,7 +485,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.Core
 
             assemblies.Sort();
 
-            string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { WriteIndented = true });
+            string jsonString = JsonSerializer.Serialize(assemblies, new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() }, WriteIndented = true, });
 
             File.WriteAllText(Path.Combine(outputDirectory, "deployed.assemblies.json"), jsonString);
         }
