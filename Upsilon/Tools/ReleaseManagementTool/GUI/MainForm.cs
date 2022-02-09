@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Upsilon.Common.Forms;
@@ -19,6 +20,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
     {
         private YAssembly _assembly = null;
         private bool _locked = false;
+        Thread _backgroundThread = null;
 
         public MainForm()
         {
@@ -277,11 +279,43 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
                 return;
             }
 
+            string version = tbVersion.Text;
+            string description = tbDescription.Text;
+            string binaryType = cbBinaryType.Text;
+
+            _backgroundThread = new(() => _deploy(version, description, binaryType));
+            _backgroundThread.Start();
+            this.Enabled = false;
+
+            System.Windows.Forms.Timer timer = new()
+            {
+                Interval = 500,
+            };
+
+            timer.Tick += _timer_Tick;
+            timer.Start();
+        }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            var timer = sender as System.Windows.Forms.Timer;
+
+            if (_backgroundThread == null
+                || !_backgroundThread.IsAlive)
+            {
+                timer.Stop();
+                _backgroundThread = null;
+                this.Enabled = true;
+            }
+        }
+
+        private void _deploy(string version, string description, string binaryType)
+        {
             try
             {
-                this._assembly.Version = tbVersion.Text;
-                this._assembly.Description = tbDescription.Text;
-                this._assembly.BinaryType = (YBinaryType)Enum.Parse(typeof(YBinaryType), cbBinaryType.Text);
+                this._assembly.Version = version;
+                this._assembly.Description = description;
+                this._assembly.BinaryType = (YBinaryType)Enum.Parse(typeof(YBinaryType), binaryType);
                 Program.Core.Deploy(this._assembly);
                 MessageBox.Show("Deployment success.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
