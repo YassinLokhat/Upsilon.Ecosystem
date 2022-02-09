@@ -7,6 +7,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Upsilon.Common.Library
@@ -40,7 +41,7 @@ namespace Upsilon.Common.Library
 
                 try
                 {
-                    deployedAssemblies = JsonSerializer.Deserialize<YAssemblySet>(json);
+                    deployedAssemblies = JsonSerializer.Deserialize<YAssemblySet>(json, new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() }, });
                 }
                 catch { }
 
