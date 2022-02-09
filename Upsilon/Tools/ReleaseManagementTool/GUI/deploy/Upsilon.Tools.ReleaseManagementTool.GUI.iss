@@ -7,6 +7,7 @@
 #define MyAppURL "https://www.linkedin.com/in/yassin-lokhat"
 #define MyAppExeName MyAppName + ".exe"
 #define MyAppExeDirectory ".\Dotfuscated"
+#define Updater "Upsilon.Tools.Updater"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -48,6 +49,9 @@ Source: "{#MyAppExeDirectory}\Upsilon.Database.Library.dll"; DestDir: "{app}"; F
 Source: "{#MyAppExeDirectory}\Upsilon.Tools.ReleaseManagementTool.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppExeDirectory}\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#MyAppExeDirectory}\servers"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#Updater}\{#Updater}.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#Updater}\{#Updater}.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#Updater}\{#Updater}.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
