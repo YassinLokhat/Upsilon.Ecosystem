@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon>UpsilonLogo.ico</ApplicationIcon>
+    <Authors>Yassin Hassan Shamir Lokhat</Authors>
+    <Company>UpsilonEcosystem</Company>
+    <Description>Updater tool for Upsilon Ecosystem based applications.</Description>
+    <RepositoryUrl>https://bitbucket.org/yassinlokhat/upsilonecosystem/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+</Project>
