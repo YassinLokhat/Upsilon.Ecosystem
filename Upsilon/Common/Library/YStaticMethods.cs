@@ -207,6 +207,18 @@ namespace Upsilon.Common.Library
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     url = url.Replace("&", "^&");
+
+                    if (url.Contains(" "))
+                    {
+                        Uri uri = new Uri(url);
+                        url = "";
+                        foreach (var segment in uri.Segments)
+                        {
+                            url += "/" + (segment.Contains("%20") ? $"\"{segment.Trim('/').Replace("%20", " ")}\"" : segment.Trim('/'));
+                        }
+                        url = url.Trim('/');
+                    }
+
                     Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))

@@ -84,6 +84,12 @@ namespace Upsilon.Common.Library
         /// <returns>Returns a <c><see cref="YAssemblySet"/></c> deployed on the server or <c>null</c>.</returns>
         public static YAssemblySet CheckForUpdate(string configFile, string configKey, string assemblyName, out YAssembly assembly)
         {
+            if (!File.Exists(configFile)
+                && File.Exists(Path.Combine(Environment.CurrentDirectory, configFile)))
+            {
+                configFile = Path.Combine(Environment.CurrentDirectory, configFile);
+            }
+
             var config = new YConfigurationProvider<bool>(configFile, configKey);
             var configUrlList = config.GetConfiguration<string[]>(true);
 
