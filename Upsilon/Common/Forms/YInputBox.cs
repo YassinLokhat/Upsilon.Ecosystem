@@ -1,60 +1,65 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Upsilon.Common.Forms
 {
-    /// <summary>
-    /// An input toolbox.
-    /// </summary>
-    public static class YInputBox
+    internal static class YInputBox
     {
-        /// <summary>
-        /// The type of input needed.
-        /// </summary>
-        public enum YInputType
+        public static DialogResult ShowDialog(string promptText, string title, ref string value, char passwordChar = '\0', HorizontalAlignment alignment = 0, int linkStart = 0, int linkLength = 0, LinkLabelLinkClickedEventHandler linkClicked = null)
         {
-            /// <summary>
-            /// None.
-            /// </summary>
-            None = 0,
+            Form form = new Form();
+            LinkLabel label = new LinkLabel();
+            TextBox textBox = new TextBox();
+            Button buttonOk = new Button();
+            Button buttonCancel = new Button();
 
-            /// <summary>
-            /// A text.
-            /// </summary>
-            TextBox,
+            form.Text = title;
+            label.Text = promptText;
+            label.LinkArea = new LinkArea(linkStart, linkLength);
+            if (linkClicked != null)
+                label.LinkClicked += linkClicked;
+            textBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            textBox.TextAlign = alignment;
+            textBox.Text = value;
+            if (passwordChar != '\0')
+            {
+                textBox.PasswordChar = passwordChar;
+            }
 
-            /// <summary>
-            /// A pasword.
-            /// </summary>
-            Password,
+            buttonOk.Text = "OK";
+            buttonCancel.Text = "Cancel";
+            buttonOk.DialogResult = DialogResult.OK;
+            buttonCancel.DialogResult = DialogResult.Cancel;
 
-            /// <summary>
-            /// A dropdown list.
-            /// </summary>
-            Dropdown,
+            label.SetBounds(9, 20, 372, 13);
+            SizeF size = label.CreateGraphics().MeasureString(label.Text, label.Font);
+            textBox.SetBounds(12, 36 + (int)size.Height, 400, 20);
+            buttonOk.SetBounds(228, 72 + (int)size.Height, 75, 23);
+            buttonCancel.SetBounds(309, 72 + (int)size.Height, 75, 23);
 
-            /// <summary>
-            /// A combo list.
-            /// </summary>
-            ComboBox,
+            label.AutoSize = true;
+            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
+            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 
-            /// <summary>
-            /// A number.
-            /// </summary>
-            Number,
-        }
+            form.ClientSize = new Size(textBox.Width + 24, 107 + (int)size.Height);
+            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+            form.ClientSize = new Size(Math.Max(textBox.Width + 24, label.Right + 10), form.ClientSize.Height);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterScreen;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+            form.AcceptButton = buttonOk;
+            form.CancelButton = buttonCancel;
+            form.TopLevel = true;
 
-        /// <summary>
-        /// Show a dialog box aking to enter a specific type of input.
-        /// </summary>
-        /// <param name="title">The title of the dialog box.</param>
-        /// <param name="message">The message of the dialog box.</param>
-        /// <param name="result">The default text on the input dialog and the answer of the user.</param>
-        /// <param name="inputType">The type of the requested input.</param>
-        /// <returns>The <c><see cref="DialogResult"/></c> of the dialog box.</returns>
-        public static DialogResult ShowDialog(string title, string message, ref string result, YInputType inputType)
-        {
-            return InputBox.ShowDialog(message, title, ref result, inputType == YInputType.Password ? '*' : '\0');
+            DialogResult dialogResult = form.ShowDialog();
+            value = textBox.Text;
+            return dialogResult;
         }
     }
 }

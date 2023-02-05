@@ -366,7 +366,7 @@ namespace Upsilon.Tools.ReleaseManagementTool.GUI
         private void _bServerUrl_Click(object sender, EventArgs e)
         {
             string url = Program.Core.ConfigProvider.GetConfiguration<string>(Config.DeployedAssemblies);
-            if (YInputBox.ShowDialog("Deployed Assemblies Json", "Set the Deployed Assemblies Json URL", ref url, YInputBox.YInputType.TextBox) == DialogResult.OK
+            if (YUserInteract.RequestInfo("Deployed Assemblies Json", "Set the Deployed Assemblies Json URL", ref url, YUserInteract.YInputType.TextBox) == DialogResult.OK
                 && !string.IsNullOrWhiteSpace(url))
             {
                 Program.Core.ConfigProvider.SetConfiguration(Config.DeployedAssemblies, url);

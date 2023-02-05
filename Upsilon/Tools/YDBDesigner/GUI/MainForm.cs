@@ -46,7 +46,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
                 }
                 else
                 {
-                    if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref key, YInputBox.YInputType.Password) != DialogResult.OK)
+                    if (YUserInteract.RequestInfo(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref key, YUserInteract.YInputType.Password) != DialogResult.OK)
                     {
                         Environment.Exit(0);
                     }
@@ -128,7 +128,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             }
 
             string key = string.Empty;
-            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref key, YInputBox.YInputType.Password) != DialogResult.OK)
+            if (YUserInteract.RequestInfo(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref key, YUserInteract.YInputType.Password) != DialogResult.OK)
             {
                 return;
             }
@@ -155,7 +155,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
             }
 
             string key = string.Empty;
-            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref key, YInputBox.YInputType.Password) != DialogResult.OK)
+            if (YUserInteract.RequestInfo(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref key, YUserInteract.YInputType.Password) != DialogResult.OK)
             {
                 return;
             }
@@ -176,7 +176,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string tablename = string.Empty;
-            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref tablename, YInputBox.YInputType.TextBox) != DialogResult.OK)
+            if (YUserInteract.RequestInfo(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref tablename, YUserInteract.YInputType.TextBox) != DialogResult.OK)
             {
                 return;
             }
@@ -187,7 +187,7 @@ namespace Upsilon.Tools.YDBDesigner.Forms
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string tablename = string.Empty;
-            if (YInputBox.ShowDialog(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref tablename, YInputBox.YInputType.TextBox) != DialogResult.OK)
+            if (YUserInteract.RequestInfo(MainForm.Core.Translator["database_key"], MainForm.Core.Translator["ask_database_key"], ref tablename, YUserInteract.YInputType.TextBox) != DialogResult.OK)
             {
                 return;
             }

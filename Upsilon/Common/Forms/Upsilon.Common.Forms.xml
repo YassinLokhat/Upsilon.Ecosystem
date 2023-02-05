@@ -4,48 +4,36 @@
         <name>Upsilon.Common.Forms</name>
     </assembly>
     <members>
-        <member name="T:Upsilon.Common.Forms.YForm">
+        <member name="T:Upsilon.Common.Forms.Properties.Resources">
             <summary>
-            A customizable form with Upsilon design.
+              A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Forms.YForm.CreateRoundRectRgn(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="P:Upsilon.Common.Forms.Properties.Resources.ResourceManager">
             <summary>
-            Create a round rectangle.
-            </summary>
-            <param name="nLeftRect">The x-coordinate of upper-left corner.</param>
-            <param name="nTopRect">The y-coordinate of upper-left corner.</param>
-            <param name="nRightRect">The x-coordinate of lower-right corner.</param>
-            <param name="nBottomRect">The y-coordinate of lower-right corner.</param>
-            <param name="nWidthEllipse">The height of ellipse.</param>
-            <param name="nHeightEllipse">The width of ellipse.</param>
-            <returns>A pointer on the round rectangle.</returns>
-        </member>
-        <member name="P:Upsilon.Common.Forms.YForm.ForegroundColor">
-            <summary>
-            The foreground color of the form.
+              Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="P:Upsilon.Common.Forms.YForm.BackgroundColor">
+        <member name="P:Upsilon.Common.Forms.Properties.Resources.Culture">
             <summary>
-            The background color of the form.
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Upsilon.Common.Forms.YForm.Icon">
+        <member name="P:Upsilon.Common.Forms.Properties.Resources.BlackEye">
             <summary>
-            The icon of the form.
+              Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Forms.YForm.#ctor">
+        <member name="P:Upsilon.Common.Forms.Properties.Resources.Icon">
             <summary>
-            Creates a new <c><see cref="T:Upsilon.Common.Forms.YForm"/></c>.
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Forms.YForm.Refresh(System.Windows.Forms.Control)">
+        <member name="P:Upsilon.Common.Forms.Properties.Resources.WhiteEye">
             <summary>
-            Refresh the given control.
+              Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
-            <param name="control">The control to refresh.</param>
         </member>
         <member name="F:Upsilon.Common.Forms.YForm.components">
             <summary>
@@ -64,55 +52,105 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:Upsilon.Common.Forms.YInputBox">
+        <member name="T:Upsilon.Common.Forms.YHotKeyManager">
             <summary>
-            An input toolbox.
+            A class implementing the Hotkey manager.
             </summary>
         </member>
-        <member name="T:Upsilon.Common.Forms.YInputBox.YInputType">
+        <member name="E:Upsilon.Common.Forms.YHotKeyManager.HotKeyPressed">
             <summary>
-            The type of input needed.
+            The Hotkey pressed event.
             </summary>
         </member>
-        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.None">
+        <member name="M:Upsilon.Common.Forms.YHotKeyManager.RegisterHotKey(System.Windows.Forms.Keys,Upsilon.Common.Forms.KeyModifiers)">
             <summary>
-            None.
+            Register a new hotkey.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="modifiers">The modifiers.</param>
+            <returns>The hotkey id.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YHotKeyManager.UnregisterHotKey(System.Int32)">
+            <summary>
+            Unregister a hotkey.
+            </summary>
+            <param name="id">The hotkey id.</param>
+            <returns>Return <c>true</c> if the hotkey has been unregistered or <c>false</c> else.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YHotKeyManager.OnHotKeyPressed(Upsilon.Common.Forms.HotKeyEventArgs)">
+            <summary>
+            The Hotkey pressed event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:Upsilon.Common.Forms.HotKeyEventArgs">
+            <summary>
+            The Hotkey event arguments
             </summary>
         </member>
-        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.TextBox">
+        <member name="F:Upsilon.Common.Forms.HotKeyEventArgs.Key">
             <summary>
-            A text.
+            The key.
             </summary>
         </member>
-        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.Password">
+        <member name="F:Upsilon.Common.Forms.HotKeyEventArgs.Modifiers">
             <summary>
-            A pasword.
+            The modifiers.
             </summary>
         </member>
-        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.Dropdown">
+        <member name="M:Upsilon.Common.Forms.HotKeyEventArgs.#ctor(System.Windows.Forms.Keys,Upsilon.Common.Forms.KeyModifiers)">
             <summary>
-            A dropdown list.
+            Create a new <c><see cref="T:Upsilon.Common.Forms.HotKeyEventArgs"/></c>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="modifiers">The modifiers.</param>
+        </member>
+        <member name="T:Upsilon.Common.Forms.KeyModifiers">
+            <summary>
+            The hotkey modifiers
             </summary>
         </member>
-        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.ComboBox">
+        <member name="F:Upsilon.Common.Forms.KeyModifiers.Alt">
             <summary>
-            A combo list.
+            The Alt key
             </summary>
         </member>
-        <member name="F:Upsilon.Common.Forms.YInputBox.YInputType.Number">
+        <member name="F:Upsilon.Common.Forms.KeyModifiers.Control">
             <summary>
-            A number.
+            The Control key
             </summary>
         </member>
-        <member name="M:Upsilon.Common.Forms.YInputBox.ShowDialog(System.String,System.String,System.String@,Upsilon.Common.Forms.YInputBox.YInputType)">
+        <member name="F:Upsilon.Common.Forms.KeyModifiers.Shift">
             <summary>
-            Show a dialog box aking to enter a specific type of input.
+            The Shift key
             </summary>
-            <param name="title">The title of the dialog box.</param>
-            <param name="message">The message of the dialog box.</param>
-            <param name="result">The default text on the input dialog and the answer of the user.</param>
-            <param name="inputType">The type of the requested input.</param>
-            <returns>The <c><see cref="T:System.Windows.Forms.DialogResult"/></c> of the dialog box.</returns>
+        </member>
+        <member name="F:Upsilon.Common.Forms.KeyModifiers.Windows">
+            <summary>
+            The Windows key
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.KeyModifiers.NoRepeat">
+            <summary>
+            Set the no-repeat key
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YPrivateTextBox.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YPrivateTextBox.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YPrivateTextBox.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
         </member>
         <member name="T:Upsilon.Common.Forms.YUpdateForms">
             <summary>
@@ -140,6 +178,82 @@
             <param name="message">The message to show when new version is available.</param>
             <param name="title">The title of the message box.</param>
             <returns>Return the lastest <c><see cref="T:Upsilon.Common.Library.YAssembly"/></c>.</returns>
+        </member>
+        <member name="T:Upsilon.Common.Forms.YUserInteract">
+            <summary>
+            This static class contains the user intereaction dialog box.
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Forms.YUserInteract.YInputType">
+            <summary>
+            The type of input needed.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YUserInteract.YInputType.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YUserInteract.YInputType.TextBox">
+            <summary>
+            A text.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YUserInteract.YInputType.Password">
+            <summary>
+            A pasword.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YUserInteract.YInputType.Dropdown">
+            <summary>
+            A dropdown list.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YUserInteract.YInputType.ComboBox">
+            <summary>
+            A combo list.
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Forms.YUserInteract.YInputType.Number">
+            <summary>
+            A number.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YUserInteract.RequestInfo(System.String,System.String,System.String@,Upsilon.Common.Forms.YUserInteract.YInputType)">
+            <summary>
+            Request some information to the user.
+            </summary>
+            <param name="title">The title of the dialog box.</param>
+            <param name="message">The message of the dialog box.</param>
+            <param name="result">The default text on the input dialog and the answer of the user.</param>
+            <param name="inputType">The type of the requested input.</param>
+            <returns>The <c><see cref="T:System.Windows.Forms.DialogResult"/></c> of the dialog box.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YUserInteract.Inform(System.String,System.String)">
+            <summary>
+            Inform the user.
+            </summary>
+            <param name="message">The message to show.</param>
+            <param name="title">The title of the message.</param>
+            <returns>The <c><see cref="T:System.Windows.Forms.DialogResult"/></c> of the dialog box.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YUserInteract.Ask(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Ask something to the user.
+            </summary>
+            <param name="message">The message to ask.</param>
+            <param name="title">The title of the message.</param>
+            <param name="buttons">the button to display. By default the MessageBoxButtons.YesNo</param>
+            <returns>The <c><see cref="T:System.Windows.Forms.DialogResult"/></c> of the dialog box.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Forms.YUserInteract.Alert(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Allert the user.
+            </summary>
+            <param name="message">The message to show.</param>
+            <param name="title">The title of the message.</param>
+            <param name="buttons">the button to display. By default the MessageBoxButtons.OK</param>
+            <returns>The <c><see cref="T:System.Windows.Forms.DialogResult"/></c> of the dialog box.</returns>
         </member>
     </members>
 </doc>

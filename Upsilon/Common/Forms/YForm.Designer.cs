@@ -1,5 +1,4 @@
-﻿
-namespace Upsilon.Common.Forms
+﻿namespace Upsilon.Common.Forms
 {
     partial class YForm
     {
@@ -29,136 +28,107 @@ namespace Upsilon.Common.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.pBar = new System.Windows.Forms.Panel();
-            this.lTitle = new System.Windows.Forms.Label();
-            this.bMinimize = new System.Windows.Forms.Button();
-            this.pbIcon = new System.Windows.Forms.PictureBox();
-            this.bMaximize = new System.Windows.Forms.Button();
-            this.bClose = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.pContainer = new System.Windows.Forms.Panel();
-            this.pBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
+            this.ControlsPanel = new System.Windows.Forms.Panel();
+            this._titleBar_P = new System.Windows.Forms.Panel();
+            this._title_L = new System.Windows.Forms.Label();
+            this._minimize_B = new System.Windows.Forms.Button();
+            this._close_B = new System.Windows.Forms.Button();
+            this._icon_PB = new System.Windows.Forms.PictureBox();
+            this._titleBar_P.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._icon_PB)).BeginInit();
             this.SuspendLayout();
             // 
-            // pBar
+            // ControlsPanel
             // 
-            this.pBar.Controls.Add(this.lTitle);
-            this.pBar.Controls.Add(this.bMinimize);
-            this.pBar.Controls.Add(this.pbIcon);
-            this.pBar.Controls.Add(this.bMaximize);
-            this.pBar.Controls.Add(this.bClose);
-            this.pBar.Controls.Add(this.panel2);
-            this.pBar.Controls.Add(this.panel3);
-            this.pBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pBar.Location = new System.Drawing.Point(0, 0);
-            this.pBar.Name = "pBar";
-            this.pBar.Size = new System.Drawing.Size(700, 25);
-            this.pBar.TabIndex = 0;
+            this.ControlsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ControlsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ControlsPanel.Location = new System.Drawing.Point(0, 25);
+            this.ControlsPanel.Name = "ControlsPanel";
+            this.ControlsPanel.Size = new System.Drawing.Size(800, 425);
+            this.ControlsPanel.TabIndex = 0;
             // 
-            // lTitle
+            // _titleBar_P
             // 
-            this.lTitle.AutoSize = true;
-            this.lTitle.Location = new System.Drawing.Point(46, 5);
-            this.lTitle.Name = "lTitle";
-            this.lTitle.Size = new System.Drawing.Size(42, 15);
-            this.lTitle.TabIndex = 4;
-            this.lTitle.Text = "YForm";
+            this._titleBar_P.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._titleBar_P.Controls.Add(this._title_L);
+            this._titleBar_P.Controls.Add(this._minimize_B);
+            this._titleBar_P.Controls.Add(this._close_B);
+            this._titleBar_P.Controls.Add(this._icon_PB);
+            this._titleBar_P.Dock = System.Windows.Forms.DockStyle.Top;
+            this._titleBar_P.Location = new System.Drawing.Point(0, 0);
+            this._titleBar_P.Name = "_titleBar_P";
+            this._titleBar_P.Size = new System.Drawing.Size(800, 25);
+            this._titleBar_P.TabIndex = 1;
             // 
-            // bMinimize
+            // _title_L
             // 
-            this.bMinimize.Dock = System.Windows.Forms.DockStyle.Right;
-            this.bMinimize.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.bMinimize.Location = new System.Drawing.Point(604, 0);
-            this.bMinimize.Name = "bMinimize";
-            this.bMinimize.Size = new System.Drawing.Size(25, 25);
-            this.bMinimize.TabIndex = 5;
-            this.bMinimize.Text = "_";
-            this.bMinimize.UseVisualStyleBackColor = true;
+            this._title_L.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._title_L.Location = new System.Drawing.Point(25, 0);
+            this._title_L.Name = "_title_L";
+            this._title_L.Size = new System.Drawing.Size(727, 23);
+            this._title_L.TabIndex = 1;
+            this._title_L.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pbIcon
+            // _minimize_B
             // 
-            this.pbIcon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pbIcon.Location = new System.Drawing.Point(15, 0);
-            this.pbIcon.Name = "pbIcon";
-            this.pbIcon.Size = new System.Drawing.Size(25, 25);
-            this.pbIcon.TabIndex = 1;
-            this.pbIcon.TabStop = false;
+            this._minimize_B.Dock = System.Windows.Forms.DockStyle.Right;
+            this._minimize_B.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._minimize_B.Location = new System.Drawing.Point(752, 0);
+            this._minimize_B.Name = "_minimize_B";
+            this._minimize_B.Size = new System.Drawing.Size(23, 23);
+            this._minimize_B.TabIndex = 3;
+            this._minimize_B.TabStop = false;
+            this._minimize_B.Text = "-";
+            this._minimize_B.UseVisualStyleBackColor = true;
             // 
-            // bMaximize
+            // _close_B
             // 
-            this.bMaximize.Dock = System.Windows.Forms.DockStyle.Right;
-            this.bMaximize.Location = new System.Drawing.Point(629, 0);
-            this.bMaximize.Name = "bMaximize";
-            this.bMaximize.Size = new System.Drawing.Size(25, 25);
-            this.bMaximize.TabIndex = 3;
-            this.bMaximize.Text = "O";
-            this.bMaximize.UseVisualStyleBackColor = true;
+            this._close_B.Dock = System.Windows.Forms.DockStyle.Right;
+            this._close_B.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._close_B.Location = new System.Drawing.Point(775, 0);
+            this._close_B.Name = "_close_B";
+            this._close_B.Size = new System.Drawing.Size(23, 23);
+            this._close_B.TabIndex = 0;
+            this._close_B.TabStop = false;
+            this._close_B.Text = "X";
+            this._close_B.UseVisualStyleBackColor = true;
             // 
-            // bClose
+            // _icon_PB
             // 
-            this.bClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.bClose.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.bClose.Location = new System.Drawing.Point(654, 0);
-            this.bClose.Name = "bClose";
-            this.bClose.Size = new System.Drawing.Size(25, 25);
-            this.bClose.TabIndex = 2;
-            this.bClose.Text = "X";
-            this.bClose.UseVisualStyleBackColor = true;
+            this._icon_PB.Dock = System.Windows.Forms.DockStyle.Left;
+            this._icon_PB.Location = new System.Drawing.Point(0, 0);
+            this._icon_PB.Name = "_icon_PB";
+            this._icon_PB.Size = new System.Drawing.Size(25, 23);
+            this._icon_PB.TabIndex = 0;
+            this._icon_PB.TabStop = false;
+            this._icon_PB.Visible = false;
             // 
-            // panel2
-            // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(679, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(21, 25);
-            this.panel2.TabIndex = 1;
-            // 
-            // panel3
-            // 
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(15, 25);
-            this.panel3.TabIndex = 2;
-            // 
-            // pContainer
-            // 
-            this.pContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pContainer.Location = new System.Drawing.Point(0, 25);
-            this.pContainer.Name = "pContainer";
-            this.pContainer.Size = new System.Drawing.Size(700, 313);
-            this.pContainer.TabIndex = 1;
-            // 
-            // YForm
+            // CustomForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 338);
-            this.Controls.Add(this.pContainer);
-            this.Controls.Add(this.pBar);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ControlsPanel);
+            this.Controls.Add(this._titleBar_P);
+            this.DoubleBuffered = true;
+            this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "YForm";
-            this.Text = "YForm";
-            this.pBar.ResumeLayout(false);
-            this.pBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
+            this.Name = "CustomForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "CustomForm";
+            this._titleBar_P.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._icon_PB)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel pBar;
-        private System.Windows.Forms.Button bMaximize;
-        private System.Windows.Forms.Button bClose;
-        private System.Windows.Forms.Label lTitle;
-        private System.Windows.Forms.PictureBox pbIcon;
-        private System.Windows.Forms.Button bMinimize;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel pContainer;
+        private System.Windows.Forms.Panel _titleBar_P;
+        private System.Windows.Forms.Label _title_L;
+        private System.Windows.Forms.Button _minimize_B;
+        private System.Windows.Forms.Button _close_B;
+        private System.Windows.Forms.PictureBox _icon_PB;
+        public System.Windows.Forms.Panel ControlsPanel;
     }
 }
