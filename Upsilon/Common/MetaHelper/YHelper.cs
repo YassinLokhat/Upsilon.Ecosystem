@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -104,6 +105,20 @@ namespace Upsilon.Common.MetaHelper
             Random random = new ((int)DateTime.Now.Ticks);
 
             return GetRandomString((short)(random.Next(short.MaxValue) + 1));
+        }
+
+        public static string[] GetRandomSetOfString()
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+            int keyCount = random.Next(1, 10);
+            List<string> keys = new();
+
+            for (int j = 0; j < keyCount; j++)
+            {
+                keys.Add(GetRandomString());
+            }
+
+            return keys.ToArray();
         }
 
         public static string GetRandomString(short textLength)

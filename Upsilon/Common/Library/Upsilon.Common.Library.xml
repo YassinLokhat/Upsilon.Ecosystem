@@ -592,27 +592,6 @@
             <param name="configurationKey">The configuration key.</param>
             <returns><c>true</c> or <c>false</c>.</returns>
         </member>
-        <member name="T:Upsilon.Common.Library.YCryptography">
-            <summary>
-            This static class contains the Cryptographic functions.
-            </summary>
-        </member>
-        <member name="M:Upsilon.Common.Library.YCryptography.Cipher_Aes(System.String,System.String)">
-            <summary>
-            Cipher the <c><paramref name="plainText"/></c> string using the <c><paramref name="key"/></c>.
-            </summary>
-            <param name="plainText">The plain text to cipher.</param>
-            <param name="key">The password key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Upsilon.Common.Library.YCryptography.Uncipher_Aes(System.String,System.String)">
-            <summary>
-            Uncipher the <c><paramref name="cipherText"/></c> string using the <c><paramref name="key"/></c>.
-            </summary>
-            <param name="cipherText">The cither text to uncipher.</param>
-            <param name="key">The password key.</param>
-            <returns></returns>
-        </member>
         <member name="T:Upsilon.Common.Library.YDT">
             <summary>
             The Upsilon Debug Trace feature class
@@ -641,6 +620,71 @@
             <param name="sourceFilePath">Leave default.</param>
             <param name="sourceLineNumber">Leave default.</param>
             <param name="sourceMemberName">Leave default.</param>
+        </member>
+        <member name="T:Upsilon.Common.Library.YSecurity">
+            <summary>
+            This static class contains the security functions.
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.Cipher_Aes(System.String,System.String)">
+            <summary>
+            Cipher the <c><paramref name="plainText"/></c> string using the <c><paramref name="key"/></c>.
+            </summary>
+            <param name="plainText">The plain text to cipher.</param>
+            <param name="key">The password key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.Uncipher_Aes(System.String,System.String)">
+            <summary>
+            Uncipher the <c><paramref name="cipherText"/></c> string using the <c><paramref name="key"/></c>.
+            </summary>
+            <param name="cipherText">The cither text to uncipher.</param>
+            <param name="key">The password key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.Encrypt(System.String,System.String[])">
+            <summary>
+            Encrypt a string.
+            </summary>
+            <param name="source">The string to encrypt.</param>
+            <param name="passwords">The set of passwords.</param>
+            <returns>The encrypted string.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.Decrypt(System.String,System.String[])">
+            <summary>
+            Decrypt a string.
+            </summary>
+            <param name="source">The string to decrypt.</param>
+            <param name="passwords">The set of passwords.</param>
+            <returns>The decrypted string.</returns>
+        </member>
+        <member name="P:Upsilon.Common.Library.YSecurity.HashLength">
+            <summary>
+            The size of an Upsilon Hash
+            </summary>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.GetHash(System.String)">
+            <summary>
+            Get tha Upsilon Hash of a string
+            </summary>
+            <param name="source">The source to hash.</param>
+            <returns>The Upsilon Hash</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.Sign(System.String,System.String[])">
+            <summary>
+            Sign a string.
+            </summary>
+            <param name="source">The string to sign.</param>
+            <param name="passwords">The set of passwords.</param>
+            <returns>The signed string.</returns>
+        </member>
+        <member name="M:Upsilon.Common.Library.YSecurity.CheckSign(System.String,System.String[])">
+            <summary>
+            Check and unsign a string.
+            </summary>
+            <param name="source">The string to check.</param>
+            <param name="passwords">The set of passwords.</param>
+            <returns>The unsigned string.</returns>
         </member>
         <member name="T:Upsilon.Common.Library.YStaticMethods">
             <summary>
