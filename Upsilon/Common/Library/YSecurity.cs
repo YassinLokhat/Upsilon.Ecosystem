@@ -183,7 +183,7 @@ namespace Upsilon.Common.Library
 
         private static string _encrypt(string source, string[] passwords)
         {
-            passwords = passwords.Select(x => x.GetHash()).ToArray();
+            passwords = passwords.Select(x => x.GetUpsilonHash()).ToArray();
 
             for (int i = 0; i < passwords.Length; i++)
             {
@@ -195,7 +195,7 @@ namespace Upsilon.Common.Library
 
         private static string _decrypt(string source, string[] passwords)
         {
-            passwords = passwords.Select(x => x.GetHash()).ToArray();
+            passwords = passwords.Select(x => x.GetUpsilonHash()).ToArray();
 
             for (int i = 0; i < passwords.Length; i++)
             {
@@ -247,7 +247,7 @@ namespace Upsilon.Common.Library
         {
             get
             {
-                return "".GetHash().Length;
+                return "".GetUpsilonHash().Length;
             }
         }
 
@@ -256,7 +256,7 @@ namespace Upsilon.Common.Library
         /// </summary>
         /// <param name="source">The source to hash.</param>
         /// <returns>The Upsilon Hash</returns>
-        public static string GetHash(this string source)
+        public static string GetUpsilonHash(this string source)
         {
             MD5 md5 = MD5.Create();
             var md5Hash = md5.ComputeHash(Encoding.UTF8.GetBytes(source));
@@ -289,10 +289,10 @@ namespace Upsilon.Common.Library
         /// <returns>The signed string.</returns>
         public static string Sign(string source, string[] passwords)
         {
-            var passwordsHash = string.Join("", passwords.Select(x => x.GetHash())).GetHash();
+            var passwordsHash = string.Join("", passwords.Select(x => x.GetUpsilonHash())).GetUpsilonHash();
 
-            source = passwordsHash.GetHash() + source;
-            source = source.GetHash() + source;
+            source = passwordsHash.GetUpsilonHash() + source;
+            source = source.GetUpsilonHash() + source;
             return source;
         }
 
@@ -304,10 +304,10 @@ namespace Upsilon.Common.Library
         /// <returns>The unsigned string.</returns>
         public static string CheckSign(string source, string[] passwords)
         {
-            var passwordsHash = string.Join("", passwords.Select(x => x.GetHash())).GetHash();
+            var passwordsHash = string.Join("", passwords.Select(x => x.GetUpsilonHash())).GetUpsilonHash();
 
             var hashSource = source[..HashLength];
-            var hashCheck = source[HashLength..].GetHash();
+            var hashCheck = source[HashLength..].GetUpsilonHash();
 
             if (hashSource != hashCheck)
             {
@@ -317,7 +317,7 @@ namespace Upsilon.Common.Library
             source = source[HashLength..];
 
             hashSource = source[..HashLength];
-            hashCheck = passwordsHash.GetHash();
+            hashCheck = passwordsHash.GetUpsilonHash();
 
             if (hashSource != hashCheck)
             {
