@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Upsilon.Common.Library;
-using Upsilon.Database.Library;
 
 namespace Upsilon.Common.MetaHelper
 {
@@ -42,37 +41,6 @@ namespace Upsilon.Common.MetaHelper
         public static string GetDatabaseFilePath(YHelperConfiguration configuration, bool UseTempDatabase = true)
         {
             return GetTestFilePath(configuration, UseTempDatabase);
-        }
-
-        public static T OpenDatabaseImage<T>(YHelperConfiguration configuration) where T : YDatabaseImage
-        {
-            string databaseFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(configuration);
-
-            YHelperConfiguration config = configuration.Clone();
-            string sourceFilename = Upsilon.Common.MetaHelper.YHelper.GetDatabaseFilePath(config, false);
-            if (File.Exists(sourceFilename)
-                && (!File.Exists(databaseFilename)
-                    || configuration.ResetTempFile))
-            {
-                File.Copy(sourceFilename, databaseFilename, true);
-            }
-
-            if (configuration.CheckExistingFile
-                && !File.Exists(databaseFilename))
-            {
-                throw new FileNotFoundException("Database file not found", databaseFilename);
-            }
-
-            try
-            {
-                T database = (T)Activator.CreateInstance(typeof(T), new object[] { databaseFilename, configuration.Key });
-                
-                return database;
-            }
-            catch (TargetInvocationException ex)
-            {
-                throw ex.InnerException;
-            }
         }
 
         public static void ClearTestFile(YHelperConfiguration configuration)
