@@ -17,7 +17,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Database\Library\Upsilon.Database.Library.csproj" />
     <ProjectReference Include="..\Library\Upsilon.Common.Library.csproj" />
   </ItemGroup>
 </Project>
