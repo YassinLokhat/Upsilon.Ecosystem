@@ -9,6 +9,39 @@ using System.Threading.Tasks;
 namespace Upsilon.Common.Library
 {
     /// <summary>
+    /// This class represent a security error exception.
+    /// Thrown by YSecurity.Decrypt if any error occurs
+    /// </summary>
+    public class YSecurityErrorException : Exception
+    {
+        /// <summary>
+        /// Represent the source of the error
+        /// </summary>
+        public enum SourceCode 
+        {
+            /// <summary>
+            /// No error
+            /// </summary>
+            NoError = 0,
+            /// <summary>
+            /// The check sign failed
+            /// </summary>
+            CheckSignFailed,
+            /// <summary>
+            /// Failed to convert Upsilon base to string
+            /// </summary>
+            UpsilonBaseConvertFailled,
+            /// <summary>
+            /// The source is corrupted or the passwords are wrong
+            /// </summary>
+            CorruptedSourceOrWrongPasswords,
+        }
+
+        public SourceCode Source { get; set; }
+        public int ErrorLevel { get; set; }
+    }
+
+    /// <summary>
     /// This static class contains the security functions.
     /// </summary>
     public static class YSecurity
@@ -160,7 +193,7 @@ namespace Upsilon.Common.Library
         public static string Encrypt(string source, string[] passwords)
         {
             source = _encrypt(source, passwords);
-            source = _stringToHexa(source);
+            source = _stringToUpsilonBase(source);
             source = Sign(source, passwords);
 
             return source;
@@ -175,7 +208,7 @@ namespace Upsilon.Common.Library
         public static string Decrypt(string source, string[] passwords)
         {
             source = CheckSign(source, passwords);
-            source = _hexaToString(source);
+            source = _upsilonBaseToString(source);
             source = _decrypt(source, passwords);
 
             return source;
@@ -199,13 +232,24 @@ namespace Upsilon.Common.Library
 
             for (int i = 0; i < passwords.Length; i++)
             {
-                source = Uncipher_Aes(source, passwords[passwords.Length - i - 1]);
+                try
+                {
+                    source = Uncipher_Aes(source, passwords[passwords.Length - i - 1]);
+                }
+                catch
+                {
+                    throw new YSecurityErrorException
+                    {
+                        Source = YSecurityErrorException.SourceCode.CheckSignFailed,
+                        ErrorLevel = passwords.Length - i - 1,
+                    };
+                }
             }
 
             return source;
         }
 
-        private static string _stringToHexa(string source)
+        private static string _stringToUpsilonBase(string source)
         {
             StringBuilder hexaHigh = new StringBuilder(), hexaLow = new StringBuilder();
             var bytes = Encoding.UTF8.GetBytes(source);
@@ -224,7 +268,7 @@ namespace Upsilon.Common.Library
             return hexaHigh.ToString() + hexaLow.ToString();
         }
 
-        private static string _hexaToString(string source)
+        private static string _upsilonBaseToString(string source)
         {
             var bytes = new List<byte>();
             var bytesCount = source.Length / 2;
@@ -233,6 +277,17 @@ namespace Upsilon.Common.Library
             {
                 var indexHigh = _alphabet.IndexOf(source[i]) % _hexadecimal.Length;
                 var indexLow = _alphabet.IndexOf(source[i + bytesCount]) % _hexadecimal.Length;
+
+                if (indexLow == -1 || 
+                    indexHigh == -1)
+                {
+                    throw new YSecurityErrorException
+                    {
+                        Source = YSecurityErrorException.SourceCode.CheckSignFailed,
+                        ErrorLevel = bytesCount,
+                    };
+                }
+
                 string hexa = $"{_hexadecimal[indexHigh]}{_hexadecimal[indexLow]}";
                 bytes.Add(Convert.ToByte(hexa, 16));
             }
@@ -304,27 +359,38 @@ namespace Upsilon.Common.Library
         /// <returns>The unsigned string.</returns>
         public static string CheckSign(string source, string[] passwords)
         {
-            var passwordsHash = string.Join("", passwords.Select(x => x.GetUpsilonHash())).GetUpsilonHash();
-
-            var hashSource = source[..HashLength];
-            var hashCheck = source[HashLength..].GetUpsilonHash();
-
-            if (hashSource != hashCheck)
+            try
             {
-                return null;
+                var passwordsHash = string.Join("", passwords.Select(x => x.GetUpsilonHash())).GetUpsilonHash();
+
+                var hashSource = source[..HashLength];
+                var hashCheck = source[HashLength..].GetUpsilonHash();
+
+                if (hashSource != hashCheck)
+                {
+                    throw new Exception();
+                }
+
+                source = source[HashLength..];
+
+                hashSource = source[..HashLength];
+                hashCheck = passwordsHash.GetUpsilonHash();
+
+                if (hashSource != hashCheck)
+                {
+                    throw new Exception();
+                }
+
+                source = source[HashLength..];
             }
-
-            source = source[HashLength..];
-
-            hashSource = source[..HashLength];
-            hashCheck = passwordsHash.GetUpsilonHash();
-
-            if (hashSource != hashCheck)
+            catch
             {
-                return null;
+                throw new YSecurityErrorException
+                {
+                    Source = YSecurityErrorException.SourceCode.CheckSignFailed, 
+                    ErrorLevel = 0,
+                };
             }
-
-            source = source[HashLength..];
 
             return source;
         }
