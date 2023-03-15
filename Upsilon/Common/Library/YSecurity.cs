@@ -28,13 +28,13 @@ namespace Upsilon.Common.Library
             /// </summary>
             CheckSignFailed,
             /// <summary>
-            /// Failed to convert Upsilon base to string
+            /// The passwords are wrong
             /// </summary>
-            UpsilonBaseConvertFailled,
+            WrongPasswords,
             /// <summary>
-            /// The source is corrupted or the passwords are wrong
+            /// The source is corrupted
             /// </summary>
-            CorruptedSourceOrWrongPasswords,
+            CorruptedSource,
         }
 
         public SourceCode Source { get; set; }
@@ -194,7 +194,7 @@ namespace Upsilon.Common.Library
         {
             source = _encrypt(source, passwords);
             source = _stringToUpsilonBase(source);
-            source = Sign(source, passwords);
+            source = source.Sign();
 
             return source;
         }
@@ -207,7 +207,7 @@ namespace Upsilon.Common.Library
         /// <returns>The decrypted string.</returns>
         public static string Decrypt(string source, string[] passwords)
         {
-            source = CheckSign(source, passwords);
+            source = source.CheckSign();
             source = _upsilonBaseToString(source);
             source = _decrypt(source, passwords);
 
@@ -220,27 +220,44 @@ namespace Upsilon.Common.Library
 
             for (int i = 0; i < passwords.Length; i++)
             {
-                source = Cipher_Aes(source, passwords[i]);
+                source = Cipher_Aes(source.Sign(), passwords[i]);
             }
+
+            source = Cipher_Aes(source.Sign(), string.Empty.GetUpsilonHash());
 
             return source;
         }
 
         private static string _decrypt(string source, string[] passwords)
         {
-            passwords = passwords.Select(x => x.GetUpsilonHash()).ToArray();
+            try
+            {
+                source = Uncipher_Aes(source, string.Empty.GetUpsilonHash());
+                source = source.CheckSign();
+            }
+            catch
+            {
+                throw new YSecurityErrorException
+                {
+                    Source = YSecurityErrorException.SourceCode.CorruptedSource,
+                    ErrorLevel = 0,
+                };
+            }
+
+            passwords = passwords.Select(x => x.GetUpsilonHash()).Reverse().ToArray();
 
             for (int i = 0; i < passwords.Length; i++)
             {
                 try
                 {
-                    source = Uncipher_Aes(source, passwords[passwords.Length - i - 1]);
+                    source = Uncipher_Aes(source, passwords[i]);
+                    source = source.CheckSign();
                 }
                 catch
                 {
                     throw new YSecurityErrorException
                     {
-                        Source = YSecurityErrorException.SourceCode.CheckSignFailed,
+                        Source = YSecurityErrorException.SourceCode.WrongPasswords,
                         ErrorLevel = passwords.Length - i - 1,
                     };
                 }
@@ -283,8 +300,8 @@ namespace Upsilon.Common.Library
                 {
                     throw new YSecurityErrorException
                     {
-                        Source = YSecurityErrorException.SourceCode.CheckSignFailed,
-                        ErrorLevel = bytesCount,
+                        Source = YSecurityErrorException.SourceCode.CorruptedSource,
+                        ErrorLevel = bytesCount + 1,
                     };
                 }
 
@@ -298,7 +315,7 @@ namespace Upsilon.Common.Library
         /// <summary>
         /// The size of an Upsilon Hash
         /// </summary>
-        public static int HashLength
+        public static int UpsilonHashLength
         {
             get
             {
@@ -340,48 +357,30 @@ namespace Upsilon.Common.Library
         /// Sign a string.
         /// </summary>
         /// <param name="source">The string to sign.</param>
-        /// <param name="passwords">The set of passwords.</param>
         /// <returns>The signed string.</returns>
-        public static string Sign(string source, string[] passwords)
+        public static string Sign(this string source)
         {
-            var passwordsHash = string.Join("", passwords.Select(x => x.GetUpsilonHash())).GetUpsilonHash();
-
-            source = passwordsHash.GetUpsilonHash() + source;
-            source = source.GetUpsilonHash() + source;
-            return source;
+            return source.GetUpsilonHash() + source;
         }
 
         /// <summary>
         /// Check and unsign a string.
         /// </summary>
         /// <param name="source">The string to check.</param>
-        /// <param name="passwords">The set of passwords.</param>
         /// <returns>The unsigned string.</returns>
-        public static string CheckSign(string source, string[] passwords)
+        public static string CheckSign(this string source)
         {
             try
             {
-                var passwordsHash = string.Join("", passwords.Select(x => x.GetUpsilonHash())).GetUpsilonHash();
-
-                var hashSource = source[..HashLength];
-                var hashCheck = source[HashLength..].GetUpsilonHash();
+                var hashSource = source[..UpsilonHashLength];
+                var hashCheck = source[UpsilonHashLength..].GetUpsilonHash();
 
                 if (hashSource != hashCheck)
                 {
                     throw new Exception();
                 }
 
-                source = source[HashLength..];
-
-                hashSource = source[..HashLength];
-                hashCheck = passwordsHash.GetUpsilonHash();
-
-                if (hashSource != hashCheck)
-                {
-                    throw new Exception();
-                }
-
-                source = source[HashLength..];
+                source = source[UpsilonHashLength..];
             }
             catch
             {

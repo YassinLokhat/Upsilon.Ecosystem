@@ -116,5 +116,12 @@ namespace Upsilon.Common.MetaHelper
 
             value = new string(chars);
         }
+
+        public static int GetRandomInt(int minValue, int maxValue)
+        {
+            Random random = new((int)DateTime.Now.Ticks);
+
+            return random.Next(minValue, maxValue);
+        }
     }
 }

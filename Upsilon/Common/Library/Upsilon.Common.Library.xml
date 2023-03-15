@@ -621,6 +621,37 @@
             <param name="sourceLineNumber">Leave default.</param>
             <param name="sourceMemberName">Leave default.</param>
         </member>
+        <member name="T:Upsilon.Common.Library.YSecurityErrorException">
+            <summary>
+            This class represent a security error exception.
+            Thrown by YSecurity.Decrypt if any error occurs
+            </summary>
+        </member>
+        <member name="T:Upsilon.Common.Library.YSecurityErrorException.SourceCode">
+            <summary>
+            Represent the source of the error
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YSecurityErrorException.SourceCode.NoError">
+            <summary>
+            No error
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YSecurityErrorException.SourceCode.CheckSignFailed">
+            <summary>
+            The check sign failed
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YSecurityErrorException.SourceCode.WrongPasswords">
+            <summary>
+            The passwords are wrong
+            </summary>
+        </member>
+        <member name="F:Upsilon.Common.Library.YSecurityErrorException.SourceCode.CorruptedSource">
+            <summary>
+            The source is corrupted
+            </summary>
+        </member>
         <member name="T:Upsilon.Common.Library.YSecurity">
             <summary>
             This static class contains the security functions.
@@ -658,7 +689,7 @@
             <param name="passwords">The set of passwords.</param>
             <returns>The decrypted string.</returns>
         </member>
-        <member name="P:Upsilon.Common.Library.YSecurity.HashLength">
+        <member name="P:Upsilon.Common.Library.YSecurity.UpsilonHashLength">
             <summary>
             The size of an Upsilon Hash
             </summary>
@@ -670,20 +701,18 @@
             <param name="source">The source to hash.</param>
             <returns>The Upsilon Hash</returns>
         </member>
-        <member name="M:Upsilon.Common.Library.YSecurity.Sign(System.String,System.String[])">
+        <member name="M:Upsilon.Common.Library.YSecurity.Sign(System.String)">
             <summary>
             Sign a string.
             </summary>
             <param name="source">The string to sign.</param>
-            <param name="passwords">The set of passwords.</param>
             <returns>The signed string.</returns>
         </member>
-        <member name="M:Upsilon.Common.Library.YSecurity.CheckSign(System.String,System.String[])">
+        <member name="M:Upsilon.Common.Library.YSecurity.CheckSign(System.String)">
             <summary>
             Check and unsign a string.
             </summary>
             <param name="source">The string to check.</param>
-            <param name="passwords">The set of passwords.</param>
             <returns>The unsigned string.</returns>
         </member>
         <member name="T:Upsilon.Common.Library.YStaticMethods">
@@ -713,13 +742,6 @@
             </summary>
             <param name="obj">The <see cref="T:System.Object"/>.</param>
             <returns>Return the MD5 Hash code.</returns>
-        </member>
-        <member name="M:Upsilon.Common.Library.YStaticMethods.GetUpsilonHashCode(System.Object)">
-            <summary>
-            Get the Upsilon Hash code of an <c><see cref="T:System.Object"/> <paramref name="obj"/></c> as a string.
-            </summary>
-            <param name="obj">The <see cref="T:System.Object"/>.</param>
-            <returns>Return the Upsilon Hash code.</returns>
         </member>
         <member name="M:Upsilon.Common.Library.YStaticMethods.CopyFrom``1(``0,``0)">
             <summary>
